@@ -1,0 +1,21 @@
+body {
+    background-color: #f8f9fa;
+}
+
+h1 {
+    color: #007bff;
+    margin-top: 20px;
+}
+
+#myButton {
+    display:inline-block;
+    align-content: center;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.changed {
+    color: #28a745;
+    font-weight: bold;
+}
