@@ -1,13 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var button = document.getElementById('myButton');
-    var content = document.getElementById('content');
+    function showSection(sectionIds) {
+        document.querySelectorAll('#game > .container, form').forEach(function(section) {
+            if (sectionIds.includes(section.id)) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        });
+    }
 
-    button.addEventListener('click', function() {
-        // Change the content of the div
-        content.textContent = "The content has been changed!";
-        // Change the class of the div to apply new styles
-        content.classList.add('changed');
-        // Change the background color of the body
-        document.body.style.backgroundColor = '#e0f7fa';
+    document.getElementById('1pl').addEventListener('click', function() {
+        showSection(['header-game', 'name_form', 'footer-game']);
     });
+
+    document.getElementById('2pl').addEventListener('click', function() {
+        showSection(['header-game', 'two_players', 'footer-game']);
+    });
+
+    document.getElementById('5pl').addEventListener('click', function() {
+        showSection(['header-game', 'tournament', 'footer-game']);
+    });
+
+    document.getElementById('restart').addEventListener('click', function() {
+        showSection(['header-welcome', 'start', 'footer-welcome']);
+    });
+
+    document.getElementById('play').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent form submission
+        var playerName = document.getElementById('player_name1').value;
+        document.getElementById('player_left').textContent = playerName;
+        showSection(['header-game', 'one_player', 'footer-game']);
+    });
+
+    // Initially show only the start section
+    showSection(['header-welcome', 'start', 'footer-welcome']);
 });
