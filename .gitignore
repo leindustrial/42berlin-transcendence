@@ -1,0 +1,22 @@
+django_backend/myenv/
+django_backend/db.sqlite3
+*.pyc
+django_backend/*~
+__pycache__
+
+# Visual Studio
+.vscode/
+.history/
+*.code-workspace
+
+# macOS
+._*
+.DS_Store
+.fseventsd
+.Spotlight-V100
+
+# Windows
+Thumbs.db*
+ehthumbs*.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
