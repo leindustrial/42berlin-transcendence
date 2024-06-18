@@ -2,7 +2,7 @@ body {
     background-color: #232222;
 }
 
-#game {
+#screen {
     height: 100vh;
     align-content: center;
 }
@@ -127,4 +127,91 @@ h3 {
     align-items: center; /* Centers the items within the form */
     justify-content: center; /* Centers the form vertically */
     text-align: center;
+}
+
+/* Basic game: */
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+} 
+  
+body { 
+    height: 100vh; 
+    width: 100vw; 
+    background-color: black; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+} 
+  
+.board { 
+    height: 80vh; 
+    width: 80vw;
+    border: 2px solid rgb(255, 255, 255);
+} 
+  
+.ball { 
+    height: 30px; 
+    width: 30px; 
+    border-radius: 50%; 
+    position: fixed; 
+    top: calc(50% - 15px); 
+    left: calc(50% - 15px); 
+    background-color: white;
+} 
+  
+  
+/* @keyframes spinBall { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform: rotate(360deg); 
+    } 
+}  */
+  
+.paddle { 
+    height: 100px; 
+    width: 10px; 
+    position: fixed; 
+    background-color: white;
+} 
+  
+.paddle_1 { 
+    top: calc(7.5vh + 55px); 
+    left: calc(10vw + 40px);  /* Needs to be better calculated! */
+} 
+  
+.paddle_2 { 
+    top: calc(85vh + 7.5vh - 100px - 55px); 
+    right: calc(10vw - 20px);   /* Needs to be better calculated! */
+
+} 
+  
+.player_1_score { 
+    height: 50px; 
+    width: 50px; 
+    color: rgb(255, 255, 255); 
+    position: fixed; 
+    left: 30vw; 
+    margin-top: 30px; 
+} 
+  
+.player_2_score { 
+    height: 50px; 
+    width: 50px; 
+    color: rgb(255, 255, 254); 
+    position: fixed; 
+    left: 70vw; 
+    margin-top: 30px; 
+} 
+  
+.message { 
+    position: fixed; 
+    /* color: #48426d; */
+    height: 10vh; 
+    width: 30vw; 
+    color: #7d7fac; 
+    left: 38vw; 
+    margin: 30px auto auto auto; 
 }

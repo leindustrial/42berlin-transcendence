@@ -17,15 +17,15 @@
     <link rel="icon" href="{% static 'img/fav.ico' %}" type="image/x-icon">
 </head>
 <body>
-    <div class="container" id="game">
+    <div class="container" id="screen">
 
         <!-- Welcome page header with large logo -->
         <div class="container" id="header-welcome">
-            <p class="text-center" id="logo-big">PONG 3.0</p>
+            <p class="text-center" id="logo-big">PONG 3.1</p>
             <p class="text-center" id ="sublitle">game that takes you to transcendence</p>
         </div>
 
-        <!-- Game compact header with small loga and navigation -->
+        <!-- Game compact header with small logo and navigation -->
         <div class="container" id="header-game" style="display: none;">
             <p class="text-center" id="logo-small">PONG 3.0</p>
             <div class="row justify-content-center">
@@ -36,13 +36,13 @@
             </div>
         </div>
 
-        <!-- Choose game mode -->
+        <!-- Menu buttons -->
         <div class="container" id="start">
             <div class="row justify-content-center">
                 <div class="btn-group-vertical">
-                    <button type="button" id="1pl" class="btn btn-outline-primary btn-lg btn-block">🐻 One player 💻</button>
-                    <button type="button" id="2pl" class="btn btn-outline-primary btn-lg btn-block">🐼 Two players 🐸</button>
-                    <button type="button" id="5pl" class="btn btn-outline-primary btn-lg btn-block">🐶🐯🐵 Tournament 🐰🐱🐭</button>
+                    
+                    <button type="button" id="2pl" class="btn btn-outline-primary btn-lg btn-block">Two players</button>
+                    
                 </div>
             </div>
         </div>
@@ -54,6 +54,20 @@
             </div>
             <button type="submit" id="play" class="btn btn-primary">Play!</button>
         </form>
+
+        <!-- Basic game -->
+        <div class="container" id="basic-game" style="display: none;">
+            <div class="board"> 
+                <div class='ball'> 
+                    <div class="ball_effect"></div> 
+                </div> 
+                <div class="paddle_1 paddle"></div> 
+                <div class="paddle_2 paddle"></div> 
+                <h3 class="player_1_score">0</h3> 
+                <h3 class="player_2_score">0</h3> 
+                <h3 class="message">Press Enter to Play</h3> 
+            </div> 
+        </div>
 
         <!-- One player game -->
         <div class="container" id="one_player" style="display: none;">
