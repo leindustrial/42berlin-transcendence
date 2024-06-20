@@ -25,6 +25,7 @@
             <p class="text-center" id ="sublitle">game that takes you to transcendence</p>
         </div>
 
+
         <!-- Game compact header with small loga and navigation -->
         <div class="container" id="header-game" style="display: none;">
             <p class="text-center" id="logo-small">PONG 3.0</p>
@@ -40,9 +41,11 @@
         <div class="container" id="start">
             <div class="row justify-content-center">
                 <div class="btn-group-vertical">
+                    {% block content %}
                     <button type="button" id="1pl" class="btn btn-outline-primary btn-lg btn-block">🐻 One player 💻</button>
                     <button type="button" id="2pl" class="btn btn-outline-primary btn-lg btn-block">🐼 Two players 🐸</button>
                     <button type="button" id="5pl" class="btn btn-outline-primary btn-lg btn-block">🐶🐯🐵 Tournament 🐰🐱🐭</button>
+                    {% endblock %}
                 </div>
             </div>
         </div>
@@ -81,6 +84,7 @@
             <h3 class="text-center">Footer game</h3>
         </div>
     </div>
+
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
