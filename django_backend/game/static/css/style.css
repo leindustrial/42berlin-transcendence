@@ -1,10 +1,8 @@
-body {
-    background-color: #232222;
-}
 
 #screen {
-    height: 100vh;
     align-content: center;
+    margin-top: 0px;
+    padding-top: 0px;
 }
 
 #header-welcome {
@@ -29,20 +27,23 @@ body {
 }
 
 #header-game {
-    padding-top: 20px;
+    margin-top: 0px;
+    padding-top: 0px;
     display: flex;
     justify-content: center;
-    height: 15vh;
-    /*background-color: #2b2929;*/
+
+    background-color: #2b2929;
 }
 
 #logo-small {
     color: #ffffff;
-    font-size: 20pt;
-    font-family: "Monoton", sans-serif;;
+    font-size: 10pt;
+    font-family: "Monoton", sans-serif;
     text-transform: uppercase;
     letter-spacing: 5pt;
-    align-content: center;
+    margin-top: -10px;
+    padding-top: 0px;
+
 }
 
 #one_player {
@@ -81,7 +82,7 @@ h3 {
 }
 
 .btn-group{
-    margin-top:0px;
+    margin-top: -10px;
 }
 
 .btn-group-vertical {
@@ -140,17 +141,24 @@ h3 {
 body { 
     height: 100vh; 
     width: 100vw; 
-    background-color: black; 
+    background-color: #232222; 
     display: flex; 
     justify-content: center; 
     align-items: center; 
-} 
-  
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
 .board { 
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically */
     height: 80vh; 
-    width: 80vw;
+    width: 80vw; /* This ensures the width is 80% of the viewport width */
     border: 2px solid rgb(255, 255, 255);
-} 
+    margin: auto; /* Center the board horizontally */
+    position: relative; /* Ensure proper positioning of child elements */
+}
   
 .ball { 
     height: 30px; 
@@ -161,15 +169,6 @@ body {
     left: calc(50% - 15px); 
     background-color: white;
 } 
-  
-  
-/* @keyframes spinBall { 
-    100% { 
-        -webkit-transform: rotate(360deg); 
-        transform: rotate(360deg); 
-    } 
-}  */
-  
 .paddle { 
     height: 100px; 
     width: 10px; 
@@ -178,40 +177,53 @@ body {
 } 
   
 .paddle_1 { 
-    top: calc(7.5vh + 55px); 
-    left: calc(10vw + 40px);  /* Needs to be better calculated! */
+    top: calc(7.5vh + 100px); 
+    left: calc(10vw + 10px);  /* Needs to be better calculated! */
+    background-color: rgb(31, 172, 237);
 } 
   
 .paddle_2 { 
-    top: calc(85vh + 7.5vh - 100px - 55px); 
-    right: calc(10vw - 20px);   /* Needs to be better calculated! */
+    top: calc(85vh + 7.5vh - 100px - 50px); 
+    right: calc(10vw + 10px);   /* Needs to be better calculated! */
+    background-color: rgb(191, 43, 221);
 
 } 
-  
-.player_1_score { 
-    height: 50px; 
-    width: 50px; 
-    color: rgb(255, 255, 255); 
-    position: fixed; 
-    left: 30vw; 
-    margin-top: 30px; 
-} 
-  
-.player_2_score { 
-    height: 50px; 
-    width: 50px; 
-    color: rgb(255, 255, 254); 
-    position: fixed; 
-    left: 70vw; 
-    margin-top: 30px; 
-} 
+
+#scores {
+    top: calc(7.5vh + 70px); 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+.player_1_score {
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(100vw / 2 - 5vw);
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
+}
+
+.player_2_score {
+    color: rgb(191, 43, 221);
+    position: fixed;
+    right: calc(100vw / 2 - 5vw);
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
+}
   
 .message { 
     position: fixed; 
     /* color: #48426d; */
-    height: 10vh; 
-    width: 30vw; 
     color: #7d7fac; 
-    left: 38vw; 
+    text-align: center;
+    top: calc(15vw); 
     margin: 30px auto auto auto; 
 }

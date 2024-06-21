@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
     <!-- Images -->
-    <link rel="icon" href="{% static 'img/fav.ico' %}" type="image/x-icon">
+    <link rel="icon" href="img/fav.ico" type="image/x-icon">
 </head>
 <body>
     <div class="container" id="screen">
@@ -57,17 +57,24 @@
 
         <!-- Basic game -->
         <div class="container" id="basic-game" style="display: none;">
-            <div class="board"> 
-                <div class='ball'> 
-                    <div class="ball_effect"></div> 
-                </div> 
-                <div class="paddle_1 paddle"></div> 
-                <div class="paddle_2 paddle"></div> 
-                <h3 class="player_1_score">0</h3> 
-                <h3 class="player_2_score">0</h3> 
-                <h3 class="message">Press Enter to Play</h3> 
-            </div> 
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <div class="board">
+                            <div class='ball'>
+                                <div class="ball_effect"></div>
+                            </div>
+                            <div class="paddle_1 paddle"></div>
+                            <div class="paddle_2 paddle"></div>
+                            <h3 class="player_1_score" id="scores">0</h3>
+                            <h3 class="player_2_score" id="scores">0</h3>
+                            <h3 class="message">Press Enter to Play</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
 
         <!-- One player game -->
         <div class="container" id="one_player" style="display: none;">
