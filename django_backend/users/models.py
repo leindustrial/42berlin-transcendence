@@ -6,8 +6,11 @@ from django.dispatch import receiver
 # Create your models here.
 class Profile(models.Model):
 	user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+	# friends = models.ManyToManyField("self", related_name="friends_with", symmetrical=False, blank=True)
 	display_name = models.CharField(max_length=12, blank=True)
 	avatar = models.ImageField(null=True, blank=True, upload_to="avatars/")
+	# wins = models.IntegerField()
+	# losses = models.IntegerField()
 
 	# for admin area
 	def __str__(self):
