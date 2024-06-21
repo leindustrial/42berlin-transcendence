@@ -27,3 +27,8 @@ def signup(request):
 	else:
 		form = RegisterUserForm()
 	return render(request, 'registration/signup.html', {'form':form,})
+
+def logout(request):
+	if request.method == "POST":
+		logout(request)
+		return redirect('/')
