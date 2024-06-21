@@ -13,18 +13,18 @@ class Profile(models.Model):
 	def __str__(self):
 		return str(self.user)
 
-# Catch changes on Django Built-In User Model with receiver signal
-# When a User is created in the User Model, a user will be created in the Profile model
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-	if created:
-		Profile.objects.create(user=instance)
-	else:
-		if not hasattr(instance, 'profile'):
-			Profile.objects.create(user=instance)
+# # Catch changes on Django Built-In User Model with receiver signal
+# # When a User is created in the User Model, a user will be created in the Profile model
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+# 	if created:
+# 		Profile.objects.create(user=instance)
+# 	else:
+# 		if not hasattr(instance, 'profile'):
+# 			Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-	if not hasattr(instance, 'profile'):
-		Profile.objects.create(user=instance)
-	instance.profile.save()
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+# 	if not hasattr(instance, 'profile'):
+# 		Profile.objects.create(user=instance)
+# 	instance.profile.save()
