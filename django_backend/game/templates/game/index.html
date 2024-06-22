@@ -25,6 +25,9 @@
             {% csrf_token %}
             <input type="hidden">
         </form>
+        <a href="{% url 'profile' request.user.id %}">
+            <button type="button" class="btn btn-primary">Profile</button>
+        </a>
     {% endif %}
 
     <div class="container" id="game">

@@ -1,0 +1,39 @@
+{% extends "game/index.html" %}
+{% load static %}
+
+{% block content %}
+<h3 class="text-center">Users</h3>
+{% if profiles %}
+
+	{% for profile in profiles %}
+		{% if profile.avatar %}
+			<p style="color: white;">To Do</p>
+			<!-- <img src="{% static '{{ profile.avatar }}'%}" alt="Profile Avatar"> -->
+		{% else %}
+			<img src="{% static 'avatar/kermit.png'%}" alt="Default Avatar">
+		{% endif %}
+		<p style="color: white;">Username: {{ profile.user.username }}</p>
+		<p style="color: white;">Tournament name: {{ profile.display_name }}</p>
+		<p style="color: white;">Last seen: {{ profile.user.last_login }}</p>
+		<br/><br/>
+		<form method="POST">
+			{% csrf_token %}
+			{% if profile in current_user.friends.all %}
+				<input type="hidden" name="action" value="unfriend">
+				<input type="hidden" name="user_id" value="{{ profile.user.id }}">
+				<button type="submit" class="btn btn-outline-danger">
+					Unfriend
+				</button>
+			{% else %}
+				<input type="hidden" name="action" value="befriend">
+				<input type="hidden" name="user_id" value="{{ profile.user.id }}">
+				<button type="submit" class="btn btn-outline-success">
+					Befriend
+				</button>
+			{% endif %}
+		</form>
+		<br/>
+	{% endfor %}
+
+{% endif %}
+{% endblock %}

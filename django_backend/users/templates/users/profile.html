@@ -1,0 +1,26 @@
+{% extends "game/index.html" %}
+
+{% block content %}
+{% if profile %}
+
+
+	<h3 class="text-center">{{ profile.user.username }}'s Profile</h3>
+	<strong style="color: white;">Display Name for Tournaments</strong><br/>
+	<p style="color: white;">{{ profile.display_name }}</p><br/>
+	<strong style="color: white;">Friends with</strong><br/>
+	{% for friends in profile.friends.all %}
+
+		<p style="color: white;">{{ friends }}</p><br/>
+
+		{% if friends.user.is_active %}
+			<p style="color: greenyellow;">online</p><br/>
+		{% else %}
+			<p style="color: red;">offline</p><br/>
+		{% endif %}
+
+	{% endfor %}
+	<!-- profile_list needs to be implemented still -->
+	<a href="{% url 'profiles_list' request.user.id %}">Make new friends</a><br/>
+
+{% endif %}
+{% endblock %}
