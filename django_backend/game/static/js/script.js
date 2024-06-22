@@ -96,48 +96,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.getElementById('2pl').addEventListener('click', function() {
-        showSection(['header-game', 'basic-game']);
+        showSection(['header-game', '2-pl-game']);
         initializeElements();
 
-        document.addEventListener('keydown', (e) => { 
-            if (e.key === 'Enter') { 
-                if (gameState === 'start' || gameState === 'stop') { // Modified to handle 'stop' state
-                    gameState = 'play'; 
-                    message.innerHTML = 'Game Started'; 
-                    message.style.left = '42vw'; 
-                    resetBallPosition(); 
-                    requestAnimationFrame(() => { 
-                        dx = Math.floor(Math.random() * 4) + 3; 
-                        dy = Math.floor(Math.random() * 4) + 3; 
-                        dxd = Math.floor(Math.random() * 2); 
-                        dyd = Math.floor(Math.random() * 2); 
-                        moveBall(dx, dy, dxd, dyd); 
-                    }); 
-                } 
-            } 
-            if (gameState === 'play') { 
-                if (e.key === 'w') { 
-                    paddle_1.style.top = Math.max(board_coord.top, paddle_1_coord.top - window.innerHeight * 0.06) + 'px'; 
-                    paddle_1_coord = paddle_1.getBoundingClientRect(); 
-                } 
-                if (e.key === 's') { 
-                    paddle_1.style.top = Math.min(board_coord.bottom - paddle_common.height, paddle_1_coord.top + window.innerHeight * 0.06) + 'px'; 
-                    paddle_1_coord = paddle_1.getBoundingClientRect(); 
-                } 
-                if (e.key === 'ArrowUp') { 
-                    paddle_2.style.top = Math.max(board_coord.top, paddle_2_coord.top - window.innerHeight * 0.1) + 'px'; 
-                    paddle_2_coord = paddle_2.getBoundingClientRect(); 
-                } 
-                if (e.key === 'ArrowDown') { 
-                    paddle_2.style.top = Math.min(board_coord.bottom - paddle_common.height, paddle_2_coord.top + window.innerHeight * 0.1) + 'px'; 
-                    paddle_2_coord = paddle_2.getBoundingClientRect(); 
-                } 
-            } 
-        }); 
+        // document.addEventListener('keydown', (e) => { 
+        //     if (e.key === 'Enter') { 
+        //         if (gameState === 'start' || gameState === 'stop') { // Modified to handle 'stop' state
+        //             gameState = 'play'; 
+        //             message.innerHTML = 'Game Started';
+        //             resetBallPosition(); 
+        //             requestAnimationFrame(() => { 
+        //                 dx = Math.floor(Math.random() * 4) + 3; 
+        //                 dy = Math.floor(Math.random() * 4) + 3; 
+        //                 dxd = Math.floor(Math.random() * 2); 
+        //                 dyd = Math.floor(Math.random() * 2); 
+        //                 moveBall(dx, dy, dxd, dyd); 
+        //             }); 
+        //         } 
+        //     } 
+        //     if (gameState === 'play') { 
+        //         if (e.key === 'w') { 
+        //             paddle_1.style.top = Math.max(board_coord.top, paddle_1_coord.top - window.innerHeight * 0.06) + 'px'; 
+        //             paddle_1_coord = paddle_1.getBoundingClientRect(); 
+        //         } 
+        //         if (e.key === 's') { 
+        //             paddle_1.style.top = Math.min(board_coord.bottom - paddle_common.height, paddle_1_coord.top + window.innerHeight * 0.06) + 'px'; 
+        //             paddle_1_coord = paddle_1.getBoundingClientRect(); 
+        //         } 
+        //         if (e.key === 'ArrowUp') { 
+        //             paddle_2.style.top = Math.max(board_coord.top, paddle_2_coord.top - window.innerHeight * 0.1) + 'px'; 
+        //             paddle_2_coord = paddle_2.getBoundingClientRect(); 
+        //         } 
+        //         if (e.key === 'ArrowDown') { 
+        //             paddle_2.style.top = Math.min(board_coord.bottom - paddle_common.height, paddle_2_coord.top + window.innerHeight * 0.1) + 'px'; 
+        //             paddle_2_coord = paddle_2.getBoundingClientRect(); 
+        //         } 
+        //     } 
+        // }); 
+    });
+
+    document.getElementById('4pl').addEventListener('click', function() {
+        showSection(['header-game', '4-pl-game']);
+        initializeElements();
     });
 
     document.getElementById('restart').addEventListener('click', function() {
-        showSection(['header-welcome', 'start', 'footer-welcome']);
+        showSection(['header-welcome', 'start', 'user-navbar', 'footer-welcome']);
     });
 
     document.getElementById('play').addEventListener('click', function(event) {
@@ -152,5 +156,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Initially show only the start section
-    showSection(['header-welcome', 'start', 'footer-welcome']);
+    showSection(['header-welcome', 'start', 'user-navbar', 'footer-welcome']);
 });
