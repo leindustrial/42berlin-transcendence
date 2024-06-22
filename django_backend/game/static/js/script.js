@@ -120,12 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
         showSection(['header-welcome', 'start', 'footer-welcome']);
     });
 
-    document.getElementById('play').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent form submission
-        var playerName = document.getElementById('player_name1').value;
-        document.getElementById('player_left').textContent = playerName;
-        showSection(['header-game', 'one_player', 'footer-game']);
-    });
 
     // Initially show only the start section
     showSection(['header-welcome', 'start', 'footer-welcome']);

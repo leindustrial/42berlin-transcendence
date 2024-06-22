@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+<!-- {% translate "game that takes you to transcendence" as subtitle %} -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +24,8 @@
         <!-- Welcome page header with large logo -->
         <div class="container" id="header-welcome">
             <p class="text-center" id="logo-big">PONG 3.1</p>
-            <p class="text-center" id ="sublitle">game that takes you to transcendence</p>
+            <!-- <p class="text-center" id ="sublitle">game that takes you to transcendence</p> -->
+            <p class="text-center" id ="sublitle">{% translate "game that takes you to transcendence" %}</p>
         </div>
 
         <!-- Game compact header with small logo and navigation -->
@@ -41,7 +44,7 @@
             <div class="row justify-content-center">
                 <div class="btn-group-vertical">
                     
-                    <button type="button" id="2pl" class="btn btn-outline-primary btn-lg btn-block">Two players</button>
+                    <button type="button" id="2pl" class="btn btn-outline-primary btn-lg btn-block">{% translate "Two players" %}</button>
                     
                 </div>
             </div>
@@ -68,7 +71,7 @@
                             <div class="paddle_2 paddle"></div>
                             <h3 class="player_1_score" id="scores">0</h3>
                             <h3 class="player_2_score" id="scores">0</h3>
-                            <h3 class="message">Press Enter to Play</h3>
+                            <h3 class="message">{% translate "Press Enter to Play" %}</h3>
                         </div>
                     </div>
                 </div>
@@ -96,7 +99,7 @@
         </div>
 
         <div class="container" id="footer-welcome" style="display: none;">
-            <h3 class="text-center">42 berlin | 2024</h3>
+            <h3 class="text-center">42 {% translate "Berlin" %} | 2024</h3>
         </div>
         <div class="container" id="footer-game" style="display: none;">
             <h3 class="text-center">Footer game</h3>
