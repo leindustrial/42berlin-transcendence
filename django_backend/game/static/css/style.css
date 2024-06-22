@@ -31,8 +31,6 @@
     padding-top: 0px;
     display: flex;
     justify-content: center;
-
-    background-color: #2b2929;
 }
 
 #logo-small {
@@ -41,9 +39,12 @@
     font-family: "Monoton", sans-serif;
     text-transform: uppercase;
     letter-spacing: 5pt;
-    margin-top: -10px;
+    margin-top: 0px;
     padding-top: 0px;
-
+}
+.btn-group{
+    margin-top: 0px;
+    margin-bottom: 10px;
 }
 
 #one_player {
@@ -79,10 +80,6 @@ h3 {
     font-family:monospace;
     text-transform: uppercase;
     letter-spacing: 3pt;
-}
-
-.btn-group{
-    margin-top: -10px;
 }
 
 .btn-group-vertical {
