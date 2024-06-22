@@ -9,7 +9,7 @@ source myenv/bin/activate
 pip install -r requirements.txt
 
 
-# cd to django_backend
+# cd django_backend
 # Activate the virtual environment: source myenv/bin/activate
 # Start server: python manage.py runserver
 
