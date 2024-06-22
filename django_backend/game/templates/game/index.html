@@ -16,8 +16,9 @@
     <!-- Images -->
     <link rel="icon" href="img/fav.ico" type="image/x-icon">
 </head>
+
 <body>
-    <div class="container" id="screen">
+    <div class="container" id="screen"> <!-- 100vh container -->
 
         <!-- Welcome page header with large logo -->
         <div class="container" id="header-welcome">
@@ -25,13 +26,12 @@
             <p class="text-center" id ="sublitle">game that takes you to transcendence</p>
         </div>
 
-        <!-- Game compact header with small logo and navigation -->
-        <div class="container" id="header-game" style="display: none;">
-            <p class="text-center" id="logo-small">PONG 3.0</p>
+        <!-- User management navigation bar -->
+        <div class="container" id="user-navbar" style="display: none;">
             <div class="row justify-content-center">
                 <div class="row justify-content-center btn-group">
-                    <button type="button" id="restart" class="btn btn-outline-primary btn-sm">👈 Restart game</button>
-                    <button type="button" id="score" class="btn btn-outline-primary btn-sm">Leaderboard 🏆</button>
+                    <button type="button" id="leaderboard" class="btn btn-outline-primary btn-lg">🏆 Leaderboard</button>
+                    <button type="button" id="profile" class="btn btn-outline-primary btn-lg">👤 Profile</button>
                 </div>
             </div>
         </div>
@@ -42,21 +42,29 @@
                 <div class="btn-group-vertical">
                     
                     <button type="button" id="2pl" class="btn btn-outline-primary btn-lg btn-block">Two players</button>
-                    
+                    <button type="button" id="4pl" class="btn btn-outline-primary btn-lg btn-block">Four players</button>
+
                 </div>
             </div>
         </div>
 
-        <!-- Enter your name form -->
-        <form id="name_form" style="display: none;">
-            <div class="form-group">
-                <input type="text" class="form-control" id="player_name1" placeholder="Enter your name">
-            </div>
-            <button type="submit" id="play" class="btn btn-primary">Play!</button>
-        </form>
+        <!-- Footer -->
+        <div class="container" id="footer-welcome" style="display: none;">
+            <h3 class="text-center">42 berlin | 2024</h3>
+        </div>
 
-        <!-- Basic game -->
-        <div class="container" id="basic-game" style="display: none;">
+
+        <!-- Game navigation bar -->
+        <div class="container" id="header-game" style="display: none;">
+            <div class="row justify-content-center">
+                <div class="row justify-content-center btn-group">
+                    <button type="button" id="restart" class="btn btn-outline-primary btn-sm">👈 Exit the game</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2 player game -->
+        <div class="container" id="2-pl-game" style="display: none;">
             <div class="container-fluid">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-auto">
@@ -68,7 +76,36 @@
                             <div class="paddle_2 paddle"></div>
                             <h3 class="player_1_score" id="scores">0</h3>
                             <h3 class="player_2_score" id="scores">0</h3>
-                            <h3 class="message">Press Enter to Play</h3>
+                            <p class="text-center"><h3 class="message" >Press Enter to Play</h3></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 player game -->
+        <div class="container" id="4-pl-game" style="display: none;">
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <div class="board">
+                            <div class='ball'>
+                                <div class="ball_effect"></div>
+                            </div>
+
+                            <!-- Paddlest left -> to right -->
+                            <div class="paddle_1 paddle"></div> <!-- left -->
+                            <div class="paddle_3 paddle"></div> <!-- left -->
+                            <div class="paddle_2 paddle"></div> <!-- right -->
+                            <div class="paddle_4 paddle"></div> <!-- right -->
+                            
+                            <!-- Scores left -> to right -->
+                            <h3 class="player_1_score" id="scores">0</h3> <!-- left -->
+                            <h3 class="player_3_score" id="scores">0</h3> <!-- left -->
+                            <h3 class="player_2_score" id="scores">0</h3> <!-- right -->
+                            <h3 class="player_4_score" id="scores">0</h3> <!-- right -->
+
+                            <p class="text-center"><h3 class="message" >Press Enter to Play</h3></p>
                         </div>
                     </div>
                 </div>
@@ -76,18 +113,7 @@
         </div>
         
 
-        <!-- One player game -->
-        <div class="container" id="one_player" style="display: none;">
-            <div class="container-fluid">
-                <div id="players" class="d-flex justify-content-between align-items-center">
-                    <h3 id="player_left"></h3>
-                    <h3 id="player_right">Computer</h3>
-                </div>
-                <div class="rectangle">
-                    <div class="axis"></div>
-                </div>
-            </div>
-        </div>
+        <!-- Different buttons, not in use -->
         <div class="container" id="two_players" style="display: none;">
             <h3 class="text-center">Two players mode</h3>
         </div>
@@ -95,12 +121,17 @@
             <h3 class="text-center">Tournament mode</h3>
         </div>
 
-        <div class="container" id="footer-welcome" style="display: none;">
-            <h3 class="text-center">42 berlin | 2024</h3>
-        </div>
         <div class="container" id="footer-game" style="display: none;">
             <h3 class="text-center">Footer game</h3>
         </div>
+        <!-- Enter your name form -->
+        <form id="name_form" style="display: none;">
+            <div class="form-group">
+                <input type="text" class="form-control" id="player_name1" placeholder="Enter your name">
+            </div>
+            <button type="submit" id="play" class="btn btn-primary">Play!</button>
+        </form>
+
     </div>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
