@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('restart').addEventListener('click', function() {
-        showSection(['header-welcome', 'start', 'user-navbar', 'footer-welcome']);
+        showSection(['language-menu', 'header-welcome', 'start', 'user-navbar', 'footer-welcome']);
     });
 
 
@@ -150,5 +150,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Initially show only the start section
-    showSection(['header-welcome', 'start', 'user-navbar', 'footer-welcome']);
+    showSection(['language-menu', 'header-welcome', 'start', 'user-navbar', 'footer-welcome']);
 });

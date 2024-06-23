@@ -50,11 +50,12 @@ MIDDLEWARE = [
 	'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware', #for the language support
+    'django.contrib.sessions.middleware.SessionMiddleware', #for language support
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware', #for the language support
 ]
 
 ROOT_URLCONF = 'pong_game.urls'
@@ -70,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n', #for language sopport
             ],
         },
     },
@@ -114,11 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 USE_I18N = True
+USE_L10N = True
+USE_TZ = True
 
 LANGUAGES = [
-    ('en', 'English'),
-    ('de', 'Deutsch'),
-    ('ru', 'Русский'),
+    ('en', _('English')),
+    ('de', _('Deutsch')),
+    ('ru', _('Русский')),
     # Add more languages as needed
 ]
 
@@ -129,12 +133,9 @@ LOCALE_PATHS = [
 
 USE_I18N = True
 USE_L10N = True
+USE_TZ = True
 
 TIME_ZONE = 'Europe/Berlin'
-
-USE_I18N = True
-
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
