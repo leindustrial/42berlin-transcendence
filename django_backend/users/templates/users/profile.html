@@ -4,9 +4,11 @@
 {% if profile %}
 
 
-	<h3 class="text-center">{{ profile.user.username }}'s Profile</h3>
+	<h3 class="text-center">{{ profile.user.username }}'s Profile</h3><a href="{% url 'update_user' %}" class="badge badge-dark">
+		edit account</a>
 	<strong style="color: white;">Display Name for Tournaments</strong><br/>
-	<p style="color: white;">{{ profile.display_name }}</p><br/>
+	<p style="color: white;">{{ profile.display_name }}</p><a href="{% url 'update_display_name' %}" class="badge badge-dark">
+		change</a><br/>
 	<strong style="color: white;">Friends with</strong><br/>
 	{% for friends in profile.friends.all %}
 
@@ -20,7 +22,6 @@
 
 	{% endfor %}
 	<!-- profile_list needs to be implemented still -->
-	<a href="{% url 'profiles_list' request.user.id %}">Make new friends</a><br/>
-
+	<a href="{% url 'profiles_list' request.user.id %}" class="badge badge-light">Make new friends</a><br/>
 {% endif %}
 {% endblock %}

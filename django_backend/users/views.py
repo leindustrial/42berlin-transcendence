@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RegisterUserForm
+from .forms import RegisterUserForm, UpdateDisplayNameForm
 from .models import Profile
 from django.contrib.auth.models import User
 
@@ -58,5 +58,31 @@ def profiles_list(request, pk):
 			current_user.save()
 
 		return render(request, 'users/profiles_list.html', {'profiles':profiles, 'current_user':current_user,})
+	else:
+		return redirect('/')
+
+def update_user(request):
+	if request.user.is_authenticated:
+		current_user = User.objects.get(id=request.user.id)
+		current_profile = Profile.objects.get(user_id=request.user.id)
+		form = UserCreationForm(request.POST or None, instance=current_user)
+		if form.is_valid():
+			form.save()
+			login(request, current_user)
+			return redirect('/')
+		return render(request, 'users/update_user.html', {'form':form,})
+	else:
+		return redirect('/')
+
+def update_display_name(request):
+	if request.user.is_authenticated:
+		current_user = User.objects.get(id=request.user.id)
+		current_profile = Profile.objects.get(user_id=request.user.id)
+		form = UpdateDisplayNameForm(request.POST or None, instance=current_profile)
+		if form.is_valid():
+			form.save()
+			login(request, current_user)
+			return redirect('/')
+		return render(request, 'users/update_display_name.html', {'form':form,})
 	else:
 		return redirect('/')
