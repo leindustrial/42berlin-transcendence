@@ -25,7 +25,7 @@
     <div class="container" id="screen"> <!-- 100vh container -->
 
         <!-- Language Switcher Dropdown -->
-        <div class="container" id="language-menu" style="display: none;">
+        <div class="container" id="language-menu">
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% trans "Language" %}
@@ -58,12 +58,12 @@
 
 
         <!-- Welcome page header with large logo -->
-        <div class="container" id="header-welcome" style="display: none;">
+        <div class="container" id="header-welcome">
             <p class="text-center" id="logo-big">PONG 3.1</p>
-            <!-- <p class="text-center" id ="sublitle">game that takes you to transcendence</p> -->
             <p class="text-center" id ="sublitle">{% translate "game that takes you to transcendence" %}</p>
         </div>
 
+        <!-- User navigation bar -->
         <div class="container" id="user-navbar" style="display: none;">
             <div class="row justify-content-center">
                 <div class="row justify-content-center btn-group">

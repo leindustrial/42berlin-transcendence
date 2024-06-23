@@ -24,12 +24,11 @@ from django.urls import include, re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('i18n/', include('django.conf.urls.i18n')),
-    path('', include('game.urls')),
-    path('users/', include('django.contrib.auth.urls')),
-    path('users/', include('users.urls')),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('i18n/', include('django.conf.urls.i18n')),  # Include i18n URL for language setting
+] 
 
 urlpatterns += i18n_patterns(
-    path('', include('game.urls')),
-)
+    path('', include('game.urls')),  # Include game app URLs with language prefix
+    path('users/', include('django.contrib.auth.urls')),  # Include auth URLs with language prefix
+    path('users/', include('users.urls')),  # Include additional user-related URLs with language prefix
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
