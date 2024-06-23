@@ -144,12 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
         showSection(['header-welcome', 'start', 'user-navbar', 'footer-welcome']);
     });
 
-    document.getElementById('play').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent form submission
-        var playerName = document.getElementById('player_name1').value;
-        document.getElementById('player_left').textContent = playerName;
-        showSection(['header-game', 'one_player', 'footer-game']);
-    });
 
     window.addEventListener('resize', function() {
         initializeElements();
