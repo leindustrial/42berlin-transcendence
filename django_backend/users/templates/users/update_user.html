@@ -1,0 +1,20 @@
+{% extends "game/index.html" %}
+
+{% block content %}
+
+  {% if form.errors %}
+    <p style="color: white;">There was an error with your form... Please try again.</p>
+  {% endif %}
+
+  <div class="row justify-content-center">
+  <form id="update_user_form" method="POST" action="{% url 'update_user' %}">
+    {% csrf_token %}
+    <div style="color: white;">
+      {{ form.as_p }}
+    </div>
+    <div class="form-group">
+      <input type="submit" value="Save" class="btn btn-primary">
+    </div>
+  </form>
+
+{% endblock %}

@@ -15,6 +15,7 @@ import os
 from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -63,7 +64,7 @@ ROOT_URLCONF = 'pong_game.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,10 +132,6 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
 
-USE_I18N = True
-USE_L10N = True
-USE_TZ = True
-
 TIME_ZONE = 'Europe/Berlin'
 
 
@@ -143,6 +140,11 @@ TIME_ZONE = 'Europe/Berlin'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = 'users/login/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

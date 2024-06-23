@@ -21,6 +21,7 @@
 </head>
 
 <body>
+
     <div class="container" id="screen"> <!-- 100vh container -->
 
         <!-- Language Switcher Dropdown -->
@@ -42,6 +43,19 @@
             </div>
         </div>
         
+        {% if user.is_authenticated %}
+        <a href="#" onClick="document.getElementById('logoutform').submit()">
+            <button type="button" class="btn btn-primary">Logout</button>
+        </a>
+        <form id="logoutform" method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <input type="hidden">
+        </form>
+        <a href="{% url 'profile' request.user.id %}">
+            <button type="button" class="btn btn-primary">Profile</button>
+        </a>
+        {% endif %}
+
 
         <!-- Welcome page header with large logo -->
         <div class="container" id="header-welcome" style="display: none;">
@@ -50,7 +64,6 @@
             <p class="text-center" id ="sublitle">{% translate "game that takes you to transcendence" %}</p>
         </div>
 
-        <!-- User management navigation bar -->
         <div class="container" id="user-navbar" style="display: none;">
             <div class="row justify-content-center">
                 <div class="row justify-content-center btn-group">
@@ -75,10 +88,10 @@
         <div class="container" id="start">
             <div class="row justify-content-center">
                 <div class="btn-group-vertical">
-                    
+                    {% block content %}
                     <button type="button" id="2pl" class="btn btn-outline-primary btn-lg btn-block">{% translate "Two players" %}</button>
                     <button type="button" id="4pl" class="btn btn-outline-primary btn-lg btn-block">{% translate "Four players" %}</button>
-
+                    {% endblock %}
                 </div>
             </div>
         </div>
@@ -168,6 +181,7 @@
         </form>
 
     </div>
+
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
