@@ -2,31 +2,24 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RegisterUserForm, UpdateDisplayNameForm
+from .forms import RegisterUserForm, UpdateDisplayNameForm, UpdateAvatarForm
 from .models import Profile
 from django.contrib.auth.models import User
 
 # Create your views here.
 def signup(request):
 	if request.method == "POST":
-		form = RegisterUserForm(request.POST)
+		form = UserCreationForm(request.POST)
 		if form.is_valid():
-			# form.save()
 			username = form.cleaned_data.get('username')
 			password = form.cleaned_data.get('password1')
-			display_name = form.cleaned_data.get('display_name')
-			avatar = form.cleaned_data.get('avatar')
 			user = User.objects.create_user(username=username, password=password)
-			#user.save()
-			profile = Profile.objects.create(user=user, display_name=display_name, avatar=avatar)
-			# profile.friends.clear()
-			# profile.save()
+			profile = Profile.objects.create(user=user)
 			user = authenticate(username=username, password=password)
 			login(request, user)
-			messages.success(request, ("Registration successfull"))
 			return redirect('/')
 	else:
-		form = RegisterUserForm()
+		form = UserCreationForm()
 	return render(request, 'registration/signup.html', {'form':form,})
 
 def logout(request):
@@ -45,8 +38,6 @@ def profiles_list(request, pk):
 	if request.user.is_authenticated:
 		profiles = Profile.objects.exclude(user=request.user)
 		current_user = Profile.objects.get(user_id=pk)
-
-		# Post Form logic for Unfriend / Befriend
 		if request.method == "POST":
 			action = request.POST['action']
 			user_id = request.POST['user_id']
@@ -80,9 +71,25 @@ def update_display_name(request):
 		current_profile = Profile.objects.get(user_id=request.user.id)
 		form = UpdateDisplayNameForm(request.POST or None, instance=current_profile)
 		if form.is_valid():
+			# add error check for display name not unique
 			form.save()
 			login(request, current_user)
 			return redirect('/')
 		return render(request, 'users/update_display_name.html', {'form':form,})
+	else:
+		return redirect('/')
+
+def update_avatar(request):
+	if request.user.is_authenticated:
+		current_user = User.objects.get(id=request.user.id)
+		current_profile = Profile.objects.get(user_id=request.user.id)
+		form = UpdateAvatarForm(request.POST or None, request.FILES or None, instance=current_profile)
+		if form.is_valid():
+			# add logic for deleting old avatar
+			# if current_profile.avatar:
+			form.save()
+			login(request, current_user)
+			return redirect('/')
+		return render(request, 'users/update_avatar.html', {'form':form,})
 	else:
 		return redirect('/')

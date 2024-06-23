@@ -18,3 +18,9 @@ class UpdateDisplayNameForm(forms.ModelForm):
 		model = Profile
 		fields = ['display_name']
 
+class UpdateAvatarForm(forms.ModelForm):
+	avatar = forms.ImageField(label="Profile Picture")
+
+	class Meta:
+		model = Profile
+		fields = ['avatar']
