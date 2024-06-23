@@ -20,17 +20,43 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
+msgid "Language"
+msgstr "Язык"
+
 msgid "game that takes you to transcendence"
 msgstr "Трансцендентная игра"
 
 msgid "Two players"
 msgstr "Два игрока"
 
+msgid "Four players"
+msgstr "Четыре игрока"
+
 msgid "Berlin"
 msgstr "Берлин"
 
 msgid "Press Enter to Play"
-msgstr "нажмите Enter, чтобы играть"
+msgstr "Нажмите Enter, чтобы играть"
+
+msgid "Leaderboard"
+msgstr "Рейтинг игроков"
+
+msgid "Profile"
+msgstr "Профиль"
+
+msgid "Exit the game"
+msgstr "Выйти из игры"
+
+msgid "Back to game"
+msgstr "Вернуться в игру"
+
+msgid "All Players"
+msgstr "Все игроки"
+
+msgid "Log out"
+msgstr "Выйти"
+
+
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

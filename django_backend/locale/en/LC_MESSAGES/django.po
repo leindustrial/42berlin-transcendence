@@ -21,14 +21,38 @@ msgstr ""
 msgid "game that takes you to transcendence"
 msgstr "game that takes you to transcendence"
 
+msgid "Language"
+msgstr "Language"
+
 msgid "Two players"
 msgstr "Two players"
+
+msgid "Four players"
+msgstr "Four players"
 
 msgid "Berlin"
 msgstr "Berlin"
 
 msgid "Press Enter to Play"
 msgstr "Press Enter to Play"
+
+msgid "Leaderboard"
+msgstr "Leaderboard"
+
+msgid "Profile"
+msgstr "Profile"
+
+msgid "Exit the game"
+msgstr "Exit the game"
+
+msgid "Back to game"
+msgstr "Back to game"
+
+msgid "All Players"
+msgstr "All Players"
+
+msgid "Log out"
+msgstr "Log out"
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
