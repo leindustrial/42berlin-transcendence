@@ -1,4 +1,7 @@
 {% load static %}
+{% load i18n %}
+{% get_available_languages as languages %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +19,31 @@
     <!-- Images -->
     <link rel="icon" href="{% static 'img/fav.ico' %}" type="image/x-icon">
 </head>
+
 <body>
-    {% if user.is_authenticated %}
+
+    <div class="container" id="screen"> <!-- 100vh container -->
+
+        <!-- Language Switcher Dropdown -->
+        <div class="container" id="language-menu" style="display: none;">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% trans "Language" %}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="languageDropdown">
+                    {% get_current_language as current_language %}
+                    {% get_available_languages as languages %}
+                    {% get_language_info_list for languages as languages_info %}
+                    {% for lang_info in languages_info %}
+                        <a class="dropdown-item" href="/{{ lang_info.code }}/">
+                            {{ lang_info.name_local }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        {% if user.is_authenticated %}
         <a href="#" onClick="document.getElementById('logoutform').submit()">
             <button type="button" class="btn btn-primary">Logout</button>
         </a>
@@ -28,41 +54,124 @@
         <a href="{% url 'profile' request.user.id %}">
             <button type="button" class="btn btn-primary">Profile</button>
         </a>
-    {% endif %}
+        {% endif %}
 
-    <div class="container" id="game">
 
         <!-- Welcome page header with large logo -->
-        <div class="container" id="header-welcome">
-            <p class="text-center" id="logo-big">PONG 3.0</p>
-            <p class="text-center" id ="sublitle">game that takes you to transcendence</p>
+        <div class="container" id="header-welcome" style="display: none;">
+            <p class="text-center" id="logo-big">PONG 3.1</p>
+            <!-- <p class="text-center" id ="sublitle">game that takes you to transcendence</p> -->
+            <p class="text-center" id ="sublitle">{% translate "game that takes you to transcendence" %}</p>
         </div>
 
-
-        <!-- Game compact header with small loga and navigation -->
-        <div class="container" id="header-game" style="display: none;">
-            <p class="text-center" id="logo-small">PONG 3.0</p>
+        <div class="container" id="user-navbar" style="display: none;">
             <div class="row justify-content-center">
                 <div class="row justify-content-center btn-group">
-                    <button type="button" id="restart" class="btn btn-outline-primary btn-sm">👈 Restart game</button>
-                    <button type="button" id="score" class="btn btn-outline-primary btn-sm">Leaderboard 🏆</button>
+                    <button type="button" id="leaderboard" class="btn btn-outline-primary btn-lg">🏆 {% translate "Leaderboard" %}</button>
+                    <button type="button" id="profile" class="btn btn-outline-primary btn-lg">👤 {% translate "Profile" %}</button>
                 </div>
             </div>
         </div>
 
-        <!-- Choose game mode -->
+        <!-- Profile navigation bar -->
+        <div class="container" id="user-navbar" style="display: none;">
+            <div class="row justify-content-center">
+                <div class="row justify-content-center btn-group">
+                    <button type="button" id="profile" class="btn btn-outline-primary btn-lg">👈 {% translate "Back to game" %}</button>
+                    <button type="button" id="leaderboard" class="btn btn-outline-primary btn-lg">{% translate "All Players" %}</button>
+                    <button type="button" id="profile" class="btn btn-outline-primary btn-lg">{% translate "Log out" %}</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu buttons -->
         <div class="container" id="start">
             <div class="row justify-content-center">
                 <div class="btn-group-vertical">
                     {% block content %}
-                    <button type="button" id="1pl" class="btn btn-outline-primary btn-lg btn-block">🐻 One player 💻</button>
-                    <button type="button" id="2pl" class="btn btn-outline-primary btn-lg btn-block">🐼 Two players 🐸</button>
-                    <button type="button" id="5pl" class="btn btn-outline-primary btn-lg btn-block">🐶🐯🐵 Tournament 🐰🐱🐭</button>
+                    <button type="button" id="2pl" class="btn btn-outline-primary btn-lg btn-block">{% translate "Two players" %}</button>
+                    <button type="button" id="4pl" class="btn btn-outline-primary btn-lg btn-block">{% translate "Four players" %}</button>
                     {% endblock %}
                 </div>
             </div>
         </div>
 
+        <!-- Footer -->
+        <div class="container" id="footer-welcome" style="display: none;">
+            <h3 class="text-center">42 {% translate "Berlin" %} | 2024</h3>
+        </div>
+
+        <!-- Game navigation bar -->
+        <div class="container" id="header-game" style="display: none;">
+            <div class="row justify-content-center">
+                <div class="row justify-content-center btn-group">
+                    <button type="button" id="restart" class="btn btn-outline-primary btn-sm">👈 {% translate "Exit the game" %}</button>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- 2 player game -->
+        <div class="container" id="2-pl-game" style="display: none;">
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <div class="board">
+                            <div class='ball'>
+                                <div class="ball_effect"></div>
+                            </div>
+                            <div class="paddle_1 paddle"></div>
+                            <div class="paddle_2 paddle"></div>
+                            <h3 class="player_1_score" id="scores">0</h3>
+                            <h3 class="player_2_score" id="scores">0</h3>
+                            <p class="text-center"><h3 class="message" >{% translate "Press Enter to Play" %}</h3></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 player game -->
+        <div class="container" id="4-pl-game" style="display: none;">
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <div class="board">
+                            <div class='ball'>
+                                <div class="ball_effect"></div>
+                            </div>
+
+                            <!-- Paddlest left -> to right -->
+                            <div class="paddle_1 paddle"></div> <!-- left -->
+                            <div class="paddle_3 paddle"></div> <!-- left -->
+                            <div class="paddle_2 paddle"></div> <!-- right -->
+                            <div class="paddle_4 paddle"></div> <!-- right -->
+                            
+                            <!-- Scores left -> to right -->
+                            <h3 class="player_1_score" id="scores">0</h3> <!-- left -->
+                            <h3 class="player_3_score" id="scores">0</h3> <!-- left -->
+                            <h3 class="player_2_score" id="scores">0</h3> <!-- right -->
+                            <h3 class="player_4_score" id="scores">0</h3> <!-- right -->
+
+                            <p class="text-center"><h3 class="message" >{% translate "Press Enter to Play" %}</h3></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Different buttons, not in use -->
+        <div class="container" id="two_players" style="display: none;">
+            <h3 class="text-center">Two players mode</h3>
+        </div>
+        <div class="container" id="tournament" style="display: none;">
+            <h3 class="text-center">Tournament mode</h3>
+        </div>
+
+        <div class="container" id="footer-game" style="display: none;">
+            <h3 class="text-center">Footer game</h3>
+        </div>
         <!-- Enter your name form -->
         <form id="name_form" style="display: none;">
             <div class="form-group">
@@ -71,31 +180,6 @@
             <button type="submit" id="play" class="btn btn-primary">Play!</button>
         </form>
 
-        <!-- One player game -->
-        <div class="container" id="one_player" style="display: none;">
-            <div class="container-fluid">
-                <div id="players" class="d-flex justify-content-between align-items-center">
-                    <h3 id="player_left"></h3>
-                    <h3 id="player_right">Computer</h3>
-                </div>
-                <div class="rectangle">
-                    <div class="axis"></div>
-                </div>
-            </div>
-        </div>
-        <div class="container" id="two_players" style="display: none;">
-            <h3 class="text-center">Two players mode</h3>
-        </div>
-        <div class="container" id="tournament" style="display: none;">
-            <h3 class="text-center">Tournament mode</h3>
-        </div>
-
-        <div class="container" id="footer-welcome" style="display: none;">
-            <h3 class="text-center">42 berlin | 2024</h3>
-        </div>
-        <div class="container" id="footer-game" style="display: none;">
-            <h3 class="text-center">Footer game</h3>
-        </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
