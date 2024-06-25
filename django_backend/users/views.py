@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RegisterUserForm, UpdateDisplayNameForm, UpdateAvatarForm
+from .forms import UpdateDisplayNameForm, UpdateAvatarForm
 from .models import Profile
 from django.contrib.auth.models import User
 
@@ -30,7 +30,8 @@ def logout(request):
 def profile(request, pk):
 	if request.user.is_authenticated:
 		profile = Profile.objects.get(user_id=pk)
-		return render(request, 'users/profile.html', {'profile':profile,})
+		total_games = profile.wins + profile.losses
+		return render(request, 'users/profile.html', {'profile':profile, 'total_games':total_games,})
 	else:
 		return redirect('/')
 
