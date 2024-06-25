@@ -25,23 +25,27 @@
     <div class="container" id="screen"> <!-- 100vh container -->
 
         <!-- Language Switcher Dropdown -->
-        <div class="container" id="language-menu">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {% trans "Language" %}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="languageDropdown">
-                    {% get_current_language as current_language %}
-                    {% get_available_languages as languages %}
-                    {% get_language_info_list for languages as languages_info %}
-                    {% for lang_info in languages_info %}
-                        <a class="dropdown-item" href="/{{ lang_info.code }}/">
-                            {{ lang_info.name_local }}
-                        </a>
-                    {% endfor %}
+        <div class="container mt-3">
+            <form id="languageForm" action="{% url 'set_language' %}" method="post" class="form-inline">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <div class="input-group">
+                    <select name="language" id="languageSelect" class="custom-select">
+                        {% for lang_code, lang_name in languages %}
+                            <option value="{{ lang_code }}" {% if lang_code == request.LANGUAGE_CODE %} selected {% endif %}>
+                                {{ lang_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
                 </div>
-            </div>
-        </div>
+            </form>
+        </div>   
+        <script>
+            document.getElementById('languageSelect').addEventListener('change', function() {
+                document.getElementById('languageForm').submit();
+            });
+        </script>
+        
         
         {% if user.is_authenticated %}
         <a href="#" onClick="document.getElementById('logoutform').submit()">

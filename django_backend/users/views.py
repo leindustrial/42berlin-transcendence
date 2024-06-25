@@ -5,6 +5,19 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterUserForm, UpdateDisplayNameForm, UpdateAvatarForm
 from .models import Profile
 from django.contrib.auth.models import User
+from django.shortcuts import redirect
+from django.utils.translation import activate
+
+# Required for the language
+def set_language(request):
+    if request.method == 'POST':
+        language = request.POST.get('language')
+        if language:
+            request.session[translation.LANGUAGE_SESSION_KEY] = language
+            activate(language)
+
+    next_url = request.POST.get('next') or '/'
+    return redirect(next_url)
 
 # Create your views here.
 def signup(request):
