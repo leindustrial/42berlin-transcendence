@@ -1,0 +1,37 @@
+{% extends "game/index.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block two_pl_game %}
+
+    <!-- Game navigation bar *don't remove -->
+    <div class="container" id="header-game">
+        <div class="row justify-content-center">
+            <div class="row justify-content-center btn-group">
+                <a href="{% url 'game_start' %}" class="btn btn-outline-primary btn-sm" id="restart">👈 {% translate "Exit the game" %}</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PUT YOUR CODE FROM HERE! -->
+    <!-- 2 player game -->
+    <div class="container" id="2-pl-game">
+        <div class="container-fluid">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-auto">
+                    <div class="board">
+                        <div class='ball'>
+                            <div class="ball_effect"></div>
+                        </div>
+                        <div class="paddle_1 paddle"></div>
+                        <div class="paddle_2 paddle"></div>
+                        <h3 class="player_1_score" id="scores">0</h3>
+                        <h3 class="player_2_score" id="scores">0</h3>
+                        <p class="text-center"><h3 class="message" >{% translate "Press Enter to Play" %}</h3></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- UNTIL HERE! -->
+{% endblock two_pl_game %}
