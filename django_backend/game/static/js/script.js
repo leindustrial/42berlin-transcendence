@@ -1,6 +1,3 @@
-
-
-
 // document.addEventListener('DOMContentLoaded', function() {
 //     let gameState = 'start'; 
 //     let paddle_1, paddle_2, board, ball, score_1, score_2, message;

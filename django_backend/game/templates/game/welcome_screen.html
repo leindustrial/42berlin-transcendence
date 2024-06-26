@@ -1,0 +1,36 @@
+{% extends "game/index.html" %}
+{% load static %}
+{% load i18n %}
+
+<!-- Welcome page header with large logo -->
+{% block welcome_section %}
+    <div class="container" id="header-welcome">
+        <p class="text-center" id="logo-big">PONG 3.1</p>
+        <p class="text-center" id ="sublitle">{% translate "game that takes you to transcendence" %}</p>
+    </div>
+    <!-- Menu buttons -->
+    <div class="container" id="start">
+        <div class="row justify-content-center">
+            <div class="btn-group-vertical">
+            
+                <a href="{% url 'two_pl_game' %}" class="btn btn-outline-primary btn-lg btn-block">{% translate "Two players" %}</a>
+                <a href="{% url 'four_pl_game' %}" class="btn btn-outline-primary btn-lg btn-block">{% translate "Four players" %}</a>
+
+               
+            </div>
+        </div>
+    </div>
+    <!-- User navigation bar -->
+    <div class="container" id="user-navbar" style="display: none;">
+        <div class="row justify-content-center">
+            <div class="row justify-content-center btn-group">
+                <button type="button" id="leaderboard" class="btn btn-outline-primary btn-lg">🏆 {% translate "Leaderboard" %}</button>
+                <button type="button" id="profile" class="btn btn-outline-primary btn-lg">👤 {% translate "Profile" %}</button>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="container" id="footer-welcome" style="display: none;">
+        <h3 class="text-center">42 {% translate "Berlin" %} | 2024</h3>
+    </div>
+{% endblock welcome_section %}
