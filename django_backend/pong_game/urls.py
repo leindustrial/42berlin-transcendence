@@ -23,9 +23,10 @@ from django.conf.urls.i18n import i18n_patterns
 from django.urls import include, re_path
 
 urlpatterns = [
+    path('set-language/', views.set_language, name='set_language'),
     path('admin/', admin.site.urls),
-    path('i18n/', include('django.conf.urls.i18n')),  # Include i18n URL for language setting
 ] 
+
 
 urlpatterns += i18n_patterns(
     path('', include('game.urls')),  # Include game app URLs with language prefix
