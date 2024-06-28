@@ -78,6 +78,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pong_game.wsgi.application'
+ASGI_APPLICATION = 'pong_game.wsgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
