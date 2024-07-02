@@ -64,7 +64,7 @@ class PongConsumer(AsyncWebsocketConsumer):
         paddle = 'paddle1' if user.username == list(self.players.values())[0] else 'paddle2'
         if key == 'ArrowUp' and self.game_state[paddle] > 0:
             self.game_state[paddle] -= 10
-        elif key == 'ArrowDown' and self.game_state[paddle] < 320:
+        elif key == 'ArrowDown' and self.game_state[paddle] < 300:
             self.game_state[paddle] += 10
 
     async def start_game_countdown(self):

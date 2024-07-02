@@ -20,7 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const windowHeight = window.innerHeight;
         const aspectRatio = originalWidth / originalHeight;
 
-        if (windowWidth / windowHeight > aspectRatio) {
+        if (windowWidth > originalWidth && windowHeight > originalHeight) {
+            gameArea.style.width = `${originalWidth}px`;
+            gameArea.style.height = `${originalHeight}px`;
+		} else if (windowWidth / windowHeight > aspectRatio) {
             // Window is wider than the game aspect ratio
             gameArea.style.height = '100vh';
             gameArea.style.width = `${100 * aspectRatio}vh`;
