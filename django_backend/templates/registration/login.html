@@ -1,10 +1,11 @@
 {% extends "game/index.html" %}
+{% load i18n %}
 
 {% block content %}
-
-  {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
+<div class="btn-group-vertical">
+{% if form.errors %}
+    <p>{% trans "Your username and password didn't match. Please try again." %}</p>
+{% endif %}
 
   <div class="row justify-content-center">
   <form id="name_form" method="post" action="{% url 'login' %}">
@@ -23,12 +24,13 @@
     <!-- </div> -->
      <p></p>
     <div class="form-group">
-      <input type="submit" value="login" class="btn btn-primary">
+      <input type="submit" value="{% translate 'Login' %}" class="btn btn-primary">
     </div>
   </form>
 
   {# Assumes you set up the password_reset view in your URLconf #}
   <!-- <p>Don't have an account? Create on <a href="{% url 'password_reset' %}">Here</a></p> -->
-  <p style="color: white;">Don't have an account? Create one <a href="../signup">Here</a></p>
+  <p style="color: white;">{% translate "Don't have an account? Create one" %} <a href="../signup">{% translate "Here" %}</a></p>
   </div>
+</div>
 {% endblock %}

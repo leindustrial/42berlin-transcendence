@@ -1,7 +1,7 @@
 {% extends "game/index.html" %}
 
 {% block content %}
-
+<div class="btn-group-vertical">
   {% if form.errors %}
     <p style="color: white;">There was an error with your form... Please try again.</p>
   {% endif %}
@@ -16,5 +16,5 @@
       <input type="submit" value="Save" class="btn btn-primary">
     </div>
   </form>
-
+</div>
 {% endblock %}

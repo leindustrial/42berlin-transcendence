@@ -54,7 +54,17 @@ msgstr "Alle Spieler"
 msgid "Log out"
 msgstr "Abmelden"
 
+msgid "Login"
+msgstr "Anmelden"
 
+msgid "Don't have an account? Create one"
+msgstr "Sie haben kein Konto? Erstellen Sie eines"
+
+msgid "Here"
+msgstr "Hier"
+
+msgid "Your username and password didn't match. Please try again."
+msgstr "Ihr Benutzername und Passwort stimmen nicht überein. Bitte versuchen Sie es erneut."
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

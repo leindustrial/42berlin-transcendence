@@ -24,6 +24,12 @@ def set_language(request):
 def game_start(request):
 	return render(request, 'game/index.html', {})
 
+def choose_mode(request):
+    if request.user.is_authenticated:
+        return render(request, 'game/choose-mode.html')
+    else:
+        return redirect('/')
+
 def two_pl_game(request):
     if request.user.is_authenticated:
         return render(request, 'game/two-pl-game.html')

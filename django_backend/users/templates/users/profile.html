@@ -4,7 +4,7 @@
 {% block content %}
 {% if profile %}
 
-
+<div class="btn-group-vertical">
 	<h3 class="text-center">{{ profile.user.username }}'s Profile</h3><a href="{% url 'update_user' %}" class="badge badge-dark">
 		edit account</a>
 	{% if profile.avatar %}
@@ -32,4 +32,5 @@
 	<!-- profile_list needs to be implemented still -->
 	<a href="{% url 'profiles_list' request.user.id %}" class="badge badge-light">Make new friends</a><br/>
 {% endif %}
+</div>
 {% endblock %}
