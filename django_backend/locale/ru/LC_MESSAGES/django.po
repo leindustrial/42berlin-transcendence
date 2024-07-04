@@ -68,6 +68,21 @@ msgstr "Здесь"
 msgid "Your username and password didn't match. Please try again."
 msgstr "Ваше имя пользователя и пароль не совпадают. Пожалуйста, попробуйте снова."
 
+msgid "Play offline"
+msgstr "Играть офлайн"
+
+msgid "Play online"
+msgstr "Играть онлайн"
+
+msgid "MENU"
+msgstr "МЕНЮ"
+
+msgid "Menu"
+msgstr "Меню"
+
+msgid "Tournament"
+msgstr "Турнир"
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""
