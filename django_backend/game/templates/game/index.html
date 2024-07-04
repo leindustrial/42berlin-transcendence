@@ -47,7 +47,7 @@
             });
         </script>
         
-        {% if user.is_authenticated %}
+        <!-- {% if user.is_authenticated %}
         <a href="#" onClick="document.getElementById('logoutform').submit()">
             <button type="button" class="btn btn-primary">Logout</button>
         </a>
@@ -58,7 +58,7 @@
         <a href="{% url 'profile' request.user.id %}">
             <button type="button" class="btn btn-primary">Profile</button>
         </a>
-        {% endif %}
+        {% endif %} -->
 
 
         <!-- Welcome page header with large logo -->
@@ -67,22 +67,40 @@
             <p class="text-center" id ="sublitle">{% translate "game that takes you to transcendence" %}</p>
         </div>
 
-        <!-- Menu buttons -->
         <div class="container" id="start">
             <div class="row justify-content-center">
-                <div class="btn-group-vertical">
+            
                     {% block content %}
-                        <!-- Menu buttons -->
-                        <div class="container" id="start">
-                            <div class="row justify-content-center">
-                                <div class="btn-group-vertical">
-                                    <a href="{% url 'two_pl_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Two players" %}</a>
-                                    <a href="{% url 'four_pl_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Four players" %}</a>
-                                </div>
+                    <!-- Menu buttons -->
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="btn-group">
+                                {% if user.is_authenticated %}
+                                    <form id="logoutform" method="POST" action="{% url 'logout' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden">
+                                    </form>
+                                    <a href="{% url 'profile' request.user.id %}" class="btn btn-outline-primary btn-sm">
+                                        👤 {% translate "Profile" %}
+                                    </a>
+                                    <button type="button" id="leaderboard" class="btn btn-outline-primary btn-sm">🏆 {% translate "Leaderboard" %}</button>
+                                    <a href="#" onClick="document.getElementById('logoutform').submit()" class="btn btn-outline-primary btn-sm">
+                                        ❌ {% translate "Log out" %}
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
+                    </div>
+                    <div class="btn-group-vertical">
+                        <div class="container" id="choose-mode">
+                            {% block choose_mode %}
+                                <a href="" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Play offline" %}</a>
+                                <a href="{% url 'choose_mode' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Play online" %}</a>
+                            {% endblock choose_mode %}
+                        </div>
+                    </div>
                     {% endblock %}
-                </div>
+            
             </div>
         </div>
 
@@ -98,7 +116,7 @@
         </div> -->
 
         <!-- Footer -->
-        <div class="container" id="footer-welcome" style="display: none;">
+        <div class="container" id="footer-welcome">
             <h3 class="text-center">42 {% translate "Berlin" %} | 2024</h3>
         </div>
 

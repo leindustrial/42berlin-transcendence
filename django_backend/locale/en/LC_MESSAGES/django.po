@@ -54,6 +54,33 @@ msgstr "All Players"
 msgid "Log out"
 msgstr "Log out"
 
+msgid "Login"
+msgstr "Login"
+
+msgid "Don't have an account? Create one"
+msgstr "Don't have an account? Create one"
+
+msgid "Here"
+msgstr "Here"
+
+msgid "Your username and password didn't match. Please try again."
+msgstr "Your username and password didn't match. Please try again."
+
+msgid "Play offline"
+msgstr "Play offline"
+
+msgid "Play online"
+msgstr "Play online"
+
+msgid "MENU"
+msgstr "MENU"
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "Tournament"
+msgstr "Tournament"
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""

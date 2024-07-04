@@ -1,7 +1,27 @@
 {% extends "game/index.html" %}
+{% load i18n %}
 
 {% block content %}
+<!-- Menu buttons -->
+<div class="container" id="profile-menu">
+	<div class="row justify-content-center">
+		<div class="btn-group">
+				<form id="logoutform" method="POST" action="{% url 'logout' %}">
+					{% csrf_token %}
+					<input type="hidden">
+				</form>
+        		<a href="{% url 'profile' request.user.id %}" class="btn btn-outline-primary btn-sm">
+					👈 {% translate "Profile" %}
+				</a>
+				<button type="button" id="leaderboard" class="btn btn-outline-primary btn-sm">🏆 {% translate "Leaderboard" %}</button>
+				<a href="#" onClick="document.getElementById('logoutform').submit()" class="btn btn-outline-primary btn-sm">
+					❌ {% translate "Log out" %}
+				</a>
+		</div>
+	</div>
+</div>
 
+<div class="btn-group-vertical">
   {% if form.errors %}
     <p style="color: white;">There was an error with your form... Please try again.</p>
   {% endif %}
@@ -16,5 +36,5 @@
       <input type="submit" value="Save" class="btn btn-primary">
     </div>
   </form>
-
+</div>
 {% endblock %}
