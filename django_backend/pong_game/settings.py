@@ -77,6 +77,9 @@ TEMPLATES = [
     },
 ]
 
+# for testing only 'channels.layers.InMemoryChannelLayer',
+# for production configure with redis
+
 WSGI_APPLICATION = 'pong_game.wsgi.application'
 ASGI_APPLICATION = 'pong_game.wsgi.application'
 CHANNEL_LAYERS = {

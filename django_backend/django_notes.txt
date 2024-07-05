@@ -18,6 +18,10 @@ view = few function performs the requested action e.g. look at \
 
 Run
 
+$ python manage.py migrate
+
+to migrate DataBase settings
+
 $ python manage.py runserver
 
 to start the Server, access the page through WebBrowser URL: localhost:8000

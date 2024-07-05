@@ -35,7 +35,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 
     # create a task to start the game countdown, so that the connect method can return immediately
                     self.countdown_task = asyncio.create_task(self.start_game_countdown())
-                   
+
             else:
                 await self.close()
                 print("Connection closed: game is full")
@@ -56,7 +56,7 @@ class PongConsumer(AsyncWebsocketConsumer):
         data = json.loads(text_data)
         if data['type'] == 'paddle_move':
             await self.move_paddle(data['key'])
-    
+
     # game logic
 
     async def move_paddle(self, key):
@@ -78,7 +78,7 @@ class PongConsumer(AsyncWebsocketConsumer):
             'pong_game',
             {
                 'type': 'both_players_joined',
-                'name': oponent      
+                'name': oponent
             }
         )
         await asyncio.sleep(2)
@@ -118,10 +118,10 @@ class PongConsumer(AsyncWebsocketConsumer):
         if self.game_state['ball']['y'] <= 0 or self.game_state['ball']['y'] >= 380:
             self.game_state['ball']['dy'] *= -1
 
-        if (self.game_state['ball']['x'] <= 20 and 
+        if (self.game_state['ball']['x'] <= 20 and
             self.game_state['paddle1'] <= self.game_state['ball']['y'] <= self.game_state['paddle1'] + 80):
             self.game_state['ball']['dx'] *= -1
-        elif (self.game_state['ball']['x'] >= 760 and 
+        elif (self.game_state['ball']['x'] >= 760 and
               self.game_state['paddle2'] <= self.game_state['ball']['y'] <= self.game_state['paddle2'] + 80):
             self.game_state['ball']['dx'] *= -1
 
@@ -166,7 +166,7 @@ class PongConsumer(AsyncWebsocketConsumer):
         if self.game_loop_task:
             self.game_loop_task.cancel()
             self.game_loop_task = None
-        
+
     # send game events to clients
 
     async def game_state_update(self, event):
@@ -202,13 +202,13 @@ class PongConsumer(AsyncWebsocketConsumer):
         }))
         # print("Game over")
         await self.close()
-        
+
     async def game_started(self, event):
         await self.send(text_data=json.dumps({
             'type': 'game_started',
             'message': 'Game started!'
         }))
-        
+
     async def send_game_result(self, result):
         # to be implemented: save game result to database
         print(f"Game result: {result}")

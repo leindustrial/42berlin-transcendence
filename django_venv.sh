@@ -19,6 +19,13 @@ pip install -r requirements.txt
 #deactivate
 # to enter myenv run inside django_backend
 # source myenv/bin/activate
+# Migrate Database Settings
+# python manage.py migrate
+# Start Django Dev server
+# python manage.py runserver
+# Or Start Daphne Server for Remote Players
+# daphne -b 0.0.0.0 -p 8000 pong_game.asgi:application
+
 
 # after installing new packages with pip install in myenv
 # update requirements.txt for the team with run in myenv

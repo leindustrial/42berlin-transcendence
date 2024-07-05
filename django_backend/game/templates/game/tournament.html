@@ -1,0 +1,25 @@
+{% extends "game/index.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block two_pl_game %}
+	<!-- Game navigation bar *don't remove -->
+    <div class="container" id="header-game">
+        <div class="row justify-content-center">
+            <div class="row justify-content-center btn-group">
+                <a href="{% url 'game_start' %}" class="btn btn-outline-primary btn-sm" id="restart">👈 {% translate "Exit the game" %}</a>
+            </div>
+        </div>
+    </div>
+
+	<div id="lobby-area">
+		<div id="message" class="message"></div>
+		<div id="player1-name" class="player-name"></div>
+        <div id="player2-name" class="player-name"></div>
+		<div id="player3-name" class="player-name"></div>
+		<div id="player4-name" class="player-name"></div>
+	</div>
+
+	<script src="{% static 'js/tournament.js' %}"></script>
+
+{% endblock %}
