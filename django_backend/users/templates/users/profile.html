@@ -40,7 +40,7 @@
 
 		<p style="color: white;">{{ friends }}</p><br/>
 
-		{% if friends.user.is_active %}
+		{% if friends.online_status %}
 			<p style="color: greenyellow;">online</p><br/>
 		{% else %}
 			<p style="color: red;">offline</p><br/>
@@ -49,6 +49,44 @@
 	{% endfor %}
 	<!-- profile_list needs to be implemented still -->
 	<a href="{% url 'profiles_list' request.user.id %}" class="badge badge-light">Make new friends</a><br/>
+	<strong style="color: white;">Stats</strong><br/>
+	<table class="table table-striped table-dark">
+		<thead>
+		  <tr>
+			<th scope="col">Games Played</th>
+			<th scope="col">Wins</th>
+			<th scope="col">Losses</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td>{{ total_games }}</td>
+			<td>{{ profile.wins }}</td>
+			<td>{{ profile.losses }}</td>
+		  </tr>
+		</tbody>
+	  </table>
+
+	  <strong style="color: white;">1v1 Match History</strong><br/>
+	  <table class="table table-striped table-dark">
+		<thead>
+		  <tr>
+			<th scope="col">TimeStamp</th>
+			<th scope="col">Winner</th>
+			<th scope="col">Loser</th>
+		  </tr>
+		</thead>
+		<tbody>
+			{% for row in table_data %}
+		  <tr>
+			<td>{{ row.0 }}</td>
+			<td>{{ row.1 }}</td>
+			<td>{{ row.2 }}</td>
+		  </tr>
+		  {% endfor %}
+		</tbody>
+	  </table>
+
 {% endif %}
 </div>
 {% endblock %}

@@ -32,7 +32,7 @@
 		{% else %}
 			<img src="{% static 'avatar/kermit.png'%}" width=50 height=50 class="img-fluid rounded-start" alt="Default Avatar">
 		{% endif %}
-		<p style="color: white;">Username: {{ profile.user.username }}</p>
+		<p style="color: white;">Username: <a href="{% url 'profile' profile.user.id %}">{{ profile.user.username }}</a></p>
 		<p style="color: white;">Tournament name: {{ profile.display_name }}</p>
 		<p style="color: white;">Last seen: {{ profile.user.last_login }}</p>
 		<br/><br/>

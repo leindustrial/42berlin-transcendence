@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RegisterUserForm, UpdateDisplayNameForm, UpdateAvatarForm
+from .forms import UpdateDisplayNameForm, UpdateAvatarForm
 from .models import Profile
 from django.contrib.auth.models import User
+import os
 
 # Create your views here.
 def signup(request):
@@ -30,7 +31,17 @@ def logout(request):
 def profile(request, pk):
 	if request.user.is_authenticated:
 		profile = Profile.objects.get(user_id=pk)
-		return render(request, 'users/profile.html', {'profile':profile,})
+		match_history = profile.match_history
+		if match_history is None:
+			match_history = ""
+		match_history = match_history.split(';')
+		table_data = []
+		for match in match_history:
+			row = match.split(',')
+			row = [item.strip() for item in row]
+			table_data.append(row)
+		total_games = profile.wins + profile.losses
+		return render(request, 'users/profile.html', {'profile':profile, 'total_games':total_games, 'table_data':table_data})
 	else:
 		return redirect('/')
 
@@ -83,11 +94,12 @@ def update_avatar(request):
 	if request.user.is_authenticated:
 		current_user = User.objects.get(id=request.user.id)
 		current_profile = Profile.objects.get(user_id=request.user.id)
+		old_avatar = current_profile.avatar
 		form = UpdateAvatarForm(request.POST or None, request.FILES or None, instance=current_profile)
 		if form.is_valid():
-			# add logic for deleting old avatar
-			# if current_profile.avatar:
 			form.save()
+			if old_avatar:
+				os.remove(old_avatar.path)
 			login(request, current_user)
 			return redirect('/')
 		return render(request, 'users/update_avatar.html', {'form':form,})

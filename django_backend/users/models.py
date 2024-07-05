@@ -11,6 +11,8 @@ class Profile(models.Model):
 	avatar = models.ImageField(null=True, blank=True, upload_to="avatars/")
 	wins = models.PositiveIntegerField(default=0)
 	losses = models.PositiveIntegerField(default=0)
+	online_status = models.BooleanField(default=False)
+	match_history = models.TextField(null=True, blank=True)
 
 	# for admin area
 	def __str__(self):
