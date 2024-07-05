@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import UpdateDisplayNameForm, UpdateAvatarForm
 from .models import Profile
 from django.contrib.auth.models import User
+import os
 
 # Create your views here.
 def signup(request):
@@ -93,11 +94,12 @@ def update_avatar(request):
 	if request.user.is_authenticated:
 		current_user = User.objects.get(id=request.user.id)
 		current_profile = Profile.objects.get(user_id=request.user.id)
+		old_avatar = current_profile.avatar
 		form = UpdateAvatarForm(request.POST or None, request.FILES or None, instance=current_profile)
 		if form.is_valid():
-			# add logic for deleting old avatar
-			# if current_profile.avatar:
 			form.save()
+			if old_avatar:
+				os.remove(old_avatar.path)
 			login(request, current_user)
 			return redirect('/')
 		return render(request, 'users/update_avatar.html', {'form':form,})
