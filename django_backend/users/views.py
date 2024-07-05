@@ -30,8 +30,17 @@ def logout(request):
 def profile(request, pk):
 	if request.user.is_authenticated:
 		profile = Profile.objects.get(user_id=pk)
+		match_history = profile.match_history
+		if match_history is None:
+			match_history = ""
+		match_history = match_history.split(';')
+		table_data = []
+		for match in match_history:
+			row = match.split(',')
+			row = [item.strip() for item in row]
+			table_data.append(row)
 		total_games = profile.wins + profile.losses
-		return render(request, 'users/profile.html', {'profile':profile, 'total_games':total_games,})
+		return render(request, 'users/profile.html', {'profile':profile, 'total_games':total_games, 'table_data':table_data})
 	else:
 		return redirect('/')
 

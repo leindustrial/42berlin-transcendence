@@ -12,6 +12,7 @@ class Profile(models.Model):
 	wins = models.PositiveIntegerField(default=0)
 	losses = models.PositiveIntegerField(default=0)
 	online_status = models.BooleanField(default=False)
+	match_history = models.TextField(null=True, blank=True)
 
 	# for admin area
 	def __str__(self):
