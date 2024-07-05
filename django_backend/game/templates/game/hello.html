@@ -1,0 +1,10 @@
+{% extends "game/index.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block hello %}
+
+<a href="{% url 'offline_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Play offline" %}</a>
+<a href="{% url 'game_start' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Login and play online" %}</a>
+
+{% endblock hello %}

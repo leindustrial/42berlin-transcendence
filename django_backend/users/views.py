@@ -105,3 +105,6 @@ def update_avatar(request):
 		return render(request, 'users/update_avatar.html', {'form':form,})
 	else:
 		return redirect('/')
+
+def profile_nav(request):
+    return render(request, 'users/profile_nav.html')

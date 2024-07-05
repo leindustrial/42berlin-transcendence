@@ -20,15 +20,16 @@ def set_language(request):
 
 
 # Create your views here.
+
+def hello(request):
+	return render(request, 'game/hello.html')
+
+def offline_game(request):
+    return render(request, 'game/offline-game.html')
+
 @login_required
 def game_start(request):
 	return render(request, 'game/index.html', {})
-
-def choose_mode(request):
-    if request.user.is_authenticated:
-        return render(request, 'game/choose-mode.html')
-    else:
-        return redirect('/')
 
 def two_pl_game(request):
     if request.user.is_authenticated:
