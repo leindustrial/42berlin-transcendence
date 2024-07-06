@@ -32,6 +32,12 @@
     margin-bottom: 10px;
 }
 
+#header-game {
+    align-content: top;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 #choose-mode {
     margin-top: 100px;
     margin-bottom: 100px;
