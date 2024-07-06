@@ -1,11 +1,14 @@
 {% extends "game/index.html" %}
+{% load i18n %}
 
 {% block content %}
-<div class="btn-group-vertical">
-  {% if form.errors %}
-    <p style="color: white;">There was an error with your form... Please try again.</p>
-  {% endif %}
 
+  {% if form.errors %}
+  <div class="row justify-content-center">
+    <p align="center" style="color: red;">{% translate "There was an error with your form... Please try again." %}</p>
+  </div>
+  {% endif %}
+  <div class="btn-group-vertical">
   <div class="row justify-content-center">
   <form id="name_form" method="POST" action="{% url 'signup' %}" enctype="multipart/form-data">
     {% csrf_token %}
@@ -25,7 +28,7 @@
     </div>
   </form>
 
-  <p style="color: white;">Have an account? Log in <a href="{% url 'login' %}">Here</a></p>
+  <p style="color: white;">{% translate "Have an account? Log in " %}<a href="{% url 'login' %}">{% translate "Here" %}</a></p>
   </div>
 </div>
 {% endblock %}

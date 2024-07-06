@@ -81,6 +81,64 @@ msgstr "Menu"
 msgid "Tournament"
 msgstr "Tournament"
 
+msgid "Login and play online"
+msgstr "Login and play online"
+
+msgid "Sign Up"
+msgstr "Sign Up"
+
+msgid "Have an account? Log in"
+msgstr "Have an account? Log in"
+
+msgid "There was an error with your form... Please try again."
+msgstr "There was an error with your form... Please try again."
+
+msgid "Display Name for Tournaments"
+msgstr "Display Name for Tournaments"
+
+msgid "Friends with"
+msgstr "Friends with"
+
+msgid "online"
+msgstr "online"
+
+msgid "offline"
+msgstr "offline"
+
+msgid "Make new friends"
+msgstr "Make new friends"
+
+msgid "Stats"
+msgstr "Stats"
+
+msgid "Games Played"
+msgstr "Games Played"
+
+msgid "Wins"
+msgstr "Wins"
+
+msgid "Losses"
+msgstr "Losses"
+
+msgid "1v1 Match History"
+msgstr "1v1 Match History"
+
+msgid "TimeStamp"
+msgstr "TimeStamp"
+
+msgid "Winner"
+msgstr "Winner"
+
+msgid "Loser"
+msgstr "Loser"
+
+msgid "change"
+msgstr "change"
+
+msgid "edit account"
+msgstr "edit account"
+
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""
