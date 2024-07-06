@@ -1,0 +1,232 @@
+{% extends "game/index.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block offline_game %}
+
+<!-- Game navigation bar -->
+{% include 'game/header-button-unlogged.html' %}
+
+<!-- 2 player game -->
+<body>
+<div class="container" id="offline-game">
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-auto">
+                <div class="board">
+                    <div class='ball'>
+                        <div class="ball_effect"></div>
+                    </div>
+                    <div class="paddle_1 paddle"></div>
+                    <div class="paddle_2 paddle"></div>
+                    <h3 class="player_1_score" id="scores">0</h3>
+                    <h3 class="player_2_score" id="scores">0</h3>
+                    <p class="text-center"><h3 class="message" >{% translate "Press Enter to Play" %}</h3></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+#screen {
+    align-content: center;
+    margin-top: 0px;
+    padding-top: 0px;
+    height: 100vh;
+}
+
+
+#logo-big {
+    color: #ffffff;
+    font-size: 46pt;
+    font-family: "Monoton", sans-serif;;
+    text-transform: uppercase;
+    letter-spacing: 5pt;
+    margin-top: 10px;
+}
+
+#user-navbar {
+    margin-bottom: 30px;
+}
+
+#sublitle {
+    color: #ff56d8;
+    font-size: 16pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#header-welcome {
+    margin-bottom: 80px;
+}
+
+#footer-welcome {
+    margin-top: 80px;
+}
+
+/* #logo-small {
+    color: #ffffff;
+    font-size: 10pt;
+    font-family: "Monoton", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 5pt;
+    margin-top: 0px;
+    padding-top: 0px;
+} */
+
+h1 {
+    color: #ffffff;
+    font-size: 40pt;
+    font-family: "Monoton", sans-serif;;
+    text-transform: uppercase;
+    letter-spacing: 5pt;
+}
+
+h2 {
+    color: #ff56d8;
+    font-size: 16pt;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+
+}
+
+h3 {
+    color: #ffffff;
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+.btn-lg,.btn-sm {
+    border-width: 2px;
+}
+
+.btn-group{
+    margin-top: 0px;
+}
+
+.btn-group-vertical {
+    width: 400px;
+
+}
+
+.btn-group-vertical > button{
+    margin-bottom:10px;
+    border-radius:10px !important;
+}
+
+#name_form {
+    width: 400px;
+    margin: 100px auto; /* Centers the form horizontally */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the items within the form */
+    justify-content: center; /* Centers the form vertically */
+    text-align: center;
+}
+
+
+
+/* Basic game: */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+} 
+  
+body { 
+    height: 100vh; 
+    width: 100vw; 
+    background-color: #232222; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+.board { 
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically */
+    height: 80vh; 
+    width: 80vw; /* This ensures the width is 80% of the viewport width */
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto; /* Center the board horizontally */
+    position: relative; /* Ensure proper positioning of child elements */
+}
+
+/* 'Press enter to play' message */
+.message { 
+    position: fixed; 
+    color: #7d7fac; 
+    text-align: center;
+    top: calc(50 vh); 
+    margin: 30px auto auto auto; 
+}
+  
+.ball { 
+    height: 30px; 
+    width: 30px; 
+    border-radius: 50%; 
+    position: fixed; 
+    top: calc(50% - 15px); 
+    left: calc(50% - 15px); 
+    background-color: white;
+}
+
+.paddle { 
+    height: 80px; 
+    width: 10px; 
+    position: fixed; 
+    background-color: white;
+    top: calc(50 vh);
+} 
+
+#scores {
+    top: calc(15vh); 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+    margin-top: 10px;
+}
+  
+.paddle_1 { 
+    left: calc(10vw + 10px);  
+    background-color: rgb(31, 172, 237);
+} 
+  
+.paddle_2 {  
+    right: calc(10vw + 10px);   
+    background-color: rgb(191, 43, 221);
+} 
+
+.player_1_score {
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(10vw + 10px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
+}
+
+.player_2_score {
+    color: rgb(191, 43, 221);
+    position: fixed;
+    right: calc(10vw + 10px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
+}
+</style>
+
+<script src="{% static 'js/offline_game.js' %}"></script>
+</body>
+{% endblock offline_game %}

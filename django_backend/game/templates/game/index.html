@@ -23,6 +23,7 @@
 <body>
 
     <div class="container" id="screen"> <!-- 100vh container -->
+        {% block offline_game %}
         {% block two_pl_game %}
         {% block four_pl_game %}
         <!-- Language Switcher Dropdown -->
@@ -69,8 +70,8 @@
 
         <div class="container" id="start">
             <div class="row justify-content-center">
-            
-                    {% block content %}
+                {% if user.is_authenticated %}
+                    {% block user %}
                     <!-- Menu buttons -->
                     <div class="container">
                         <div class="row justify-content-center">
@@ -93,14 +94,19 @@
                     </div>
                     <div class="btn-group-vertical">
                         <div class="container" id="choose-mode">
-                            {% block choose_mode %}
-                                <a href="" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Play offline" %}</a>
-                                <a href="{% url 'choose_mode' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Play online" %}</a>
-                            {% endblock choose_mode %}
+                            <!-- <a href="{% url 'game_start' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">👈 {% translate "MENU" %}</a> -->
+                            <a href="{% url 'two_pl_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Two players" %}</a>
+                            <a href="{% url 'four_pl_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Four players" %}</a>
+                            <a href="" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Tournament" %}</a>
                         </div>
                     </div>
+                    {% endblock user %} 
+                {% else %}
+                    {% block hello %}
+                    {% block content %}
                     {% endblock %}
-            
+                    {% endblock hello %}
+                {% endif %}
             </div>
         </div>
 
@@ -125,6 +131,7 @@
         {% endblock welcome_section %} -->
         {% endblock four_pl_game %}
         {% endblock two_pl_game %}
+        {% endblock offline_game %}
 
         <!-- Different buttons, not in use -->
 

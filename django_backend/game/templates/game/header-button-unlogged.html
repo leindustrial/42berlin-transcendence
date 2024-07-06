@@ -1,0 +1,13 @@
+{% load static %}
+{% load i18n %}
+
+<!-- Game navigation bar -->
+ <!-- Only for unlogged in players, returns a player to the page 'login or play offline' -->
+
+<div class="container" id="header-game">
+    <div class="row justify-content-center">
+        <div class="row justify-content-center btn-group">
+            <a href="{% url 'hello' %}" class="btn btn-outline-primary btn-sm" id="restart">👈 {% translate "Exit the game" %}</a>
+        </div>
+    </div>
+</div>

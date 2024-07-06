@@ -30,6 +30,6 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('', include('game.urls')),  # Include game app URLs with language prefix
-    path('users/', include('django.contrib.auth.urls')),  # Include auth URLs with language prefix
-    path('users/', include('users.urls')),  # Include additional user-related URLs with language prefix
+    path('game-start/users/', include('django.contrib.auth.urls')),  # Include auth URLs with language prefix
+    path('game-start/users/', include('users.urls')),  # Include additional user-related URLs with language prefix
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

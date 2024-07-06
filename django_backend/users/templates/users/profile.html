@@ -2,60 +2,45 @@
 {% load static %}
 {% load i18n %}
 
-{% block content %}
-<!-- Menu buttons -->
-<div class="container" id="profile-menu">
-	<div class="row justify-content-center">
-		<div class="btn-group">
-				<form id="logoutform" method="POST" action="{% url 'logout' %}">
-					{% csrf_token %}
-					<input type="hidden">
-				</form>
-				<a href="{% url 'game_start' %}" type="button" class="btn btn-outline-primary btn-sm">👈 {% translate "MENU" %}</a>
-				<button type="button" id="leaderboard" class="btn btn-outline-primary btn-sm">🏆 {% translate "Leaderboard" %}</button>
-				<a href="#" onClick="document.getElementById('logoutform').submit()" class="btn btn-outline-primary btn-sm">
-					❌ {% translate "Log out" %}
-				</a>
-		</div>
-	</div>
-</div>
 
+{% block user %}
+{% include 'users/profile_nav.html' %}
 {% if profile %}
 
 <div class="btn-group-vertical">
-	<h3 class="text-center">{{ profile.user.username }}'s Profile</h3><a href="{% url 'update_user' %}" class="badge badge-dark">
-		edit account</a>
+	<h3 class="text-center">{{ profile.user.username }}'s {% translate "Profile" %}</h3><a href="{% url 'update_user' %}" class="badge badge-dark">
+		{% translate "edit account" %}</a>
 	{% if profile.avatar %}
-		<img src="{{ profile.avatar.url }}" width=200 height=200 class="img-fluid rounded-start" alt="Profile Avatar">
+	<img src="{{ profile.avatar.url }}" width=200 height=200 class="img-fluid rounded-start" alt="Profile Avatar">
 	{% else %}
 		<img src="{% static 'avatar/kermit.png'%}" width=200 height=200 class="img-fluid rounded-start" alt="Default Avatar">
 	{% endif %}
 	<a href="{% url 'update_avatar' %}" class="badge badge-dark">
-		change</a><br/>
-	<strong style="color: white;">Display Name for Tournaments</strong><br/>
+		{% translate "change" %}</a><br/>
+	<strong style="color: white;">{% translate "Display Name for Tournaments" %}</strong><br/>
 	<p style="color: white;">{{ profile.display_name }}</p><a href="{% url 'update_display_name' %}" class="badge badge-dark">
-		change</a><br/>
-	<strong style="color: white;">Friends with</strong><br/>
+		{% translate "change" %}</a><br/>
+	<strong style="color: white;">{% translate "Friends with" %}</strong><br/>
 	{% for friends in profile.friends.all %}
 
 		<p style="color: white;">{{ friends }}</p><br/>
 
 		{% if friends.online_status %}
-			<p style="color: greenyellow;">online</p><br/>
+			<p style="color: greenyellow;">{% translate "online" %}</p><br/>
 		{% else %}
-			<p style="color: red;">offline</p><br/>
+			<p style="color: red;">{% translate "offline" %}</p><br/>
 		{% endif %}
 
 	{% endfor %}
 	<!-- profile_list needs to be implemented still -->
-	<a href="{% url 'profiles_list' request.user.id %}" class="badge badge-light">Make new friends</a><br/>
-	<strong style="color: white;">Stats</strong><br/>
+	<a href="{% url 'profiles_list' request.user.id %}" class="badge badge-light">{% translate "Make new friends" %}</a><br/>
+	<strong style="color: white;">{% translate "Stats" %}</strong><br/>
 	<table class="table table-striped table-dark">
 		<thead>
 		  <tr>
-			<th scope="col">Games Played</th>
-			<th scope="col">Wins</th>
-			<th scope="col">Losses</th>
+			<th scope="col">{% translate "Games Played" %}</th>
+			<th scope="col">{% translate "Wins" %}</th>
+			<th scope="col">{% translate "Losses" %}</th>
 		  </tr>
 		</thead>
 		<tbody>
@@ -67,13 +52,13 @@
 		</tbody>
 	  </table>
 
-	  <strong style="color: white;">1v1 Match History</strong><br/>
+	  <strong style="color: white;">{% translate "1v1 Match History" %}</strong><br/>
 	  <table class="table table-striped table-dark">
 		<thead>
 		  <tr>
-			<th scope="col">TimeStamp</th>
-			<th scope="col">Winner</th>
-			<th scope="col">Loser</th>
+			<th scope="col">{% translate "TimeStamp" %}</th>
+			<th scope="col">{% translate "Winner" %}</th>
+			<th scope="col">{% translate "Loser" %}</th>
 		  </tr>
 		</thead>
 		<tbody>
@@ -86,7 +71,7 @@
 		  {% endfor %}
 		</tbody>
 	  </table>
-
-{% endif %}
 </div>
-{% endblock %}
+{% endif %}
+
+{% endblock user %}

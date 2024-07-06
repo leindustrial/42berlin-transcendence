@@ -2,10 +2,17 @@
 {% load i18n %}
 
 {% block content %}
+<!-- Game navigation bar -->
+{% include 'game/header-button-menu.html' %}
+
 <div class="btn-group-vertical">
-{% if form.errors %}
-    <p>{% trans "Your username and password didn't match. Please try again." %}</p>
-{% endif %}
+
+  {% if form.errors %}
+  <div class="row justify-content-center">
+      <br>
+      <p align="center" style="color: red;"  >{% translate "Your username and password didn't match. Please try again." %}</p>
+  </div>
+  {% endif %}
 
   <div class="row justify-content-center">
   <form id="name_form" method="post" action="{% url 'login' %}">
