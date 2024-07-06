@@ -7,5 +7,5 @@
 
 <a href="{% url 'two_pl_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Two players" %}</a>
 <a href="{% url 'four_pl_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Four players" %}</a>
-<a href="{% url 'tournament' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Tournament" %}</a>
+<a href="{% url 'tournament' profile.display_name %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Tournament" %}</a>
  {% endblock choose_mode %}

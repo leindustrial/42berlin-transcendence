@@ -14,12 +14,15 @@
 
 	<div id="lobby-area">
 		<div id="message" class="message"></div>
-		<div id="player1-name" class="player-name"></div>
+		<div id="ball"></div>
+        <div id="paddle1" class="paddle"></div>
+        <div id="paddle2" class="paddle"></div>
+        <div id="player1-name" class="player-name"></div>
+        <div id="score1">0</div>
         <div id="player2-name" class="player-name"></div>
-		<div id="player3-name" class="player-name"></div>
-		<div id="player4-name" class="player-name"></div>
+        <div id="score2">0</div>
 	</div>
-
+	{{ display_name|json_script:"display_name" }}
 	<script src="{% static 'js/tournament.js' %}"></script>
 
 {% endblock %}

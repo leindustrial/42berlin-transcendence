@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.utils.translation import activate
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from users.models import Profile
 
 # Required for the language
 def set_language(request):
@@ -26,7 +27,8 @@ def game_start(request):
 
 def choose_mode(request):
     if request.user.is_authenticated:
-        return render(request, 'game/choose-mode.html')
+        profile = Profile.objects.get(user_id=request.user.id)
+        return render(request, 'game/choose-mode.html', {'profile':profile,})
     else:
         return redirect('/')
 
@@ -42,8 +44,8 @@ def four_pl_game(request):
     else:
         return redirect('/')
 
-def tournament(request):
+def tournament(request, display_name):
     if request.user.is_authenticated:
-        return render(request, 'game/tournament.html')
+        return render(request, 'game/tournament.html', {'display_name':display_name,})
     else:
         return redirect('/')

@@ -11,13 +11,14 @@ import os
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
-import game.routing 
+import game.routing
+
 
 # specifies which settings file Django should use for configuration
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pong_game.settings')
 
 # routes different types of connection protocols to the appropriate handling mechanism. get_asgi_application() is a function that loads the Django ASGI application.
-application = ProtocolTypeRouter({ 
+application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": AuthMiddlewareStack(
         URLRouter(

@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'game',
     'users',
+    'game',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +81,7 @@ TEMPLATES = [
 # for production configure with redis
 
 WSGI_APPLICATION = 'pong_game.wsgi.application'
-ASGI_APPLICATION = 'pong_game.wsgi.application'
+ASGI_APPLICATION = 'pong_game.asgi.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels.layers.InMemoryChannelLayer',
