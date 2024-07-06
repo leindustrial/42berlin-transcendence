@@ -140,6 +140,44 @@ msgstr "изменить"
 msgid "edit account"
 msgstr "редактировать аккаунт"
 
+msgid "Users"
+msgstr "Пользователи"
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+msgid "Tournament name"
+msgstr "Название турнира"
+
+msgid "Last seen"
+msgstr "Последний визит"
+
+msgid "Unfriend"
+msgstr "Удалить из друзей"
+
+msgid "Befriend"
+msgstr "Добавить в друзья"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Avatar"
+msgstr "Аватар"
+
+msgid "Upload a new profile picture."
+msgstr "Загрузить новое изображение профиля."
+
+msgid "Currently:"
+msgstr "Текущее:"
+
+msgid "Clear"
+msgstr "Очистить"
+
+msgid "No file chosen"
+msgstr "Файл не выбран"
+
+msgid "Change"
+msgstr "Изменить"
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

@@ -6,38 +6,44 @@
 {% include 'users/profile_nav2.html' %}
 
 <div class="btn-group-vertical">
-<h3 class="text-center">Users</h3>
-{% if profiles %}
+	<div class="container">
+			<h2 class="text-center" style="color: white;">{% translate "Users" %}</h2>
+			{% if profiles %}
 
-	{% for profile in profiles %}
-		{% if profile.avatar %}
-			<img src="{{ profile.avatar.url }}" width=50 height=50 class="img-fluid rounded-start" alt="Profile Avatar">
-		{% else %}
-			<img src="{% static 'avatar/kermit.png'%}" width=50 height=50 class="img-fluid rounded-start" alt="Default Avatar">
-		{% endif %}
-		<p style="color: white;">Username: <a href="{% url 'profile' profile.user.id %}">{{ profile.user.username }}</a></p>
-		<p style="color: white;">Tournament name: {{ profile.display_name }}</p>
-		<p style="color: white;">Last seen: {{ profile.user.last_login }}</p>
-		<br/><br/>
-		<form method="POST">
-			{% csrf_token %}
-			{% if profile in current_user.friends.all %}
-				<input type="hidden" name="action" value="unfriend">
-				<input type="hidden" name="user_id" value="{{ profile.user.id }}">
-				<button type="submit" class="btn btn-outline-danger">
-					Unfriend
-				</button>
-			{% else %}
-				<input type="hidden" name="action" value="befriend">
-				<input type="hidden" name="user_id" value="{{ profile.user.id }}">
-				<button type="submit" class="btn btn-outline-success">
-					Befriend
-				</button>
+				{% for profile in profiles %}
+					{% if profile.avatar %}
+						<img src="{{ profile.avatar.url }}" width=50 height=50 class="img-fluid rounded-start" alt="Profile Avatar">
+					{% else %}
+						<img src="{% static 'avatar/kermit.png'%}" width=50 height=50 class="img-fluid rounded-start" alt="Default Avatar">
+					{% endif %}
+					<p style="color: white;">{% translate "Username" %}: <a href="{% url 'profile' profile.user.id %}">{{ profile.user.username }}</a><br>
+						{% translate "Tournament name" %}: {{ profile.display_name }}<br>
+						{% translate "Last seen" %}: {{ profile.user.last_login }}</p>
+
+					<form method="POST">
+						{% csrf_token %}
+						{% if profile in current_user.friends.all %}
+							<input type="hidden" name="action" value="unfriend">
+							<input type="hidden" name="user_id" value="{{ profile.user.id }}">
+							<button type="submit" class="btn btn-outline-danger">
+								{% translate "Unfriend" %}
+							</button>
+						{% else %}
+							<input type="hidden" name="action" value="befriend">
+							<input type="hidden" name="user_id" value="{{ profile.user.id }}">
+							<button type="submit" class="btn btn-outline-success">
+								{% translate "Befriend" %}
+							</button>
+							<br>
+							<br>
+						{% endif %}
+					</form>
+					<br/>
+				{% endfor %}
+
 			{% endif %}
-		</form>
-		<br/>
-	{% endfor %}
 
-{% endif %}
+	</div>
 </div>
+
 {% endblock user %}

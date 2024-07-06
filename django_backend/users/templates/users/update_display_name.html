@@ -7,18 +7,33 @@
 
 <div class="btn-group-vertical">
   {% if form.errors %}
-    <p style="color: white;">There was an error with your form... Please try again.</p>
-  {% endif %}
-
   <div class="row justify-content-center">
-  <form id="update_display_name_form" method="POST" action="{% url 'update_display_name' %}">
-    {% csrf_token %}
-    <div style="color: white;">
-      {{ form.as_p }}
+    <br>
+    <p align="center" style="color: red;">{% translate "There was an error with your form... Please try again." %}</p>
+  </div>
+  {% endif %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <form id="update_display_name_form" method="POST" action="{% url 'update_display_name' %}">
+        {% csrf_token %}
+        <div style="color: white;">
+          <p><label for="id_display_name">{% translate "Display Name for Tournaments" %}:</label></p><input type="text" name="display_name" maxlength="12" required="" id="id_display_name">
+          <!-- {{ form.as_p }} -->
+        </div>
+        <br>
+        <br>
+        <div class="form-group">
+          <input type="submit" value="{% translate 'Save' %}" class="btn btn-primary">
+        </div>
+      </form>
     </div>
-    <div class="form-group">
-      <input type="submit" value="Save" class="btn btn-primary">
-    </div>
-  </form>
+  </div> 
 </div>
+<style>
+  label {
+    display: inline-block;
+    margin: 0;
+    padding:0;
+}
+</style>
 {% endblock user %}

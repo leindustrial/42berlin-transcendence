@@ -5,14 +5,15 @@
 <!-- Game navigation bar -->
 {% include 'game/header-button-menu.html' %}
 
-
-{% if form.errors %}
-<div class="row justify-content-center">
-    <br>
-    <p style="color: red;"  >{% trans "Your username and password didn't match. Please try again." %}</p>
-</div>
-{% endif %}
 <div class="btn-group-vertical">
+
+  {% if form.errors %}
+  <div class="row justify-content-center">
+      <br>
+      <p align="center" style="color: red;"  >{% translate "Your username and password didn't match. Please try again." %}</p>
+  </div>
+  {% endif %}
+
   <div class="row justify-content-center">
   <form id="name_form" method="post" action="{% url 'login' %}">
     {% csrf_token %}

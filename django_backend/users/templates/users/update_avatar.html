@@ -6,25 +6,49 @@
 
 <div class="btn-group-vertical">
   {% if form.errors %}
-    <p style="color: white;">There was an error with your form... Please try again.</p>
-  {% endif %}
-
   <div class="row justify-content-center">
-  <form id="update_avatar_form" method="POST" action="{% url 'update_avatar' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div style="color: white;">
-      {{ form.as_p }}
-      {% if messages %}
-        <ul class="messages">
-          {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    </div>
-    <div class="form-group">
-      <input type="submit" value="Save" class="btn btn-primary">
-    </div>
-  </form>
+    <br>
+    <p align="center" style="color: red;">{% translate "There was an error with your form... Please try again." %}</p>
+  </div>
+  {% endif %}
+  <div class="container">
+
+      <div class="row justify-content-center" >
+        <form id="update_avatar_form" method="POST" action="{% url 'update_avatar' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+            <!-- Avatar Label --><!-- Avatar Label --><!-- Avatar Label --><!-- Avatar Label -->
+            <div class="form-group">
+              <label for="{{ form.avatar.id_for_label }}">
+                  {% trans 'Avatar' %}
+              </label>
+              <br>
+              {% if profile.avatar %}
+                  {% trans 'Currently:' %}
+                  <img src="{{ profile.avatar.url }}" width="100" height="100" class="img-fluid rounded-start" alt="Current Avatar">
+                  <a href="{% url 'clear_avatar' %}" class="btn btn-sm btn-outline-danger">
+                      {% trans 'Clear' %}
+                  </a>
+              {% else %}
+                  {% trans 'No file chosen' %}
+              {% endif %}
+          </div>
+          <!-- Avatar Label --><!-- Avatar Label --><!-- Avatar Label --><!-- Avatar Label -->
+          <div style="color: white;">
+            {{ form.as_p }}
+            {% if messages %}
+              <ul class="messages">
+                {% for message in messages %}
+                  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+          <div class="form-group">
+            <input type="submit" value="{% translate 'Save' %}" class="btn btn-primary">
+          </div>
+        </form>
+      </div> 
+
+  </div>
 </div>
 {% endblock user %}

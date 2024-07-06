@@ -6,6 +6,7 @@ from .forms import UpdateDisplayNameForm, UpdateAvatarForm
 from .models import Profile
 from django.contrib.auth.models import User
 import os
+from django.utils.translation import gettext_lazy as _
 
 # Create your views here.
 def signup(request):
