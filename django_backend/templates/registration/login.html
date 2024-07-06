@@ -2,6 +2,9 @@
 {% load i18n %}
 
 {% block content %}
+<!-- Game navigation bar -->
+{% include 'game/header-button-menu.html' %}
+
 <div class="btn-group-vertical">
 {% if form.errors %}
     <p>{% trans "Your username and password didn't match. Please try again." %}</p>
