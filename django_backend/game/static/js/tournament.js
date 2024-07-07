@@ -51,14 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = JSON.parse(event.data);
         switch (data.type) {
             case 'player_joined':
+                console.log('A player joined');
                 message.textContent = `Waiting for ${data.name} more players to join...`;
-                // player1.textContent = data.name;
                 break;
             case 'both_players_joined':
                 console.log('Both players joined');
                 message.textContent = data.message;
                 console.log(data.name);
-                // player1.textContent =
+                player1.textContent = data.name1;
                 player2.textContent = data.name;
                 break;
             case 'countdown':
@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
         }
     };
+
     function updateGameState(state) {
         ball.style.left = `${(state.ball.x / originalWidth) * 100}%`;
         ball.style.top = `${(state.ball.y / originalHeight) * 100}%`;
