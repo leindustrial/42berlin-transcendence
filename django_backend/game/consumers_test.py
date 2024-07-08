@@ -12,6 +12,8 @@ from users.models import Profile
 from asgiref.sync import sync_to_async
 from django.contrib.auth import get_user_model
 from datetime import datetime
+import time
+
 
 #https://channels.readthedocs.io/en/stable/topics/consumers.html
 #https://docs.djangoproject.com/en/3.2/topics/auth/default/#user-objects
@@ -21,16 +23,41 @@ User = get_user_model()
 
 class PongConsumer(AsyncWebsocketConsumer):
 	game_sessions = {}
+	disconnected_players = {}
 
 	# websocket connection handling
 	async def connect(self):
 		await self.accept()
 		user = self.scope['user']
 		if user.is_authenticated:
+			if user.username in self.disconnected_players:
+				session_id = self.disconnected_players[user.username]['session_id']
+				if time.time() < self.disconnected_players[user.username]['rejoin_deadline']:
+					self.session_id = session_id
+					self.add_player_to_session(session_id, user.username, self.channel_name)
+					await self.channel_layer.group_add(session_id, self.channel_name)
+					await self.channel_layer.group_send(
+						session_id,
+						{
+							'type': 'player_rejoined',
+							'name': user.username
+						}
+					)
+					del self.disconnected_players[user.username]
+					print(f"Player {user.username} rejoined session {session_id}")
+					# Resume game loop if both players are back
+					if len(self.game_sessions[session_id]['players']) == 2:
+						self.resume_game(session_id)
+					return
+				else:
+					del self.disconnected_players[user.username]
+					print(f"Rejoin deadline expired for player {user.username}")
+					return
+
 			session_id = self.get_available_session()
 			if session_id:
 				self.session_id = session_id
-				self.add_player_to_session(session_id, user.username)
+				self.add_player_to_session(session_id, user.username, self.channel_name)
 				await self.channel_layer.group_add(session_id, self.channel_name)
 				await self.channel_layer.group_send(
 					session_id,
@@ -41,25 +68,32 @@ class PongConsumer(AsyncWebsocketConsumer):
 				)
 				if len(self.game_sessions[session_id]['players']) == 2:
 					self.countdown_task = asyncio.create_task(self.start_game_countdown(session_id))
-		# views for the respective closed connections to be added
 			else:
 				await self.close()
-				print("Connection closed: no available game sessions")
+				print("Connection closed: no available game session")
 		else:
-			# await self.send_json({
-			#     'type': 'redirect',
-			#     'url': '/'
-			# })
 			await self.close()
 			print("Connection closed for unauthenticated user")
+
 	# channels.exceptions.AcceptConnection or channels.exceptions.DenyConnection
 	async def disconnect(self, close_code):
 		if hasattr(self, 'session_id') and self.session_id in self.game_sessions:
 			player_name = self.game_sessions[self.session_id]['players'].pop(self.channel_name, None)
-			await self.channel_layer.group_discard(self.session_id, self.channel_name)
-			print(f"Player {player_name} disconnected from session {self.session_id}")
-			if len(self.game_sessions[self.session_id]['players']) == 0:
-				self.game_sessions.pop(self.session_id, None)
+			other_player = next(iter(self.game_sessions[self.session_id]['players'].values()), None)
+			if player_name:
+				self.disconnected_players[player_name] = {
+					'session_id': self.session_id,
+					'rejoin_deadline': time.time() + 10 # change it
+				}
+				if len(self.game_sessions[self.session_id]['players']) == 1:
+					await self.joinTimeoutCheck(self.session_id, other_player, player_name)
+				await self.channel_layer.group_discard(self.session_id, self.channel_name)
+				print(f"Player {player_name} disconnected from session {self.session_id}")
+				if 'game_loop_task' in self.game_sessions[self.session_id] and self.game_sessions[self.session_id]['game_loop_task'] is not None:
+					self.game_sessions[self.session_id]['game_loop_task'].cancel()
+					self.game_sessions[self.session_id]['game_loop_task'] = None
+					
+
 
 	# message handling
 	async def receive(self, text_data):
@@ -146,6 +180,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 				}
 			)
 			await asyncio.sleep(0.033)
+
 	
 	def update_game_state(self, session_id):
 		game_state = self.game_sessions[session_id]['game_state']
@@ -216,6 +251,12 @@ class PongConsumer(AsyncWebsocketConsumer):
 	async def player_joined(self, event):
 		await self.send(text_data=json.dumps({
 			'type': 'player_joined',
+			'name': event['name']
+		}))
+
+	async def player_rejoined(self, event):
+		await self.send(text_data=json.dumps({
+			'type': 'player_rejoined',
 			'name': event['name']
 		}))
 		
@@ -298,3 +339,22 @@ class PongConsumer(AsyncWebsocketConsumer):
 		profile.match_history += historyString
 		profile.save()
 		#print("player stats: ", user.username, Profile.objects.get(user=user).losses, Profile.objects.get(user=user).wins)
+
+	def add_player_to_session(self, session_id, username, channel_name):
+		self.game_sessions[session_id]['players'][channel_name] = username
+
+	def resume_game(self, session_id):
+		if 'game_loop_task' not in self.game_sessions[session_id] or self.game_sessions[session_id]['game_loop_task'] is None:
+			self.game_sessions[session_id]['game_loop_task'] = asyncio.create_task(self.game_loop(session_id))
+
+	async def joinTimeoutCheck(self, session_id, winner, looser):
+		await asyncio.sleep(3)
+		if len(self.game_sessions[session_id]['players']) < 2:
+			historyString = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}, {winner}, {looser};"
+			await self.update_profile(winner, 'wins', historyString)
+			await self.update_profile(looser, 'losses', historyString)
+			print("Connection closed: game session timed out")
+			await self.close()
+	
+	
+
