@@ -16,7 +16,6 @@ import time
 import uuid
 
 
-
 #https://channels.readthedocs.io/en/stable/topics/consumers.html
 #https://docs.djangoproject.com/en/3.2/topics/auth/default/#user-objects
 
@@ -32,11 +31,11 @@ class PongConsumer(AsyncWebsocketConsumer):
 	
 	# 												***	websocket connection handling ***
 
-
 	# for every new connection, method checks if the user was previously connected or not
 	# if yes, then it checks if the user is still within the rejoin timeout period
 	# if yes, then it adds the user to the same game session
 	# if no, then it creates a new game session
+
 
 	async def connect(self):
 		await self.accept()
