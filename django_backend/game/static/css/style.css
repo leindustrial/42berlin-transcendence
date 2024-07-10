@@ -1,6 +1,6 @@
 
 #screen {
-    align-content: top;
+    align-content: center;
     margin-top: 0px;
     padding-top: 0px;
     height: 100vh;
@@ -29,26 +29,11 @@
 }
 
 #header-welcome {
-    margin-bottom: 10px;
-}
-
-#header-game {
-    align-content: top;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-#choose-mode {
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin-bottom: 80px;
 }
 
 #footer-welcome {
-    margin-top: 30px;
-}
-
-#profile-menu {
-    margin-bottom: 50px;
+    margin-top: 80px;
 }
 
 /* #logo-small {
@@ -210,120 +195,71 @@ body {
     width: 100%;
 }
 
-#four_game-area {
+#game-areas {
+    display: block;
+    position: relative;
+    width: 800px;
+    height: 400px;
+    border: 1px solid black;
+}
+
+.paddles {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80vmin;  /* Ensures square area */
-    height: 80vmin; /* Ensures square area */
-    transform: translate(-50%, -50%);
-    background-color: #000;
-    overflow: hidden;
+    width: 10px;
+    height: 80px;
+    background-color: #fff;
 }
 
-#four_ball {
+/* .team-name {
     position: absolute;
-    width: 2.56%;
-    padding-bottom: 2.56%;
-    background-color: white;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.four_paddle {
-    position: absolute;
-    width: 2.56%;
-    height: 21.05%;
-    background-color: white;
-}
-
-#four_paddle1 {  /* Left paddle */
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-#four_paddle2 {  /* Top paddle */
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 21.05%;
-    height: 2.56%;
-}
-
-#four_paddle3 {  /* Right paddle */
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-#four_paddle4 {  /* Bottom paddle */
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 21.05%;
-    height: 2.56%;
-}
-
-#four_score1, #four_score2, #four_score3, #four_score4 {
-    position: absolute;
-    color: white;
-    font-size: 5vh;
-}
-
-#four_score1 {
-    left: 10%;
-    top: 5%;
-}
-
-#four_score2 {
-    right: 10%;
-    top: 5%;
-}
-
-#four_score3 {
-    right: 10%;
-    bottom: 5%;
-}
-
-#four_score4 {
-    left: 10%;
-    bottom: 5%;
-}
-
-#four_player1-name, #four_player2-name, #four_player3-name, #four_player4-name {
-    position: absolute;
-    color: white;
-    font-size: 3vh;
-}
-
-#four_player1-name {
-    left: 10%;
-    top: 2%;
-}
-
-#four_player2-name {
-    right: 10%;
-    top: 2%;
-}
-
-#four_player3-name {
-    right: 10%;
-    bottom: 2%;
-}
-
-#four_player4-name {
-    left: 10%;
-    bottom: 2%;
-}
-
-#four_message {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 3vh;
+    color: #fff;
+    font-size: 16px;
     text-align: center;
-    width: 100%;
+} */
+
+#paddles1 {
+    left: 20px; 
+    top: 80px; 
+}
+
+#paddles3 {
+    left: 80px; 
+    top: 200px;
+}
+
+#paddles2 {
+    left: 720px; 
+    top: 80px;
+}
+
+#paddles4 {
+    left: 780px;
+    top: 200px; 
+}
+
+/* #team1-name {
+    left: 20px;
+    top: 240px;
+}
+
+#team2-name {
+    left: 700px;
+    top: 240px;
+} */
+
+.team-name {
+    position: absolute;
+    top: 5%;
+    color: white;
+    font-size: 3vh;
+}
+
+#team1-name {
+    left: 25%;
+    transform: translateX(-50%);
+}
+
+#team2-name {
+    right: 25%;
+    transform: translateX(50%);
 }
