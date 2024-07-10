@@ -1,6 +1,6 @@
 
 #screen {
-    align-content: center;
+    align-content: top;
     margin-top: 0px;
     padding-top: 0px;
     height: 100vh;
@@ -29,11 +29,26 @@
 }
 
 #header-welcome {
-    margin-bottom: 80px;
+    margin-bottom: 10px;
+}
+
+#header-game {
+    align-content: top;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#choose-mode {
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 #footer-welcome {
-    margin-top: 80px;
+    margin-top: 30px;
+}
+
+#profile-menu {
+    margin-bottom: 50px;
 }
 
 /* #logo-small {
@@ -193,73 +208,4 @@ body {
     font-size: 3vh;
     text-align: center;
     width: 100%;
-}
-
-#game-areas {
-    display: block;
-    position: relative;
-    width: 800px;
-    height: 400px;
-    border: 1px solid black;
-}
-
-.paddles {
-    position: absolute;
-    width: 10px;
-    height: 80px;
-    background-color: #fff;
-}
-
-/* .team-name {
-    position: absolute;
-    color: #fff;
-    font-size: 16px;
-    text-align: center;
-} */
-
-#paddles1 {
-    left: 20px; 
-    top: 80px; 
-}
-
-#paddles3 {
-    left: 80px; 
-    top: 200px;
-}
-
-#paddles2 {
-    left: 720px; 
-    top: 80px;
-}
-
-#paddles4 {
-    left: 780px;
-    top: 200px; 
-}
-
-/* #team1-name {
-    left: 20px;
-    top: 240px;
-}
-
-#team2-name {
-    left: 700px;
-    top: 240px;
-} */
-
-.team-name {
-    position: absolute;
-    top: 5%;
-    color: white;
-    font-size: 3vh;
-}
-
-#team1-name {
-    left: 25%;
-    transform: translateX(-50%);
-}
-
-#team2-name {
-    right: 25%;
-    transform: translateX(50%);
 }
