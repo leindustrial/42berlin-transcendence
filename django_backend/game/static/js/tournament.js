@@ -115,7 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     socket.onclose = (event) => {
-        message.textContent = 'Connection closed. Please refresh the page.';
+        message.textContent = 'You will be redirected to the home page.';
+		setTimeout(() => {
+			window.location.href = '/';
+		}, 3000);
     };
 
     socket.onerror = (error) => {

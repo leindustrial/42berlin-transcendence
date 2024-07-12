@@ -28,7 +28,8 @@ class TournamentConsumer(AsyncWebsocketConsumer):
     }
     game_loop_group1 = None
     game_loop_group2 = None
-    tasks = []
+    task1 = None
+    task2 = None
 
 
     async def connect(self):
@@ -163,9 +164,11 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         )
         if group_name == 'group1':
             self.game_loop_group1 = asyncio.create_task(self.game_loop(group_name))
+            # await self.task1
             await self.game_loop_group1
         else:
             self.game_loop_group2 = asyncio.create_task(self.game_loop(group_name))
+            # await self.task2
             await self.game_loop_group2
         # await asyncio.gather(*self.tasks)
         # self.reset_game(group_name)
@@ -228,16 +231,15 @@ class TournamentConsumer(AsyncWebsocketConsumer):
                 'winner': winner,
                 'score': self.game_state_group1['score']
             }
-            task1 = asyncio.create_task(self.channel_layer.group_send(
-                'group1',
-                {
-                    'type': 'game_over',
-                    'winner': winner
-                }
-            ))
-            self.tasks.append(task1)
-            task2 = asyncio.create_task(self.send_game_result(result, 'group1'))
-            self.tasks.append(task2)
+            # task1 = asyncio.create_task(self.channel_layer.group_send(
+            #     'group1',
+            #     {
+            #         'type': 'game_over',
+            #         'winner': winner
+            #     }
+            # ))
+            # self.tasks.append(task1)
+            self.task2 = asyncio.create_task(self.send_game_result(result, 'group1'))
             self.reset_game('group1')
 
     def update_game_state_group2(self):
@@ -274,16 +276,15 @@ class TournamentConsumer(AsyncWebsocketConsumer):
                 'winner': winner,
                 'score': self.game_state_group2['score']
             }
-            task1 = asyncio.create_task(self.channel_layer.group_send(
-                'group2',
-                {
-                    'type': 'game_over',
-                    'winner': winner
-                }
-            ))
-            self.tasks.append(task1)
+            # task1 = asyncio.create_task(self.channel_layer.group_send(
+            #     'group2',
+            #     {
+            #         'type': 'game_over',
+            #         'winner': winner
+            #     }
+            # ))
+            # self.tasks.append(task1)
             task2 = asyncio.create_task(self.send_game_result(result, 'group2'))
-            self.tasks.append(task2)
             self.reset_game('group2')
 
 
@@ -307,7 +308,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
                 'paddle2': 160,
                 'score': {'player1': 0, 'player2': 0}
             }
-            self.group1 = {}
         else:
             self.game_state_group2 = {
                 'ball': {'x': 390, 'y': 190, 'dx': 5, 'dy': 5},
@@ -315,7 +315,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
                 'paddle2': 160,
                 'score': {'player1': 0, 'player2': 0}
             }
-            self.group2 = {}
         # if self.game_loop_task[group_name]:
         #     self.game_loop_task[group_name].cancel()
 
@@ -354,7 +353,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
             'winner': event['winner']
         }))
         # print("Game over")
-        await self.close()
+        # await self.close()
 
     async def game_started(self, event):
         await self.send(text_data=json.dumps({
@@ -363,7 +362,23 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         }))
 
     async def send_game_result(self, result, group_name):
-        # to be implemented: save game result to database
+        user = self.scope['user']
+        opponent_username = result['players'][1] if user.username == result['players'][0] else result['players'][0]
+
+        if result['winner'] == user.username:
+            winner = user.username
+            looser = opponent_username
+        else:
+            winner = opponent_username
+            looser = user.username
+
+        asyncio.create_task(self.channel_layer.group_send(
+                group_name,
+                {
+                    'type': 'game_over',
+                    'winner': 'Charlie'
+                }
+            ))
         print(f"Game result: {result}")
 
     async def split_into_groups(self):
