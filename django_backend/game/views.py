@@ -23,16 +23,17 @@ def set_language(request):
 # Create your views here.
 
 def hello(request):
-    return render(request, 'game/hello.html')
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user_id=request.user.id)
+    return render(request, 'game/hello.html', {'profile':profile,})
 
 def offline_game(request):
     return render(request, 'game/offline-game.html')
 
 @login_required
 def game_start(request):
-    current_profile = Profile.objects.get(user_id=request.user.id)
-    display_name = current_profile.display_name
-    return render(request, 'game/index.html', {'display_name':display_name, })
+    profile = Profile.objects.get(user_id=request.user.id)
+    return render(request, 'game/index.html', {'profile':profile,})
 
 def two_pl_game(request):
     if request.user.is_authenticated:
