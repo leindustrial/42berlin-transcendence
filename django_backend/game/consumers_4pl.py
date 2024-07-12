@@ -17,6 +17,9 @@ import uuid
 
 User = get_user_model()
 
+# minor changes compared to the 2 player pong game. the changed are explained
+# in the comments above the methods.
+
 class PongConsumer(AsyncWebsocketConsumer):
 	game_sessions = {}
 	disconnected_players = {}
@@ -90,6 +93,10 @@ class PongConsumer(AsyncWebsocketConsumer):
 		if data['type'] == 'paddle_move':
 			await self.move_paddle(data['key'])
 
+	# paddle movement is similar to the 2player pong game, except that the 
+	# paddles are now 4, and the movement is based on the user's position in 
+	# the game and the key pressed
+
 	async def move_paddle(self, key):
 		user = self.scope['user']
 		paddle = None
@@ -125,7 +132,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 		self.game_sessions[new_session_id] = {
 			'players': {},
 			'game_state': {
-				'ball': {'x': 200, 'y': 200, 'dx': random.choice([-5, 5]), 'dy': random.choice([-5, 5])},
+				'ball': {'x': 200, 'y': 200, 'dx': random.choice([-3, 3]), 'dy': random.choice([-5, 5])},
 				'paddle1': 200,
 				'paddle2': 200,
 				'paddle3': 200,
@@ -219,6 +226,14 @@ class PongConsumer(AsyncWebsocketConsumer):
 			)
 			await asyncio.sleep(0.033)
 
+	# because the walls are not returning the ball, the ball will go out of 
+	# bounds too often, so the score will be updated based on 
+	# the last player who touched the ball. so last touch variable is used 
+	# to keep track of the last player who touched the ball. 
+	# if the ball goes out of bounds, the last touch variable will be None, 
+	# and the score will not be updated. the ball will be reset to the 
+	# center of the screen and a random direction will be chosen for the ball.
+
 	def update_game_state(self, session_id):
 		game_state = self.game_sessions[session_id]['game_state']
 		game_state['ball']['x'] += game_state['ball']['dx']
@@ -249,7 +264,8 @@ class PongConsumer(AsyncWebsocketConsumer):
 			game_state['last_touch'] = None
 			game_state['ball']['x'] = 200
 			game_state['ball']['y'] = 200
-			game_state['ball']['dx'] = random.choice([-3, 3])
+			game_state['ball']['dx'] = random.choice([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5])
+			game_state['ball']['dy'] = random.choice([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5])
 
 		if game_state['score']['player1'] >= self.goals_to_win or game_state['score']['player2'] >= self.goals_to_win or game_state['score']['player3'] >= self.goals_to_win or game_state['score']['player4'] >= self.goals_to_win:
 			if  game_state['score']['player1'] >= self.goals_to_win:
@@ -267,6 +283,10 @@ class PongConsumer(AsyncWebsocketConsumer):
 			}
 			asyncio.create_task(self.send_game_result(result, session_id, winner))
 	
+	# results are not saved to the profiles, just the winner is announced on
+	# the screen. the game session is closed after 3 seconds of the game over
+	# message.
+
 	async def send_game_result(self, result, session_id, winner):
 		await self.channel_layer.group_send(
 			session_id,
@@ -325,5 +345,5 @@ class PongConsumer(AsyncWebsocketConsumer):
 			'type': 'game_over',
 			'winner': event['winner']
 		}))
-		await asyncio.sleep(2)
+		await asyncio.sleep(3)
 		await self.close()
