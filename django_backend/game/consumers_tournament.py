@@ -13,6 +13,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
     group1 = {}
     group2 = {}
     final = {}
+    looser = {}
     game_state_group1 = {
         'ball': {'x': 390, 'y': 190, 'dx': 5, 'dy': 5},
         'paddle1': 160,
@@ -25,7 +26,9 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         'paddle2': 160,
         'score': {'player1': 0, 'player2': 0}
     }
-    game_loop_task = {}
+    game_loop_group1 = None
+    game_loop_group2 = None
+    tasks = []
 
 
     async def connect(self):
@@ -38,46 +41,26 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 
         if user.is_authenticated:
             if len(self.players) < 4:
+                await self.channel_layer.group_add(self.group_name, self.channel_name)
                 self.players[self.channel_name] = user.username
                 missing = 4 - len(self.players)
-                await self.channel_layer.group_add(self.group_name, self.channel_name)
-                print(self.group_name)
                 await self.channel_layer.group_send(
-                    self.group_name,
+                    'lobby',
                     {
                         'type': 'player_joined',
                         'name': missing
                     }
                 )
+                await asyncio.sleep(1)
                 if len(self.players) == 4:
                     print('4 players')
+                    print(json.dumps(self.players, indent=4))
                     await self.split_into_groups()
                     print(json.dumps(self.players, indent=4))
                     print(json.dumps(self.group1, indent=4))
                     print(json.dumps(self.group2, indent=4))
-                    await self.channel_layer.group_send(
-                        'group1',
-                        {
-                            'type': 'player_joined',
-                            'name': 'group1'
-                        }
-                    )
-                    await self.channel_layer.group_send(
-                        'group2',
-                        {
-                            'type': 'player_joined',
-                            'name': 'group2'
-                        }
-                    )
-                    # group1_task = asyncio.create_task(self.start_game_countdown("group1"))
-                    # group2_task = asyncio.create_task(self.start_game_countdown("group2"))
-                    # await group1_task (awaits the task individually)
-                    # await group2_task
-                    # await asyncio.gather(group1_task, group2_task)
-                    batch = asyncio.gather(self.start_game_countdown("group1"), self.start_game_countdown("group2"))
-                    group1_task, group2_task = await batch
-                    self.game_loop_task = {}
-                    print("Games finished")
+                    self.countdown_task = asyncio.create_task(self.split_game())
+
             else:
                 await self.close()
                 print("Connection closed: game is full")
@@ -86,27 +69,20 @@ class TournamentConsumer(AsyncWebsocketConsumer):
             print("Connection closed for unauthenticated user")
 
     async def disconnect(self, close_code):
-        if len(self.players) > 0:
-            if self.channel_name in self.players:
-                player_name = self.players[self.channel_name]
-                del self.players[self.channel_name]
-                await self.channel_layer.group_discard(self.group_name, self.channel_name)
-                print(f"Player {player_name} disconnected")
+        if self.channel_name in self.players:
+            player_name = self.players[self.channel_name]
+            del self.players[self.channel_name]
         if self.channel_name in self.group1:
-            player_name = self.players[self.channel_name]
-            del self.players[self.channel_name]
-            await self.channel_layer.group_discard(self.group_name, self.channel_name)
-            print(f"Player {player_name} disconnected")
+            player_name = self.group1[self.channel_name]
+            del self.group1[self.channel_name]
         if self.channel_name in self.group2:
-            player_name = self.players[self.channel_name]
-            del self.players[self.channel_name]
-            await self.channel_layer.group_discard(self.group_name, self.channel_name)
-            print(f"Player {player_name} disconnected")
+            player_name = self.group2[self.channel_name]
+            del self.group2[self.channel_name]
         if self.channel_name in self.final:
-            player_name = self.players[self.channel_name]
-            del self.players[self.channel_name]
-            await self.channel_layer.group_discard(self.group_name, self.channel_name)
-            print(f"Player {player_name} disconnected")
+            player_name = self.final[self.channel_name]
+            del self.final[self.channel_name]
+        print(f"Player {player_name} disconnected")
+        await self.channel_layer.group_discard(self.group_name, self.channel_name)
 
     # game logic
 
@@ -129,6 +105,19 @@ class TournamentConsumer(AsyncWebsocketConsumer):
                 self.game_state_group2[paddle] -= 10
             elif key == 'ArrowDown' and self.game_state_group2[paddle] < 300:
                 self.game_state_group2[paddle] += 10
+
+    async def split_game(self):
+        group1_task = asyncio.create_task(self.start_game_countdown("group1"))
+        group2_task = asyncio.create_task(self.start_game_countdown("group2"))
+        # await group1_task
+        # await group2_task
+        await asyncio.gather(group1_task, group2_task)
+        # batch = asyncio.gather(self.start_game_countdown("group1"), self.start_game_countdown("group2"), return_exceptions=True)
+        # group1_task, group2_task = await batch
+        print(json.dumps(self.final, indent=4))
+        print(json.dumps(self.looser, indent=4))
+        # self.game_loop_task = {}
+        print("Games finished")
 
     async def start_game_countdown(self, group_name):
         print(group_name)
@@ -165,14 +154,21 @@ class TournamentConsumer(AsyncWebsocketConsumer):
                     'message': f"Game starts in {i} seconds..."
                 }
             )
-        await asyncio.sleep(1)
+            await asyncio.sleep(1)
         await self.channel_layer.group_send(
             group_name,
             {
                 'type': 'game_started'
             }
         )
-        self.game_loop_task[group_name] = asyncio.create_task(self.game_loop(group_name))
+        if group_name == 'group1':
+            self.game_loop_group1 = asyncio.create_task(self.game_loop(group_name))
+            await self.game_loop_group1
+        else:
+            self.game_loop_group2 = asyncio.create_task(self.game_loop(group_name))
+            await self.game_loop_group2
+        # await asyncio.gather(*self.tasks)
+        # self.reset_game(group_name)
 
     async def game_loop(self, group_name):
         if group_name == 'group1':
@@ -221,19 +217,27 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 
         if self.game_state_group1['score']['player1'] >= 3 or self.game_state_group1['score']['player2'] >= 3:
             winner = list(self.group1.values())[0] if self.game_state_group1['score']['player1'] >= 3 else list(self.group1.values())[1]
+            if self.game_state_group1['score']['player1'] >= 3:
+                self.final[list(self.group1.keys())[0]] = list(self.group1.values())[0]
+                self.looser[list(self.group1.keys())[1]] = list(self.group1.values())[1]
+            else:
+                self.final[list(self.group1.keys())[1]] = list(self.group1.values())[1]
+                self.looser[list(self.group1.keys())[0]] = list(self.group1.values())[0]
             result = {
                 'players': list(self.group1.values()),
                 'winner': winner,
                 'score': self.game_state_group1['score']
             }
-            asyncio.create_task(self.channel_layer.group_send(
+            task1 = asyncio.create_task(self.channel_layer.group_send(
                 'group1',
                 {
                     'type': 'game_over',
                     'winner': winner
                 }
             ))
-            asyncio.create_task(self.send_game_result(result, 'group1'))
+            self.tasks.append(task1)
+            task2 = asyncio.create_task(self.send_game_result(result, 'group1'))
+            self.tasks.append(task2)
             self.reset_game('group1')
 
     def update_game_state_group2(self):
@@ -259,19 +263,27 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 
         if self.game_state_group2['score']['player1'] >= 3 or self.game_state_group2['score']['player2'] >= 3:
             winner = list(self.group2.values())[0] if self.game_state_group2['score']['player1'] >= 3 else list(self.group2.values())[1]
+            if self.game_state_group2['score']['player1'] >= 3:
+                self.final[list(self.group2.keys())[0]] = list(self.group2.values())[0]
+                self.looser[list(self.group2.keys())[1]] = list(self.group2.values())[1]
+            else:
+                self.final[list(self.group2.keys())[1]] = list(self.group2.values())[1]
+                self.looser[list(self.group2.keys())[1]] = list(self.group2.values())[1]
             result = {
                 'players': list(self.group2.values()),
                 'winner': winner,
                 'score': self.game_state_group2['score']
             }
-            asyncio.create_task(self.channel_layer.group_send(
+            task1 = asyncio.create_task(self.channel_layer.group_send(
                 'group2',
                 {
                     'type': 'game_over',
                     'winner': winner
                 }
             ))
-            asyncio.create_task(self.send_game_result(result, 'group2'))
+            self.tasks.append(task1)
+            task2 = asyncio.create_task(self.send_game_result(result, 'group2'))
+            self.tasks.append(task2)
             self.reset_game('group2')
 
 
@@ -304,8 +316,8 @@ class TournamentConsumer(AsyncWebsocketConsumer):
                 'score': {'player1': 0, 'player2': 0}
             }
             self.group2 = {}
-        if self.game_loop_task[group_name]:
-            self.game_loop_task[group_name].cancel()
+        # if self.game_loop_task[group_name]:
+        #     self.game_loop_task[group_name].cancel()
 
     # send game events to clients
 
@@ -360,18 +372,14 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         self.group2[list(self.players.keys())[2]] = list(self.players.values())[2]
         self.group2[list(self.players.keys())[3]] = list(self.players.values())[3]
         for channels in self.group1.keys():
-            await self.channel_layer.group_add(
-                'group1',
-                channels
-            )
+            await self.channel_layer.group_discard('lobby', channels)
+            await self.channel_layer.group_add('group1', channels)
             if self.channel_name == channels:
                 self.group_name = 'group1'
         for channels in self.group2.keys():
-            await self.channel_layer.group_add(
-                'group2',
-                channels
-            )
+            await self.channel_layer.group_discard('lobby', channels)
+            await self.channel_layer.group_add('group2', channels)
             if self.channel_name == channels:
                 self.group_name = 'group2'
-        self.players = {}
+        # self.players = {}
 
