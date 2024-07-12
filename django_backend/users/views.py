@@ -6,6 +6,7 @@ from .forms import UpdateDisplayNameForm, UpdateAvatarForm
 from .models import Profile
 from django.contrib.auth.models import User
 import os
+from django.utils.translation import gettext_lazy as _
 
 # Create your views here.
 def signup(request):
@@ -105,3 +106,6 @@ def update_avatar(request):
 		return render(request, 'users/update_avatar.html', {'form':form,})
 	else:
 		return redirect('/')
+
+def profile_nav(request):
+    return render(request, 'users/profile_nav.html')

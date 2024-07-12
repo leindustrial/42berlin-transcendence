@@ -1,41 +1,30 @@
 {% extends "game/index.html" %}
 {% load i18n %}
 
-{% block content %}
-<!-- Menu buttons -->
-<div class="container" id="profile-menu">
-	<div class="row justify-content-center">
-		<div class="btn-group">
-				<form id="logoutform" method="POST" action="{% url 'logout' %}">
-					{% csrf_token %}
-					<input type="hidden">
-				</form>
-        		<a href="{% url 'profile' request.user.id %}" class="btn btn-outline-primary btn-sm">
-					👈 {% translate "Profile" %}
-				</a>
-				<button type="button" id="leaderboard" class="btn btn-outline-primary btn-sm">🏆 {% translate "Leaderboard" %}</button>
-				<a href="#" onClick="document.getElementById('logoutform').submit()" class="btn btn-outline-primary btn-sm">
-					❌ {% translate "Log out" %}
-				</a>
-		</div>
-	</div>
-</div>
+{% block user %}
+{% include 'users/profile_nav2.html' %}
 
 
 <div class="btn-group-vertical">
   {% if form.errors %}
-    <p style="color: white;">There was an error with your form... Please try again.</p>
-  {% endif %}
-
   <div class="row justify-content-center">
-  <form id="update_user_form" method="POST" action="{% url 'update_user' %}">
-    {% csrf_token %}
-    <div style="color: white;">
-      {{ form.as_p }}
+    <br>
+    <p align="center" style="color: red;">{% translate "There was an error with your form... Please try again." %}</p>
+  </div>
+  {% endif %}
+  <div class="btn-group-vertical">
+    <div class="row justify-content-center">
+      <form id="update_user_form" method="POST" action="{% url 'update_user' %}">
+        {% csrf_token %}
+        <div style="color: white;">
+          {{ form.as_p }}
+        </div>
+        <div class="form-group">
+          <input type="submit" value="{% translate 'Save' %}" class="btn btn-primary">
+        </div>
+      </form>
     </div>
-    <div class="form-group">
-      <input type="submit" value="Save" class="btn btn-primary">
-    </div>
-  </form>
+  </div>  
 </div>
-{% endblock %}
+
+{% endblock user %}
