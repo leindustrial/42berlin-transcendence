@@ -4,37 +4,37 @@
 
 {% block four_pl_game %}
     <!-- Game navigation bar *don't remove -->
-    {% include 'game/header-button-logged.html' %}
+    <div class="container" id="header-game">
+        <div class="row justify-content-center">
+            <div class="row justify-content-center btn-group">
+                <a href="{% url 'game_start' %}" class="btn btn-outline-primary btn-sm" id="restart">👈 {% translate "Exit the game" %}</a>
+            </div>
+        </div>
+    </div>
 
     <!-- PUT YOUR CODE FROM HERE! -->
 
     <!-- 4 player game -->
-    <div class="container" id="4-pl-game">
-        <div class="container-fluid">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-auto">
-                    <div class="board">
-                        <div class='ball'>
-                            <div class="ball_effect"></div>
-                        </div>
-
-                        <!-- Paddlest left -> to right -->
-                        <div class="paddle_1 paddle"></div> <!-- left -->
-                        <div class="paddle_3 paddle"></div> <!-- left -->
-                        <div class="paddle_2 paddle"></div> <!-- right -->
-                        <div class="paddle_4 paddle"></div> <!-- right -->
-                        
-                        <!-- Scores left -> to right -->
-                        <h3 class="player_1_score" id="scores">0</h3> <!-- left -->
-                        <h3 class="player_3_score" id="scores">0</h3> <!-- left -->
-                        <h3 class="player_2_score" id="scores">0</h3> <!-- right -->
-                        <h3 class="player_4_score" id="scores">0</h3> <!-- right -->
-
-                        <p class="text-center"><h3 class="message" >{% translate "Press Enter to Play" %}</h3></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+	<body>
+		<div id="four_game-area">
+			<div id="four_message" class="four_message"></div>
+			<div id="four_ball"></div>
+			<div id="four_paddle1" class="four_paddle"></div>
+			<div id="four_paddle2" class="four_paddle"></div>
+			<div id="four_paddle3" class="four_paddle"></div>
+			<div id="four_paddle4" class="four_paddle"></div>
+			<div id="four_player1-name"></div>
+			<div id="four_score1">0</div>
+			<div id="four_player2-name"></div>
+			<div id="four_score2">0</div>
+			<div id="four_player3-name"></div>
+			<div id="four_score3">0</div>
+			<div id="four_player4-name"></div>
+			<div id="four_score4">0</div>
+		</div>
+		<script src="{% static 'js/4player.js' %}"></script>
+	</body>
+	
     <!-- UNTIL HERE! -->
 {% endblock four_pl_game %}
