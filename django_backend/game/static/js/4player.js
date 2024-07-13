@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const socket = new WebSocket(`ws://${window.location.host}/ws/4pong/`);
+    const socket = new WebSocket(`wss://${window.location.host}/wss/4pong/`);
     const gameArea = document.getElementById('four_game-area');
     const message = document.getElementById('four_message');
     const ball = document.getElementById('four_ball');
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 message.textContent = `Game Over! ${data.winner} wins!`;
                 // resetGame();
                 break;
-			
+
         }
     };
 

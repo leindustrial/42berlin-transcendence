@@ -27,6 +27,16 @@ $ daphne -b 0.0.0.0 -p 8000 pong_game.asgi:application
 to start the server, from host machine the page can be accessed with \
 localhost:8000 and from network through hostmachine ip:8000
 
+To start the Server with https:
+
+$ daphne -e ssl:8043:privateKey=../ssl/private.key:certKey=../ssl/certificate.crt pong_game.asgi:application
+
+access page through https://localhost:8043
+self-signed certificate, therefore unsecure warning.
+Use txacme endpoint syntox to get automatic certificate from Let's encrypt?
+https://github.com/django/daphne
+
+
 
 Language support:
 - we have: english, german, russian (not sll texts are translated for now, it's in progress)
