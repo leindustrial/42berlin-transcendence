@@ -7,12 +7,14 @@ from .models import Profile
 @receiver(user_logged_in)
 def log_user_login(sender, request, user, **kwargs):
 	user.profile.online_status=True
+	user.profile.save()
 	# print("user {} logged in, online status = {}".format(user.username, user.profile.online_status))
 
 
 @receiver(user_logged_out)
 def log_user_logout(sender, request, user, **kwargs):
 	user.profile.online_status=False
+	user.profile.save()
 	# print("user {} logged out, online status = {}".format(user.username, user.profile.online_status))
 
 
