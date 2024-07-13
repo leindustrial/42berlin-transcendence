@@ -22,7 +22,7 @@
 
 		<p style="color: white;">{{ friends }}</p><br/>
 
-		{% if friends.online_status %}
+		{% if friends.online_status == True %}
 			<p style="color: greenyellow;">online</p><br/>
 		{% else %}
 			<p style="color: red;">offline</p><br/>
