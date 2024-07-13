@@ -49,6 +49,7 @@ def four_pl_game(request):
 
 def tournament(request, display_name):
     if request.user.is_authenticated:
-        return render(request, 'game/tournament.html', {'display_name':display_name,})
+        return render(request, 'game/tournament.html')
+        # return render(request, 'game/tournament.html', {'display_name':display_name,})
     else:
         return redirect('/')

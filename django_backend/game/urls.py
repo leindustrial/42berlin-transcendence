@@ -9,5 +9,6 @@ urlpatterns = [
     path('two-pl-game/', views.two_pl_game, name='two_pl_game'),
     path('four-pl-game/', views.four_pl_game, name='four_pl_game'),
     path('offline-game/', views.offline_game, name='offline_game'),
-    path('tournament/<str:display_name>/', views.tournament, name='tournament'),
+	path('tournament/', views.tournament, name='tournament'),
+    # path('tournament/<str:display_name>/', views.tournament, name='tournament'),
 ]
