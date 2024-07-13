@@ -29,6 +29,4 @@ localhost:8000 and from network through hostmachine ip:8000
 
 
 Language support:
-- we have: english, german, russian (not sll texts are translated for now, it's in progress)
-- browser detects your language and shows you the appropriate translation
-- to switch between languages: localhost:8000/en | localhost:8000/de | localhost:8000/ru
+- we have: english, german, russian (not all texts are translated for now, it's in progress)
