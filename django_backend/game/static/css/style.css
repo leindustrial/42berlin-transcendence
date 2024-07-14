@@ -229,133 +229,7 @@ body {
     letter-spacing: 3pt;
 }
 
-
-#four_game-area {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 400px;
-    height: 400px;
-    transform: translate(-50%, -50%);
-    background-color: #000;
-    overflow: hidden;
-}
-
-#four_ball {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background-color: white;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.four_paddle {
-    position: absolute;
-    /* background-color: white; */
-}
-
-#four_paddle1 {
-    left: 0;
-    top: 200px;
-    width: 10px;
-    height: 80px;
-    transform: translateY(-50%);
-	background-color: yellow;
-}
-
-#four_paddle2 {
-    top: 0;
-    left: 200px;
-    width: 80px;
-    height: 10px;
-    transform: translateX(-50%);
-	background-color: blue;
-}
-
-#four_paddle3 {
-    right: 0;
-    top: 200px;
-    width: 10px;
-    height: 80px;
-    transform: translateY(-50%);
-	background-color: red;
-}
-
-#four_paddle4 {
-    bottom: 0;
-    left: 200px;
-    width: 80px;
-    height: 10px;
-    transform: translateX(-50%);
-	background-color: white;
-}
-
-#four_score1, #four_score2, #four_score3, #four_score4 {
-    position: absolute;
-    color: white;
-    font-size: 20px;
-}
-
-#four_score1 {
-    left: 10%;
-    top: 5%;
-}
-
-#four_score2 {
-    right: 10%;
-    top: 5%;
-}
-
-#four_score3 {
-    right: 10%;
-    bottom: 5%;
-}
-
-#four_score4 {
-    left: 10%;
-    bottom: 5%;
-}
-
-#four_player1-name, #four_player2-name, #four_player3-name, #four_player4-name {
-    position: absolute;
-    /* color: white; */
-    font-size: 12px;
-}
-
-#four_player1-name {
-    left: 10%;
-    top: 2%;
-	color: yellow;
-}
-
-#four_player2-name {
-    right: 10%;
-    top: 2%;
-	color: blue;
-}
-
-#four_player3-name {
-    right: 10%;
-    bottom: 2%;
-	color: red;
-}
-
-#four_player4-name {
-    left: 10%;
-    bottom: 2%;
-	color: white;
-}
-
 #four_message {
-    /* position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 12px;
-    text-align: center;
-    width: 100%; */
     position: fixed; 
     color: #7d7fac; 
     text-align: center;
@@ -365,4 +239,125 @@ body {
     font-family:monospace;
     text-transform: uppercase;
     letter-spacing: 3pt;
+}
+
+#four_game-area {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 55px;
+    width: 600px;
+    height: 600px;
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto;
+}
+
+#four_ball {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    /* transform: translate(-50%, -50%); */
+}
+
+.four_paddle {
+    position: absolute;
+    /* background-color: white; */
+}
+
+#four_paddle1 {
+    left: 0px;
+    width: 10px;
+    height: 100px;
+	background-color: rgb(31, 172, 237);
+}
+
+#four_paddle2 {
+    top: 0px;
+    width: 100px;
+    height: 10px;
+
+	background-color: rgb(66, 210, 143);
+}
+
+#four_paddle3 {
+    right: 0px;
+    width: 10px;
+    height: 100px;
+	background-color: rgb(191, 43, 221);
+}
+
+#four_paddle4 {
+    bottom: 0px;
+    width: 100px;
+    height: 10px;
+	background-color: rgb(251, 237, 132);
+}
+/* #score1, #score2 {
+    top: 104px; 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+} */
+#four_score1, #four_score2, #four_score3, #four_score4 {
+    position: absolute;
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt
+}
+
+#four_score1 {
+    left: -40px;
+    top: 270px;
+    color: rgb(31, 172, 237);
+}
+
+#four_score2 {
+
+    top: -60px;
+    color: rgb(66, 210, 143);
+}
+
+#four_score3 {
+    right: -40px;
+    top: 270px;
+    color: rgb(191, 43, 221);
+}
+
+#four_score4 {
+
+    bottom: -60px;
+    color: rgb(251, 237, 132);
+}
+
+#four_player1-name, #four_player2-name, #four_player3-name, #four_player4-name {
+    position: absolute;
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#four_player1-name {
+    left: 20px;
+	color: rgb(31, 172, 237);
+}
+
+#four_player2-name {
+    top: 20px;
+	color: rgb(66, 210, 143);
+}
+
+#four_player3-name {
+    right: 20px;
+	color: rgb(191, 43, 221);
+}
+
+#four_player4-name {
+    bottom: 20px;
+	color: rgb(251, 237, 132);
 }
