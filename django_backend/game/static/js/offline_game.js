@@ -79,15 +79,6 @@ document.addEventListener('DOMContentLoaded', function () {
         score_2.innerHTML = '0';
     }
 
-    // function checkScores() {
-    //     if (parseInt(score_1.innerHTML) >= 3 || parseInt(score_2.innerHTML) >= 3) {
-    //         gameState = 'stop';
-    //         resetScores(); // Reset the scores
-    //         message.innerHTML = 'Game Over! Press Enter to Play Again';
-    //         return true; // Indicate the game should stop
-    //     }
-    //     return false; // Indicate the game should continue
-    // }
     function checkScores() {
         if (parseInt(score_1.innerHTML) >= 3) {
             displayWinner(player1Name);
@@ -107,18 +98,12 @@ document.addEventListener('DOMContentLoaded', function () {
         resetScores();
         resetBallPosition();
         message.innerHTML = 'Game Over! Press Enter to Play Again';
-        // setTimeout(() => {
-        //     winnerMessage.style.display = 'none';
-        //     gameState = 'start';
-        //     resetScores();
-        //     resetBallPosition();
-        //     message.innerHTML = 'Game Over! Press Enter to Play Again';
-        // }, 1000); // Hide winner message after 1 second
     }
 
     function resetBallPosition() {
         ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
         ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
+        
         ball_coord = ball.getBoundingClientRect();
     }
 

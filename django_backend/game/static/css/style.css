@@ -93,16 +93,16 @@ h3 {
     margin-bottom:10px;
     border-radius:10px !important;
 }
-
+/* 
 #name_form {
     width: 400px;
-    margin: 100px auto; /* Centers the form horizontally */
+    margin: 100px auto;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers the items within the form */
-    justify-content: center; /* Centers the form vertically */
+    align-items: center; 
+    justify-content: center;
     text-align: center;
-}
+} */
 
 
 
@@ -125,80 +125,110 @@ body {
 }
 
 #game-area {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #000;
-    overflow: hidden;
+    top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically */
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto; /* Center the board horizontally */
+    position: relative;
 }
 
 #ball {
-    position: absolute;
-    width: 1.28%;
-    padding-bottom: 1.28%;
-    background-color: white;
+    width: 30px; 
+    height: 30px; 
     border-radius: 50%;
+    position: absolute;
+    background-color: white;
     transform: translate(-50%, -50%);
+    left: 450px;
+    top: 290px;
 }
 
 .paddle {
     position: absolute;
-    width: 1.28%;
-    height: 21.05%;
-    background-color: white;
+    height: 100px; 
+    width: 10px;
+    top: 260px;
 }
 
 #paddle1 {
-    left: 1.28%;
+    left: calc(50% - 440px);  
+    background-color: rgb(31, 172, 237);
 }
 
 #paddle2 {
-    right: 1.28%;
+    right: calc(50% - 440px);
+    background-color: rgb(191, 43, 221);
 }
 
 #score1, #score2 {
-    position: absolute;
-    top: 10%;
-    color: white;
-    font-size: 5vh;
+    top: 104px; 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
 }
 
 #score1 {
-    left: 25%;
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(50% - 440px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
 }
 
 #score2 {
-    right: 25%;
+    color: rgb(191, 43, 221);
+    position: fixed;
+    right: calc(50% - 440px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
 }
 
+
 #player1-name, #player2-name {
-    position: absolute;
-    top: 5%;
-    color: white;
-    font-size: 3vh;
+    top: 79px; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
 }
 
 #player1-name {
-    left: 25%;
-    transform: translateX(-50%);
+
+    text-align: left;
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(50% - 440px);
+    display: flex;
 }
 
 #player2-name {
-    right: 25%;
-    transform: translateX(50%);
+
+    text-align: right;
+    right: calc(50% - 440px);
+    display: flex;
+    position: fixed;
+    color: rgb(191, 43, 221);
 }
 
-#message {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 3vh;
+.message { 
+    position: fixed; 
+    color: #7d7fac; 
     text-align: center;
-    width: 100%;
+    top: 300px; 
+    margin: 130px auto auto auto; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
 }
+
 
 #four_game-area {
     position: absolute;
@@ -318,12 +348,21 @@ body {
 }
 
 #four_message {
-    position: absolute;
+    /* position: absolute;
     top: 10%;
     left: 50%;
     transform: translateX(-50%);
     color: white;
     font-size: 12px;
     text-align: center;
-    width: 100%;
+    width: 100%; */
+    position: fixed; 
+    color: #7d7fac; 
+    text-align: center;
+    top: 300px; 
+    margin: 60px auto auto auto; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
 }
