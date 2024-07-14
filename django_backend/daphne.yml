@@ -1,3 +1,0 @@
-bind: ["0.0.0.0:8000"]
-ssl_keyfile: "../ssl/private.key"
-ssl_certfile: "../ssl/certificate.crt"

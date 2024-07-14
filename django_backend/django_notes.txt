@@ -37,6 +37,18 @@ Use txacme endpoint syntox to get automatic certificate from Let's encrypt?
 https://github.com/django/daphne
 
 
+To run Server inside Docker container from sgoinfre:
+
+Prerequisites: clone git repo to sgoinfre folder, Dockerfile at root of git repo and ssl folder with files private.key & certificate.crt are present,
+ 				runserver.sh inside django_backend folder is present, if not copy there
+
+cd ft_transcendence_git (or whatever you named your git repo)
+from home/your42intraname/sgoinfre/ft_transcendence_git run
+$ docker build -t ft_transcendence --no-cache --progress=plain .
+$ docker run -dp 127.0.0.1:8043:8043 ft_transcendence
+
+Access page at https://localhost:8043
+
 
 Language support:
 - we have: english, german, russian (not sll texts are translated for now, it's in progress)
