@@ -11,7 +11,7 @@
     <!-- 2 player game -->
     <body>
         <div id="game-area">
-            <div id="message" class="message"></div>
+            <p class="text-center"><h3 id="message" class="message"></h3></p>
             <div id="ball"></div>
             <div id="paddle1" class="paddle"></div>
             <div id="paddle2" class="paddle"></div>
@@ -20,7 +20,10 @@
             <div id="player2-name" class="player-name"></div>
             <div id="score2">0</div>
         </div>
+
+    
     <script src="{% static 'js/2player.js' %}"></script>
     </body>
+
     <!-- UNTIL HERE! -->
 {% endblock two_pl_game %}

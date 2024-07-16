@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
    
 
 	message.textContent = 'Waiting for players to join...';
-	const originalWidth = 780;
-	const originalHeight = 380;
+	const originalWidth = 900;
+	const originalHeight = 600;
 
 	function updateGameDimensions() {
 		const windowWidth = window.innerWidth;
@@ -71,11 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
 				updateGameState(data.game_state);
 				break;
 			case 'game_started':
-				message.style.fontSize = '40px';
+				// message.style.fontSize = '40px';
 				message.textContent = data.message;
 				setTimeout(() => {
 					message.textContent = '';
-					message.style.fontSize = '10px';
+					// message.style.fontSize = '10px';
 				}, 1000);
 				break;
 			case 'game_over':
@@ -107,10 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function resetGame() {
-		ball.style.left = '390px';
-		ball.style.top = '190px';
-		paddle1.style.top = '160px';
-		paddle2.style.top = '160px';
+		ball.style.left = '450px';
+		ball.style.top = '290px';
+		paddle1.style.top = '260px';
+		paddle2.style.top = '260px';
 		score1.textContent = '0';
 		score2.textContent = '0';
 	}
