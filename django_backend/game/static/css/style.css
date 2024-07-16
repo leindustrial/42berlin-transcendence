@@ -51,16 +51,6 @@
     margin-bottom: 50px;
 }
 
-/* #logo-small {
-    color: #ffffff;
-    font-size: 10pt;
-    font-family: "Monoton", sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 5pt;
-    margin-top: 0px;
-    padding-top: 0px;
-} */
-
 h1 {
     color: #ffffff;
     font-size: 40pt;
@@ -103,16 +93,16 @@ h3 {
     margin-bottom:10px;
     border-radius:10px !important;
 }
-
+/* 
 #name_form {
     width: 400px;
-    margin: 100px auto; /* Centers the form horizontally */
+    margin: 100px auto;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers the items within the form */
-    justify-content: center; /* Centers the form vertically */
+    align-items: center; 
+    justify-content: center;
     text-align: center;
-}
+} */
 
 
 
@@ -135,99 +125,141 @@ body {
 }
 
 #game-area {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #000;
-    overflow: hidden;
+    top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically */
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto; /* Center the board horizontally */
+    position: relative;
 }
 
 #ball {
-    position: absolute;
-    width: 1.28%;
-    padding-bottom: 1.28%;
-    background-color: white;
+    width: 30px; 
+    height: 30px; 
     border-radius: 50%;
+    position: absolute;
+    background-color: white;
     transform: translate(-50%, -50%);
+    left: 450px;
+    top: 290px;
 }
 
 .paddle {
     position: absolute;
-    width: 1.28%;
-    height: 21.05%;
-    background-color: white;
+    height: 100px; 
+    width: 10px;
+    top: 260px;
 }
 
 #paddle1 {
-    left: 1.28%;
+    left: calc(50% - 440px);  
+    background-color: rgb(31, 172, 237);
 }
 
 #paddle2 {
-    right: 1.28%;
+    right: calc(50% - 440px);
+    background-color: rgb(191, 43, 221);
 }
 
 #score1, #score2 {
-    position: absolute;
-    top: 10%;
-    color: white;
-    font-size: 5vh;
+    top: 104px; 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
 }
 
 #score1 {
-    left: 25%;
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(50% - 440px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
 }
 
 #score2 {
-    right: 25%;
+    color: rgb(191, 43, 221);
+    position: fixed;
+    right: calc(50% - 440px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
 }
 
+
 #player1-name, #player2-name {
-    position: absolute;
-    top: 5%;
-    color: white;
-    font-size: 3vh;
+    top: 79px; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
 }
 
 #player1-name {
-    left: 25%;
-    transform: translateX(-50%);
+
+    text-align: left;
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(50% - 440px);
+    display: flex;
 }
 
 #player2-name {
-    right: 25%;
-    transform: translateX(50%);
+
+    text-align: right;
+    right: calc(50% - 440px);
+    display: flex;
+    position: fixed;
+    color: rgb(191, 43, 221);
 }
 
-#message {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 3vh;
+.message { 
+    position: fixed; 
+    color: #7d7fac; 
     text-align: center;
-    width: 100%;
+    top: 300px; 
+    margin: 130px auto auto auto; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#four_message {
+    position: fixed; 
+    color: #7d7fac; 
+    text-align: center;
+    top: 300px; 
+    margin: 60px auto auto auto; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
 }
 
 #four_game-area {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 400px;
-    height: 400px;
-    transform: translate(-50%, -50%);
-    background-color: #000;
-    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 55px;
+    width: 600px;
+    height: 600px;
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto;
 }
 
 #four_ball {
     position: absolute;
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     background-color: white;
     border-radius: 50%;
-    transform: translate(-50%, -50%);
+    /* transform: translate(-50%, -50%); */
 }
 
 .four_paddle {
@@ -236,104 +268,96 @@ body {
 }
 
 #four_paddle1 {
-    left: 0;
-    top: 200px;
+    left: 0px;
     width: 10px;
-    height: 80px;
-    transform: translateY(-50%);
-	background-color: yellow;
+    height: 100px;
+	background-color: rgb(31, 172, 237);
 }
 
 #four_paddle2 {
-    top: 0;
-    left: 200px;
-    width: 80px;
+    top: 0px;
+    width: 100px;
     height: 10px;
-    transform: translateX(-50%);
-	background-color: blue;
+
+	background-color: rgb(66, 210, 143);
 }
 
 #four_paddle3 {
-    right: 0;
-    top: 200px;
+    right: 0px;
     width: 10px;
-    height: 80px;
-    transform: translateY(-50%);
-	background-color: red;
+    height: 100px;
+	background-color: rgb(191, 43, 221);
 }
 
 #four_paddle4 {
-    bottom: 0;
-    left: 200px;
-    width: 80px;
+    bottom: 0px;
+    width: 100px;
     height: 10px;
-    transform: translateX(-50%);
-	background-color: white;
+	background-color: rgb(251, 237, 132);
 }
-
+/* #score1, #score2 {
+    top: 104px; 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+} */
 #four_score1, #four_score2, #four_score3, #four_score4 {
     position: absolute;
-    color: white;
-    font-size: 20px;
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt
 }
 
 #four_score1 {
-    left: 10%;
-    top: 5%;
+    left: -40px;
+    top: 270px;
+    color: rgb(31, 172, 237);
 }
 
 #four_score2 {
-    right: 10%;
-    top: 5%;
+
+    top: -60px;
+    color: rgb(66, 210, 143);
 }
 
 #four_score3 {
-    right: 10%;
-    bottom: 5%;
+    right: -40px;
+    top: 270px;
+    color: rgb(191, 43, 221);
 }
 
 #four_score4 {
-    left: 10%;
-    bottom: 5%;
+
+    bottom: -60px;
+    color: rgb(251, 237, 132);
 }
 
 #four_player1-name, #four_player2-name, #four_player3-name, #four_player4-name {
     position: absolute;
-    /* color: white; */
-    font-size: 12px;
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
 }
 
 #four_player1-name {
-    left: 10%;
-    top: 2%;
-	color: yellow;
+    left: 20px;
+	color: rgb(31, 172, 237);
 }
 
 #four_player2-name {
-    right: 10%;
-    top: 2%;
-	color: blue;
+    top: 20px;
+	color: rgb(66, 210, 143);
 }
 
 #four_player3-name {
-    right: 10%;
-    bottom: 2%;
-	color: red;
+    right: 20px;
+	color: rgb(191, 43, 221);
 }
 
 #four_player4-name {
-    left: 10%;
-    bottom: 2%;
-	color: white;
-}
-
-#four_message {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 12px;
-    text-align: center;
-    width: 100%;
+    bottom: 20px;
+	color: rgb(251, 237, 132);
 }
