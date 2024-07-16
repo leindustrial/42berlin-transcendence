@@ -27,6 +27,31 @@ $ daphne -b 0.0.0.0 -p 8000 pong_game.asgi:application
 to start the server, from host machine the page can be accessed with \
 localhost:8000 and from network through hostmachine ip:8000
 
+To start the Server with https:
+
+$ daphne -e ssl:8043:privateKey=../ssl/private.key:certKey=../ssl/certificate.crt pong_game.asgi:application
+
+access page through https://localhost:8043
+self-signed certificate, therefore unsecure warning.
+Use txacme endpoint syntox to get automatic certificate from Let's encrypt?
+https://github.com/django/daphne
+
+
+To run Server inside Docker container from sgoinfre:
+
+Prerequisites: clone git repo to sgoinfre folder, Dockerfile at root of git repo and ssl folder with files private.key & certificate.crt are present,
+ 				runserver.sh inside django_backend folder is present, if not copy there
+
+cd ft_transcendence_git (or whatever you named your git repo)
+from home/your42intraname/sgoinfre/ft_transcendence_git run
+$ docker build -t ft_transcendence --no-cache --progress=plain .
+$ docker run -dp 4244:4244 ft_transcendence
+
+Access from the host mashine page at https://localhost:8043 | from the network: https://ipaddressofthehostmachine:8043
+
 
 Language support:
-- we have: english, german, russian (not all texts are translated for now, it's in progress)
+
+- we have: english, german, russian (not sll texts are translated for now, it's in progress)
+- browser detects your language and shows you the appropriate translation
+- to switch between languages: localhost:8000/en | localhost:8000/de | localhost:8000/ru
