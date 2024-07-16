@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const indexOfSessionId = parts.indexOf('tour_game') + 1;
 	const sessionId = parts[indexOfSessionId];
 	console.log(sessionId);
-	const socket = new WebSocket(`ws://${window.location.host}/tour_game/${sessionId}/`);
+	const socket = new WebSocket(`wss://${window.location.host}/tour_game/${sessionId}/`);
 	const gameArea = document.getElementById('game-area');
 	const message = document.getElementById('message');
 	const ball = document.getElementById('ball');
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const score2 = document.getElementById('score2');
 	const player1 = document.getElementById('player1-name');
 	const player2 = document.getElementById('player2-name');
-   
+
 
 	message.textContent = 'Waiting for players to join...';
 	const originalWidth = 780;
