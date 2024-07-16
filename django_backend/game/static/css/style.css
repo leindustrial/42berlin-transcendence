@@ -358,6 +358,124 @@ body {
 }
 
 #four_player4-name {
+    left: 10%;
+    bottom: 2%;
+	color: white;
+}
+
+#four_message {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+}
+
+
+
+
+#tournament-page {
+    font-family: Arial, sans-serif;
+    /* background-color: #f0f0f0; */
+    margin: 0;
+    padding: 20px;
+}
+#tournament-page .tournament-container {
+    max-width: 800px;
+    margin: 0 auto;
+    /* background-color: white; */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    color: white;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: white;
+}
+.tournament {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+.round {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 30%;
+}
+.match {
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #232222;
+}
+.match h3 {
+    margin: 0 0 10px 0;
+    color: #007bff;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+.player {
+    margin: 5px 0;
+    padding: 5px;
+    color:  #ff56d8;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+}
+.vs {
+    font-weight: bold;
+    color: #007bff;
+    /* center the vs */
+    display: flex;
+    justify-content: center;
+    /* center vertically */
+    align-items: center;
+}
+
+#go-to-match {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color:  #ff56d8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#go-to-match:hover {
+    background-color: #ff56d8;
+}
+.hidden {
+    display: none !important;
+}
+#champ {
+    text-align: center;
+    font-size: 3.2em;
+    font-weight: bold;
+    color:  #ff56d8;
+    margin-top: 40px;
+}
+
+.welcome {
+    font-family:monospace;
+    color: #007bff;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#info {
+    font-family:monospace;
+    color: white;
+    text-align: center;
+    margin-top: 25px;
     bottom: 20px;
-	color: rgb(251, 237, 132);
+	  color: rgb(251, 237, 132);
 }

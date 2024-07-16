@@ -26,6 +26,7 @@
         {% block offline_game %}
         {% block two_pl_game %}
         {% block four_pl_game %}
+        {% block tournament %}
         <!-- Language Switcher Dropdown -->
         <div class="container mt-3">
             <form id="languageForm" action="{% url 'set_language' %}" method="post" class="form-inline">
@@ -97,7 +98,7 @@
                             <!-- <a href="{% url 'game_start' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">👈 {% translate "MENU" %}</a> -->
                             <a href="{% url 'two_pl_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Two players" %}</a>
                             <a href="{% url 'four_pl_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Four players" %}</a>
-                            <a href="" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Tournament" %}</a>
+                            <a href="{% url 'tournament' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Tournament" %}</a>
                         </div>
                     </div>
                     {% endblock user %} 
@@ -129,9 +130,11 @@
         
         <!-- {% block welcome_section %}
         {% endblock welcome_section %} -->
+        {% endblock tournament %}
         {% endblock four_pl_game %}
         {% endblock two_pl_game %}
         {% endblock offline_game %}
+
 
         <!-- Different buttons, not in use -->
 

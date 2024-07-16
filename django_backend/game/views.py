@@ -42,3 +42,16 @@ def four_pl_game(request):
         return render(request, 'game/four-pl-game.html')
     else:
         return redirect('/')
+    
+def tournament(request):
+    if request.user.is_authenticated:
+        return render(request, 'game/tour.html')
+    else:
+        return redirect('/')
+
+@login_required
+def tour_game(request, session_id=None):
+    if request.user.is_authenticated:
+        return render(request, 'game/tour-game.html')
+    else:
+        return redirect('/')
