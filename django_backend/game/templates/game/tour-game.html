@@ -1,0 +1,26 @@
+{% extends "game/index.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block two_pl_game %}
+
+    <!-- Game navigation bar -->
+    {% include 'game/header-button-logged.html' %}
+
+    <!-- PUT YOUR CODE FROM HERE! -->
+    <!-- 2 player game -->
+    <body>
+        <div id="game-area">
+            <div id="message" class="message"></div>
+            <div id="ball"></div>
+            <div id="paddle1" class="paddle"></div>
+            <div id="paddle2" class="paddle"></div>
+            <div id="player1-name" class="player-name"></div>
+            <div id="score1">0</div>
+            <div id="player2-name" class="player-name"></div>
+            <div id="score2">0</div>
+        </div>
+    <script src="{% static 'js/tour_game.js' %}"></script>
+    </body>
+    <!-- UNTIL HERE! -->
+{% endblock two_pl_game %}
