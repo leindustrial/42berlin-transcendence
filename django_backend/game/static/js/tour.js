@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 	const username = document.getElementById('username').textContent;
 	const tournamentSocket = new WebSocket(
-		'ws://' + window.location.host + '/ws/tournament/'
+		'wss://' + window.location.host + '/wss/tournament/'
 	);
 
 	tournamentSocket.onmessage = (event) => {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					console.log('Champion is', data.champion);
 					const championElement = document.getElementById('champ');
 					championElement.textContent =  '\u{1F451}' + data.champion +  '\u{1F451}';
-				} 
+				}
 				break;
 			case 'go_to_game':
 				console.log('Game is ready', data.username);
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					const goToMatchButton = document.getElementById('go-to-match');
 					goToMatchButton.classList.remove('hidden');
 					goToMatchButton.setAttribute('data-session-id', data.session_id);
-					
+
 				} else {
 					const goToMatchButton = document.getElementById('go-to-match');
 					goToMatchButton.classList.add('hidden');
