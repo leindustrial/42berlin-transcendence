@@ -3,14 +3,8 @@
 {% load i18n %}
 
 {% block four_pl_game %}
-    <!-- Game navigation bar *don't remove -->
-    <div class="container" id="header-game">
-        <div class="row justify-content-center">
-            <div class="row justify-content-center btn-group">
-                <a href="{% url 'game_start' %}" class="btn btn-outline-primary btn-sm" id="restart">👈 {% translate "Exit the game" %}</a>
-            </div>
-        </div>
-    </div>
+    <!-- Game navigation bar -->
+    {% include 'game/header-button-logged.html' %}
 
     <!-- PUT YOUR CODE FROM HERE! -->
 
@@ -18,19 +12,19 @@
     
 	<body>
 		<div id="four_game-area">
-			<div id="four_message" class="four_message"></div>
+			<p class="text-center"><h3 id="four_message" class="four_message"></h3></p>
 			<div id="four_ball"></div>
 			<div id="four_paddle1" class="four_paddle"></div>
 			<div id="four_paddle2" class="four_paddle"></div>
 			<div id="four_paddle3" class="four_paddle"></div>
 			<div id="four_paddle4" class="four_paddle"></div>
-			<div id="four_player1-name"></div>
+			<div id="four_player1-name" class="player-name">Player1</div>
 			<div id="four_score1">0</div>
-			<div id="four_player2-name"></div>
+			<div id="four_player2-name" class="player-name">Player2</div>
 			<div id="four_score2">0</div>
-			<div id="four_player3-name"></div>
+			<div id="four_player3-name" class="player-name">Player3</div>
 			<div id="four_score3">0</div>
-			<div id="four_player4-name"></div>
+			<div id="four_player4-name" class="player-name">Player4</div>
 			<div id="four_score4">0</div>
 		</div>
 		<script src="{% static 'js/4player.js' %}"></script>

@@ -49,11 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(data.game_state);
                 break;
             case 'game_started':
-                message.style.fontSize = '40px';
+                // message.style.fontSize = '40px';
                 message.textContent = 'Game Started!';
                 setTimeout(() => {
                     message.textContent = '';
-                    message.style.fontSize = '10px';
+                    // message.style.fontSize = '10px';
                 }, 1000);
                 break;
             case 'game_over':
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}, 1000);
 		}
 		if (state.goal) {
-			message.style.fontSize = '40px';
+			// message.style.fontSize = '40px';
 			message.textContent = 'Goal!';
 			setTimeout(() => {
 				message.textContent = '';

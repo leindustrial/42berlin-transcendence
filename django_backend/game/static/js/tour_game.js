@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-	const socket = new WebSocket(`wss://${window.location.host}/wss/pong/`);
+	const url = window.location.href;
+	const parts = url.split('/');
+	const indexOfSessionId = parts.indexOf('tour_game') + 1;
+	const sessionId = parts[indexOfSessionId];
+	console.log(sessionId);
+	const socket = new WebSocket(`ws://${window.location.host}/tour_game/${sessionId}/`);
 	const gameArea = document.getElementById('game-area');
 	const message = document.getElementById('message');
 	const ball = document.getElementById('ball');
@@ -9,11 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	const score2 = document.getElementById('score2');
 	const player1 = document.getElementById('player1-name');
 	const player2 = document.getElementById('player2-name');
-
+   
 
 	message.textContent = 'Waiting for players to join...';
-	const originalWidth = 900;
-	const originalHeight = 600;
+	const originalWidth = 780;
+	const originalHeight = 380;
 
 	function updateGameDimensions() {
 		const windowWidth = window.innerWidth;
@@ -71,11 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
 				updateGameState(data.game_state);
 				break;
 			case 'game_started':
-				// message.style.fontSize = '40px';
+				message.style.fontSize = '40px';
 				message.textContent = data.message;
 				setTimeout(() => {
 					message.textContent = '';
-					// message.style.fontSize = '10px';
+					message.style.fontSize = '10px';
 				}, 1000);
 				break;
 			case 'game_over':
@@ -107,10 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function resetGame() {
-		ball.style.left = '450px';
-		ball.style.top = '290px';
-		paddle1.style.top = '260px';
-		paddle2.style.top = '260px';
+		ball.style.left = '390px';
+		ball.style.top = '190px';
+		paddle1.style.top = '160px';
+		paddle2.style.top = '160px';
 		score1.textContent = '0';
 		score2.textContent = '0';
 	}
@@ -119,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		//message.textContent = 'Connection closed. Please refresh the page.';
 		message.textContent = 'You will be redirected to the home page.';
 		setTimeout(() => {
-			window.location.href = '/';
+			window.location.href = '/tournament';
 		}, 3000);
 	};
 

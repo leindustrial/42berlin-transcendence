@@ -25,7 +25,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 	disconnected_players = {}
 	rejoin_timeout = 10
 	goals_to_win = 5
-	paddle_speed = 20
+	paddle_speed = 10
 
 	async def connect(self):
 		await self.accept()
@@ -114,14 +114,15 @@ class PongConsumer(AsyncWebsocketConsumer):
 		if paddle:
 			game_state = self.game_sessions[self.session_id]['game_state']
 			if paddle in ['paddle1', 'paddle3']:
-				if key == 'ArrowUp' and game_state[paddle] > 40:
+				if key == 'ArrowUp' and game_state[paddle] > 0:
 					game_state[paddle] -= self.paddle_speed
-				elif key == 'ArrowDown' and game_state[paddle] < 360:
+				elif key == 'ArrowDown' and game_state[paddle] < 500:
 					game_state[paddle] += self.paddle_speed
 			elif paddle in ['paddle2', 'paddle4']:
-				if key == 'ArrowLeft' and game_state[paddle] > 40:
+				if key == 'ArrowLeft' and game_state[paddle] > 0:
 					game_state[paddle] -= self.paddle_speed
-				elif key == 'ArrowRight' and game_state[paddle] < 360:
+
+				elif key == 'ArrowRight' and game_state[paddle] < 500:
 					game_state[paddle] += self.paddle_speed
 
 	def get_available_session(self):
@@ -132,11 +133,11 @@ class PongConsumer(AsyncWebsocketConsumer):
 		self.game_sessions[new_session_id] = {
 			'players': {},
 			'game_state': {
-				'ball': {'x': 200, 'y': 200, 'dx': random.choice([-3, 3]), 'dy': random.choice([-5, 5])},
-				'paddle1': 200,
-				'paddle2': 200,
-				'paddle3': 200,
-				'paddle4': 200,
+				'ball': {'x': 295, 'y': 295, 'dx': random.choice([-3, 3]), 'dy': random.choice([-5, 5])},
+				'paddle1': 250,
+				'paddle2': 250,
+				'paddle3': 250,
+				'paddle4': 250,
 				'score': {'player1': 0, 'player2': 0, 'player3': 0, 'player4': 0},
 				'last_touch': None,
 				'out_of_bounds': False,
@@ -241,19 +242,19 @@ class PongConsumer(AsyncWebsocketConsumer):
 		game_state['out_of_bounds'] = False
 		game_state['goal'] = False
 		
-		if game_state['ball']['x'] <= 10 and (game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 40 or game_state['paddle1'] - 40 <= game_state['ball']['y'] <= game_state['paddle1']):
+		if game_state['ball']['x'] <= 10 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 100:
 			game_state['ball']['dx'] *= -1
 			game_state['last_touch'] = 'player1'
-		elif game_state['ball']['x'] >= 390 and (game_state['paddle3'] <= game_state['ball']['y'] <= game_state['paddle3'] + 40 or game_state['paddle3'] - 40 <= game_state['ball']['y'] <= game_state['paddle3']):
+		elif game_state['ball']['x'] >= 590 and game_state['paddle3'] <= game_state['ball']['y'] <= game_state['paddle3'] + 100:
 			game_state['ball']['dx'] *= -1
 			game_state['last_touch'] = 'player3'
-		elif game_state['ball']['y'] <= 10 and (game_state['paddle2'] <= game_state['ball']['x'] <= game_state['paddle2'] + 40 or game_state['paddle2'] - 40 <= game_state['ball']['x'] <= game_state['paddle2']):
+		elif game_state['ball']['y'] <= 10 and game_state['paddle2'] <= game_state['ball']['x'] <= game_state['paddle2'] + 100:
 			game_state['ball']['dy'] *= -1
 			game_state['last_touch'] = 'player2'
-		elif game_state['ball']['y'] >= 390 and (game_state['paddle4'] <= game_state['ball']['x'] <= game_state['paddle4'] + 40 or game_state['paddle4'] - 40 <= game_state['ball']['x'] <= game_state['paddle4']):
+		elif game_state['ball']['y'] >= 590 and game_state['paddle4'] <= game_state['ball']['x'] <= game_state['paddle4'] + 100:
 			game_state['ball']['dy'] *= -1
 			game_state['last_touch'] = 'player4'
-		if game_state['ball']['x'] < 0 or game_state['ball']['x'] > 400 or game_state['ball']['y'] < 0 or game_state['ball']['y'] > 400:
+		if game_state['ball']['x'] < -20 or game_state['ball']['x'] > 600 or game_state['ball']['y'] < -20 or game_state['ball']['y'] > 600:
 			if game_state['last_touch'] == None:
 				game_state['out_of_bounds'] = True
 				pass
@@ -262,8 +263,8 @@ class PongConsumer(AsyncWebsocketConsumer):
 				game_state['goal'] = True
 
 			game_state['last_touch'] = None
-			game_state['ball']['x'] = 200
-			game_state['ball']['y'] = 200
+			game_state['ball']['x'] = 295
+			game_state['ball']['y'] = 295
 			game_state['ball']['dx'] = random.choice([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5])
 			game_state['ball']['dy'] = random.choice([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5])
 
