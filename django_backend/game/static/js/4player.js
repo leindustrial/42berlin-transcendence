@@ -92,11 +92,23 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
     socket.onclose = (event) => {
-        message.textContent = 'You will be redirected to the home page.';
+		switch (event.code) {
+			case 3001:
+				message.textContent = 'Player already joined the game. You will be redirected';
+				break;
+			case 3002:
+				message.textContent = 'Connection closed: no available game session';
+				break;
+			case 3003:
+				message.textContent = 'Connection closed for unauthenticated user';
+				break;
+			default:
+				message.textContent = 'You will be redirected to the home page.';
+		}
 		setTimeout(() => {
 			window.location.href = '/';
 		}, 3000);
-    };
+	};
 
     socket.onerror = (error) => {
         console.error('WebSocket Error:', error);

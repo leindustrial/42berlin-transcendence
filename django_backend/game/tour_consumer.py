@@ -10,13 +10,20 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
 		self.user = self.scope['user']
 		self.room_group_name = 'tournament'
-
+		active_players = cache.get('active_players', [])
+		if self.user.username in active_players:
+			#await self.close(code = 3001)
+			pass
+		elif active_players.count(self.user.username) >= 4:
+			await self.close(code = 3002)
+		
 		await self.channel_layer.group_add(
 			self.room_group_name,
 			self.channel_name
 		)
 
 		await self.accept()
+		await self.add_active_player()
 		player_in_game = cache.get('player_in_game', [])
 		if self.user.username in player_in_game:
 			player_in_game.remove(self.user.username)
@@ -36,7 +43,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 				{
 					'type': 'go_back_to_home',
 					'content': {'type': 'go_back_to_home'},
-					'message': 'tornument end due to player exit. you will be redirected'
+					'message': 'tornument end due to player exit. you may exit now'
 				}
 			)
 			cache.delete('tournament')

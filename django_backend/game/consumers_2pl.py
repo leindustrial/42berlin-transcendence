@@ -66,14 +66,22 @@ class PongConsumer(AsyncWebsocketConsumer):
 					del self.disconnected_players[user.username]
 					print(f"Rejoin deadline expired for player {user.username}")
 					return
-
+		
+			# check if the user is already in a game session, if yes, then close the connection with code 3001
+			# the close code is used to send a specific close messages to the client
+			for session in self.game_sessions.values():
+				if user.username in session['players'].values():
+					print(f"Player {user.username} has already joined a game session.")
+					await self.close(code = 3001)
+					return
+		
 			session_id = self.get_available_session() # handle new user connection
 			if session_id:
 				self.session_id = session_id
 				self.add_player_to_session(session_id, user.username, self.channel_name)
 				await self.channel_layer.group_add(session_id, self.channel_name)
 				await self.channel_layer.group_send(
-					session_id,
+					self.session_id,
 					{
 						'type': 'player_joined',
 						'name': user.username
@@ -82,10 +90,10 @@ class PongConsumer(AsyncWebsocketConsumer):
 				if len(self.game_sessions[session_id]['players']) == 2:
 					self.countdown_task = asyncio.create_task(self.start_game_countdown(session_id))
 			else:
-				await self.close()
+				await self.close(code = 3002)
 				print("Connection closed: no available game session")
 		else:
-			await self.close()
+			await self.close(code = 3003)
 			print("Connection closed for unauthenticated user")
 
 
@@ -107,9 +115,11 @@ class PongConsumer(AsyncWebsocketConsumer):
 				await self.channel_layer.group_discard(self.session_id, self.channel_name)
 				print(f"Player {player_name} disconnected from session {self.session_id}")
 				if 'game_loop_task' in self.game_sessions[self.session_id]:
-					self.game_sessions[self.session_id]['game_loop_task'].cancel()
-					self.game_sessions[self.session_id]['game_loop_task'] = None
-				asyncio.create_task(self.check_player_rejoin_timeout(self.session_id, player_name, other_player))	
+					if self.game_sessions[self.session_id]['game_loop_task']:
+						self.game_sessions[self.session_id]['game_loop_task'].cancel()
+						self.game_sessions[self.session_id]['game_loop_task'] = None
+				asyncio.create_task(self.check_player_rejoin_timeout(self.session_id, player_name, other_player))
+				
 					
 
 

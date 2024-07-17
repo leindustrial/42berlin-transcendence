@@ -52,7 +52,21 @@ document.addEventListener('DOMContentLoaded', function() {
 	};
 
 	tournamentSocket.onclose = function(e) {
-		console.error('Tournament socket closed unexpectedly');
+		const infoElement = document.getElementById('info');
+		switch (e.code) {
+			case 3001:
+				infoElement.textContent = 'Player already in tournament, You may return to home page';
+				break;
+			case 3002:
+				infoElement.textContent = 'Tournament is full, You may return to home page';
+				break;
+			default:
+				console.log('Connection closed unexpectedly');
+				break;
+		}
+		// setTimeout(() => {
+		// 	window.location.href = '/';
+		// }, 3000);
 	};
 
 	const goToMatchButton = document.getElementById('go-to-match');
