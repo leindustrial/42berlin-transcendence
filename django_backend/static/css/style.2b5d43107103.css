@@ -1,0 +1,481 @@
+
+#screen {
+    align-content: top;
+    margin-top: 0px;
+    padding-top: 0px;
+    height: 100vh;
+}
+
+
+#logo-big {
+    color: #ffffff;
+    font-size: 46pt;
+    font-family: "Monoton", sans-serif;;
+    text-transform: uppercase;
+    letter-spacing: 5pt;
+    margin-top: 10px;
+}
+
+#user-navbar {
+    margin-bottom: 30px;
+}
+
+#sublitle {
+    color: #ff56d8;
+    font-size: 16pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#header-welcome {
+    margin-bottom: 10px;
+}
+
+#header-game {
+    align-content: top;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#choose-mode {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#footer-welcome {
+    margin-top: 30px;
+}
+
+#profile-menu {
+    margin-bottom: 50px;
+}
+
+h1 {
+    color: #ffffff;
+    font-size: 40pt;
+    font-family: "Monoton", sans-serif;;
+    text-transform: uppercase;
+    letter-spacing: 5pt;
+}
+
+h2 {
+    color: #ff56d8;
+    font-size: 16pt;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+
+}
+
+h3 {
+    color: #ffffff;
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+.btn-lg,.btn-sm {
+    border-width: 2px;
+}
+
+.btn-group{
+    margin-top: 0px;
+}
+
+.btn-group-vertical {
+    width: 400px;
+
+}
+
+.btn-group-vertical > button{
+    margin-bottom:10px;
+    border-radius:10px !important;
+}
+/* 
+#name_form {
+    width: 400px;
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+} */
+
+
+
+/* Basic game: */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+} 
+
+body { 
+    height: 100vh; 
+    width: 100vw; 
+    background-color: #232222; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+#game-area {
+    top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically */
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto; /* Center the board horizontally */
+    position: relative;
+}
+
+#ball {
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%;
+    position: absolute;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    left: 450px;
+    top: 290px;
+}
+
+.paddle {
+    position: absolute;
+    height: 100px; 
+    width: 10px;
+    top: 260px;
+}
+
+#paddle1 {
+    left: calc(50% - 440px);  
+    background-color: rgb(31, 172, 237);
+}
+
+#paddle2 {
+    right: calc(50% - 440px);
+    background-color: rgb(191, 43, 221);
+}
+
+#score1, #score2 {
+    top: 104px; 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#score1 {
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(50% - 440px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
+}
+
+#score2 {
+    color: rgb(191, 43, 221);
+    position: fixed;
+    right: calc(50% - 440px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
+}
+
+
+#player1-name, #player2-name {
+    top: 79px; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#player1-name {
+
+    text-align: left;
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(50% - 440px);
+    display: flex;
+}
+
+#player2-name {
+
+    text-align: right;
+    right: calc(50% - 440px);
+    display: flex;
+    position: fixed;
+    color: rgb(191, 43, 221);
+}
+
+.message { 
+    position: fixed; 
+    color: #7d7fac; 
+    text-align: center;
+    top: 300px; 
+    margin: 130px auto auto auto; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#four_message {
+    position: fixed; 
+    color: #7d7fac; 
+    text-align: center;
+    top: 300px; 
+    margin: 60px auto auto auto; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#four_game-area {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 55px;
+    width: 600px;
+    height: 600px;
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto;
+}
+
+#four_ball {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    /* transform: translate(-50%, -50%); */
+}
+
+.four_paddle {
+    position: absolute;
+    /* background-color: white; */
+}
+
+#four_paddle1 {
+    left: 0px;
+    width: 10px;
+    height: 100px;
+	background-color: rgb(31, 172, 237);
+}
+
+#four_paddle2 {
+    top: 0px;
+    width: 100px;
+    height: 10px;
+
+	background-color: rgb(66, 210, 143);
+}
+
+#four_paddle3 {
+    right: 0px;
+    width: 10px;
+    height: 100px;
+	background-color: rgb(191, 43, 221);
+}
+
+#four_paddle4 {
+    bottom: 0px;
+    width: 100px;
+    height: 10px;
+	background-color: rgb(251, 237, 132);
+}
+/* #score1, #score2 {
+    top: 104px; 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+} */
+#four_score1, #four_score2, #four_score3, #four_score4 {
+    position: absolute;
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt
+}
+
+#four_score1 {
+    left: -40px;
+    top: 270px;
+    color: rgb(31, 172, 237);
+}
+
+#four_score2 {
+
+    top: -60px;
+    color: rgb(66, 210, 143);
+}
+
+#four_score3 {
+    right: -40px;
+    top: 270px;
+    color: rgb(191, 43, 221);
+}
+
+#four_score4 {
+
+    bottom: -60px;
+    color: rgb(251, 237, 132);
+}
+
+#four_player1-name, #four_player2-name, #four_player3-name, #four_player4-name {
+    position: absolute;
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#four_player1-name {
+    left: 20px;
+	color: rgb(31, 172, 237);
+}
+
+#four_player2-name {
+    top: 20px;
+	color: rgb(66, 210, 143);
+}
+
+#four_player3-name {
+    right: 20px;
+	color: rgb(191, 43, 221);
+}
+
+#four_player4-name {
+    left: 10%;
+    bottom: 2%;
+	color: white;
+}
+
+#four_message {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+}
+
+
+
+
+#tournament-page {
+    font-family: Arial, sans-serif;
+    /* background-color: #f0f0f0; */
+    margin: 0;
+    padding: 20px;
+}
+#tournament-page .tournament-container {
+    max-width: 800px;
+    margin: 0 auto;
+    /* background-color: white; */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    color: white;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: white;
+}
+.tournament {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+.round {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 30%;
+}
+.match {
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #232222;
+}
+.match h3 {
+    margin: 0 0 10px 0;
+    color: #007bff;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+.player {
+    margin: 5px 0;
+    padding: 5px;
+    color:  #ff56d8;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+}
+.vs {
+    font-weight: bold;
+    color: #007bff;
+    /* center the vs */
+    display: flex;
+    justify-content: center;
+    /* center vertically */
+    align-items: center;
+}
+
+#go-to-match {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color:  #ff56d8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#go-to-match:hover {
+    background-color: #ff56d8;
+}
+.hidden {
+    display: none !important;
+}
+#champ {
+    text-align: center;
+    font-size: 3.2em;
+    font-weight: bold;
+    color:  #ff56d8;
+    margin-top: 40px;
+}
+
+.welcome {
+    font-family:monospace;
+    color: #007bff;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#info {
+    font-family:monospace;
+    color: white;
+    text-align: center;
+    margin-top: 25px;
+    bottom: 20px;
+	  color: rgb(251, 237, 132);
+}

@@ -1,5 +1,6 @@
 django_backend/myenv/
 django_backend/db.sqlite3
+ssl/*
 *.pyc
 django_backend/*~
 __pycache__
