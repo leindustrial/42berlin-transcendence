@@ -50,6 +50,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 			)
 			cache.delete('tournament')
 			cache.delete('player_in_game')
+			cache.delete('active_players')
 	
 	async def receive(self, text_data):
 		data = json.loads(text_data)
@@ -81,6 +82,8 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 	def end_tournament(self):
 		asyncio.sleep(5)
 		cache.delete('tournament')
+		cache.delete('player_in_game')
+		cache.delete('active_players')
 		
 
 	@database_sync_to_async
