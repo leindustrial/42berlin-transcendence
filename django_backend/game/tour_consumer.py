@@ -1,6 +1,5 @@
 import json
 import uuid
-import random
 import asyncio
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.cache import cache
@@ -10,19 +9,20 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
 		self.user = self.scope['user']
 		self.room_group_name = 'tournament'
+		await self.accept()
 		active_players = cache.get('active_players', [])
 		if self.user.username in active_players:
-			#await self.close(code = 3001)
 			pass
-		elif active_players.count(self.user.username) >= 4:
+		elif len(active_players) >= 4:
+			print('Tournament is full')
 			await self.close(code = 3002)
+			return
 		
 		await self.channel_layer.group_add(
 			self.room_group_name,
 			self.channel_name
 		)
 
-		await self.accept()
 		await self.add_active_player()
 		player_in_game = cache.get('player_in_game', [])
 		if self.user.username in player_in_game:
@@ -30,6 +30,8 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 		await self.update_tournament_status()
 
 	async def disconnect(self, close_code):
+		if self.user.username not in cache.get('active_players', []):
+			return
 		await self.channel_layer.group_discard(
 			self.room_group_name,
 			self.channel_name
@@ -137,7 +139,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 			'tournament': tournament,
 			'user': self.user.username,
 			'champion': None,
-			#'game_ready': False
 		}
 
 		to_game = {

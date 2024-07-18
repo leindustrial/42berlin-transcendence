@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				infoElement.textContent = 'Player already in tournament, You may return to home page';
 				break;
 			case 3002:
-				infoElement.textContent = 'Tournament is full, You may return to home page';
+				infoElement.textContent = 'Tournament is full at the moment, You may return to home page';
 				break;
 			default:
 				console.log('Connection closed unexpectedly');
