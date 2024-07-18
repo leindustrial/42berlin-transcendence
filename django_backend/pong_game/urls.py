@@ -21,15 +21,17 @@ from django.conf.urls.static import static
 from game import views
 from django.conf.urls.i18n import i18n_patterns
 from django.urls import include, re_path
+from django.views.static import serve
 
 urlpatterns = [
     path('set-language/', views.set_language, name='set_language'),
     path('admin/', admin.site.urls),
-] 
+]
 
 
 urlpatterns += i18n_patterns(
     path('', include('game.urls')),  # Include game app URLs with language prefix
     path('game-start/users/', include('django.contrib.auth.urls')),  # Include auth URLs with language prefix
     path('game-start/users/', include('users.urls')),  # Include additional user-related URLs with language prefix
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+	re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+)

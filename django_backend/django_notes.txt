@@ -55,3 +55,8 @@ Language support:
 - we have: english, german, russian (not sll texts are translated for now, it's in progress)
 - browser detects your language and shows you the appropriate translation
 - to switch between languages: localhost:8000/en | localhost:8000/de | localhost:8000/ru
+
+Debug False
+- when new static files are added run to add them also to the static files folder at the root of django_backend
+- where they are served from whitenoise middleware instead of the runserver
+$ python manage.py collectstatic
