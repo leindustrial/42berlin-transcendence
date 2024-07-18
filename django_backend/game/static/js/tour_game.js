@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 	message.textContent = 'Waiting for players to join...';
-	const originalWidth = 780;
-	const originalHeight = 380;
+	const originalWidth = 900;
+	const originalHeight = 600;
 
 	function updateGameDimensions() {
 		const windowWidth = window.innerWidth;

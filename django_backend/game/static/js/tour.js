@@ -44,15 +44,21 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	};
 
-	tournamentSocket.onopen = function(e) {
-		tournamentSocket.send(JSON.stringify({
-			'action': 'join',
-			'username': username
-		}));
+	tournamentSocket.onclose = function(e) {
+		const infoElement = document.getElementById('info');
+		switch (e.code) {
+			case 3001:
+				infoElement.textContent = 'Player already in tournament, You may return to home page';
+				break;
+			case 3002:
+				console.log('Tournament is full at the moment');
+				infoElement.textContent = 'Tournament is full at the moment, You may return to home page';
+				break;
+		}
 	};
 
-	tournamentSocket.onclose = function(e) {
-		console.error('Tournament socket closed unexpectedly');
+	tournamentSocket.onerror = function(e) {
+		console.log('Error', e);
 	};
 
 	const goToMatchButton = document.getElementById('go-to-match');
