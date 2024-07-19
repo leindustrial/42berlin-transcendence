@@ -52,6 +52,12 @@ class PongConsumer(AsyncWebsocketConsumer):
 				else:
 					del self.disconnected_players[user.username]
 					return
+				
+			for session in self.game_sessions.values():
+				if user.username in session['players'].values():
+					print(f"Player {user.username} has already joined a game session.")
+					await self.close(code = 3001)
+					return
 
 			session_id = self.get_available_session()
 			if session_id:
@@ -68,9 +74,11 @@ class PongConsumer(AsyncWebsocketConsumer):
 				if len(self.game_sessions[session_id]['players']) == 4:
 					self.countdown_task = asyncio.create_task(self.start_game_countdown(session_id))
 			else:
-				await self.close()
+				await self.close(code = 3002)
+				print("Connection closed: no available game session")
 		else:
-			await self.close()
+			await self.close(code = 3003)
+			print("Connection closed for unauthenticated user")
 
 	async def disconnect(self, close_code):
 		if hasattr(self, 'session_id') and self.session_id in self.game_sessions:
@@ -84,8 +92,9 @@ class PongConsumer(AsyncWebsocketConsumer):
 				}
 				await self.channel_layer.group_discard(self.session_id, self.channel_name)
 				if 'game_loop_task' in self.game_sessions[self.session_id]:
-					self.game_sessions[self.session_id]['game_loop_task'].cancel()
-					self.game_sessions[self.session_id]['game_loop_task'] = None
+					if self.game_sessions[self.session_id]['game_loop_task']:
+						self.game_sessions[self.session_id]['game_loop_task'].cancel()
+						self.game_sessions[self.session_id]['game_loop_task'] = None
 				asyncio.create_task(self.check_player_rejoin_timeout(self.session_id, player_name, other_players))
 
 	async def receive(self, text_data):

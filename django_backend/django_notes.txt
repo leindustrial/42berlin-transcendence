@@ -52,3 +52,9 @@ Access from the host mashine page at https://localhost:8043 | from the network: 
 
 Language support:
 - we have: english, german, russian (not sll texts are translated for now, it's in progress)
+
+Debug False
+- when new static files are added run to add them also to the static files folder at the root of django_backend
+- where they are served from whitenoise middleware instead of the runserver
+$ python manage.py collectstatic
+

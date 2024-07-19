@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-+_(o+y_bldmul6_5a^zn5v-rxueimk54h$dncyyy&gubdf88a6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+	'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'game',
     'users',
@@ -146,6 +147,7 @@ TIME_ZONE = 'Europe/Berlin'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = '/'
