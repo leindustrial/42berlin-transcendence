@@ -1,0 +1,17 @@
+{% extends "game/index.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block offline_game %}
+
+<!-- Game navigation bar -->
+{% include 'game/header-button-unlogged.html' %}
+
+<!-- tournament -->
+
+
+
+
+<script src="{% static 'js/offline_tour.js' %}"></script>
+</body>
+{% endblock offline_game %}

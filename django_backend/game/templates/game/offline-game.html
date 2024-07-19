@@ -7,24 +7,20 @@
 <!-- Game navigation bar -->
 {% include 'game/header-button-unlogged.html' %}
 
-<div id="name_form">
-    <div class="form-group">
-        <input type="text" class="form-control" id="player1NameInput" placeholder="Player 1 Name" required>
-    </div>
-    <div class="form-group">
-        <input type="text" class="form-control" id="player2NameInput" placeholder="Player 2 Name" required>
-    </div>
-    <button id="startGameBtn" class="btn btn-primary">Start Game</button>
-</div>
-
-
-
 <!-- 2 player game -->
 <body>
 <div class="container" id="offline-game">
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center">
             <div class="col-auto">
+                <div id="player_form">
+
+                        <input type="text" class="form-control" id="player1NameInput" placeholder="Player 1 name" required>
+
+                        <input type="text" class="form-control" id="player2NameInput" placeholder="Player 2 name" required>
+
+                    <button id="startGameBtn" class="btn btn-primary">Start Game</button>
+                </div>
                 <div class="board">
                     <div class='ball'>
                         <div class="ball_effect"></div>
@@ -39,33 +35,12 @@
                         <h2 id="winnerName"></h2>
                     </div>
                     <p class="text-center"><h3 class="message" >{% translate "Press Enter to Play" %}</h3></p>
-                    <!-- <div id="name_form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="player1Name" placeholder="Player 1 Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="player2Name" placeholder="Player 2 Name" required>
-                        </div>
-                        <button id="startGameBtn" class="btn btn-primary">Start Game</button>
-                    </div> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
 <style>
-
-#name_form {
-    width: 400px;
-    margin: 100px auto; /* Centers the form horizontally */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers the items within the form */
-    justify-content: center; /* Centers the form vertically */
-    text-align: center;
-}
-
-
 
 /* Basic game: */
 * { 

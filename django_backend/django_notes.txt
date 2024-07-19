@@ -47,11 +47,8 @@ from home/your42intraname/sgoinfre/ft_transcendence_git run
 $ docker build -t ft_transcendence --no-cache --progress=plain .
 $ docker run -dp 4244:4244 ft_transcendence
 
-Access from the host mashine page at https://localhost:8043 | from the network: https://ipaddressofthehostmachine:8043
+Access from the host mashine page at https://localhost:8043 | from the network: https://ipaddressofthehostmachine:4244
 
 
 Language support:
-
 - we have: english, german, russian (not sll texts are translated for now, it's in progress)
-- browser detects your language and shows you the appropriate translation
-- to switch between languages: localhost:8000/en | localhost:8000/de | localhost:8000/ru
