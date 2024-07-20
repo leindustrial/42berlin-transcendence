@@ -91,7 +91,6 @@ def json_profile(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-
 def profiles_list(request, pk):
     if request.user.is_authenticated:
         profiles = Profile.objects.exclude(user=request.user)
@@ -109,6 +108,28 @@ def profiles_list(request, pk):
         return render(request, 'users/profiles_list.html', {'profiles':profiles, 'current_user':current_user,})
     else:
         return redirect('/')
+
+def json_profile_list(request):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            profiles = Profile.objects.exclude(user=request.user)
+            current_user = Profile.objects.get(user_id=request.user.id)
+            friend_ids = set(current_user.friends.values_list('user_id', flat=True))
+            data = {
+                'profiles': [
+                    {
+                        'username': profile.user.username,
+                        'id': profile.user.id,
+                        # shall be based on
+                        # if profile in current_user.friends.all
+                        'is_friend': profile.user.id in friend_ids,
+                    } for profile in profiles
+                ],
+            }
+            return JsonResponse(data)
+        else:
+            return JsonResponse(data)
+
 
 def update_user(request):
     if request.user.is_authenticated:

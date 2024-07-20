@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     message.textContent = 'This message is added by JavaScript!';
     container.appendChild(message);
 
-    const fetchButton = document.getElementById('fetchButton');
-    fetchButton.addEventListener('click', () => {
+    const fetchProfileButton = document.getElementById('fetchProfileButton');
+    fetchProfileButton.addEventListener('click', () => {
 		console.log('Button clicked');
 		const resultBox = document.getElementById('resultBox')
 
@@ -74,5 +74,59 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorMessage.textContent = `Error fetching data: ${error.message}`;
                 container.appendChild(errorMessage);
             });
+    });
+
+	const fetchProfileListButton = document.getElementById('fetchProfileListButton');
+    fetchProfileListButton.addEventListener('click', () => {
+		console.log('Button clicked');
+		const resultBox = document.getElementById('resultBox')
+
+		// const url = window.location.href + 'json';
+		const url = 'http://localhost:8000/game-start/users/json_profile_list';
+		console.log(`Sending fetch request to: ${url}`);
+
+		$.ajax({
+			type: 'GET',
+			url: url,
+			success: function(data) {
+				console.log(data);
+				const dataMessage = document.createElement('p');
+				dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
+				container.appendChild(dataMessage);
+				// container.html(JSON.stringify(data)); // Displaying data for debug purposes
+			},
+			error: function(xhr, status, error) {
+				console.error('An error occurred:', status, error);
+				const errorMessage = document.createElement('p');
+				errorMessage.textContent = `Error fetching data: ${error.message}`;
+				container.appendChild(errorMessage);
+				// container.html('An error occurred while fetching the profile.');
+			}
+		});
+        // fetch(url, {
+		// 		method: 'GET', // Specify the HTTP method
+		// 		headers: {
+		// 			'Content-Type': 'application/json', // Set content type for JSON response
+		// 		}
+		// 	})
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error(`HTTP error! status: ${response.status}`);
+        //         }
+        //         console.log('Fetch request successfully sent');
+        //         return response.json();
+        //     })
+        //     .then(data => {
+        //         console.log('Data received:', data);
+        //         const dataMessage = document.createElement('p');
+        //         dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
+        //         container.appendChild(dataMessage);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error fetching data:', error);
+        //         const errorMessage = document.createElement('p');
+        //         errorMessage.textContent = `Error fetching data: ${error.message}`;
+        //         container.appendChild(errorMessage);
+        //     });
     });
 });
