@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const player1 = document.getElementById('player1Name');
 	const player2 = document.getElementById('player2Name');
     let paddle1Velocity = 0, paddle2Velocity = 0;
-    const paddleSpeed = 5;
+    const paddleSpeed = 2;
+    
 
     // Input fields and start button
     let player1Input = document.getElementById('player1NameInput');
@@ -31,6 +32,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
         } else {
             alert('Please enter names for both players.');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            if (player1Input.value === player2Input.value) {
+                alert('Please enter different names for both players.');
+            }
+            else if (player1Input.value && player2Input.value) {
+                player1.textContent = player1Input.value;
+                player1Name = player1Input.value;
+                player2.textContent = player2Input.value;
+                player2Name = player2Input.value;
+                // Hide the name form
+                document.getElementById('player_form').style.display = 'none';
+                startGame();
+
+            } else {
+                alert('Please enter names for both players.');
+            }
         }
     });
 
@@ -112,8 +133,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function initializeElements() {
-        paddle_1 = document.querySelector('.paddle_1');
-        paddle_2 = document.querySelector('.paddle_2');
+        paddle_1 = document.querySelector('.paddle_1_off');
+        paddle_2 = document.querySelector('.paddle_2_off');
         board = document.querySelector('.board');
         ball = document.querySelector('.ball');
         score_1 = document.querySelector('.player_1_score');
@@ -123,12 +144,14 @@ document.addEventListener('DOMContentLoaded', function () {
         paddle_2_coord = paddle_2.getBoundingClientRect();
         ball_coord = ball.getBoundingClientRect();
         board_coord = board.getBoundingClientRect();
-        paddle_common = document.querySelector('.paddle').getBoundingClientRect();
+        paddle_common = document.querySelector('.paddle_off').getBoundingClientRect();
 
         dx = Math.floor(Math.random() * 4) + 3;
         dy = Math.floor(Math.random() * 4) + 3;
         dxd = Math.floor(Math.random() * 2);
         dyd = Math.floor(Math.random() * 2);
+        ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
+        ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
     }
 
     function resetScores() {

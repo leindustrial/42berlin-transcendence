@@ -95,13 +95,62 @@ h5 {
     border-radius:10px !important;
 }
 
+#nextGame {
+    width: 300px;
+    height: 50px;
+    z-index: 1;
+}
+
+#exitTour {
+    width: 300px;
+    height: 100px;
+    z-index: 10; /* Ensure it's on top of other elements */
+    display: none; /* Initially hidden, should be set to 'block' when needed */
+}
+
 /* Messages in the game ---------------------------------------------------------------------------------------------*/
+
+#champ{
+    text-align: center;
+    font-size: 3.2em;
+    font-weight: bold;
+    color: #ff56d8;
+    margin-top: 40px;
+}
+
+.megaWinner {
+    position: absolute;
+    top: 200px; /* Adjust based on your layout */
+    font-weight: bold;
+    color: #ffffff;
+    z-index: 10; /* Ensure it's on top of other elements */
+    display: none; /* Initially hidden, should be set to 'block' when needed */
+}
+
+#megaWinnerName {
+    color: #ffffff;
+    font-size: 30px;
+}
+
+.winner-message {
+    position: absolute;
+    top: 230px;
+    display: none; /* Initially hide the winner message */
+}
+
+.message { 
+    position: fixed; 
+    color: #7d7fac; 
+    text-align: center;
+    top: 385px; 
+    margin: 60px auto auto auto; 
+}
 
 #message { 
     position: fixed; 
     color: #7d7fac; 
     text-align: center;
-    top: 370px; 
+    top: 385px; 
     margin: 60px auto auto auto; 
     /* font-size: 10pt;
     font-family: monospace;
@@ -137,21 +186,20 @@ h5 {
 /* Offline games login input form ------------------------------------------------------------------------------------*/
 
 #player_form {
-
-    position: absolute;
     width: 400px;
     top: 250px;
+    left: calc(50% - 200px);
     margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center; /* Centers the items within the form */
     justify-content: center; /* Centers the form vertically */
     text-align: center;
-    z-index: 1;
-
     background-color: white;
     padding: 30px;
     border-radius: 30px;
+    position: absolute;
+    z-index: 1;
 }
 
 /* Basic game  ------------------------------------------------------------------------------------------------------*/
@@ -171,6 +219,122 @@ body {
     margin-top: 0px;
     padding-top: 0px;
 }
+/* Offline games ----------------------------------------------------------------------------------------------------*/
+
+.board { 
+    top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically */
+    width: 900px; /* This ensures the width is 80% of the viewport width */
+    height: 600px; 
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto; /* Center the board horizontally */
+    position: relative; /* Ensure proper positioning of child elements */
+}
+
+  
+.ball { 
+    height: 30px; 
+    width: 30px; 
+    border-radius: 50%; 
+    position: fixed; 
+    top: 380px; 
+    left: calc(50% - 15px); 
+    background-color: white;
+}
+
+.paddle_off { 
+    height: 100px; 
+    width: 10px; 
+    top: 350px;
+    position: fixed;  
+} 
+
+.paddle_1_off { 
+    left: calc(50% - 440px);  
+    background-color: rgb(31, 172, 237);
+} 
+  
+.paddle_2_off {  
+    right: calc(50% - 440px);   
+    background-color: rgb(191, 43, 221);
+}  
+
+#scores {
+    top: 110px; 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+
+}
+
+.player_1_score {
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(50% - 440px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
+}
+
+.player_2_score {
+    color: rgb(191, 43, 221);
+    position: fixed;
+    right: calc(50% - 440px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
+}
+
+.player_1_name {
+    top: 80px; 
+    text-align: left;
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(50% - 440px);
+    display: flex;
+}
+.player_2_name {
+    top: 80px; 
+    text-align: right;
+    right: calc(50% - 440px);
+    display: flex;
+    position: fixed;
+    color: rgb(191, 43, 221);
+}
+
+.form-control {
+    width: 100%; /* Full width input */
+    margin-bottom: 10px; /* Spacing between inputs */
+}
+
+.btn-primary {
+    width: 100%; /* Full width button */
+    margin-top: 10px; /* Spacing between input and button */
+}
+
+.tournament_off {
+    display: flex;
+    flex-direction: row; /* Added missing semicolon */
+    justify-content: center;
+    /* margin-top: 30px;
+    margin-left: 30px;
+    margin-right: 30px; */
+}
+
+.match_off {
+    width: 300px; /* Corrected the width property */
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 30px;
+}
+
+/* Online games -----------------------------------------------------------------------------------------------------*/
 
 #game-area {
     top: 50px;
@@ -470,13 +634,6 @@ body {
 }
 .hidden {
     display: none !important;
-}
-#champ {
-    text-align: center;
-    font-size: 3.2em;
-    font-weight: bold;
-    color:  #ff56d8;
-    margin-top: 40px;
 }
 
 .welcome {
