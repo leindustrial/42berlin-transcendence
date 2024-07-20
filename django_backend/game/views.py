@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.utils.translation import activate
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
 
 # Required for the language
 def set_language(request):
@@ -27,6 +28,21 @@ def hello(request):
 def offline_game(request):
     return render(request, 'game/offline-game.html')
 
+def test(request):
+    request_user_id = request.user.id
+    return render(request, 'game/test.html', {'request_user_id':request_user_id,})
+
+def json(request):
+    if request.method == 'GET':
+            # Prepare your data here
+            data = {
+                'message': 'This is the data fetched from the server.',
+                'status': 'success'
+            }
+            return JsonResponse(data)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
 @login_required
 def game_start(request):
 	return render(request, 'game/index.html', {})
@@ -42,7 +58,7 @@ def four_pl_game(request):
         return render(request, 'game/four-pl-game.html')
     else:
         return redirect('/')
-    
+
 def tournament(request):
     if request.user.is_authenticated:
         return render(request, 'game/tour.html')

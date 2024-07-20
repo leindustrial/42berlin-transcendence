@@ -9,5 +9,7 @@ urlpatterns = [
     path('four-pl-game/', views.four_pl_game, name='four_pl_game'),
     path('offline-game/', views.offline_game, name='offline_game'),
     path('tournament/', views.tournament, name='tournament'),
+	path('test/', views.test, name='test'),
+	path('test/json', views.json, name='json'),
     re_path(r'tour_game/(?P<session_id>[0-9a-fA-F-]+)/$', views.tour_game, name='tour_game'),
 ]
