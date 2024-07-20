@@ -129,4 +129,75 @@ document.addEventListener('DOMContentLoaded', () => {
         //         container.appendChild(errorMessage);
         //     });
     });
+
+	$('#Friends-Form').on('submit', function(event) {
+		event.preventDefault();
+		const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+		// var formData = $(this).serialize();
+
+		$.ajax({
+			type: 'POST',
+			url: $(this).attr('action'),
+			data: {
+				'csrfmiddlewaretoken': csrf,
+				'action':$('#action').val(),
+				'user_id':$('#user_id').val(),
+			},
+			success: function(data) {
+				console.log(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	})
+
+	// console.log($('#signup_form'));
+	$('#signup_form').on('submit', function(event) {
+		event.preventDefault();
+		const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+		$.ajax({
+			type: 'POST',
+			url: $(this).attr('action'),
+			data: {
+				'csrfmiddlewaretoken': csrf,
+				username:$('#id_username').val(),
+				password1:$('#id_password1').val(),
+				password2:$('#id_password2').val(),
+			},
+			success: function(data) {
+				console.log(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+
+	});
+
+	$('#login_form').on('submit', function(event) {
+		event.preventDefault();
+		const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+
+		$.ajax({
+			type: 'POST',
+			url: $(this).attr('action'),
+			data: {
+				'csrfmiddlewaretoken': csrf,
+				username:$('#login_name').val(),
+				password:$('#login_password').val(),
+			},
+			success: function(data) {
+				console.log(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+
+
+	});
 });

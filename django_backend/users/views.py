@@ -7,7 +7,7 @@ from .models import Profile
 from django.contrib.auth.models import User
 import os
 from django.utils.translation import gettext_lazy as _
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
 # Create your views here.
 def signup(request):
@@ -24,6 +24,36 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form':form,})
+
+def json_signup(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = User.objects.create_user(username=username, password=password)
+            profile = Profile.objects.create(user=user)
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            data = 'User' + username + 'created succesfully'
+            return HttpResponse(data)
+        else:
+            return HttpResponse('There was an error with your form')
+
+def json_login(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username)
+        user = authenticate(request, username=username, password=password)
+        print(f"Authenticated user: {user}")
+        if user is not None:
+            login(request, user)
+            return HttpResponse('You are now logged in')
+        else:
+            return HttpResponse('There was an error login in')
+    else:
+        return HttpResponse('Not an valid request')
 
 def logout(request):
     if request.method == "POST":
@@ -127,8 +157,40 @@ def json_profile_list(request):
                 ],
             }
             return JsonResponse(data)
+        elif request.method == 'POST':
+            current_user = Profile.objects.get(user_id=request.user.id)
+            action = request.POST.get('action')
+            target_id = request.POST.get('user_id')
+            all_profile_ids = set(Profile.objects.values_list('user_id', flat=True))
+            if int(target_id) in all_profile_ids:
+                target = Profile.objects.get(user_id=target_id)
+                if action == "unfriend":
+                    if target in current_user.friends.all():
+                        current_user.friends.remove(target)
+                else:
+                    if target not in current_user.friends.all():
+                        current_user.friends.add(target)
+                current_user.save()
+                profiles = Profile.objects.exclude(user=request.user)
+                friend_ids = set(current_user.friends.values_list('user_id', flat=True))
+                data = {
+                    'profiles': [
+                        {
+                            'username': profile.user.username,
+                            'id': profile.user.id,
+                            # shall be based on
+                            # if profile in current_user.friends.all
+                            'is_friend': profile.user.id in friend_ids,
+                        } for profile in profiles
+                    ],
+                }
+                return JsonResponse(data)
+            else:
+                data = {}
+                print('Not an existing profile id')
+                return JsonResponse(data)
         else:
-            return JsonResponse(data)
+            return JsonResponse({})
 
 
 def update_user(request):

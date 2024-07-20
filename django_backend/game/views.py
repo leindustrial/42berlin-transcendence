@@ -7,6 +7,7 @@ from django.utils.translation import activate
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+from django.contrib.auth.forms import UserCreationForm
 
 # Required for the language
 def set_language(request):
@@ -29,8 +30,8 @@ def offline_game(request):
     return render(request, 'game/offline-game.html')
 
 def test(request):
-    request_user_id = request.user.id
-    return render(request, 'game/test.html', {'request_user_id':request_user_id,})
+    SignUpForm = UserCreationForm()
+    return render(request, 'game/test.html', {'UserCreationForm': SignUpForm,})
 
 def json(request):
     if request.method == 'GET':
