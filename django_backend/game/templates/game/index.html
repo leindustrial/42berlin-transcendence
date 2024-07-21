@@ -23,6 +23,7 @@
 <body>
 
     <div class="container" id="screen"> <!-- 100vh container -->
+        {% block offline_tour %}
         {% block offline_game %}
         {% block two_pl_game %}
         {% block four_pl_game %}
@@ -48,19 +49,7 @@
                 document.getElementById('languageForm').submit();
             });
         </script>
-        
-        <!-- {% if user.is_authenticated %}
-        <a href="#" onClick="document.getElementById('logoutform').submit()">
-            <button type="button" class="btn btn-primary">Logout</button>
-        </a>
-        <form id="logoutform" method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <input type="hidden">
-        </form>
-        <a href="{% url 'profile' request.user.id %}">
-            <button type="button" class="btn btn-primary">Profile</button>
-        </a>
-        {% endif %} -->
+    
 
 
         <!-- Welcome page header with large logo -->
@@ -112,44 +101,33 @@
         </div>
 
 
-        <!-- Menu buttons -->
-        <!-- <div class="container" id="start">
-            <div class="row justify-content-center">
-                <div class="btn-group-vertical">
-                    <button type="button" class="btn btn-outline-primary btn-lg btn-block" onclick="location.href='{% url 'two_pl_game' %}'">{% translate "Two players" %}</button>
-                    <button type="button" class="btn btn-outline-primary btn-lg btn-block" onclick="location.href='{% url 'four_pl_game' %}'">{% translate "Four players" %}</button>
-                </div>
-            </div>
-        </div> -->
-
         <!-- Footer -->
         <div class="container" id="footer-welcome">
             <h3 class="text-center">42 {% translate "Berlin" %} | 2024</h3>
         </div>
 
-        
-        <!-- {% block welcome_section %}
-        {% endblock welcome_section %} -->
+
         {% endblock tournament %}
         {% endblock four_pl_game %}
         {% endblock two_pl_game %}
         {% endblock offline_game %}
+        {% endblock offline_tour %}
 
 
         <!-- Different buttons, not in use -->
 
         <!-- User navigation bar -->
-        <div class="container" id="user-navbar" style="display: none;">
+        <!-- <div class="container" id="user-navbar" style="display: none;">
             <div class="row justify-content-center">
                 <div class="row justify-content-center btn-group">
                     <button type="button" id="leaderboard" class="btn btn-outline-primary btn-lg">🏆 {% translate "Leaderboard" %}</button>
                     <button type="button" id="profile" class="btn btn-outline-primary btn-lg">👤 {% translate "Profile" %}</button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Profile navigation bar -->
-        <div class="container" id="user-navbar" style="display: none;">
+        <!-- <div class="container" id="user-navbar" style="display: none;">
             <div class="row justify-content-center">
                 <div class="row justify-content-center btn-group">
                     <button type="button" id="profile" class="btn btn-outline-primary btn-lg">👈 {% translate "Back to game" %}</button>
@@ -157,8 +135,8 @@
                     <button type="button" id="profile" class="btn btn-outline-primary btn-lg">{% translate "Log out" %}</button>
                 </div>
             </div>
-        </div>
-
+        </div> -->
+<!-- 
         <div class="container" id="two_players" style="display: none;">
             <h3 class="text-center">Two players mode</h3>
         </div>
@@ -168,16 +146,39 @@
 
         <div class="container" id="footer-game" style="display: none;">
             <h3 class="text-center">Footer game</h3>
-        </div>
+        </div> -->
         <!-- Enter your name form -->
-        <form id="name_form" style="display: none;">
+        <!-- <form id="name_form" style="display: none;">
             <div class="form-group">
                 <input type="text" class="form-control" id="player_name1" placeholder="Enter your name">
             </div>
             <button type="submit" id="play" class="btn btn-primary">Play!</button>
         </form>
 
-    </div>
+    </div> -->
+
+            <!-- Menu buttons -->
+        <!-- <div class="container" id="start">
+            <div class="row justify-content-center">
+                <div class="btn-group-vertical">
+                    <button type="button" class="btn btn-outline-primary btn-lg btn-block" onclick="location.href='{% url 'two_pl_game' %}'">{% translate "Two players" %}</button>
+                    <button type="button" class="btn btn-outline-primary btn-lg btn-block" onclick="location.href='{% url 'four_pl_game' %}'">{% translate "Four players" %}</button>
+                </div>
+            </div>
+        </div> -->
+
+            <!-- {% if user.is_authenticated %}
+        <a href="#" onClick="document.getElementById('logoutform').submit()">
+            <button type="button" class="btn btn-primary">Logout</button>
+        </a>
+        <form id="logoutform" method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <input type="hidden">
+        </form>
+        <a href="{% url 'profile' request.user.id %}">
+            <button type="button" class="btn btn-primary">Profile</button>
+        </a>
+        {% endif %} -->
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

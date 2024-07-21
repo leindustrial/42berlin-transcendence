@@ -5,11 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let dx, dy, dxd, dyd;
     let player1Name = 'Player 1'; // Default names
     let player2Name = 'Player 2';
-    const player1 = document.getElementById('player1Name');
-	const player2 = document.getElementById('player2Name');
     let paddle1Velocity = 0, paddle2Velocity = 0;
-    const paddleSpeed = 2;
-    
+    const paddleSpeed = 10;
 
     // Input fields and start button
     let player1Input = document.getElementById('player1NameInput');
@@ -18,40 +15,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener for start button click
     startGameBtn.addEventListener('click', function() {
-        if (player1Input.value === player2Input.value) {
-            alert('Please enter different names for both players.');
-        }
-        else if (player1Input.value && player2Input.value) {
-            player1.textContent = player1Input.value;
+        if (player1Input.value && player2Input.value) {
+            document.getElementById('player1Name').innerHTML = player1Input.value;
+            document.getElementById('player2Name').innerHTML = player2Input.value;
             player1Name = player1Input.value;
-            player2.textContent = player2Input.value;
             player2Name = player2Input.value;
             // Hide the name form
-            document.getElementById('player_form').style.display = 'none';
+            document.getElementById('name_form').style.display = 'none';
             startGame();
 
         } else {
             alert('Please enter names for both players.');
-        }
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            if (player1Input.value === player2Input.value) {
-                alert('Please enter different names for both players.');
-            }
-            else if (player1Input.value && player2Input.value) {
-                player1.textContent = player1Input.value;
-                player1Name = player1Input.value;
-                player2.textContent = player2Input.value;
-                player2Name = player2Input.value;
-                // Hide the name form
-                document.getElementById('player_form').style.display = 'none';
-                startGame();
-
-            } else {
-                alert('Please enter names for both players.');
-            }
         }
     });
 
@@ -62,79 +36,27 @@ document.addEventListener('DOMContentLoaded', function () {
         updatePaddlePositions();
 
         // Listen for Enter key to start the game
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
-                if (gameState === 'stop') {
-                    // Hide winner message and reset game state
-                    winnerMessage.style.display = 'none';
-                    gameState = 'start';
-                    resetScores();
+                if (gameState === 'start' || gameState === 'stop') {
+                    gameState = 'play';
+                    message.textContent = 'Game Started';
+                    resetBallPosition();
+                    requestAnimationFrame(() => {
+                        dx = Math.floor(Math.random() * 4) + 3;
+                        dy = Math.floor(Math.random() * 4) + 3;
+                        dxd = Math.floor(Math.random() * 2);
+                        dyd = Math.floor(Math.random() * 2);
+                        moveBall(dx, dy, dxd, dyd);
+                    });
                 }
-                if (gameState === 'start') {
-                    if (player1Input.value === player2Input.value) {
-                        alert('Please enter different names for both players.');
-                    }
-                    else if (player1Input.value && player2Input.value) {
-                        player1.textContent = player1Input.value;
-                        player1Name = player1Input.value;
-                        player2.textContent = player2Input.value;
-                        player2Name = player2Input.value;
-                        gameState = 'play';
-                        message.innerHTML = 'Game Started';
-                        resetBallPosition();
-                        requestAnimationFrame(() => {
-                            dx = Math.floor(Math.random() * 4) + 3;
-                            dy = Math.floor(Math.random() * 4) + 3;
-                            dxd = Math.floor(Math.random() * 2);
-                            dyd = Math.floor(Math.random() * 2);
-                            moveBall(dx, dy, dxd, dyd);
-                        });
-                        document.getElementById('player_form').style.display = 'none';
-                        //nameForm.style.display = 'none';
-                        winnerMessage.style.display = 'none';
-                        setTimeout(() => {
-                            message.innerHTML = '';
-                        }, 1000);
-                    } else {
-                        alert('Please enter names for both players.');
-                    }
-                }
-            }
-            if (e.key === 'w') {
-                if (gameState === 'play') {
-                    paddle1Velocity = -paddleSpeed;
-                }
-            }
-            if (e.key === 's') {
-                if (gameState === 'play') {
-                    paddle1Velocity = paddleSpeed;
-                }
-            }
-            if (e.key === 'ArrowUp') {
-                if (gameState === 'play') {
-                    paddle2Velocity = -paddleSpeed;
-                }
-            }
-            if (e.key === 'ArrowDown') {
-                if (gameState === 'play') {
-                    paddle2Velocity = paddleSpeed;
-                }
-            }
-        });
-    
-        document.addEventListener('keyup', function(e) {
-            if (e.key === 'w' || e.key === 's') {
-                paddle1Velocity = 0;
-            }
-            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                paddle2Velocity = 0;
             }
         });
     }
 
     function initializeElements() {
-        paddle_1 = document.querySelector('.paddle_1_off');
-        paddle_2 = document.querySelector('.paddle_2_off');
+        paddle_1 = document.querySelector('.paddle_1');
+        paddle_2 = document.querySelector('.paddle_2');
         board = document.querySelector('.board');
         ball = document.querySelector('.ball');
         score_1 = document.querySelector('.player_1_score');
@@ -144,14 +66,12 @@ document.addEventListener('DOMContentLoaded', function () {
         paddle_2_coord = paddle_2.getBoundingClientRect();
         ball_coord = ball.getBoundingClientRect();
         board_coord = board.getBoundingClientRect();
-        paddle_common = document.querySelector('.paddle_off').getBoundingClientRect();
+        paddle_common = document.querySelector('.paddle').getBoundingClientRect();
 
         dx = Math.floor(Math.random() * 4) + 3;
         dy = Math.floor(Math.random() * 4) + 3;
         dxd = Math.floor(Math.random() * 2);
         dyd = Math.floor(Math.random() * 2);
-        ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
-        ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
     }
 
     function resetScores() {
@@ -248,6 +168,73 @@ document.addEventListener('DOMContentLoaded', function () {
 
         requestAnimationFrame(updatePaddlePositions);
     }
+
+    // function updatePlayerNames() {
+    //     document.getElementById('player1Name').innerHTML = player1Name;
+    //     document.getElementById('player2Name').innerHTML = player2Name;
+    // }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            if (gameState === 'stop') {
+                // Hide winner message and reset game state
+                winnerMessage.style.display = 'none';
+                gameState = 'start';
+                resetScores();
+            }
+            if (gameState === 'start') {
+                if (player1Input.value && player2Input.value) {
+                    gameState = 'play';
+                    message.innerHTML = 'Game Started';
+                    resetBallPosition();
+                    requestAnimationFrame(() => {
+                        dx = Math.floor(Math.random() * 4) + 3;
+                        dy = Math.floor(Math.random() * 4) + 3;
+                        dxd = Math.floor(Math.random() * 2);
+                        dyd = Math.floor(Math.random() * 2);
+                        moveBall(dx, dy, dxd, dyd);
+                    });
+                    document.getElementById('name_form').style.display = 'none';
+                    //nameForm.style.display = 'none';
+                    winnerMessage.style.display = 'none';
+                    setTimeout(() => {
+                        message.innerHTML = '';
+                    }, 1000);
+                } else {
+                    alert('Please enter names for both players.');
+                }
+            }
+        }
+        if (e.key === 'w') {
+            if (gameState === 'play') {
+                paddle1Velocity = -paddleSpeed;
+            }
+        }
+        if (e.key === 's') {
+            if (gameState === 'play') {
+                paddle1Velocity = paddleSpeed;
+            }
+        }
+        if (e.key === 'ArrowUp') {
+            if (gameState === 'play') {
+                paddle2Velocity = -paddleSpeed;
+            }
+        }
+        if (e.key === 'ArrowDown') {
+            if (gameState === 'play') {
+                paddle2Velocity = paddleSpeed;
+            }
+        }
+    });
+
+    document.addEventListener('keyup', function(e) {
+        if (e.key === 'w' || e.key === 's') {
+            paddle1Velocity = 0;
+        }
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            paddle2Velocity = 0;
+        }
+    });
 
     initializeElements();
     updatePaddlePositions();

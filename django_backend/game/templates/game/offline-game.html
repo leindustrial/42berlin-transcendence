@@ -7,30 +7,26 @@
 <!-- Game navigation bar -->
 {% include 'game/header-button-unlogged.html' %}
 
-<div id="name_form">
-    <div class="form-group">
-        <input type="text" class="form-control" id="player1NameInput" placeholder="Player 1 Name" required>
-    </div>
-    <div class="form-group">
-        <input type="text" class="form-control" id="player2NameInput" placeholder="Player 2 Name" required>
-    </div>
-    <button id="startGameBtn" class="btn btn-primary">Start Game</button>
-</div>
-
-
-
 <!-- 2 player game -->
 <body>
 <div class="container" id="offline-game">
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center">
             <div class="col-auto">
+                <div id="player_form">
+
+                        <input type="text" class="form-control" id="player1NameInput" placeholder="Player 1 name" required>
+
+                        <input type="text" class="form-control" id="player2NameInput" placeholder="Player 2 name" required>
+
+                    <button id="startGameBtn" class="btn btn-primary">Start Game</button>
+                </div>
                 <div class="board">
                     <div class='ball'>
                         <div class="ball_effect"></div>
                     </div>
-                    <div class="paddle_1 paddle"></div>
-                    <div class="paddle_2 paddle"></div>
+                    <div class="paddle_1_off paddle_off"></div>
+                    <div class="paddle_2_off paddle_off"></div>
                     <h3 class="player_1_score" id="scores">0</h3>
                     <h3 class="player_2_score" id="scores">0</h3>
                     <h3 class="player_1_name" id="player1Name">Player 1</h3>
@@ -39,179 +35,12 @@
                         <h2 id="winnerName"></h2>
                     </div>
                     <p class="text-center"><h3 class="message" >{% translate "Press Enter to Play" %}</h3></p>
-                    <!-- <div id="name_form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="player1Name" placeholder="Player 1 Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="player2Name" placeholder="Player 2 Name" required>
-                        </div>
-                        <button id="startGameBtn" class="btn btn-primary">Start Game</button>
-                    </div> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-<style>
 
-#name_form {
-    width: 400px;
-    margin: 100px auto; /* Centers the form horizontally */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers the items within the form */
-    justify-content: center; /* Centers the form vertically */
-    text-align: center;
-}
-
-
-
-/* Basic game: */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-} 
-  
-body { 
-    height: 100vh; 
-    width: 100vw; 
-    background-color: #232222; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    margin-top: 0px;
-    padding-top: 0px;
-}
-
-.board { 
-    top: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Center content vertically */
-    width: 900px; /* This ensures the width is 80% of the viewport width */
-    height: 600px; 
-    border: 2px solid rgb(255, 255, 255);
-    margin: auto; /* Center the board horizontally */
-    position: relative; /* Ensure proper positioning of child elements */
-}
-
-/* 'Press enter to play' message */
-.message { 
-    position: fixed; 
-    color: #7d7fac; 
-    text-align: center;
-    top: 370px; 
-    margin: 60px auto auto auto; 
-}
-
-
-.winner-message {
-    position: absolute;
-    top: 250px;
-    display: none; /* Initially hide the winner message */
-}
-
-  
-.ball { 
-    height: 30px; 
-    width: 30px; 
-    border-radius: 50%; 
-    position: fixed; 
-    top: 375px; 
-    left: calc(50% - 15px); 
-    background-color: white;
-}
-
-.paddle { 
-    height: 100px; 
-    width: 10px; 
-    top: 350px;
-    position: fixed;  
-} 
-
-.paddle_1 { 
-    left: calc(50% - 440px);  
-    background-color: rgb(31, 172, 237);
-} 
-  
-.paddle_2 {  
-    right: calc(50% - 440px);   
-    background-color: rgb(191, 43, 221);
-} 
-
-#scores {
-    top: 110px; 
-    font-size: 30pt;
-    font-family:monospace;
-    text-transform: uppercase;
-    letter-spacing: 3pt;
-
-}
-
-.player_1_score {
-    color: rgb(31, 172, 237);
-    position: fixed;
-    left: calc(50% - 440px);
-    display: flex;
-    justify-content: center;
-    margin: auto; /* Center the board horizontally */
-    z-index: 1; /* Ensure the score is on top of other elements */
-}
-
-.player_2_score {
-    color: rgb(191, 43, 221);
-    position: fixed;
-    right: calc(50% - 440px);
-    display: flex;
-    justify-content: center;
-    margin: auto; /* Center the board horizontally */
-    z-index: 1; /* Ensure the score is on top of other elements */
-}
-
-.player_1_name {
-    top: 80px; 
-    text-align: left;
-    color: rgb(31, 172, 237);
-    position: fixed;
-    left: calc(50% - 440px);
-    display: flex;
-}
-.player_2_name {
-    top: 80px; 
-    text-align: right;
-    right: calc(50% - 440px);
-    display: flex;
-    position: fixed;
-    color: rgb(191, 43, 221);
-}
-
-#name_form {
-    position: absolute; /* Position the form absolutely */
-    top: 25%; /* Adjust top positioning as needed */
-    
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center horizontally */
-    background-color: white; /* White background color */
-    padding: 20px; /* Padding inside the form */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-    z-index: 10; /* Ensure form appears above other elements */
-}
-
-.form-control {
-    width: 100%; /* Full width input */
-    margin-bottom: 10px; /* Spacing between inputs */
-}
-
-.btn-primary {
-    width: 100%; /* Full width button */
-    margin-top: 10px; /* Spacing between input and button */
-}
-
-
-</style>
 
 <script src="{% static 'js/offline_game.js' %}"></script>
 </body>

@@ -27,6 +27,9 @@ def hello(request):
 def offline_game(request):
     return render(request, 'game/offline-game.html')
 
+def offline_tour(request):
+    return render(request, 'game/offline-tour.html')
+
 @login_required
 def game_start(request):
 	return render(request, 'game/index.html', {})
