@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 import os
 from django.utils.translation import gettext_lazy as _
 from django.http import JsonResponse, HttpResponse
+from django.conf import settings
 
 # Create your views here.
 def signup(request):
@@ -95,7 +96,6 @@ def json_profile(request):
                 row = [item.strip() for item in row]
                 table_data.append(row)
             total_games = profile.wins + profile.losses
-            # Prepare your data here
             # manual Serialization
             data = {
                 'userid': request.user.id,
@@ -206,6 +206,21 @@ def update_user(request):
     else:
         return redirect('/')
 
+def json_update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        current_profile = Profile.objects.get(user_id=request.user.id)
+        form = UserCreationForm(request.POST or None, instance=current_user)
+        if form.is_valid():
+            form.save()
+            login(request, current_user)
+            return HttpResponse('Account has been updated')
+        return HttpResponse('An error occurred')
+    else:
+        return HttpResponse('You need to log in first')
+
+
+
 def update_display_name(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(id=request.user.id)
@@ -219,6 +234,22 @@ def update_display_name(request):
         return render(request, 'users/update_display_name.html', {'form':form,})
     else:
         return redirect('/')
+
+def json_update_display_name(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        current_profile = Profile.objects.get(user_id=request.user.id)
+        form = UpdateDisplayNameForm(request.POST or None, instance=current_profile)
+        if form.is_valid():
+            display_name = form.cleaned_data.get('display_name')
+            if Profile.objects.filter(display_name=display_name).exists():
+                return HttpResponse('Display Name already exists')
+            form.save()
+            login(request, current_user)
+            return HttpResponse('Display Name has been updated')
+        return HttpResponse('An error occurred')
+    else:
+        return HttpResponse('You need to log in first')
 
 def update_avatar(request):
     if request.user.is_authenticated:
@@ -235,6 +266,29 @@ def update_avatar(request):
         return render(request, 'users/update_avatar.html', {'form':form,})
     else:
         return redirect('/')
+
+def json_update_avatar(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        current_profile = Profile.objects.get(user_id=request.user.id)
+        # old_avatar = current_profile.avatar
+        form = UpdateAvatarForm(request.POST or None, request.FILES or None)
+        if request.method == 'POST':
+            if form.is_valid():
+                avatar = form.cleaned_data.get('avatar')
+                print(avatar)
+                # avatar there and uploaded but not saved in profiel avatar
+                form.save()
+                # if old_avatar:
+                #     os.remove(old_avatar.path)
+                login(request, current_user)
+                return HttpResponse('An error occurred')
+            return HttpResponse('Form not valid')
+        else:
+            return HttpResponse('Not a valid request')
+    else:
+        return HttpResponse('You need to log in first')
+
 
 def profile_nav(request):
     return render(request, 'users/profile_nav.html')

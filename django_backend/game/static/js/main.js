@@ -163,9 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			url: $(this).attr('action'),
 			data: {
 				'csrfmiddlewaretoken': csrf,
-				username:$('#id_username').val(),
-				password1:$('#id_password1').val(),
-				password2:$('#id_password2').val(),
+				'username':$('#id_username').val(),
+				'password1':$('#id_password1').val(),
+				'password2':$('#id_password2').val(),
 			},
 			success: function(data) {
 				console.log(data);
@@ -187,8 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			url: $(this).attr('action'),
 			data: {
 				'csrfmiddlewaretoken': csrf,
-				username:$('#login_name').val(),
-				password:$('#login_password').val(),
+				'username':$('#login_name').val(),
+				'password':$('#login_password').val(),
 			},
 			success: function(data) {
 				console.log(data);
@@ -200,4 +200,87 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 	});
+
+	update_display_name_form
+
+	$('#update_display_name_form').on('submit', function(event) {
+		event.preventDefault();
+		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+
+		$.ajax({
+			type: 'POST',
+			url: $(this).attr('action'),
+			data: {
+				'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+				'display_name':$('#id_display_name').val(),
+			},
+			success: function(data) {
+				console.log(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+
+
+	});
+
+	$('#update_user_form').on('submit', function(event) {
+		event.preventDefault();
+		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+		$.ajax({
+			type: 'POST',
+			url: $(this).attr('action'),
+			data: {
+				'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+				'username':$('#update_username').val(),
+				'password1':$('#update_password1').val(),
+				'password2':$('#update_password2').val(),
+			},
+			success: function(data) {
+				console.log(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+
+
+	});
+
+	console.log($('#update_avatar_form'));
+	$('#update_avatar_form').on('submit', function(event) {
+		event.preventDefault();
+		const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+		const image = document.getElementById('id_avatar')
+		const image_data = image.files[0]
+		const url = URL.createObjectURL(image_data)
+		console.log(url)
+
+		const formData = new FormData
+		formData.append('csrfmiddlewaretoken', csrf)
+		formData.append('avatar', image.files[0])
+		$.ajax({
+			type: 'POST',
+			url: $(this).attr('action'),
+			enctype: 'multipart/form-data',
+			data: formData,
+			success: function(data) {
+				console.log(data);
+			},
+			error: function(data) {
+				console.log(data);
+			},
+			cache: false,
+			contentType: false,
+			processData: false,
+		});
+
+
+	});
+
+
 });
