@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     message.textContent = 'This message is added by JavaScript!';
     container.appendChild(message);
 
+	const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+	window.csrf = csrfToken;
+
     const fetchProfileButton = document.getElementById('fetchProfileButton');
     fetchProfileButton.addEventListener('click', () => {
 		console.log('Button clicked');
@@ -132,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	$('#Friends-Form').on('submit', function(event) {
 		event.preventDefault();
-		const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 		// var formData = $(this).serialize();
 
@@ -140,12 +143,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			type: 'POST',
 			url: $(this).attr('action'),
 			data: {
-				'csrfmiddlewaretoken': csrf,
+				'csrfmiddlewaretoken': window.csrf,
 				'action':$('#action').val(),
 				'user_id':$('#user_id').val(),
 			},
 			success: function(data) {
 				console.log(data);
+				// window.csrf = data.csrf_token;
 			},
 			error: function(data) {
 				console.log(data);
@@ -156,19 +160,20 @@ document.addEventListener('DOMContentLoaded', () => {
 	// console.log($('#signup_form'));
 	$('#signup_form').on('submit', function(event) {
 		event.preventDefault();
-		const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 		$.ajax({
 			type: 'POST',
 			url: $(this).attr('action'),
 			data: {
-				'csrfmiddlewaretoken': csrf,
+				'csrfmiddlewaretoken': window.csrf,
 				'username':$('#id_username').val(),
 				'password1':$('#id_password1').val(),
 				'password2':$('#id_password2').val(),
 			},
 			success: function(data) {
-				console.log(data);
+				console.log(data.msg);
+				window.csrf = data.csrf_token;
 			},
 			error: function(data) {
 				console.log(data);
@@ -179,19 +184,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	$('#login_form').on('submit', function(event) {
 		event.preventDefault();
-		const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 
 		$.ajax({
 			type: 'POST',
 			url: $(this).attr('action'),
 			data: {
-				'csrfmiddlewaretoken': csrf,
+				'csrfmiddlewaretoken': window.csrf,
 				'username':$('#login_name').val(),
 				'password':$('#login_password').val(),
 			},
 			success: function(data) {
-				console.log(data);
+				console.log(data.msg);
+				window.csrf = data.csrf_token;
 			},
 			error: function(data) {
 				console.log(data);
@@ -201,22 +207,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	});
 
-	update_display_name_form
 
 	$('#update_display_name_form').on('submit', function(event) {
 		event.preventDefault();
 		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-
+		// 'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
 
 		$.ajax({
 			type: 'POST',
 			url: $(this).attr('action'),
 			data: {
-				'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+				'csrfmiddlewaretoken': window.csrf,
 				'display_name':$('#id_display_name').val(),
 			},
 			success: function(data) {
-				console.log(data);
+				console.log(data.msg);
+				window.csrf = data.csrf_token;
 			},
 			error: function(data) {
 				console.log(data);
@@ -234,13 +240,14 @@ document.addEventListener('DOMContentLoaded', () => {
 			type: 'POST',
 			url: $(this).attr('action'),
 			data: {
-				'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+				'csrfmiddlewaretoken': window.csrf,
 				'username':$('#update_username').val(),
 				'password1':$('#update_password1').val(),
 				'password2':$('#update_password2').val(),
 			},
 			success: function(data) {
-				console.log(data);
+				console.log(data.msg);
+				window.csrf = data.csrf_token;
 			},
 			error: function(data) {
 				console.log(data);
@@ -253,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	console.log($('#update_avatar_form'));
 	$('#update_avatar_form').on('submit', function(event) {
 		event.preventDefault();
-		const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 		const image = document.getElementById('id_avatar')
 		const image_data = image.files[0]
@@ -261,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		console.log(url)
 
 		const formData = new FormData
-		formData.append('csrfmiddlewaretoken', csrf)
+		formData.append('csrfmiddlewaretoken', window.csrf)
 		formData.append('avatar', image.files[0])
 		$.ajax({
 			type: 'POST',
@@ -269,7 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			enctype: 'multipart/form-data',
 			data: formData,
 			success: function(data) {
-				console.log(data);
+				console.log(data.msg);
+				window.csrf = data.csrf_token;
 			},
 			error: function(data) {
 				console.log(data);
@@ -282,5 +290,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	});
 
+	$('#logoutform').on('submit', function(event) {
+		event.preventDefault();
+		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+		const formData = new FormData();
+		formData.append('csrfmiddlewaretoken', window.csrf)
+		$.ajax({
+			type: 'POST',
+			url: $(this).attr('action'),
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(data) {
+				console.log(data.msg);
+				window.csrf = data.csrf_token;
+			},
+			error: function(data) {
+				console.log(data);
+			},
+		});
+
+
+	});
 
 });

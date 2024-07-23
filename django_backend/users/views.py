@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 import os
 from django.utils.translation import gettext_lazy as _
 from django.http import JsonResponse, HttpResponse
-from django.conf import settings
+from django.middleware.csrf import get_token
 
 # Create your views here.
 def signup(request):
@@ -37,7 +37,7 @@ def json_signup(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             data = 'User' + username + 'created succesfully'
-            return HttpResponse(data)
+            return JsonResponse({'msg': data, 'status': 'success', 'csrf_token': get_token(request)})
         else:
             return HttpResponse('There was an error with your form')
 
@@ -50,16 +50,19 @@ def json_login(request):
         print(f"Authenticated user: {user}")
         if user is not None:
             login(request, user)
-            return HttpResponse('You are now logged in')
+            return JsonResponse({'msg':'You are now logged in', 'status': 'success', 'csrf_token': get_token(request)})
         else:
             return HttpResponse('There was an error login in')
     else:
         return HttpResponse('Not an valid request')
 
-def logout(request):
-    if request.method == "POST":
+def json_logout(request):
+    if request.user.is_authenticated:
         logout(request)
-        return redirect('/')
+        return JsonResponse({'msg':'You are now logged out', 'status': 'success', 'csrf_token': get_token(request)})
+    else:
+        return HttpResponse('You need to log in first')
+
 
 def profile(request, pk):
     if request.user.is_authenticated:
@@ -117,7 +120,7 @@ def json_profile(request):
             }
             return JsonResponse(data)
         else:
-            return JsonResponse()
+            return JsonResponse({'error': 'You need to log in first'}, status=403)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
@@ -155,6 +158,7 @@ def json_profile_list(request):
                         'is_friend': profile.user.id in friend_ids,
                     } for profile in profiles
                 ],
+                'status': 'success',
             }
             return JsonResponse(data)
         elif request.method == 'POST':
@@ -183,14 +187,16 @@ def json_profile_list(request):
                             'is_friend': profile.user.id in friend_ids,
                         } for profile in profiles
                     ],
+                    'status': 'success',
+                    # 'csrf_token': get_token(request)
                 }
                 return JsonResponse(data)
             else:
-                data = {}
-                print('Not an existing profile id')
-                return JsonResponse(data)
+                return JsonResponse({'error': 'Not an existing profile id'}, status=404)
         else:
-            return JsonResponse({})
+            return JsonResponse({'error': 'Method not allowed'}, status=405)
+    else:
+        return JsonResponse({'error': 'You need to log in first'}, status=403)
 
 
 def update_user(request):
@@ -214,7 +220,7 @@ def json_update_user(request):
         if form.is_valid():
             form.save()
             login(request, current_user)
-            return HttpResponse('Account has been updated')
+            return JsonResponse({'msg':'Your account has been updated', 'status': 'success', 'csrf_token': get_token(request)})
         return HttpResponse('An error occurred')
     else:
         return HttpResponse('You need to log in first')
@@ -246,7 +252,7 @@ def json_update_display_name(request):
                 return HttpResponse('Display Name already exists')
             form.save()
             login(request, current_user)
-            return HttpResponse('Display Name has been updated')
+            return JsonResponse({'msg':'Display Name has been updated', 'status': 'success', 'csrf_token': get_token(request)})
         return HttpResponse('An error occurred')
     else:
         return HttpResponse('You need to log in first')
@@ -271,18 +277,18 @@ def json_update_avatar(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(id=request.user.id)
         current_profile = Profile.objects.get(user_id=request.user.id)
-        # old_avatar = current_profile.avatar
-        form = UpdateAvatarForm(request.POST or None, request.FILES or None)
+        old_avatar = current_profile.avatar
+        print(old_avatar)
         if request.method == 'POST':
+            form = UpdateAvatarForm(request.POST or None, request.FILES or None, instance=current_profile)
             if form.is_valid():
                 avatar = form.cleaned_data.get('avatar')
                 print(avatar)
-                # avatar there and uploaded but not saved in profiel avatar
                 form.save()
-                # if old_avatar:
-                #     os.remove(old_avatar.path)
+                if old_avatar:
+                    os.remove(old_avatar.path)
                 login(request, current_user)
-                return HttpResponse('An error occurred')
+                return JsonResponse({'msg':'Profile pic has been updated', 'status': 'success', 'csrf_token': get_token(request)})
             return HttpResponse('Form not valid')
         else:
             return HttpResponse('Not a valid request')

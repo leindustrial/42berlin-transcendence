@@ -97,6 +97,18 @@
         </form>
       </div>
 
+
+	<form id="logoutform" method="POST" action="{% url 'json_logout' %}">
+		{% csrf_token %}
+		<input type="hidden">
+		<div class="form-group">
+			<input type="submit" value="❌ Log out" class="btn btn-primary">
+		</div>
+	</form>
+	<!-- <a href="#" onClick="document.getElementById('logoutform').submit()" class="btn btn-outline-primary btn-sm">
+		❌ Log out"
+	</a> -->
+
 	<script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
