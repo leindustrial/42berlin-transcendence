@@ -16,19 +16,24 @@
     </div>
 
 	<button id="fetchProfileButton">Fetch Profile Data</button>
-	<div id="resultBox"></div>
+	<div id="ProfilePage" style="display: none;"></div>
+
+	<div class="row justify-content-center" >
+        <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+			{{ UpdateAvatarForm.as_p }}
+        	<!-- <div class="form-group">
+				<label for="profile_picture">Profile Picture:</label>
+            	<input type="file" id="profile_picture" name="profile_picture" accept="image/png, image/jpeg" required>
+			</div> -->
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-primary">
+			</div>
+        </form>
+    </div>
 
 	<button id="fetchProfileListButton">Fetch Profile List Data</button>
-	<div id="resultBox2"></div>
-
-	<form method="POST" action="{% url 'json_profile_list' %}" id="Friends-Form">
-		{% csrf_token %}
-		<input type="hidden" id="action" name="action" value="unfriend">
-		<!-- Value needs to be flexible for whichever user id -->
-		<input type="hidden" id="user_id" name="user_id" value="18">
-		<button type="submit" class="btn btn-outline-danger">Unfriend
-		</button>
-	</form>
+	<div id="ProfileListPage" style="display: none;"></div>
 
 	<div class="row justify-content-center">
 		<form id="update_display_name_form" method="POST" action="{% url 'json_update_display_name' %}">
@@ -83,19 +88,7 @@
 		</form>
 	</div>
 
-	<div class="row justify-content-center" >
-        <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
-          {% csrf_token %}
-			{{ UpdateAvatarForm.as_p }}
-        	<!-- <div class="form-group">
-				<label for="profile_picture">Profile Picture:</label>
-            	<input type="file" id="profile_picture" name="profile_picture" accept="image/png, image/jpeg" required>
-			</div> -->
-			<div class="form-group">
-				<input type="submit" value="Save" class="btn btn-primary">
-			</div>
-        </form>
-      </div>
+
 
 
 	<form id="logoutform" method="POST" action="{% url 'json_logout' %}">

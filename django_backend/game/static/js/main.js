@@ -1,27 +1,114 @@
-// get profile Id from button data
-// function getProfileData() {
-// 	$.ajax({
-// 		type: 'GET',
-// 		url: '/profile/1',
-// 		sucess: function(data) {
-// 			console.log(data);
-// 		},
-// 		error: function(data) {
-// 			console.log(data);
-// 		}
-// 	});
-// };
+function createProfilePage(data) {
+    // Construct the HTML for the profile page
+    let profilePageHtml = `
+        <div class="profile-container">
+            <h2>Profile</h2>
 
+            <p><strong>User ID:</strong> ${data.userid}</p>
+            <p><strong>Username:</strong> ${data.username}</p>
+			<a href="#">edit</a>
 
-// document.addEventListener('DOMContentLoaded', () => {
-// 	var script = document.createElement('script');
-// 	script.src = "https://code.jquery.com/jquery-3.6.0.min.js";
-// 	script.type = 'text/javascript';
-// 	script.onload = getProfileData;
-// 	const profilePageUsername = document.getElementById('profile-page-username');
+			<p><strong>Display Name:</strong> ${data.display_name}</p>
+			<a href="#">edit</a>
 
-// });
-// script.js
+            <div class="profile-avatar">
+                ${data.avatar ? `<img src="${data.avatar}" alt="Profile Picture">` : `<img src="/media/avatars/kermit.png" alt="Default Picture">`}
+            </div>
+			<a href="#">edit</a>
+
+            <div class="profile-friends">
+                <h3>Friends</h3>
+                <ul>
+                    ${data.friends.map(friend => `
+                        <li>
+                            <p><strong>Username:</strong> ${friend.username}</p>
+                            <p><strong>ID:</strong> ${friend.id}</p>
+                            <p><strong>Online Status:</strong> ${friend.online_status ? 'Online' : 'Offline'}</p>
+                        </li>
+                    `).join('')}
+                </ul>
+				<a href="#">make new friends</a>
+            </div>
+
+			<div class="profile-stats">
+                <h3>Stats</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                            <th>Total Games</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>${data.wins}</td>
+                                <td>${data.losses}</td>
+                                <td>${data.total_games}</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="profile-match-history">
+                <h3>Match History</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Winner</th>
+                            <th>Looser</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+						${data.match_history.filter(match => match.length === 3 && match.every(item => item)).map(match => `
+                            <tr>
+                                <td>${match[0]}</td>
+                                <td>${match[1]}</td>
+                                <td>${match[2]}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    // Insert the HTML into the div with ID ProfilePage
+    // const profilePageDiv = document.getElementById('ProfilePage');
+    // profilePageDiv.innerHTML = profilePageHtml;
+
+    // // Display the ProfilePage div
+    // profilePageDiv.style.display = 'block';
+	return profilePageHtml;
+}
+
+// <input type="hidden" name="csrfmiddlewaretoken" value="${window.csrfToken}">
+
+function createProfileListPage(data) {
+	// Construct the HTML for the profile list page
+	let profileListPageHtml = `
+		<div class="profile-list-container">
+			<h2>Profile List</h2>
+			<ul>
+				${data.profiles.map(profile => `
+					<li>
+						<p><strong>Username:</strong> ${profile.username}</p>
+						<p><strong>ID:</strong> ${profile.id}</p>
+						<form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
+							<input type="hidden" id="action" name="action" value="${profile.is_friend ? 'unfriend' : 'befriend'}">
+							<input type="hidden" id="user_id" name="user_id" value="${profile.id}">
+							<button type="submit">
+								${profile.is_friend ? 'Unfriend' : 'Befriend'}
+							</button>
+						</form>
+					</li>
+				`).join('')}
+			</ul>
+		</div>
+	`;
+	return profileListPageHtml;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.querySelector('.container');
     const message = document.createElement('p');
@@ -31,58 +118,71 @@ document.addEventListener('DOMContentLoaded', () => {
 	const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 	window.csrf = csrfToken;
 
+	// get Page Elements
+	const profilePageDiv = document.getElementById('ProfilePage');
+	const profileListPageDiv = document.getElementById('ProfileListPage');
+
     const fetchProfileButton = document.getElementById('fetchProfileButton');
     fetchProfileButton.addEventListener('click', () => {
 		console.log('Button clicked');
-		const resultBox = document.getElementById('resultBox')
 
 		// const url = window.location.href + 'json';
 		const url = 'http://localhost:8000/game-start/users/json_profile';
 		console.log(`Sending fetch request to: ${url}`);
 
-		// $.ajax({
-		// 	type: 'GET',
-		// 	url: url,
-		// 	success: function(data) {
-		// 		console.log(data);
-		// 		// container.html(JSON.stringify(data)); // Displaying data for debug purposes
-		// 	},
-		// 	error: function(xhr, status, error) {
-		// 		console.error('An error occurred:', status, error);
-		// 		// container.html('An error occurred while fetching the profile.');
-		// 	}
-		// });
-        fetch(url, {
-				method: 'GET', // Specify the HTTP method
-				headers: {
-					'Content-Type': 'application/json', // Set content type for JSON response
-				}
-			})
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                console.log('Fetch request successfully sent');
-                return response.json();
-            })
-            .then(data => {
-                console.log('Data received:', data);
-                const dataMessage = document.createElement('p');
+		$.ajax({
+			type: 'GET',
+			url: url,
+			success: function(data) {
+				console.log(data);
+				const dataMessage = document.createElement('p');
                 dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
                 container.appendChild(dataMessage);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-                const errorMessage = document.createElement('p');
-                errorMessage.textContent = `Error fetching data: ${error.message}`;
-                container.appendChild(errorMessage);
-            });
+				profilePageDiv.innerHTML = createProfilePage(data);
+				profilePageDiv.style.display = 'block';
+				// container.html(JSON.stringify(data)); // Displaying data for debug purposes
+			},
+			error: function(xhr, status, error) {
+				// console.error('An error occurred:', ${data.error});
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMsg = xhr.responseJSON.error;
+                }
+				profilePageDiv.innerHTML = `${errorMsg}`;
+				profilePageDiv.style.display = 'block';
+				// container.html('An error occurred while fetching the profile.');
+			}
+		});
+        // fetch(url, {
+		// 		method: 'GET', // Specify the HTTP method
+		// 		headers: {
+		// 			'Content-Type': 'application/json', // Set content type for JSON response
+		// 		}
+		// 	})
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error(`HTTP error! status: ${response.status}`);
+        //         }
+        //         console.log('Fetch request successfully sent');
+        //         return response.json();
+        //     })
+        //     .then(data => {
+        //         console.log('Data received:', data);
+        //         const dataMessage = document.createElement('p');
+        //         dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
+        //         container.appendChild(dataMessage);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error fetching data:', error);
+        //         const errorMessage = document.createElement('p');
+        //         errorMessage.textContent = `Error fetching data: ${error.message}`;
+        //         container.appendChild(errorMessage);
+        //     });
     });
 
 	const fetchProfileListButton = document.getElementById('fetchProfileListButton');
     fetchProfileListButton.addEventListener('click', () => {
 		console.log('Button clicked');
-		const resultBox = document.getElementById('resultBox')
 
 		// const url = window.location.href + 'json';
 		const url = 'http://localhost:8000/game-start/users/json_profile_list';
@@ -96,6 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				const dataMessage = document.createElement('p');
 				dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
 				container.appendChild(dataMessage);
+				profileListPageDiv.innerHTML = createProfileListPage(data);
+				profileListPageDiv.style.display = 'block';
 				// container.html(JSON.stringify(data)); // Displaying data for debug purposes
 			},
 			error: function(xhr, status, error) {
@@ -133,22 +235,27 @@ document.addEventListener('DOMContentLoaded', () => {
         //     });
     });
 
-	$('#Friends-Form').on('submit', function(event) {
+	$(document).on('submit', '.Friends-Form', function(event) {
 		event.preventDefault();
 		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-
+		console.log('Button clicked');
 		// var formData = $(this).serialize();
+		const form = $(this);
+		console.log(form.find('input[name="action"]').val());
+		console.log(form.find('input[name="user_id"]').val());
 
 		$.ajax({
 			type: 'POST',
 			url: $(this).attr('action'),
 			data: {
 				'csrfmiddlewaretoken': window.csrf,
-				'action':$('#action').val(),
-				'user_id':$('#user_id').val(),
+				'action':form.find('input[name="action"]').val(),
+				'user_id':form.find('input[name="user_id"]').val(),
 			},
 			success: function(data) {
 				console.log(data);
+				profileListPageDiv.innerHTML = createProfileListPage(data);
+				profileListPageDiv.style.display = 'block';
 				// window.csrf = data.csrf_token;
 			},
 			error: function(data) {
