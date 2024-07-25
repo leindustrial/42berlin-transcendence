@@ -6,15 +6,15 @@ function createProfilePage(data) {
 
             <p><strong>User ID:</strong> ${data.userid}</p>
             <p><strong>Username:</strong> ${data.username}</p>
-			<a href="#">edit</a>
+			<a href="#" class="update-useraccount-link">edit</a>
 
 			<p><strong>Display Name:</strong> ${data.display_name}</p>
-			<a href="#">edit</a>
+			<a href="#" class="update-displayname-link">edit</a>
 
             <div class="profile-avatar">
                 ${data.avatar ? `<img src="${data.avatar}" width=200 height=200 alt="Profile Picture">` : `<img src="/media/avatars/kermit.png" width=200 height=200 alt="Default Picture">`}
             </div>
-			<a href="#">edit</a>
+			<a href="#" class="update-avatar-link">edit</a>
 
             <div class="profile-friends">
                 <h3>Friends</h3>
@@ -27,7 +27,7 @@ function createProfilePage(data) {
                         </li>
                     `).join('')}
                 </ul>
-				<a href="#">make new friends</a>
+				<a href="#" class="profile-list-link">make new friends</a>
             </div>
 
 			<div class="profile-stats">
@@ -183,11 +183,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 	window.csrf = csrfToken;
-	window.lastDisplayedElement;
+	window.lastDisplayedElement = null;
 
 	// get Page Elements
 	const profilePageDiv = document.getElementById('ProfilePage');
 	const profileListPageDiv = document.getElementById('ProfileListPage');
+	const userFormDiv = document.getElementById('id-update-user');
+	const displaynameFormDiv = document.getElementById('id-update-displayname');
+	const avatarFormDiv = document.getElementById('id-update-avatar');
 
     const fetchProfileButton = document.getElementById('fetchProfileButton');
     fetchProfileButton.addEventListener('click', () => {
@@ -205,8 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
 				const dataMessage = document.createElement('p');
                 dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
                 container.appendChild(dataMessage);
+				if (window.lastDisplayedElement != null) {
+					window.lastDisplayedElement.style.display = 'none';
+				}
 				profilePageDiv.innerHTML = createProfilePage(data);
 				profilePageDiv.style.display = 'block';
+				window.lastDisplayedElement = profilePageDiv;
 				// container.html(JSON.stringify(data)); // Displaying data for debug purposes
 			},
 			error: function(xhr, status, error) {
@@ -215,8 +222,12 @@ document.addEventListener('DOMContentLoaded', () => {
 				if (xhr.responseJSON && xhr.responseJSON.error) {
                     errorMsg = xhr.responseJSON.error;
                 }
+				if (window.lastDisplayedElement != null) {
+					window.lastDisplayedElement.style.display = 'none';
+				}
 				profilePageDiv.innerHTML = `${errorMsg}`;
 				profilePageDiv.style.display = 'block';
+				window.lastDisplayedElement = profilePageDiv;
 				// container.html('An error occurred while fetching the profile.');
 			}
 		});
@@ -247,6 +258,36 @@ document.addEventListener('DOMContentLoaded', () => {
         //     });
     });
 
+	$(document).on('click', '.update-useraccount-link', function(event) {
+		event.preventDefault();
+
+		if (window.lastDisplayedElement != null) {
+			window.lastDisplayedElement.style.display = 'none';
+		}
+		userFormDiv.style.display = 'block';
+		window.lastDisplayedElement = userFormDiv;
+	});
+
+	$(document).on('click', '.update-displayname-link', function(event) {
+		event.preventDefault();
+
+		if (window.lastDisplayedElement != null) {
+			window.lastDisplayedElement.style.display = 'none';
+		}
+		displaynameFormDiv.style.display = 'block';
+		window.lastDisplayedElement = displaynameFormDiv;
+	});
+
+	$(document).on('click', '.update-avatar-link', function(event) {
+		event.preventDefault();
+
+		if (window.lastDisplayedElement != null) {
+			window.lastDisplayedElement.style.display = 'none';
+		}
+		avatarFormDiv.style.display = 'block';
+		window.lastDisplayedElement = avatarFormDiv;
+	});
+
 	$(document).on('click', '.profile-link', function(event) {
 		event.preventDefault();
 
@@ -259,8 +300,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			url: url,
 			success: function(response) {
 				console.log('Profile details fetched:', response);
+				if (window.lastDisplayedElement != null) {
+					window.lastDisplayedElement.style.display = 'none';
+				}
 				profilePageDiv.innerHTML = createOtherProfilePage(response);
 				profilePageDiv.style.display = 'block';
+				window.lastDisplayedElement = profilePageDiv;
 				// Optionally display profile details or give feedback to the user
 			},
 			error: function(xhr, status, error) {
@@ -272,9 +317,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-	const fetchProfileListButton = document.getElementById('fetchProfileListButton');
-    fetchProfileListButton.addEventListener('click', () => {
-		console.log('Button clicked');
+	// const fetchProfileListButton = document.getElementById('fetchProfileListButton');
+    // fetchProfileListButton.addEventListener('click', () => {
+	$(document).on('click', '.profile-list-link', function(event) {
+		// console.log('Button clicked');
 
 		// const url = window.location.href + 'json';
 		const url = 'http://localhost:8000/game-start/users/json_profile_list';
@@ -288,8 +334,12 @@ document.addEventListener('DOMContentLoaded', () => {
 				const dataMessage = document.createElement('p');
 				dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
 				container.appendChild(dataMessage);
+				if (window.lastDisplayedElement != null) {
+					window.lastDisplayedElement.style.display = 'none';
+				}
 				profileListPageDiv.innerHTML = createProfileListPage(data);
 				profileListPageDiv.style.display = 'block';
+				window.lastDisplayedElement = profileListPageDiv;
 				// container.html(JSON.stringify(data)); // Displaying data for debug purposes
 			},
 			error: function(xhr, status, error) {
@@ -346,8 +396,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			},
 			success: function(data) {
 				console.log(data);
+				if (window.lastDisplayedElement != null) {
+					window.lastDisplayedElement.style.display = 'none';
+				}
 				profileListPageDiv.innerHTML = createProfileListPage(data);
 				profileListPageDiv.style.display = 'block';
+				window.lastDisplayedElement = profileListPageDiv;
 				// window.csrf = data.csrf_token;
 			},
 			error: function(data) {

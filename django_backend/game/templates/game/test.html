@@ -15,10 +15,10 @@
         <p>This is a paragraph of text on my simple webpage.</p>
     </div>
 
-	<button id="fetchProfileButton">Fetch Profile Data</button>
+	<button id="fetchProfileButton">Profile</button>
 	<div id="ProfilePage" style="display: none;"></div>
 
-	<div class="row justify-content-center" >
+	<div id="id-update-avatar" class="row justify-content-center" style="display: none;">
         <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
           {% csrf_token %}
 			{{ UpdateAvatarForm.as_p }}
@@ -35,7 +35,7 @@
 	<button id="fetchProfileListButton">Fetch Profile List Data</button>
 	<div id="ProfileListPage" style="display: none;"></div>
 
-	<div class="row justify-content-center">
+	<div id="id-update-displayname" class="row justify-content-center" style="display: none;">
 		<form id="update_display_name_form" method="POST" action="{% url 'json_update_display_name' %}">
 			{% csrf_token %}
 			<div>
@@ -48,7 +48,7 @@
 		</form>
 	</div>
 
-	<div class="row justify-content-center">
+	<div id="id-signup" class="row justify-content-center" style="display: none;">
 	<form id="signup_form" method="POST" action="{% url 'json_signup' %}" enctype="multipart/form-data">
 		{% csrf_token %}
 			{{ UserCreationForm.as_p }}
@@ -58,7 +58,7 @@
 	</form>
 	</div>
 
-	<div class="row justify-content-center">
+	<div id="id-login" class="row justify-content-center">
 		<form id="login_form" method="POST" action="{% url 'json_login' %}" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div class="form-group">
@@ -71,7 +71,7 @@
 		</form>
 	</div>
 
-	<div class="row justify-content-center">
+	<div id="id-update-user" class="row justify-content-center" style="display: none;">
 		<form id="update_user_form" method="POST" action="{% url 'json_update_user' %}">
 		  {% csrf_token %}
 		  <div>
@@ -90,14 +90,15 @@
 
 
 
-
-	<form id="logoutform" method="POST" action="{% url 'json_logout' %}">
-		{% csrf_token %}
-		<input type="hidden">
-		<div class="form-group">
-			<input type="submit" value="❌ Log out" class="btn btn-primary">
-		</div>
-	</form>
+	<div id="id-logout">
+		<form id="logoutform" method="POST" action="{% url 'json_logout' %}">
+			{% csrf_token %}
+			<input type="hidden">
+			<div class="form-group">
+				<input type="submit" value="❌ Log out" class="btn btn-primary">
+			</div>
+		</form>
+	</div>
 	<!-- <a href="#" onClick="document.getElementById('logoutform').submit()" class="btn btn-outline-primary btn-sm">
 		❌ Log out"
 	</a> -->
