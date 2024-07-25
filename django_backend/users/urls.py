@@ -11,6 +11,7 @@ urlpatterns = [
 	path('profile/<int:pk>', views.profile, name='profile'),
 	path('json_profile/', views.json_profile, name='json_profile'),
 	path('json_profile_list/', views.json_profile_list, name='json_profile_list'),
+	path('json_profile/<int:pk>', views.json_profile_pk, name='json_profile_pk'),
 	path('update_user/', views.update_user, name='update_user'),
 	path('json_update_user/', views.json_update_user, name='json_update_user'),
 	path('update_display_name/', views.update_display_name, name='update_display_name'),

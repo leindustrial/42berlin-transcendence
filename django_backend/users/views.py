@@ -81,6 +81,51 @@ def profile(request, pk):
     else:
         return redirect('/')
 
+def json_profile_pk(request, pk):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            profile = Profile.objects.get(user_id=pk)
+            if profile.avatar:
+                profile_pic_url = profile.avatar.url
+            else:
+                profile_pic_url = None
+            match_history = profile.match_history
+            if match_history is None:
+                match_history = ""
+            match_history = match_history.split(';')
+            table_data = []
+            for match in match_history:
+                row = match.split(',')
+                row = [item.strip() for item in row]
+                table_data.append(row)
+            total_games = profile.wins + profile.losses
+            # manual Serialization
+            data = {
+                'userid': pk,
+                'username': profile.user.username,
+                'display_name': profile.display_name,
+                'avatar': profile_pic_url,
+                'wins': profile.wins,
+                'losses': profile.losses,
+                'total_games': total_games,
+                'friends': [
+                    {
+                        'username': friend.user.username,
+                        'id': friend.user.id,
+                        'online_status': friend.online_status
+                    } for friend in profile.friends.all()
+                ],
+                'match_history': table_data,
+                'status': 'success'
+            }
+            return JsonResponse(data)
+        else:
+            return JsonResponse({'error': 'You need to log in first'}, status=403)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+
 def json_profile(request):
     if request.method == 'GET':
         if request.user.is_authenticated:

@@ -92,7 +92,7 @@ function createProfileListPage(data) {
 			<ul>
 				${data.profiles.map(profile => `
 					<li>
-						<p><strong>Username:</strong> ${profile.username}</p>
+						<p><strong>Username:</strong> <a href="#" class="profile-link" data-id="${profile.id}">${profile.username}</a></p>
 						<p><strong>ID:</strong> ${profile.id}</p>
 						<form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
 							<input type="hidden" id="action" name="action" value="${profile.is_friend ? 'unfriend' : 'befriend'}">
@@ -179,6 +179,29 @@ document.addEventListener('DOMContentLoaded', () => {
         //         container.appendChild(errorMessage);
         //     });
     });
+
+	$(document).on('click', '.profile-link', function(event) {
+		event.preventDefault();
+
+		const profileId = $(this).data('id');
+		const url = `/en/game-start/users/json_profile/${profileId}`;
+		console.log(url);
+
+		$.ajax({
+			type: 'GET',
+			url: url,
+			success: function(response) {
+				console.log('Profile details fetched:', response);
+				// Optionally display profile details or give feedback to the user
+			},
+			error: function(xhr, status, error) {
+				console.error('Error fetching profile details:', status, error);
+				// Optionally give feedback to the user
+			}
+		});
+	});
+
+
 
 	const fetchProfileListButton = document.getElementById('fetchProfileListButton');
     fetchProfileListButton.addEventListener('click', () => {
