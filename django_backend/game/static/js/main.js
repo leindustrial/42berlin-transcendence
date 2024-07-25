@@ -12,7 +12,7 @@ function createProfilePage(data) {
 			<a href="#">edit</a>
 
             <div class="profile-avatar">
-                ${data.avatar ? `<img src="${data.avatar}" alt="Profile Picture">` : `<img src="/media/avatars/kermit.png" alt="Default Picture">`}
+                ${data.avatar ? `<img src="${data.avatar}" width=200 height=200 alt="Profile Picture">` : `<img src="/media/avatars/kermit.png" width=200 height=200 alt="Default Picture">`}
             </div>
 			<a href="#">edit</a>
 
@@ -72,15 +72,81 @@ function createProfilePage(data) {
             </div>
         </div>
     `;
-
-    // Insert the HTML into the div with ID ProfilePage
-    // const profilePageDiv = document.getElementById('ProfilePage');
-    // profilePageDiv.innerHTML = profilePageHtml;
-
-    // // Display the ProfilePage div
-    // profilePageDiv.style.display = 'block';
 	return profilePageHtml;
 }
+
+function createOtherProfilePage(data) {
+    // Construct the HTML for the profile page
+    let profilePageHtml = `
+        <div class="profile-container">
+            <h2>Profile</h2>
+
+            <p><strong>User ID:</strong> ${data.userid}</p>
+            <p><strong>Username:</strong> ${data.username}</p>
+
+			<p><strong>Display Name:</strong> ${data.display_name}</p>
+
+            <div class="profile-avatar">
+                ${data.avatar ? `<img src="${data.avatar}" width=200 height=200 alt="Profile Picture">` : `<img src="/media/avatars/kermit.png" width=200 height=200 alt="Default Picture">`}
+            </div>
+
+            <div class="profile-friends">
+                <h3>Friends</h3>
+                <ul>
+                    ${data.friends.map(friend => `
+                        <li>
+                            <p><strong>Username:</strong> ${friend.username}</p>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+
+			<div class="profile-stats">
+                <h3>Stats</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                            <th>Total Games</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>${data.wins}</td>
+                                <td>${data.losses}</td>
+                                <td>${data.total_games}</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="profile-match-history">
+                <h3>Match History</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Winner</th>
+                            <th>Looser</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+						${data.match_history.filter(match => match.length === 3 && match.every(item => item)).map(match => `
+                            <tr>
+                                <td>${match[0]}</td>
+                                <td>${match[1]}</td>
+                                <td>${match[2]}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+	return profilePageHtml;
+}
+
+
 
 // <input type="hidden" name="csrfmiddlewaretoken" value="${window.csrfToken}">
 
@@ -117,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 	window.csrf = csrfToken;
+	window.lastDisplayedElement;
 
 	// get Page Elements
 	const profilePageDiv = document.getElementById('ProfilePage');
@@ -192,6 +259,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			url: url,
 			success: function(response) {
 				console.log('Profile details fetched:', response);
+				profilePageDiv.innerHTML = createOtherProfilePage(response);
+				profilePageDiv.style.display = 'block';
 				// Optionally display profile details or give feedback to the user
 			},
 			error: function(xhr, status, error) {
