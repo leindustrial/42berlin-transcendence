@@ -39,7 +39,9 @@ def json_signup(request):
             data = 'User' + username + 'created succesfully'
             return JsonResponse({'msg': data, 'status': 'success', 'csrf_token': get_token(request)})
         else:
-            return HttpResponse('There was an error with your form')
+            return JsonResponse({'error': 'Please check your username and password are conform'}, status=400)
+    else:
+        return JsonResponse({'error': 'Not a valid request'}, status=405)
 
 def json_login(request):
     if request.method == "POST":
@@ -52,7 +54,7 @@ def json_login(request):
             login(request, user)
             return JsonResponse({'msg':'You are now logged in', 'status': 'success', 'csrf_token': get_token(request)})
         else:
-            return JsonResponse({'error': 'Please check your username and password are correct'}, status=404)
+            return JsonResponse({'error': 'Please check your username and password are correct'}, status=400)
     else:
         return JsonResponse({'error': 'Not a valid request'}, status=405)
 
@@ -61,7 +63,7 @@ def json_logout(request):
         logout(request)
         return JsonResponse({'msg':'You are now logged out', 'status': 'success', 'csrf_token': get_token(request)})
     else:
-        return HttpResponse('You need to log in first')
+        return JsonResponse({'error': 'You need to log in first'}, status=403)
 
 
 def profile(request, pk):
@@ -266,9 +268,9 @@ def json_update_user(request):
             form.save()
             login(request, current_user)
             return JsonResponse({'msg':'Your account has been updated', 'status': 'success', 'csrf_token': get_token(request)})
-        return HttpResponse('An error occurred')
+        return JsonResponse({'error': 'There is an error with your form'}, status=400)
     else:
-        return HttpResponse('You need to log in first')
+        return JsonResponse({'error': 'You need to log in first'}, status=403)
 
 
 
@@ -297,10 +299,10 @@ def json_update_display_name(request):
                 return HttpResponse('Display Name already exists')
             form.save()
             login(request, current_user)
-            return JsonResponse({'msg':'Display Name has been updated', 'status': 'success', 'csrf_token': get_token(request)})
-        return HttpResponse('An error occurred')
+            return JsonResponse({'msg':'Display Name has been updated', 'status': 'success', 'csrf_token': get_token(request),})
+        return JsonResponse({'error': 'There is an error with your form'}, status=400)
     else:
-        return HttpResponse('You need to log in first')
+        return JsonResponse({'error': 'You need to log in first'}, status=403)
 
 def update_avatar(request):
     if request.user.is_authenticated:
@@ -320,25 +322,22 @@ def update_avatar(request):
 
 def json_update_avatar(request):
     if request.user.is_authenticated:
-        current_user = User.objects.get(id=request.user.id)
-        current_profile = Profile.objects.get(user_id=request.user.id)
-        old_avatar = current_profile.avatar
-        print(old_avatar)
         if request.method == 'POST':
+            current_user = User.objects.get(id=request.user.id)
+            current_profile = Profile.objects.get(user_id=request.user.id)
+            old_avatar = current_profile.avatar
             form = UpdateAvatarForm(request.POST or None, request.FILES or None, instance=current_profile)
             if form.is_valid():
                 avatar = form.cleaned_data.get('avatar')
-                print(avatar)
                 form.save()
                 if old_avatar:
                     os.remove(old_avatar.path)
                 login(request, current_user)
-                return JsonResponse({'msg':'Profile pic has been updated', 'status': 'success', 'csrf_token': get_token(request)})
-            return HttpResponse('Form not valid')
-        else:
-            return HttpResponse('Not a valid request')
+                return JsonResponse({'msg':'Your Profile picture has been updated', 'status': 'success', 'csrf_token': get_token(request)})
+            return JsonResponse({'error': 'There is an error with your form'}, status=400)
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
     else:
-        return HttpResponse('You need to log in first')
+        return JsonResponse({'error': 'You need to log in first'}, status=403)
 
 
 def profile_nav(request):

@@ -63,6 +63,7 @@
 
 	<div id="id-update-avatar" style="display: none;">
 		<p class="error-message"></p>
+		<p class="success-message"></p>
         <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
           {% csrf_token %}
 			{{ UpdateAvatarForm.as_p }}
@@ -74,6 +75,7 @@
 
 	<div id="id-update-displayname" style="display: none;">
 		<p class="error-message"></p>
+		<p class="success-message"></p>
 		<form id="update_display_name_form" method="POST" action="{% url 'json_update_display_name' %}">
 			{% csrf_token %}
 			<div>
@@ -91,6 +93,8 @@
 
 
 	<div id="id-update-user" style="display: none;">
+		<p class="error-message"></p>
+		<p class="success-message"></p>
 		<form id="update_user_form" method="POST" action="{% url 'json_update_user' %}">
 		  {% csrf_token %}
 		  <div>

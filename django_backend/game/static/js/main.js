@@ -268,6 +268,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		event.preventDefault();
 		hideElement(window.lastDisplayedElement);
 		showElement(userFormDiv);
+		setElementinnerHTML(document.getElementById('id-update-user').querySelector('.success-message'), "");
+		setElementinnerHTML(document.getElementById('id-update-user').querySelector('.error-message'), "");
 		window.lastDisplayedElement = userFormDiv;
 	});
 
@@ -275,6 +277,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		event.preventDefault();
 		hideElement(window.lastDisplayedElement);
 		showElement(displaynameFormDiv);
+		setElementinnerHTML(document.getElementById('id-update-displayname').querySelector('.success-message'), "");
+		setElementinnerHTML(document.getElementById('id-update-displayname').querySelector('.error-message'), "");
 		window.lastDisplayedElement = displaynameFormDiv;
 	});
 
@@ -282,6 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		event.preventDefault();
 		hideElement(window.lastDisplayedElement);
 		showElement(avatarFormDiv);
+		setElementinnerHTML(document.getElementById('id-update-avatar').querySelector('.success-message'), "");
+		setElementinnerHTML(document.getElementById('id-update-avatar').querySelector('.error-message'), "");
 		window.lastDisplayedElement = avatarFormDiv;
 	});
 
@@ -312,11 +318,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	$(document).on('click', '.signup-link', function(event) {
 		hideElement(loginFormDiv);
+		setElementinnerHTML(document.getElementById('id-signup').querySelector('.error-message'), "");
 		showElement(signupFormDiv);
+
 	});
 
 	$(document).on('click', '.login-link', function(event) {
 		hideElement(signupFormDiv);
+		setElementinnerHTML(document.getElementById('id-login').querySelector('.error-message'), "");
 		showElement(loginFormDiv);
 	});
 
@@ -330,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			type: 'GET',
 			url: url,
 			success: function(data) {
-				console.log(data);
+				// console.log(data);
 				hideElement(window.lastDisplayedElement);
 				setElementinnerHTML(profileListPageDiv, createProfileListPage(data));
 				showElement(profileListPageDiv);
@@ -361,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				'user_id':form.find('input[name="user_id"]').val(),
 			},
 			success: function(data) {
-				console.log(data);
+				// console.log(data);
 				hideElement(window.lastDisplayedElement);
 				setElementinnerHTML(profileListPageDiv, createProfileListPage(data));
 				showElement(profileListPageDiv);
@@ -370,6 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			},
 			error: function(data) {
 				console.log(data);
+				// To Do
 			}
 		});
 	})
@@ -394,10 +404,14 @@ document.addEventListener('DOMContentLoaded', () => {
 				hideElement(signupFormDiv);
 				showElement(navbarDiv);
 			},
-			error: function(data) {
-				console.log(data);
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+				console.log(errorMsg);
 				const errorP = document.getElementById('id-signup').querySelector('.error-message');
-				setElementinnerHTML(errorP, data);
+				setElementinnerHTML(errorP, `${errorMsg}`);
 			}
 		});
 
@@ -437,6 +451,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	$('#update_display_name_form').on('submit', function(event) {
 		event.preventDefault();
 
+		const successP = document.getElementById('id-update-displayname').querySelector('.success-message');
+		const errorP = document.getElementById('id-update-displayname').querySelector('.error-message');
+
 		$.ajax({
 			type: 'POST',
 			url: $(this).attr('action'),
@@ -447,9 +464,17 @@ document.addEventListener('DOMContentLoaded', () => {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
+				setElementinnerHTML(errorP, "");
+				setElementinnerHTML(successP, data.msg);
 			},
-			error: function(data) {
-				console.log(data);
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+				console.log(errorMsg);
+				setElementinnerHTML(successP, "");
+				setElementinnerHTML(errorP, `${errorMsg}`);
 			}
 		});
 
@@ -459,6 +484,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	$('#update_user_form').on('submit', function(event) {
 		event.preventDefault();
 		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+		const successP = document.getElementById('id-update-user').querySelector('.success-message');
+		const errorP = document.getElementById('id-update-user').querySelector('.error-message');
 
 		$.ajax({
 			type: 'POST',
@@ -472,9 +500,17 @@ document.addEventListener('DOMContentLoaded', () => {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
+				setElementinnerHTML(errorP, "");
+				setElementinnerHTML(successP, data.msg);
 			},
-			error: function(data) {
-				console.log(data);
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+				console.log(errorMsg);
+				setElementinnerHTML(successP, "");
+				setElementinnerHTML(errorP, `${errorMsg}`);
 			}
 		});
 
@@ -490,6 +526,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		const url = URL.createObjectURL(image_data)
 		console.log(url)
 
+		const errorP = document.getElementById('id-update-avatar').querySelector('.error-message');
+		const successP = document.getElementById('id-update-avatar').querySelector('.success-message');
+
 		const formData = new FormData
 		formData.append('csrfmiddlewaretoken', window.csrf)
 		formData.append('avatar', image.files[0])
@@ -501,16 +540,22 @@ document.addEventListener('DOMContentLoaded', () => {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
+				setElementinnerHTML(errorP, "");
+				setElementinnerHTML(successP, data.msg);
 			},
-			error: function(data) {
-				console.log(data);
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+				console.log(errorMsg);
+				setElementinnerHTML(successP, "");
+				setElementinnerHTML(errorP, `${errorMsg}`);
 			},
 			cache: false,
 			contentType: false,
 			processData: false,
 		});
-
-
 	});
 
 	$('#logoutform').on('submit', function(event) {
