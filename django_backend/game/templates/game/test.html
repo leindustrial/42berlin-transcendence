@@ -10,6 +10,7 @@
     <title>Simple Page</title>
 </head>
 <body>
+
     <div class="container">
         <h1>Welcome to Pong</h1>
         <p>That takes you to transcendence.</p>
@@ -112,5 +113,8 @@
 	</div>
 
 	<script src="{% static 'js/main.js' %}"></script>
+	<script>
+		const DEFAULT_AVATAR_URL = "{% static 'avatar/kermit.png' %}";
+	</script>
 </body>
 </html>

@@ -331,7 +331,8 @@ def json_update_avatar(request):
                 avatar = form.cleaned_data.get('avatar')
                 form.save()
                 if old_avatar:
-                    os.remove(old_avatar.path)
+                    if os.path.exists(old_avatar.path):
+                        os.remove(old_avatar.path)
                 login(request, current_user)
                 return JsonResponse({'msg':'Your Profile picture has been updated', 'status': 'success', 'csrf_token': get_token(request)})
             return JsonResponse({'error': 'There is an error with your form'}, status=400)

@@ -12,7 +12,7 @@ function createProfilePage(data) {
 			<a href="#" class="update-displayname-link">edit</a>
 
             <div class="profile-avatar">
-                ${data.avatar ? `<img src="${data.avatar}" width=200 height=200 alt="Profile Picture">` : `<img src="/media/avatars/kermit.png" width=200 height=200 alt="Default Picture">`}
+                ${data.avatar ? `<img src="${data.avatar}" width=200 height=200 alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" width=200 height=200 alt="Default Picture">`}
             </div>
 			<a href="#" class="update-avatar-link">edit</a>
 
