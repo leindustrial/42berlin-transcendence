@@ -11,29 +11,61 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to My Simple Page</h1>
-        <p>This is a paragraph of text on my simple webpage.</p>
+        <h1>Welcome to Pong</h1>
+        <p>That takes you to transcendence.</p>
     </div>
 
-	<button id="fetchProfileButton">Profile</button>
-	<div id="ProfilePage" style="display: none;"></div>
+	<div id="id-navbar" style="display: none;">
 
-	<div id="id-update-avatar" class="row justify-content-center" style="display: none;">
+		<div id="id-profile-button">
+		<button id="fetchProfileButton">Profile</button>
+		</div>
+
+		<div id="id-logout">
+			<form id="logoutform" method="POST" action="{% url 'json_logout' %}">
+				{% csrf_token %}
+				<input type="hidden">
+				<input type="submit" value="❌ Log out">
+			</form>
+		</div>
+
+	</div>
+
+	<div id="id-login" style="display: block;">
+		<form id="login_form" method="POST" action="{% url 'json_login' %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div>
+				<label for ="login_name">Username:</label>
+				<input type="text" id="login_name" name="login_name" required><br>
+				<label for="login_password">Password:</label>
+				<input type="password" id="login_password" name="login_password" required><br>
+				<input type="submit" value="Login">
+			</div>
+		</form>
+		<p>Don't have an account? Create one <a href="#" class="signup-link">Here</a></p>
+	</div>
+
+	<div id="id-signup" style="display: none;">
+		<form id="signup_form" method="POST" action="{% url 'json_signup' %}" enctype="multipart/form-data">
+			{% csrf_token %}
+				{{ UserCreationForm.as_p }}
+			<input type="submit" value="Sign Up">
+		</form>
+		<p>Already have an account? Log in <a href="#" class="login-link">Here</a></p>
+	</div>
+
+	<div id="ProfilePage" style="display: none;"></div>
+	<div id="ProfileListPage" style="display: none;"></div>
+
+	<div id="id-update-avatar" style="display: none;">
         <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
           {% csrf_token %}
 			{{ UpdateAvatarForm.as_p }}
-        	<!-- <div class="form-group">
-				<label for="profile_picture">Profile Picture:</label>
-            	<input type="file" id="profile_picture" name="profile_picture" accept="image/png, image/jpeg" required>
-			</div> -->
-			<div class="form-group">
-				<input type="submit" value="Save" class="btn btn-primary">
-			</div>
+			<input type="submit" value="Save">
         </form>
     </div>
 
-	<button id="fetchProfileListButton">Fetch Profile List Data</button>
-	<div id="ProfileListPage" style="display: none;"></div>
+	<!-- <button id="fetchProfileListButton">Fetch Profile List Data</button>-->
 
 	<div id="id-update-displayname" class="row justify-content-center" style="display: none;">
 		<form id="update_display_name_form" method="POST" action="{% url 'json_update_display_name' %}">
@@ -43,35 +75,16 @@
 				<input type="text" name="display_name" maxlength="12" id="id_display_name" required>
 			</div><br><br>
 			<div class="form-group">
-				<input type="submit" value="Save" class="btn btn-primary">
+				<input type="submit" value="Save">
 			</div>
 		</form>
 	</div>
 
-	<div id="id-signup" class="row justify-content-center" style="display: none;">
-	<form id="signup_form" method="POST" action="{% url 'json_signup' %}" enctype="multipart/form-data">
-		{% csrf_token %}
-			{{ UserCreationForm.as_p }}
-		<div class="form-group">
-		<input type="submit" value="{% translate 'Sign Up' %}" class="btn btn-primary">
-		</div>
-	</form>
-	</div>
 
-	<div id="id-login" class="row justify-content-center">
-		<form id="login_form" method="POST" action="{% url 'json_login' %}" enctype="multipart/form-data">
-			{% csrf_token %}
-			<div class="form-group">
-				<label for ="login_name">Username:</label>
-				<input type="text" id="login_name" name="login_name" required><br>
-				<label for="login_password">Password:</label>
-				<input type="password" id="login_password" name="login_password" required><br>
-				<input type="submit" value="Login" class="btn btn-primary">
-			</div>
-		</form>
-	</div>
 
-	<div id="id-update-user" class="row justify-content-center" style="display: none;">
+
+
+	<div id="id-update-user" style="display: none;">
 		<form id="update_user_form" method="POST" action="{% url 'json_update_user' %}">
 		  {% csrf_token %}
 		  <div>
@@ -83,25 +96,10 @@
 				<input type="password" id="update_password2" name="update_password2" required><br>
 		  </div>
 		  <div class="form-group">
-			<input type="submit" value="Save" class="btn btn-primary">
+			<input type="submit" value="Save">
 		  </div>
 		</form>
 	</div>
-
-
-
-	<div id="id-logout">
-		<form id="logoutform" method="POST" action="{% url 'json_logout' %}">
-			{% csrf_token %}
-			<input type="hidden">
-			<div class="form-group">
-				<input type="submit" value="❌ Log out" class="btn btn-primary">
-			</div>
-		</form>
-	</div>
-	<!-- <a href="#" onClick="document.getElementById('logoutform').submit()" class="btn btn-outline-primary btn-sm">
-		❌ Log out"
-	</a> -->
 
 	<script src="{% static 'js/main.js' %}"></script>
 </body>

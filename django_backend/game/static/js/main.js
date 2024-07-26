@@ -161,8 +161,8 @@ function createProfileListPage(data) {
 						<p><strong>Username:</strong> <a href="#" class="profile-link" data-id="${profile.id}">${profile.username}</a></p>
 						<p><strong>ID:</strong> ${profile.id}</p>
 						<form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
-							<input type="hidden" id="action" name="action" value="${profile.is_friend ? 'unfriend' : 'befriend'}">
-							<input type="hidden" id="user_id" name="user_id" value="${profile.id}">
+							<input type="hidden" name="action" value="${profile.is_friend ? 'unfriend' : 'befriend'}">
+							<input type="hidden" name="user_id" value="${profile.id}">
 							<button type="submit">
 								${profile.is_friend ? 'Unfriend' : 'Befriend'}
 							</button>
@@ -175,15 +175,40 @@ function createProfileListPage(data) {
 	return profileListPageHtml;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const container = document.querySelector('.container');
-    const message = document.createElement('p');
-    message.textContent = 'This message is added by JavaScript!';
-    container.appendChild(message);
 
+function addElementToArray(array, element) {
+	if (element) {
+		array.push(element);
+	}
+}
+
+function showElement(element) {
+	if (element) {
+		element.style.display = 'block';
+	}
+}
+
+function hideElement(element) {
+	if (element) {
+		element.style.display = 'none';
+	}
+}
+
+function setElementinnerHTML(element, string) {
+	if (element) {
+		element.innerHTML = string;
+	}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+	// csrfToken required for POST requests
 	const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 	window.csrf = csrfToken;
+
+	// global variables for Display Management
 	window.lastDisplayedElement = null;
+	window.userElements = [];
+	window.otherElements = [];
 
 	// get Page Elements
 	const profilePageDiv = document.getElementById('ProfilePage');
@@ -191,13 +216,24 @@ document.addEventListener('DOMContentLoaded', () => {
 	const userFormDiv = document.getElementById('id-update-user');
 	const displaynameFormDiv = document.getElementById('id-update-displayname');
 	const avatarFormDiv = document.getElementById('id-update-avatar');
+	const navbarDiv = document.getElementById('id-navbar');
+	const signupFormDiv = document.getElementById('id-signup');
+	const loginFormDiv = document.getElementById('id-login');
+
+	// after logout these elements shouldn't be shown
+	addElementToArray(window.userElements, profilePageDiv);
+	addElementToArray(window.userElements, profileListPageDiv);
+	addElementToArray(window.userElements, userFormDiv);
+	addElementToArray(window.userElements, displaynameFormDiv);
+	addElementToArray(window.userElements, avatarFormDiv);
+	addElementToArray(window.userElements, navbarDiv);
 
     const fetchProfileButton = document.getElementById('fetchProfileButton');
     fetchProfileButton.addEventListener('click', () => {
 		console.log('Button clicked');
 
 		// const url = window.location.href + 'json';
-		const url = 'http://localhost:8000/game-start/users/json_profile';
+		const url = '/game-start/users/json_profile/';
 		console.log(`Sending fetch request to: ${url}`);
 
 		$.ajax({
@@ -205,14 +241,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			url: url,
 			success: function(data) {
 				console.log(data);
-				const dataMessage = document.createElement('p');
-                dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
-                container.appendChild(dataMessage);
-				if (window.lastDisplayedElement != null) {
-					window.lastDisplayedElement.style.display = 'none';
-				}
-				profilePageDiv.innerHTML = createProfilePage(data);
-				profilePageDiv.style.display = 'block';
+				// const dataMessage = document.createElement('p');
+                // dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
+				hideElement(window.lastDisplayedElement);
+				setElementinnerHTML(profilePageDiv, createProfilePage(data));
+				showElement(profilePageDiv);
 				window.lastDisplayedElement = profilePageDiv;
 				// container.html(JSON.stringify(data)); // Displaying data for debug purposes
 			},
@@ -222,69 +255,33 @@ document.addEventListener('DOMContentLoaded', () => {
 				if (xhr.responseJSON && xhr.responseJSON.error) {
                     errorMsg = xhr.responseJSON.error;
                 }
-				if (window.lastDisplayedElement != null) {
-					window.lastDisplayedElement.style.display = 'none';
-				}
-				profilePageDiv.innerHTML = `${errorMsg}`;
-				profilePageDiv.style.display = 'block';
+				hideElement(window.lastDisplayedElement);
+				setElementinnerHTML(profilePageDiv, `${errorMsg}`);
+				showElement(profilePageDiv);
 				window.lastDisplayedElement = profilePageDiv;
 				// container.html('An error occurred while fetching the profile.');
 			}
 		});
-        // fetch(url, {
-		// 		method: 'GET', // Specify the HTTP method
-		// 		headers: {
-		// 			'Content-Type': 'application/json', // Set content type for JSON response
-		// 		}
-		// 	})
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error(`HTTP error! status: ${response.status}`);
-        //         }
-        //         console.log('Fetch request successfully sent');
-        //         return response.json();
-        //     })
-        //     .then(data => {
-        //         console.log('Data received:', data);
-        //         const dataMessage = document.createElement('p');
-        //         dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
-        //         container.appendChild(dataMessage);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error fetching data:', error);
-        //         const errorMessage = document.createElement('p');
-        //         errorMessage.textContent = `Error fetching data: ${error.message}`;
-        //         container.appendChild(errorMessage);
-        //     });
     });
 
 	$(document).on('click', '.update-useraccount-link', function(event) {
 		event.preventDefault();
-
-		if (window.lastDisplayedElement != null) {
-			window.lastDisplayedElement.style.display = 'none';
-		}
-		userFormDiv.style.display = 'block';
+		hideElement(window.lastDisplayedElement);
+		showElement(userFormDiv);
 		window.lastDisplayedElement = userFormDiv;
 	});
 
 	$(document).on('click', '.update-displayname-link', function(event) {
 		event.preventDefault();
-
-		if (window.lastDisplayedElement != null) {
-			window.lastDisplayedElement.style.display = 'none';
-		}
-		displaynameFormDiv.style.display = 'block';
+		hideElement(window.lastDisplayedElement);
+		showElement(displaynameFormDiv);
 		window.lastDisplayedElement = displaynameFormDiv;
 	});
 
 	$(document).on('click', '.update-avatar-link', function(event) {
 		event.preventDefault();
-
-		if (window.lastDisplayedElement != null) {
-			window.lastDisplayedElement.style.display = 'none';
-		}
-		avatarFormDiv.style.display = 'block';
+		hideElement(window.lastDisplayedElement);
+		showElement(avatarFormDiv);
 		window.lastDisplayedElement = avatarFormDiv;
 	});
 
@@ -300,11 +297,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			url: url,
 			success: function(response) {
 				console.log('Profile details fetched:', response);
-				if (window.lastDisplayedElement != null) {
-					window.lastDisplayedElement.style.display = 'none';
-				}
-				profilePageDiv.innerHTML = createOtherProfilePage(response);
-				profilePageDiv.style.display = 'block';
+				hideElement(window.lastDisplayedElement);
+				setElementinnerHTML(profilePageDiv, createOtherProfilePage(response));
+				showElement(profilePageDiv);
 				window.lastDisplayedElement = profilePageDiv;
 				// Optionally display profile details or give feedback to the user
 			},
@@ -315,7 +310,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
+	$(document).on('click', '.signup-link', function(event) {
+		hideElement(loginFormDiv);
+		showElement(signupFormDiv);
+	});
 
+	$(document).on('click', '.login-link', function(event) {
+		hideElement(signupFormDiv);
+		showElement(loginFormDiv);
+	});
 
 	// const fetchProfileListButton = document.getElementById('fetchProfileListButton');
     // fetchProfileListButton.addEventListener('click', () => {
@@ -323,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		// console.log('Button clicked');
 
 		// const url = window.location.href + 'json';
-		const url = 'http://localhost:8000/game-start/users/json_profile_list';
+		const url = '/game-start/users/json_profile_list';
 		console.log(`Sending fetch request to: ${url}`);
 
 		$.ajax({
@@ -331,50 +334,16 @@ document.addEventListener('DOMContentLoaded', () => {
 			url: url,
 			success: function(data) {
 				console.log(data);
-				const dataMessage = document.createElement('p');
-				dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
-				container.appendChild(dataMessage);
-				if (window.lastDisplayedElement != null) {
-					window.lastDisplayedElement.style.display = 'none';
-				}
-				profileListPageDiv.innerHTML = createProfileListPage(data);
-				profileListPageDiv.style.display = 'block';
+				hideElement(window.lastDisplayedElement);
+				setElementinnerHTML(profileListPageDiv, createProfileListPage(data));
+				showElement(profileListPageDiv);
 				window.lastDisplayedElement = profileListPageDiv;
 				// container.html(JSON.stringify(data)); // Displaying data for debug purposes
 			},
 			error: function(xhr, status, error) {
 				console.error('An error occurred:', status, error);
-				const errorMessage = document.createElement('p');
-				errorMessage.textContent = `Error fetching data: ${error.message}`;
-				container.appendChild(errorMessage);
-				// container.html('An error occurred while fetching the profile.');
 			}
 		});
-        // fetch(url, {
-		// 		method: 'GET', // Specify the HTTP method
-		// 		headers: {
-		// 			'Content-Type': 'application/json', // Set content type for JSON response
-		// 		}
-		// 	})
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error(`HTTP error! status: ${response.status}`);
-        //         }
-        //         console.log('Fetch request successfully sent');
-        //         return response.json();
-        //     })
-        //     .then(data => {
-        //         console.log('Data received:', data);
-        //         const dataMessage = document.createElement('p');
-        //         dataMessage.textContent = `Fetched Data: ${JSON.stringify(data)}`;
-        //         container.appendChild(dataMessage);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error fetching data:', error);
-        //         const errorMessage = document.createElement('p');
-        //         errorMessage.textContent = `Error fetching data: ${error.message}`;
-        //         container.appendChild(errorMessage);
-        //     });
     });
 
 	$(document).on('submit', '.Friends-Form', function(event) {
@@ -396,11 +365,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			},
 			success: function(data) {
 				console.log(data);
-				if (window.lastDisplayedElement != null) {
-					window.lastDisplayedElement.style.display = 'none';
-				}
-				profileListPageDiv.innerHTML = createProfileListPage(data);
-				profileListPageDiv.style.display = 'block';
+				hideElement(window.lastDisplayedElement);
+				setElementinnerHTML(profileListPageDiv, createProfileListPage(data));
+				showElement(profileListPageDiv);
 				window.lastDisplayedElement = profileListPageDiv;
 				// window.csrf = data.csrf_token;
 			},
@@ -427,6 +394,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
+				hideElement(signupFormDiv);
+				showElement(navbarDiv);
 			},
 			error: function(data) {
 				console.log(data);
@@ -437,8 +406,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	$('#login_form').on('submit', function(event) {
 		event.preventDefault();
-		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-
 
 		$.ajax({
 			type: 'POST',
@@ -451,6 +418,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
+				hideElement(loginFormDiv);
+				showElement(navbarDiv);
 			},
 			error: function(data) {
 				console.log(data);
@@ -463,8 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	$('#update_display_name_form').on('submit', function(event) {
 		event.preventDefault();
-		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-		// 'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
 
 		$.ajax({
 			type: 'POST',
@@ -510,7 +477,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	});
 
-	console.log($('#update_avatar_form'));
 	$('#update_avatar_form').on('submit', function(event) {
 		event.preventDefault();
 		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
@@ -558,6 +524,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
+				window.userElements.forEach(element => {
+					hideElement(element);
+				});
+				showElement(loginFormDiv);
 			},
 			error: function(data) {
 				console.log(data);
