@@ -17,6 +17,8 @@
 
 	<div id="id-navbar" style="display: none;">
 
+		<p class="error-message"></p>
+
 		<div id="id-profile-button">
 		<button id="fetchProfileButton">Profile</button>
 		</div>
@@ -32,6 +34,7 @@
 	</div>
 
 	<div id="id-login" style="display: block;">
+		<p class="error-message"></p>
 		<form id="login_form" method="POST" action="{% url 'json_login' %}" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div>
@@ -46,6 +49,7 @@
 	</div>
 
 	<div id="id-signup" style="display: none;">
+		<p class="error-message"></p>
 		<form id="signup_form" method="POST" action="{% url 'json_signup' %}" enctype="multipart/form-data">
 			{% csrf_token %}
 				{{ UserCreationForm.as_p }}
@@ -58,6 +62,7 @@
 	<div id="ProfileListPage" style="display: none;"></div>
 
 	<div id="id-update-avatar" style="display: none;">
+		<p class="error-message"></p>
         <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
           {% csrf_token %}
 			{{ UpdateAvatarForm.as_p }}
@@ -67,7 +72,8 @@
 
 	<!-- <button id="fetchProfileListButton">Fetch Profile List Data</button>-->
 
-	<div id="id-update-displayname" class="row justify-content-center" style="display: none;">
+	<div id="id-update-displayname" style="display: none;">
+		<p class="error-message"></p>
 		<form id="update_display_name_form" method="POST" action="{% url 'json_update_display_name' %}">
 			{% csrf_token %}
 			<div>

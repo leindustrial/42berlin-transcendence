@@ -52,9 +52,9 @@ def json_login(request):
             login(request, user)
             return JsonResponse({'msg':'You are now logged in', 'status': 'success', 'csrf_token': get_token(request)})
         else:
-            return HttpResponse('There was an error login in')
+            return JsonResponse({'error': 'Please check your username and password are correct'}, status=404)
     else:
-        return HttpResponse('Not an valid request')
+        return JsonResponse({'error': 'Not a valid request'}, status=405)
 
 def json_logout(request):
     if request.user.is_authenticated:

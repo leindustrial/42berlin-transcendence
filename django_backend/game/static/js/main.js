@@ -323,9 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	// const fetchProfileListButton = document.getElementById('fetchProfileListButton');
     // fetchProfileListButton.addEventListener('click', () => {
 	$(document).on('click', '.profile-list-link', function(event) {
-		// console.log('Button clicked');
-
-		// const url = window.location.href + 'json';
 		const url = '/game-start/users/json_profile_list';
 		console.log(`Sending fetch request to: ${url}`);
 
@@ -399,6 +396,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			},
 			error: function(data) {
 				console.log(data);
+				const errorP = document.getElementById('id-signup').querySelector('.error-message');
+				setElementinnerHTML(errorP, data);
 			}
 		});
 
@@ -421,11 +420,16 @@ document.addEventListener('DOMContentLoaded', () => {
 				hideElement(loginFormDiv);
 				showElement(navbarDiv);
 			},
-			error: function(data) {
-				console.log(data);
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+				console.log(errorMsg);
+				const errorP = document.getElementById('id-login').querySelector('.error-message');
+				setElementinnerHTML(errorP, `${errorMsg}`);
 			}
 		});
-
 
 	});
 
