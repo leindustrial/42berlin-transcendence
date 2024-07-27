@@ -4,10 +4,13 @@
 
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PONG 3.0</title>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- Custom CSS -->
@@ -16,20 +19,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+
     <!-- Images -->
     <link rel="icon" href="{% static 'img/fav.ico' %}" type="image/x-icon">
+
+    <!-- Bootstrap JS and dependencies -->
+ 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/index.js' %}" defer></script>
 </head>
 
 <body>
 
     <div class="container" id="screen"> <!-- 100vh container -->
-        {% block offline_tour %}
-        {% block offline_game %}
-        {% block two_pl_game %}
-        {% block four_pl_game %}
-        {% block tournament %}
+
         <!-- Language Switcher Dropdown -->
-        <div class="container mt-3">
+        <div id="language" class="container mt-3" style="display:none;">
             <form id="languageForm" action="{% url 'set_language' %}" method="post" class="form-inline">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.path }}">
@@ -43,148 +52,284 @@
                     </select>
                 </div>
             </form>
+            <script>
+                document.getElementById('languageSelect').addEventListener('change', function() {
+                    document.getElementById('languageForm').submit();
+                });
+            </script>
         </div>   
-        <script>
-            document.getElementById('languageSelect').addEventListener('change', function() {
-                document.getElementById('languageForm').submit();
-            });
-        </script>
-    
-
 
         <!-- Welcome page header with large logo -->
-        <div class="container" id="header-welcome">
+        <div id="header-welcome" class="container" style="display:none;">
             <p class="text-center" id="logo-big">PONG 3.1</p>
             <p class="text-center" id ="sublitle">{% translate "game that takes you to transcendence" %}</p>
         </div>
 
-        <div class="container" id="start">
+
+        <!-- OFFLINE!========================================================================================================== -->
+
+        <!-- Offline navigation block -->
+        <div id="offline-choose-mode" class="content-section choose-mode" style="display:none;">
             <div class="row justify-content-center">
-                {% if user.is_authenticated %}
-                    {% block user %}
-                    <!-- Menu buttons -->
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="btn-group">
-                                {% if user.is_authenticated %}
-                                    <form id="logoutform" method="POST" action="{% url 'logout' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden">
-                                    </form>
-                                    <a href="{% url 'profile' request.user.id %}" class="btn btn-outline-primary btn-sm">
-                                        👤 {% translate "Profile" %}
-                                    </a>
-                                    <button type="button" id="leaderboard" class="btn btn-outline-primary btn-sm">🏆 {% translate "Leaderboard" %}</button>
-                                    <a href="#" onClick="document.getElementById('logoutform').submit()" class="btn btn-outline-primary btn-sm">
-                                        ❌ {% translate "Log out" %}
-                                    </a>
-                                {% endif %}
-                            </div>
-                        </div>
+                <div class="btn-group-vertical">
+                    <div class="container" id="choose-mode-online"> 
+                        <a href="#offline-1x1" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Play 1 x 1 offline" %}</a>
+                        <a href="#offline-tournament" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Tournament offline" %}</a>
+                        <a href="#get-started" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Login and play online" %}</a>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-section choose-mode">
+            <div class="row justify-content-center">
                     <div class="btn-group-vertical">
-                        <div class="container" id="choose-mode">
-                            <!-- <a href="{% url 'game_start' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">👈 {% translate "MENU" %}</a> -->
-                            <a href="{% url 'two_pl_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Two players" %}</a>
-                            <a href="{% url 'four_pl_game' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Four players" %}</a>
-                            <a href="{% url 'tournament' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Tournament" %}</a>
+                        <div class="container" id="choose-mode-online"> 
+                            <a href="#offline-1x1" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Play 1 x 1 offline" %}</a>
+                            <a href="#offline-tournament" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Tournament offline" %}</a>
+                            <a href="#get-started" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Login and play online" %}</a>
                         </div>
                     </div>
-                    {% endblock user %} 
-                {% else %}
-                    {% block hello %}
-                    {% block content %}
-                    {% endblock %}
-                    {% endblock hello %}
-                {% endif %}
             </div>
         </div>
 
+        <!-- Offline header button-->
+        <div id="off-header-game" class="container header-game" style="display:none;">
+            <div class="row justify-content-center">
+                <div class="row justify-content-center btn-group">
+                    <button id="exitOffGameBtn" class="btn btn-outline-primary btn-sm btn-block">👈 {% translate "Exit the game" %}</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offline 1x1 game -->
+        <div id="offline-1x1" class="content-section" style="display:none;">
+            <div class="container">
+                <div class="container-fluid">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-auto">
+                            <div id="player_form">
+                                <input type="text" class="form-control" id="player1NameInput" placeholder="Player 1 name" required>
+                                <input type="text" class="form-control" id="player2NameInput" placeholder="Player 2 name" required>
+                                <button id="startGameBtn" class="btn btn-primary">Start Game</button>
+                            </div>
+                            <div class="board">
+                                <div class='ball'>
+                                    <div class="ball_effect"></div>
+                                </div>
+                                <div class="paddle_1_off paddle_off"></div>
+                                <div class="paddle_2_off paddle_off"></div>
+                                <h3 class="player_1_score" id="scores">0</h3>
+                                <h3 class="player_2_score" id="scores">0</h3>
+                                <h3 class="player_1_name" id="player1Name">Player 1</h3>
+                                <h3 class="player_2_name" id="player2Name">Player 2</h3>
+                                <div id="winnerMessage" class="winner-message" style="display: none;">
+                                    <h2 id="winnerName"></h2>
+                                </div>
+                                <p class="text-center"><h3 class="message" id="offline-message" >{% translate "Press Enter to Play" %}</h3></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offline Tournament -->
+         <div id="offline-tournament" class="content-section" style="display:none;">
+            <h1 class="text-center" id="tour_header">Tournament</h1>
+            <div id="player_form_4">
+                <input type="text" class="form-control" id="player1NameInput_4" placeholder="Player 1 name" required maxlength="15">
+                <input type="text" class="form-control" id="player2NameInput_4" placeholder="Player 2 name" required maxlength="15">
+                <input type="text" class="form-control" id="player3NameInput_4" placeholder="Player 3 name" required maxlength="15">
+                <input type="text" class="form-control" id="player4NameInput_4" placeholder="Player 4 name" required maxlength="15">
+                <button id="startTourBtn" class="btn btn-primary">Start Game</button>
+            </div>
+            
+            <div class="tournament-table" id="tournament-table" style="display: none">
+                <p class="welcome">Welcome, players!</p>
+                <div id="champ"></div>
+                <div id="info"></div>
+                
+                <h2 class="text-center">Semi-finals</h2>
+                <div class="tournament_off">
+                        <div class="match_off" id="match-semi-finals-0">
+                            <div class="d-flex justify-content-center">
+                                <h3>Match 1</h3>
+                            </div>
+                            <p class="player" id="table_name1_4"></p>
+                            <p class="vs">vs</p>
+                            <p class="player" id="table_name2_4"></p>
+                        </div>
+                        <div class="match_off" id="match-semi-finals-1">
+                            <div class="d-flex justify-content-center">
+                                <h3>Match 2</h3>
+                            </div>
+                            <p class="player" id="table_name3_4"></p>
+                            <p class="vs">vs</p>
+                            <p class="player" id="table_name4_4"></p>
+                        </div>
+                </div>
+                <button id="go-to-match">Go to Match</button>
+            </div>
+
+            <div class="tournament-game" id="tournament-game" style="display: none">
+                <div class="container" id="offline-game">
+                    <div class="container-fluid">
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-auto">
+                                <div class="board">
+                                    <div class='ball'>
+                                        <div class="ball_effect"></div>
+                                    </div>
+                                    <div class="paddle_1_off paddle_off"></div>
+                                    <div class="paddle_2_off paddle_off"></div>
+                                    <h3 class="player_1_score" id="scores">0</h3>
+                                    <h3 class="player_2_score" id="scores">0</h3>
+                                    <h3 class="player_1_name" id="player1Name_4">Player 1</h3>
+                                    <h3 class="player_2_name" id="player2Name_4">Player 2</h3>
+                                    <div id="winnerMessage_4" class="winner-message">
+                                        <h2 id="winnerName_4"></h2>
+                                    </div>
+                                    <div class="megaWinner" id="megaWinner" style="display: none;">
+                                        <h2 id="megaWinnerName"></h2>
+                                    </div>
+                                    <button id="exitTour" class="btn btn-primary" style="display: none;">Exit</button>                            
+                                    <button id="nextGame" class="btn btn-primary" style="display: none;">Next Game!</button>
+                                    <p class="text-center"><h3 class="message" >{% translate "Press Enter to Play" %}</h3></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+        <!-- ONLINE!=========================================================================================================== -->
+        
+        <!-- Online header button-->
+        <div id="online-header-game" class="container header-game" style="display:none;">
+            <div class="row justify-content-center">
+                <div class="row justify-content-center btn-group">
+                    <a href="#get-started" type="button" class="btn btn-outline-primary btn-sm btn-block">👈 {% translate "Exit the game" %}</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation horizontal buttons --> 
+        <div id="hor-nav" class="container">
+            <div class="row justify-content-center">
+                <div class="btn-group" role="group">
+                    <a href="#profile" type="button" class="btn btn-outline-primary btn-sm online-nav">👤 {% translate "Profile" %}</a>
+                    <a href="#leaderboard" type="button" class="btn btn-outline-primary btn-sm online-nav">🏆 {% translate "Leaderboard" %}</a>
+                    <a href="#offline-choose-mode" type="button" class="btn btn-outline-primary btn-sm online-nav">❌ {% translate "Log out" %}</a>
+                </div>
+            </div>
+        </div>
+
+        <!--Get started = navigation vertical buttons --> 
+        <div id="get-started" class="content-section choose-mode" style="display:none;">
+            <div class="row justify-content-center">
+                    <div class="btn-group-vertical">
+                        <div class="container" id="choose-mode-online"> 
+                            <a href="#online-1x1" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Two players" %}</a>
+                            <a href="#online-4" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Four players" %}</a>
+                            <a href="#online-tournament" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Tournament" %}</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <!-- Online 1x1 game-->
+        <div id="online-1x1" class="content-section" style="display:none;">
+            <div id="game-area">
+                <p class="text-center"><h3 id="message" class="message"></h3></p>
+                <div id="ball"></div>
+                <div id="paddle1" class="paddle"></div>
+                <div id="paddle2" class="paddle"></div>
+                <div id="player1-name" class="player-name"></div>
+                <div id="score1">0</div>
+                <div id="player2-name" class="player-name"></div>
+                <div id="score2">0</div>
+            </div>
+        </div>
+
+        <!-- Online 4 game-->
+        <div id="online-4" class="content-section" style="display:none;">
+            <div id="four_game-area">
+                <p class="text-center"><h3 id="four_message" class="four_message"></h3></p>
+                <div id="four_ball"></div>
+                <div id="four_paddle1" class="four_paddle"></div>
+                <div id="four_paddle2" class="four_paddle"></div>
+                <div id="four_paddle3" class="four_paddle"></div>
+                <div id="four_paddle4" class="four_paddle"></div>
+                <div id="four_player1-name" class="player-name">Player1</div>
+                <div id="four_score1">0</div>
+                <div id="four_player2-name" class="player-name">Player2</div>
+                <div id="four_score2">0</div>
+                <div id="four_player3-name" class="player-name">Player3</div>
+                <div id="four_score3">0</div>
+                <div id="four_player4-name" class="player-name">Player4</div>
+                <div id="four_score4">0</div>
+            </div>
+        </div>
+
+        <!-- Online Tournament -->
+        <div id="online-tournament" class="content-section" style="display:none;">
+            <div id="tournament-page">
+                <h1 class="text-center">Tournament</h1>
+                <p class="welcome">Welcome, <span id="username">{{ user.username }}</span>!</p>
+                <div id="champ"></div>
+                <div id="info"></div>
+                <div class="tournament">
+                    <div class="round" id="semi-finals">
+                        <h2 class="text-center">Semi-finals</h2>
+                        <div class="match" id="match-semi-finals-0">
+                            <h3>Match 1</h3>
+                            <p class="player player1">Waiting for player</p>
+                            <p class="vs">vs</p>
+                            <p class="player player2">Waiting for player</p>
+                        </div>
+                        <div class="match" id="match-semi-finals-1">
+                            <h3>Match 2</h3>
+                            <p class="player player1">Waiting for player</p>
+                            <p class="vs">vs</p>
+                            <p class="player player2">Waiting for player</p>
+                        </div>
+                    </div>
+                    <div class="round">
+                        <h2 class="text-center">Final</h2>
+                        <div class="match" id="match-final">
+                            <h3>Final Match</h3>
+                            <p class="player player1">Waiting for player</p>
+                            <p class="vs">vs</p>
+                            <p class="player player2">Waiting for player</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <button id="go-to-match" class="hidden">Go to Match</button>
+                <!-- <script src="{% static 'js/tour.js' %}"></script> -->
+            </div>
+        </div>
+
+        <!-- Online Tournament game -->
+        <div id="online-tournament-game" class="content-section" style="display:none;">
+            <div id="game-area">
+                <div id="message" class="message"></div>
+                <div id="ball"></div>
+                <div id="paddle1" class="paddle"></div>
+                <div id="paddle2" class="paddle"></div>
+                <div id="player1-name" class="player-name"></div>
+                <div id="score1">0</div>
+                <div id="player2-name" class="player-name"></div>
+                <div id="score2">0</div>
+            </div>
+        </div>
 
         <!-- Footer -->
         <div class="container" id="footer-welcome">
             <h3 class="text-center">42 {% translate "Berlin" %} | 2024</h3>
         </div>
 
-
-        {% endblock tournament %}
-        {% endblock four_pl_game %}
-        {% endblock two_pl_game %}
-        {% endblock offline_game %}
-        {% endblock offline_tour %}
-
-
-        <!-- Different buttons, not in use -->
-
-        <!-- User navigation bar -->
-        <!-- <div class="container" id="user-navbar" style="display: none;">
-            <div class="row justify-content-center">
-                <div class="row justify-content-center btn-group">
-                    <button type="button" id="leaderboard" class="btn btn-outline-primary btn-lg">🏆 {% translate "Leaderboard" %}</button>
-                    <button type="button" id="profile" class="btn btn-outline-primary btn-lg">👤 {% translate "Profile" %}</button>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- Profile navigation bar -->
-        <!-- <div class="container" id="user-navbar" style="display: none;">
-            <div class="row justify-content-center">
-                <div class="row justify-content-center btn-group">
-                    <button type="button" id="profile" class="btn btn-outline-primary btn-lg">👈 {% translate "Back to game" %}</button>
-                    <button type="button" id="leaderboard" class="btn btn-outline-primary btn-lg">{% translate "All Players" %}</button>
-                    <button type="button" id="profile" class="btn btn-outline-primary btn-lg">{% translate "Log out" %}</button>
-                </div>
-            </div>
-        </div> -->
-<!-- 
-        <div class="container" id="two_players" style="display: none;">
-            <h3 class="text-center">Two players mode</h3>
-        </div>
-        <div class="container" id="tournament" style="display: none;">
-            <h3 class="text-center">Tournament mode</h3>
-        </div>
-
-        <div class="container" id="footer-game" style="display: none;">
-            <h3 class="text-center">Footer game</h3>
-        </div> -->
-        <!-- Enter your name form -->
-        <!-- <form id="name_form" style="display: none;">
-            <div class="form-group">
-                <input type="text" class="form-control" id="player_name1" placeholder="Enter your name">
-            </div>
-            <button type="submit" id="play" class="btn btn-primary">Play!</button>
-        </form>
-
-    </div> -->
-
-            <!-- Menu buttons -->
-        <!-- <div class="container" id="start">
-            <div class="row justify-content-center">
-                <div class="btn-group-vertical">
-                    <button type="button" class="btn btn-outline-primary btn-lg btn-block" onclick="location.href='{% url 'two_pl_game' %}'">{% translate "Two players" %}</button>
-                    <button type="button" class="btn btn-outline-primary btn-lg btn-block" onclick="location.href='{% url 'four_pl_game' %}'">{% translate "Four players" %}</button>
-                </div>
-            </div>
-        </div> -->
-
-            <!-- {% if user.is_authenticated %}
-        <a href="#" onClick="document.getElementById('logoutform').submit()">
-            <button type="button" class="btn btn-primary">Logout</button>
-        </a>
-        <form id="logoutform" method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <input type="hidden">
-        </form>
-        <a href="{% url 'profile' request.user.id %}">
-            <button type="button" class="btn btn-primary">Profile</button>
-        </a>
-        {% endif %} -->
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <!-- Custom JavaScript -->
-    
+    </div>
 </body>
 </html>

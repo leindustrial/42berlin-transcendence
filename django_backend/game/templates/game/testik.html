@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Page Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+    <!-- Logo Section -->
+    <div id="logo" class="text-center my-4">
+        <img src="path_to_logo.png" alt="Logo">
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#home" onclick="showSection('home')">Home</a>
+        <a class="navbar-brand" href="#about" onclick="showSection('about')">About</a>
+        <a class="navbar-brand" href="#contact" onclick="showSection('contact')">Contact</a>
+    </nav>
+
+    <!-- Content Sections -->
+    <div id="home" class="content-section">This is the home section.</div>
+    <div id="about" class="content-section" style="display:none;">This is the about section.</div>
+    <div id="contact" class="content-section" style="display:none;">This is the contact section.</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            $('.content-section').hide();
+            // Show the selected section
+            $('#' + sectionId).show();
+            
+            // Conditionally show/hide the logo
+            if (sectionId === 'home' || sectionId === 'contact') {
+                $('#logo').show();
+            } else {
+                $('#logo').hide();
+            }
+        }
+
+        // Add event listener for hash change to handle browser navigation
+        window.addEventListener('hashchange', function() {
+            const sectionId = window.location.hash.substr(1);
+            showSection(sectionId);
+        });
+
+        // On initial load, show the appropriate section
+        $(document).ready(function() {
+            const initialSection = window.location.hash.substr(1) || 'home';
+            showSection(initialSection);
+        });
+    </script>
+
+</body>
+</html>

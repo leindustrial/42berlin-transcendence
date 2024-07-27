@@ -26,15 +26,10 @@
     letter-spacing: 3pt;
 }
 
-#header-game {
+.header-game {
     align-content: top;
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-#choose-mode {
-    margin-top: 100px;
-    margin-bottom: 100px;
 }
 
 #footer-welcome {
@@ -77,11 +72,12 @@ h5 {
 }
 
 /* These are the navigation buttons: -------------------------------------------------------------------------------*/
+
 .btn-lg,.btn-sm {
     border-width: 2px;
 }
 
-.btn-group{
+.btn-block{
     margin-top: 0px;
 }
 
@@ -91,8 +87,13 @@ h5 {
 }
 
 .btn-group-vertical > button{
-    margin-bottom:10px;
-    border-radius:10px !important;
+    margin-bottom: 10px;
+    border-radius: 10px !important;
+}
+
+.choose-mode {
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 #nextGame {
@@ -106,6 +107,10 @@ h5 {
     height: 100px;
     z-index: 10; /* Ensure it's on top of other elements */
     display: none; /* Initially hidden, should be set to 'block' when needed */
+}
+
+#hor-nav {
+    margin-top: 50px;
 }
 
 /* Messages in the game ---------------------------------------------------------------------------------------------*/
@@ -185,7 +190,7 @@ h5 {
 
 /* Offline games login input form ------------------------------------------------------------------------------------*/
 
-#player_form {
+#player_form, #player_form_4 {
     width: 400px;
     top: 250px;
     left: calc(50% - 200px);
