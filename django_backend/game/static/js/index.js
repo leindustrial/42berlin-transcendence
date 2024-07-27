@@ -1,4 +1,4 @@
-console.log('JavaScript file is loaded');
+
 function showSection(sectionId) {
     // Get all sections
     const sections = document.querySelectorAll('.content-section');
@@ -62,6 +62,8 @@ window.addEventListener('hashchange', function() {
 
 // On initial load, show the appropriate section
 document.addEventListener('DOMContentLoaded', function() {
+
+    // Offline Game 1x1 ================================================================================
     const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
     showSection(initialSection);
 
@@ -92,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
         player1Input.value = '';
         player2Input.value = '';
     }
+    //===========================================================================================================
 });
 
 

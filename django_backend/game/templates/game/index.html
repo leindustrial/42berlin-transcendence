@@ -92,17 +92,17 @@
             </div>
         </div>
 
-        <!-- Offline header button-->
-        <div id="off-header-game" class="container header-game" style="display:none;">
-            <div class="row justify-content-center">
-                <div class="row justify-content-center btn-group">
-                    <button id="exitOffGameBtn" class="btn btn-outline-primary btn-sm btn-block">👈 {% translate "Exit the game" %}</button>
-                </div>
-            </div>
-        </div>
 
         <!-- Offline 1x1 game -->
         <div id="offline-1x1" class="content-section" style="display:none;">
+            <!-- Offline header button-->
+            <div id="off-header-game" class="container header-game">
+                <div class="row justify-content-center">
+                    <div class="row justify-content-center btn-group">
+                        <button id="exitOffGameBtn" class="btn btn-outline-primary btn-sm btn-block">👈 {% translate "Exit the game" %}</button>
+                    </div>
+                </div>
+            </div>
             <div class="container">
                 <div class="container-fluid">
                     <div class="row justify-content-center align-items-center">
@@ -135,6 +135,14 @@
 
         <!-- Offline Tournament -->
          <div id="offline-tournament" class="content-section" style="display:none;">
+            <!-- Offline Tour header button-->
+            <div id="off-header-game" class="container header-game">
+                <div class="row justify-content-center">
+                    <div class="row justify-content-center btn-group">
+                        <button id="exitOffTourBtn" class="btn btn-outline-primary btn-sm btn-block">👈 {% translate "Exit the game" %}</button>
+                    </div>
+                </div>
+            </div>
             <h1 class="text-center" id="tour_header">Tournament</h1>
             <div id="player_form_4">
                 <input type="text" class="form-control" id="player1NameInput_4" placeholder="Player 1 name" required maxlength="15">
