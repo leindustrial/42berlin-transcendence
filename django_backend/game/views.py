@@ -6,6 +6,9 @@ from django.shortcuts import redirect
 from django.utils.translation import activate
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
+from django.contrib.auth.forms import UserCreationForm
+from users.forms import UpdateAvatarForm
 
 # Required for the language
 def set_language(request):
@@ -21,8 +24,16 @@ def set_language(request):
 
 # Create your views here.
 
+# @login_required
 def get_started(request):
 	return render(request, 'game/index.html', {})
+
+def test(request):
+    SignUpForm = UserCreationForm()
+    AvatarForm = UpdateAvatarForm()
+    # DisplayNameForm = UpdateDisplayNameForm()
+    return render(request, 'game/test.html', {'UserCreationForm': SignUpForm, 'UpdateAvatarForm': AvatarForm,})
+
 
 # def hello(request):
 # 	return render(request, 'game/hello.html')
