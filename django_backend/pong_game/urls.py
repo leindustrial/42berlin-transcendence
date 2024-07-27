@@ -31,7 +31,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('', include('game.urls')),  # Include game app URLs with language prefix
-    # path('game-start/users/', include('django.contrib.auth.urls')),  # Include auth URLs with language prefix
-    # path('game-start/users/', include('users.urls')),  # Include additional user-related URLs with language prefix
-	# re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    path('game-start/users/', include('django.contrib.auth.urls')),  # Include auth URLs with language prefix
+    path('game-start/users/', include('users.urls')),  # Include additional user-related URLs with language prefix
+	re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 )

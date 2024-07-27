@@ -26,7 +26,9 @@ def set_language(request):
 
 # @login_required
 def get_started(request):
-	return render(request, 'game/index.html', {})
+    SignUpForm = UserCreationForm()
+    AvatarForm = UpdateAvatarForm()
+    return render(request, 'game/index.html', {'UserCreationForm': SignUpForm, 'UpdateAvatarForm': AvatarForm,})
 
 def test(request):
     SignUpForm = UserCreationForm()
