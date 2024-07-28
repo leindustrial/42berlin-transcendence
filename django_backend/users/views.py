@@ -218,6 +218,8 @@ def json_profile_pk(request, pk):
                         'username': friend.user.username,
                         'id': friend.user.id,
                         'online_status': friend.online_status,
+                        'avatar': friend.avatar.url if friend.avatar else '/media/avatars/default.png',  # Use a default image URL if avatar is not set
+
                     } for friend in profile.friends.all()
                 ],
                 'match_history': table_data,
@@ -262,7 +264,9 @@ def json_profile(request):
                     {
                         'username': friend.user.username,
                         'id': friend.user.id,
-                        'online_status': friend.online_status
+                        'online_status': friend.online_status,
+                        'avatar': friend.avatar.url if friend.avatar else '/media/avatars/default.png',  # Use a default image URL if avatar is not set
+
                     } for friend in profile.friends.all()
                 ],
                 'match_history': table_data,

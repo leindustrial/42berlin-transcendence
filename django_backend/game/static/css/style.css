@@ -33,9 +33,10 @@
 }
 
 #footer-welcome {
-    margin-top: 30px;
+    margin-top: 50px;
+    padding-top: 50px;
     margin-bottom: 50px;
-    
+    padding-bottom: 50px;
 }
 
 #profile-menu {
@@ -151,6 +152,12 @@ form a[type="submit"] {
     width: 300px;
 }
 
+#id-avatar-helptext {
+    color: #6c757d;  /* Help text color */
+    display: none;
+    width: 300px;
+}
+
 form ul {
     width: 300px;
     list-style-type: none;
@@ -170,7 +177,7 @@ form ul li {
 
 /* Offline games login input form ------------------------------------------------------------------------------------*/
 
-#player_form, #player_form_4 {
+#player_form_1x1, #player_form_4 {
     width: 400px;
     top: 250px;
     left: calc(50% - 200px);
@@ -232,7 +239,7 @@ form ul li {
 /* Profile & friends -------------------------------------------------------------------------------------------------*/
 
 #profile, #profile-list-page {
-    width: 600px;
+    width: 700px;
     align-items: center;
     margin: auto;
     margin-top: 30px;
@@ -245,10 +252,29 @@ form ul li {
 
 .custom-divider {
     border: 1px solid #232222;
-    width: 400px;
+    width: 100%;
     margin: 20px 0;
 }
 
+.avatar-square {
+    width: 210px;
+    object-fit: cover;
+    border-radius: 0;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
+.text-start {
+    align-items: right;
+    margin-left: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    padding-right: 0px;
+}
 
 
 /* Messages in the game ---------------------------------------------------------------------------------------------*/
@@ -333,7 +359,8 @@ body {
 /* Offline games ----------------------------------------------------------------------------------------------------*/
 
 .board { 
-    top: 50px;
+    top: 105px;
+    left: calc(50% - 450px);
     display: flex;
     justify-content: center;
     align-items: center; /* Center content vertically */
@@ -341,10 +368,19 @@ body {
     height: 600px; 
     border: 2px solid rgb(255, 255, 255);
     margin: auto; /* Center the board horizontally */
-    position: relative; /* Ensure proper positioning of child elements */
+    position: fixed; 
 }
 
-  
+#ball_off_1x1 { 
+    height: 30px; 
+    width: 30px; 
+    border-radius: 50%; 
+    position: fixed; 
+    top: 380px; 
+    left: calc(50% - 15px); 
+    background-color: white;
+}
+
 .ball { 
     height: 30px; 
     width: 30px; 
@@ -362,59 +398,56 @@ body {
     position: fixed;  
 } 
 
-.paddle_1_off { 
+#paddle1_off_1x1, #paddle1_off_4 {
+    top: 350px; 
     left: calc(50% - 440px);  
     background-color: rgb(31, 172, 237);
 } 
   
-.paddle_2_off {  
+#paddle2_off_1x1, #paddle2_off_4 {  
+    top: 350px;
     right: calc(50% - 440px);   
     background-color: rgb(191, 43, 221);
 }  
 
-#scores {
+.scores_off {
     top: 110px; 
     font-size: 30pt;
-    font-family:monospace;
+    font-family: monospace;
     text-transform: uppercase;
     letter-spacing: 3pt;
-
-}
-
-.player_1_score {
-    color: rgb(31, 172, 237);
     position: fixed;
-    left: calc(50% - 440px);
-    display: flex;
     justify-content: center;
-    margin: auto; /* Center the board horizontally */
-    z-index: 1; /* Ensure the score is on top of other elements */
+    margin: auto;
+    display: flex;
+    z-index: 1;
 }
 
-.player_2_score {
+#score1_off_1x1, #score1_off_4 {
+    color: rgb(31, 172, 237);
+    left: calc(50% - 440px);
+}
+
+#score2_off_1x1, #score2_off_4 {
     color: rgb(191, 43, 221);
-    position: fixed;
     right: calc(50% - 440px);
-    display: flex;
-    justify-content: center;
-    margin: auto; /* Center the board horizontally */
-    z-index: 1; /* Ensure the score is on top of other elements */
 }
 
-.player_1_name {
-    top: 80px; 
-    text-align: left;
-    color: rgb(31, 172, 237);
+.player_name_off {
+    top: 80px;
     position: fixed;
-    left: calc(50% - 440px);
     display: flex;
 }
-.player_2_name {
-    top: 80px; 
+
+#player1Name_off_1x1, #player1Name_4 {
+    text-align: left;
+    left: calc(50% - 440px);
+    color: rgb(31, 172, 237);
+}
+
+#player2Name_off_1x1, #player2Name_4 {
     text-align: right;
     right: calc(50% - 440px);
-    display: flex;
-    position: fixed;
     color: rgb(191, 43, 221);
 }
 

@@ -90,7 +90,7 @@
             <div id="off-header-game" class="container header-game">
                 <div class="row justify-content-center">
                     <div class="row justify-content-center btn-group">
-                        <button id="exitOffGameBtn" class="btn btn-outline-primary btn-sm btn-block">👈 {% translate "Exit the game" %}</button>
+                        <button id="exitOffGameBtn_1x1" class="btn btn-outline-primary btn-sm btn-block">👈 {% translate "Exit the game" %}</button>
                     </div>
                 </div>
             </div>
@@ -98,25 +98,23 @@
                 <div class="container-fluid">
                     <div class="row justify-content-center align-items-center">
                         <div class="col-auto">
-                            <div id="player_form">
-                                <input type="text" class="form-control" id="player1NameInput" placeholder="Player 1 name" required>
-                                <input type="text" class="form-control" id="player2NameInput" placeholder="Player 2 name" required>
-                                <button id="startGameBtn" class="btn btn-primary">Start Game</button>
+                            <div id="player_form_1x1">
+                                <input type="text" class="form-control" id="player1NameInput_off_1x1" placeholder="Player 1 name" required>
+                                <input type="text" class="form-control" id="player2NameInput_off_1x1" placeholder="Player 2 name" required>
+                                <button id="startGameBtn_1x1" class="btn btn-primary">Start Game</button>
                             </div>
-                            <div class="board">
-                                <div class='ball'>
-                                    <div class="ball_effect"></div>
+                            <div class="board" id="board_off_1x1">
+                                <div class='ball' id="ball_off_1x1"></div>
+                                <div class="paddle_off" id="paddle1_off_1x1"></div>
+                                <div class="paddle_off" id="paddle2_off_1x1"></div>
+                                <h3 class="scores_off" id="score1_off_1x1">0</h3>
+                                <h3 class="scores_off" id="score2_off_1x1">0</h3>
+                                <h3 class="player_name_off" id="player1Name_off_1x1">Player 1</h3>
+                                <h3 class="player_name_off" id="player2Name_off_1x1">Player 2</h3>
+                                <div id="winnerMessage_off_1x1" class="winner-message">
+                                    <h2 id="winnerName_off_1x1"></h2>
                                 </div>
-                                <div class="paddle_1_off paddle_off"></div>
-                                <div class="paddle_2_off paddle_off"></div>
-                                <h3 class="player_1_score" id="scores">0</h3>
-                                <h3 class="player_2_score" id="scores">0</h3>
-                                <h3 class="player_1_name" id="player1Name">Player 1</h3>
-                                <h3 class="player_2_name" id="player2Name">Player 2</h3>
-                                <div id="winnerMessage" class="winner-message" style="display: none;">
-                                    <h2 id="winnerName"></h2>
-                                </div>
-                                <p class="text-center"><h3 class="message" id="offline-message" >{% translate "Press Enter to Play" %}</h3></p>
+                                <p class="text-center"><h3 class="message" id="message_off_1x1" >{% translate "Press Enter to Play" %}</h3></p>
                             </div>
                         </div>
                     </div>
@@ -175,16 +173,16 @@
                     <div class="container-fluid">
                         <div class="row justify-content-center align-items-center">
                             <div class="col-auto">
-                                <div class="board">
-                                    <div class='ball'>
+                                <div class="board" id="board_off_4">
+                                    <div class="ball" id="ball_off_4">
                                         <div class="ball_effect"></div>
                                     </div>
-                                    <div class="paddle_1_off paddle_off"></div>
-                                    <div class="paddle_2_off paddle_off"></div>
-                                    <h3 class="player_1_score" id="scores">0</h3>
-                                    <h3 class="player_2_score" id="scores">0</h3>
-                                    <h3 class="player_1_name" id="player1Name_4">Player 1</h3>
-                                    <h3 class="player_2_name" id="player2Name_4">Player 2</h3>
+                                    <div class="paddle_off" id="paddle1_off_4"></div>
+                                    <div class="paddle_off" id="paddle2_off_4"></div>
+                                    <h3 class="scores_off" id="score1_off_4">0</h3>
+                                    <h3 class="scores_off" id="score2_off_4">0</h3>
+                                    <h3 class="player_name_off" id="player1Name_4">Player 1</h3>
+                                    <h3 class="player_name_off" id="player2Name_4">Player 2</h3>
                                     <div id="winnerMessage_4" class="winner-message">
                                         <h2 id="winnerName_4"></h2>
                                     </div>
@@ -193,7 +191,7 @@
                                     </div>
                                     <button id="exitTour" class="btn btn-primary" style="display: none;">Exit</button>                            
                                     <button id="nextGame" class="btn btn-primary" style="display: none;">Next Game!</button>
-                                    <p class="text-center"><h3 class="message" >{% translate "Press Enter to Play" %}</h3></p>
+                                    <p class="text-center"><h3 class="message" id="message_off_4">{% translate "Press Enter to Play" %}</h3></p>
                                 </div>
                             </div>
                         </div>
