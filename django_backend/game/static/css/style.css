@@ -34,6 +34,8 @@
 
 #footer-welcome {
     margin-top: 30px;
+    margin-bottom: 50px;
+    
 }
 
 #profile-menu {
@@ -69,6 +71,120 @@ h3 {
 
 h5 {
     padding-bottom: 20px;
+}
+
+h6 {
+    color: #ffffff;
+    font-size: 24pt;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+    margin-bottom: 30px;
+}
+
+p {
+    color: #ffffff;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+table {
+    color: #ffffff;
+}
+
+/* Login & signup forms: ---------------------------------------------------------------------------------------------------*/
+
+#login_form, #signup_form, #update_display_name_form, #update_avatar_form, #update_user_form {
+    width: 400px;
+    margin: 30px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 30px;
+}
+
+#id-login, #id-signup, #id-update-displayname, #id-update-avatar, #id-update-user {
+    text-align: center;
+    margin: 30px auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form .form-control {
+    width: 300px;
+    margin-bottom: 15px;
+}
+
+form label {
+    color: #7d7fac;  /* Customize label color */
+    text-align: left;
+    width: 300px;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+form a[type="submit"] {
+    width: 100px;
+    padding: 10px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.helptext {
+    color: #6c757d;  /* Help text color */
+    display: none;
+    width: 300px;
+}
+
+form ul {
+    width: 300px;
+    list-style-type: none;
+    padding: 0;
+    font-size: 9pt;
+    line-height: 13pt;
+}
+
+form ul li {
+    margin-bottom: 10px;
+    padding: 0px;
+    border-radius: 4px;
+    color: #495057;
+    text-align: left;
+}
+
+
+/* Offline games login input form ------------------------------------------------------------------------------------*/
+
+#player_form, #player_form_4 {
+    width: 400px;
+    top: 250px;
+    left: calc(50% - 200px);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the items within the form */
+    justify-content: center; /* Centers the form vertically */
+    text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 30px;
+    position: absolute;
+    z-index: 1;
 }
 
 /* These are the navigation buttons: -------------------------------------------------------------------------------*/
@@ -109,9 +225,31 @@ h5 {
     display: none; /* Initially hidden, should be set to 'block' when needed */
 }
 
-#hor-nav {
+#hor-nav, #profile-nav, #profile-nav2 {
     margin-top: 50px;
 }
+
+/* Profile & friends -------------------------------------------------------------------------------------------------*/
+
+#profile, #profile-list-page {
+    width: 600px;
+    align-items: center;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 2px solid #7d7fac;
+    background-color: #323131;
+    border-radius: 30px;
+    padding: 30px;
+}
+
+.custom-divider {
+    border: 1px solid #232222;
+    width: 400px;
+    margin: 20px 0;
+}
+
+
 
 /* Messages in the game ---------------------------------------------------------------------------------------------*/
 
@@ -173,38 +311,6 @@ h5 {
     font-family:monospace;
     text-transform: uppercase;
     letter-spacing: 3pt;
-}
-
-/* User login form ---------------------------------------------------------------------------------------------------*/
-
-#name_form {
-    width: 400px;
-    margin: 100px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: center;
-    text-align: center;
-} 
-
-
-/* Offline games login input form ------------------------------------------------------------------------------------*/
-
-#player_form, #player_form_4 {
-    width: 400px;
-    top: 250px;
-    left: calc(50% - 200px);
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers the items within the form */
-    justify-content: center; /* Centers the form vertically */
-    text-align: center;
-    background-color: white;
-    padding: 30px;
-    border-radius: 30px;
-    position: absolute;
-    z-index: 1;
 }
 
 /* Basic game  ------------------------------------------------------------------------------------------------------*/

@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
 
+
 # Create your views here.
 
 # def signup(request):
@@ -216,7 +217,7 @@ def json_profile_pk(request, pk):
                     {
                         'username': friend.user.username,
                         'id': friend.user.id,
-                        'online_status': friend.online_status
+                        'online_status': friend.online_status,
                     } for friend in profile.friends.all()
                 ],
                 'match_history': table_data,
@@ -302,6 +303,8 @@ def json_profile_list(request):
                     {
                         'username': profile.user.username,
                         'id': profile.user.id,
+                        'avatar': profile.avatar.url if profile.avatar else '/media/avatars/default.png',  # Use a default image URL if avatar is not set
+
                         # shall be based on
                         # if profile in current_user.friends.all
                         'is_friend': profile.user.id in friend_ids,
@@ -331,6 +334,7 @@ def json_profile_list(request):
                         {
                             'username': profile.user.username,
                             'id': profile.user.id,
+                            'avatar': profile.avatar.url if profile.avatar else '/media/avatars/kermit.png',  # Use a default image URL if avatar is not set
                             # shall be based on
                             # if profile in current_user.friends.all
                             'is_friend': profile.user.id in friend_ids,

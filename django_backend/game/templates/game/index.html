@@ -28,13 +28,11 @@
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
    
     <!-- Custom JavaScript -->
     <script src="{% static 'js/index.js' %}" defer></script>
-    <script>
-		const DEFAULT_AVATAR_URL = "{% static 'avatar/kermit.png' %}";
-	</script>
 </head>
 
 <body>
@@ -220,13 +218,12 @@
             <div class="row justify-content-center">
                 <div class="btn-group" role="group">
                     <a href="#profile" type="button" class="btn btn-outline-primary btn-sm online-nav profile-link">👤 {% translate "Profile" %}</a>
-                    <a href="#leaderboard" type="button" class="btn btn-outline-primary btn-sm online-nav">🏆 {% translate "Leaderboard" %}</a>
+                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm online-nav profile-list-link">Find New Friends</a>
                     <div id="id-logout">
                         <form id="logoutform" method="POST" action="{% url 'json_logout' %}">
                             {% csrf_token %}
                             <input type="hidden">
                             <a href="#offline-choose-mode" type="button" value="❌ Log out" class="btn btn-outline-primary btn-sm online-nav logout-link">❌ {% translate "Log out" %}</a>
-                            <!-- <input type="submit" value="❌ Log out"> -->
                         </form>
                     </div>
                 </div>
@@ -333,86 +330,135 @@
             </div>
         </div>
 
+        <!-- USERS!========================================================================================================== -->
+        
+        <!-- Profile navigation buttons -->
+        <div id="profile-nav" class="container" id="profile-menu">
+            <div class="row justify-content-center">
+                <div class="btn-group">
+                    <a href="#get-started" type="button" class="btn btn-outline-primary btn-sm">👈 {% translate "MENU" %}</a>
+                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm profile-list-link">Find New Friends</a>
+                    <div id="id-logout">
+                        <form id="logoutform2" method="POST" action="{% url 'json_logout' %}">
+                            {% csrf_token %}
+                            <input type="hidden">
+                            <a href="#offline-choose-mode" type="button" value="❌ Log out" class="btn btn-outline-primary btn-sm online-nav logout-link">❌ {% translate "Log out" %}</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile navigation buttons -->
+         <div id="profile-nav2" class="container" id="profile-menu">
+            <div class="row justify-content-center">
+                <div class="btn-group">
+                    <a href="#profile" type="button" class="btn btn-outline-primary btn-sm profile-link">👈 {% translate "Profile" %}</a>
+                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm profile-list-link">Find New Friends</a>
+                    <div id="id-logout">
+                        <form id="logoutform3" method="POST" action="{% url 'json_logout' %}">
+                            {% csrf_token %}
+                            <input type="hidden">
+                            <a href="#offline-choose-mode" type="button" value="❌ Log out" class="btn btn-outline-primary btn-sm online-nav logout-link">❌ {% translate "Log out" %}</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login form -->
+        <div id="id-login" class="content-section" style="display: none;">
+            <div class="container"> 
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <p class="error-message"></p>
+                        <form id="login_form" method="POST" action="{% url 'json_login' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="login_name" class="form-label">Username:</label>
+                                <input type="text" id="login_name" name="login_name" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="login_password" class="form-label">Password:</label>
+                                <input type="password" id="login_password" name="login_password" class="form-control" required>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <a href="#get-started" id="login_submit" class="btn btn-outline-primary btn-lg btn-block login-submit">{% translate "Login" %}</a>
+                            </div>
+                        </form>
+                        <p>Don't have an account? Create one <a href="#id-signup" class="signup-link">Here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div id="profile" class="content-section" style="display:none;"></div>
+        
+        <div id="profile-list-page" class="content-section" style="display: none;"></div>
+
+        <div id="id-signup" class="content-section" style="display: none;">
+            <p class="error-message"></p>
+            <form id="signup_form" method="POST" action="{% url 'json_signup' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                    {{ UserCreationForm.as_p }}
+                <a href="#get-started" type="submit" id="signup_submit" class="btn btn-outline-primary btn-lg btn-block signup-submit">{% translate "Sign Up" %}</a>
+            </form>
+            <p>Already have an account? Log in <a href="#id-login" class="login-link">Here</a></p>
+        </div>
+
+        <div id="id-update-user" class="content-section" style="display: none;">
+            <p class="error-message"></p>
+            <p class="success-message"></p>
+            <form id="update_user_form" method="POST" action="{% url 'json_update_user' %}">
+            {% csrf_token %}
+            <div>
+                    <label for ="update_username">Username:</label>
+                    <input type="text" id="update_username" name="update_username" required><br>
+                    <label for="update_password1">Password1:</label>
+                    <input type="password" id="update_password1" name="update_password1" required><br>
+                    <label for="update_password2">Password2:</label>
+                    <input type="password" id="update_password2" name="update_password2" required><br>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save">
+            </div>
+            </form>
+        </div>
+
+        <div id="id-update-displayname" class="content-section" style="display: none;">
+            <p class="error-message"></p>
+            <p class="success-message"></p>
+            <form id="update_display_name_form" method="POST" action="{% url 'json_update_display_name' %}">
+                {% csrf_token %}
+                <div>
+                    <p><label for="id_display_name">Display Name for Tournaments:</label></p>
+                    <input type="text" name="display_name" maxlength="12" id="id_display_name" required>
+                </div><br><br>
+                <div class="form-group">
+                    <input type="submit" value="Save">
+                </div>
+            </form>
+        </div>
+
+        <div id="id-update-avatar" class="content-section" style="display: none;">
+            <p class="error-message"></p>
+            <p class="success-message"></p>
+            <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+                {{ UpdateAvatarForm.as_p }}
+                <input type="submit" value="Save">
+            </form>
+        </div>
+
         <!-- Footer -->
         <div class="container" id="footer-welcome">
             <h3 class="text-center">42 {% translate "Berlin" %} | 2024</h3>
         </div>
 
     </div>
-
-    <!-- USERS!========================================================================================================== -->
-	<div id="id-login" style="display: none;">
-		<p class="error-message"></p>
-		<form id="login_form" method="POST" action="{% url 'json_login' %}" enctype="multipart/form-data">
-			{% csrf_token %}
-			<div>
-				<label for ="login_name">Username:</label>
-				<input type="text" id="login_name" name="login_name" required><br>
-				<label for="login_password">Password:</label>
-				<input type="password" id="login_password" name="login_password" required><br>
-                <a href="#get-started" type="button submit" value="Login" class="btn btn-outline-primary btn-lg btn-block login-submit">{% translate "Login" %}</a>
-				<!-- <input type="submit" value="Login"> -->
-			</div>
-		</form>
-		<p>Don't have an account? Create one <a href="#" class="signup-link">Here</a></p>
-	</div>
-
-    <div id="profile" style="display: none;"></div>
-    <div id="profile-list-page" style="display: none;"></div>
-
-    <div id="id-signup" style="display: none;">
-		<p class="error-message"></p>
-		<form id="signup_form" method="POST" action="{% url 'json_signup' %}" enctype="multipart/form-data">
-			{% csrf_token %}
-				{{ UserCreationForm.as_p }}
-			<input type="submit" value="Sign Up">
-		</form>
-		<p>Already have an account? Log in <a href="#" class="login-link">Here</a></p>
-	</div>
-
-    <div id="id-update-user" style="display: none;">
-		<p class="error-message"></p>
-		<p class="success-message"></p>
-		<form id="update_user_form" method="POST" action="{% url 'json_update_user' %}">
-		  {% csrf_token %}
-		  <div>
-				<label for ="update_username">Username:</label>
-				<input type="text" id="update_username" name="update_username" required><br>
-				<label for="update_password1">Password1:</label>
-				<input type="password" id="update_password1" name="update_password1" required><br>
-				<label for="update_password2">Password2:</label>
-				<input type="password" id="update_password2" name="update_password2" required><br>
-		  </div>
-		  <div class="form-group">
-			<input type="submit" value="Save">
-		  </div>
-		</form>
-	</div>
-
-    <div id="id-update-displayname" style="display: none;">
-		<p class="error-message"></p>
-		<p class="success-message"></p>
-		<form id="update_display_name_form" method="POST" action="{% url 'json_update_display_name' %}">
-			{% csrf_token %}
-			<div>
-				<p><label for="id_display_name">Display Name for Tournaments:</label></p>
-				<input type="text" name="display_name" maxlength="12" id="id_display_name" required>
-			</div><br><br>
-			<div class="form-group">
-				<input type="submit" value="Save">
-			</div>
-		</form>
-	</div>
-
-    <div id="id-update-avatar" style="display: none;">
-		<p class="error-message"></p>
-		<p class="success-message"></p>
-        <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
-          {% csrf_token %}
-			{{ UpdateAvatarForm.as_p }}
-			<input type="submit" value="Save">
-        </form>
-    </div>
-
+    <script>
+		const DEFAULT_AVATAR_URL = "{% static 'avatar/kermit.png' %}";
+	</script>
 </body>
 </html>

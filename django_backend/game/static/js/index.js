@@ -22,8 +22,13 @@ function showSection(sectionId) {
     const language = document.getElementById('language');
     const headerWelcome = document.getElementById('header-welcome');
     const footer = document.getElementById('footer-welcome')
+    const profileNav = document.getElementById('profile-nav');
+    const profileNav2 = document.getElementById('profile-nav2');
     
-    if (sectionId === 'offline-choose-mode' || sectionId === 'get-started') {
+    if (sectionId === 'offline-choose-mode' || sectionId === 'id-login' || sectionId === 'id-signup' 
+        || sectionId === 'get-started' || sectionId === 'id-update-user' || sectionId === 'id-update-displayname'
+        || sectionId === 'id-update-avatar'
+        || sectionId === 'profile' || sectionId === 'profile-list-page') {
         if (language) language.style.display = 'block';
         if (headerWelcome) headerWelcome.style.display = 'block';
         if (footer) footer.style.display = 'block'
@@ -32,6 +37,20 @@ function showSection(sectionId) {
         if (headerWelcome) headerWelcome.style.display = 'none';
         if (footer) footer.style.display = 'none'
     }
+
+    if (sectionId === 'profile') {
+        if (profileNav) profileNav.style.display = 'block';
+    } else {
+        if (profileNav) profileNav.style.display = 'none'
+    }
+
+    if (sectionId === 'profile-list-page' || sectionId === 'id-update-user' || sectionId === 'id-update-displayname'
+        || sectionId === 'id-update-avatar') {
+        if (profileNav2) profileNav2.style.display = 'block';
+    } else {
+        if (profileNav2) profileNav2.style.display = 'none'
+    }
+
 
     const offHeaderGame = document.getElementById('off-header-game');
     if (sectionId === 'offline-1x1' || sectionId === 'offline-tournament' || sectionId === 'login') {
@@ -64,74 +83,94 @@ window.addEventListener('hashchange', function() {
 function createProfilePage(data) {
     // Construct the HTML for the profile page
     let profilePageHtml = `
-        <div class="profile-container">
-            <h2>Profile</h2>
+        <div class="container profile-container">
+            <div class="row justify-content-center">
+                <div class="btn-group-vertical">
+                    <h6>Profile</h6>
 
-            <p><strong>User ID:</strong> ${data.userid}</p>
-            <p><strong>Username:</strong> ${data.username}</p>
-			<a href="#id-update-user" class="update-useraccount-link">edit</a>
+                    <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p>
+                    <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
+                    <a href="#id-update-user" class="update-useraccount-link">edit</a>
+                    <br>
 
-			<p><strong>Display Name:</strong> ${data.display_name}</p>
-			<a href="#id-update-displayname" class="update-displayname-link">edit</a>
+                    <p><span style="color: #ac8fa5;">Display Name:</span>  <strong>${data.display_name}</strong> </p>
+                    <a href="#id-update-displayname" class="update-displayname-link">edit</a>
+                    <br>
 
-            <div class="profile-avatar">
-                ${data.avatar ? `<img src="${data.avatar}" width=200 height=200 alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" width=200 height=200 alt="Default Picture">`}
-            </div>
-			<a href="#id-update-avatar" class="update-avatar-link">edit</a>
+                    <div class="profile-avatar">
+                        <p><span style="color: #ac8fa5;">Current avatar:</span></p>
+                        ${data.avatar ? `<img src="${data.avatar}" width=200 height=200 alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" width=200 height=200 alt="Default Picture">`}
+                    </div>
+                    <a href="#id-update-avatar" class="update-avatar-link">edit</a>
+                    <br>
 
-            <div class="profile-friends">
-                <h3>Friends</h3>
-                <ul>
-                    ${data.friends.map(friend => `
-                        <li>
-                            <p><strong>Username:</strong> ${friend.username}</p>
-                            <p><strong>ID:</strong> ${friend.id}</p>
-                            <p><strong>Online Status:</strong> ${friend.online_status ? 'Online' : 'Offline'}</p>
-                        </li>
-                    `).join('')}
-                </ul>
-				<a href="#profile-list-page" class="profile-list-link">make new friends</a>
-            </div>
+                    <hr class="custom-divider">
 
-			<div class="profile-stats">
-                <h3>Stats</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Wins</th>
-                            <th>Losses</th>
-                            <th>Total Games</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <tr>
-                                <td>${data.wins}</td>
-                                <td>${data.losses}</td>
-                                <td>${data.total_games}</td>
-                            </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="profile-match-history">
-                <h3>Match History</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Winner</th>
-                            <th>Looser</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-						${data.match_history.filter(match => match.length === 3 && match.every(item => item)).map(match => `
-                            <tr>
-                                <td>${match[0]}</td>
-                                <td>${match[1]}</td>
-                                <td>${match[2]}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
+                    <br>
+                    <div class="profile-friends">
+                        <h6>Friends</h6>
+                        <ul>
+                            ${data.friends.map(friend => `
+                                <li>
+                                    <p><span style="color: #ac8fa5;">Friend's ID:</span> <strong>${friend.id}</strong></p>
+                                    <p><span style="color: #ac8fa5;">Username:</span> <strong>${friend.username}</strong></p>
+                                    <p><span style="color: #ac8fa5;">Online Status:</span> <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? 'Online' : 'Offline'}</span></p>
+                                </li><br>
+                            `).join('')}
+                            <a href="#profile-list-page" class="profile-list-link">make new friends</a>
+                        </ul>
+                    </div>
+
+                    <hr class="custom-divider">
+
+                    <br>
+                    <div class="profile-stats">
+                        <h6>Stats</h6>
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="background-color: transparent; color: #ac8fa5;">Wins</th>
+                                    <th style="background-color: transparent; color: #ac8fa5;">Losses</th>
+                                    <th style="background-color: transparent; color: #ac8fa5;">Total Games</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>${data.wins}</td>
+                                    <td>${data.losses}</td>
+                                    <td>${data.total_games}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><br>
+
+                    <hr class="custom-divider">
+
+                    <br>
+                    <div class="profile-match-history">
+                        <h6>Match History</h6>
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="background-color: transparent; color: #ac8fa5;">Date</th>
+                                    <th style="background-color: transparent; color: #ac8fa5;">Winner</th>
+                                    <th style="background-color: transparent; color: #ac8fa5;">Looser</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.match_history.filter(match => match.length === 3 && match.every(item => item)).map(match => `
+                                    <tr>
+                                        <td>${match[0]}</td>
+                                        <td>${match[1]}</td>
+                                        <td>${match[2]}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
             </div>
         </div>
     `;
@@ -141,25 +180,43 @@ function createProfilePage(data) {
 function createProfileListPage(data) {
 	// Construct the HTML for the profile list page
 	let profileListPageHtml = `
-		<div class="profile-list-container">
-			<h2>Profile List</h2>
-			<ul>
-				${data.profiles.map(profile => `
-					<li>
-						<p><strong>Username:</strong> <a href="#" class="other-profile-link" data-id="${profile.id}">${profile.username}</a></p>
-						<p><strong>ID:</strong> ${profile.id}</p>
-						<form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
-							<input type="hidden" name="action" value="${profile.is_friend ? 'unfriend' : 'befriend'}">
-							<input type="hidden" name="user_id" value="${profile.id}">
-							<button type="submit">
-								${profile.is_friend ? 'Unfriend' : 'Befriend'}
-							</button>
-						</form>
-					</li>
-				`).join('')}
-			</ul>
-		</div>
-	`;
+    <div class="container profile-list-container">
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <h6>Registered Users</h6>
+                <ul class="list-unstyled">
+                    ${data.profiles.map(profile => `
+                        <li class="mb-3">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="profile-avatar">
+                                        ${profile.avatar ? `<img src="${profile.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <p>
+                                        <span style="color: #ac8fa5;">Username:</span> <a href="#" class="other-profile-link" data-id="${profile.id}">${profile.username}</a>
+                                        <span style="color: #ac8fa5;"> | ID:</span> ${profile.id}
+                                    </p>
+                                </div>
+                                <div class="col-auto">
+                                    <form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
+                                        <input type="hidden" name="action" value="${profile.is_friend ? 'unfriend' : 'befriend'}">
+                                        <input type="hidden" name="user_id" value="${profile.id}">
+                                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                                            ${profile.is_friend ? 'Unfriend' : 'Befriend'}
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    </div>
+`;
+
 	return profileListPageHtml;
 }
 
@@ -298,6 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				window.csrf = data.csrf_token;
 				hideElement(loginFormDiv);
 				showElement(getStartedDiv);
+                window.location.hash = 'get-started';
 			},
 			error: function(xhr, status, error) {
 				let errorMsg = "Error";
@@ -324,6 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		setElementinnerHTML(document.getElementById('id-login').querySelector('.error-message'), "");
 		showElement(loginFormDiv);
 	});
+    
 
     $('#signup_form').on('submit', function(event) {
 		event.preventDefault();
@@ -343,6 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				window.csrf = data.csrf_token;
 				hideElement(signupFormDiv);
 				// showElement(navbarDiv);
+                window.location.hash = 'get-started';
 			},
 			error: function(xhr, status, error) {
 				let errorMsg = "Error";
@@ -376,6 +436,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					hideElement(element);
 				});
 				showElement(loginFormDiv);
+                window.location.hash = 'offline-choose-mode';
 			},
 			error: function(data) {
 				console.log(data);
@@ -390,8 +451,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     $(document).on('click', '.login-submit', function(event) {
         event.preventDefault(); // Prevent the default anchor behavior
-        $('#login_form').submit(); // Trigger the form submission
-});
+        $('#login_form').submit(); // Trigger the form submission 
+    });
+
+    $(document).on('click', '.signup-submit', function(event) {
+        event.preventDefault(); // Prevent the default anchor behavior
+        $('#signup_form').submit(); // Trigger the form submission 
+    });
+
 
     $(document).on('click', '.profile-link', function(event) {
 		console.log('Button clicked');
@@ -528,6 +595,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				window.csrf = data.csrf_token;
 				setElementinnerHTML(errorP, "");
 				setElementinnerHTML(successP, data.msg);
+                window.location.hash = 'id-update-displayname';
 			},
 			error: function(xhr, status, error) {
 				let errorMsg = "Error";
@@ -568,6 +636,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				window.csrf = data.csrf_token;
 				setElementinnerHTML(errorP, "");
 				setElementinnerHTML(successP, data.msg);
+                window.location.hash = 'id-update-avatar';
 			},
 			error: function(xhr, status, error) {
 				let errorMsg = "Error";
@@ -633,6 +702,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				showElement(profilePageDiv);
 				window.lastDisplayedElement = profilePageDiv;
 				// Optionally display profile details or give feedback to the user
+                window.location.hash = 'profile';
 			},
 			error: function(xhr, status, error) {
 				console.error('Error fetching profile details:', status, error);
