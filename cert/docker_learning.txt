@@ -1,0 +1,18 @@
+try elastic:
+	curl -u elastic:${ELASTICSEARCH_PASSWORD} -X GET "https://elasticsearch:9200" --insecure
+	verbose:
+		curl -v -u elastic:changeme -X GET "https://localhost:9200" --insecure
+
+check ssl:
+	openssl s_client -connect localhost:9200
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout elasticsearch.key -out elasticsearch.crt -config cert.conf
+
+SSL_CERT=$(cat elasticsearch.crt | sed 's/$/\\n/' | tr -d '\n')
+SSL_KEY=$(cat elasticsearch.key | sed 's/$/\\n/' | tr -d '\n')
+
+echo "SSL_CERT=$SSL_CERT" > .env
+echo "SSL_KEY=$SSL_KEY" >> .env
+
+
+docker exec -it elasticsearch bin/elasticsearch-setup-passwords auto --batch
+

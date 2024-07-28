@@ -1,12 +1,85 @@
 version: '3.8'
+
 services:
   transendence:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8043:8043"
     env_file:
       - .env
-    #restart: always
+    depends_on:
+      - elasticsearch
+      - logstash
+    networks:
+      - elk
+  
+  elasticsearch:
+    build: 
+      context: ./elk/elasticsearch
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - elk
 
+  logstash:
+    build:
+      context: ./elk/logstash
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "12201:12201/udp"
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+  kibana:
+    build:
+      context: ./elk/kibana
+      dockerfile: Dockerfile
+    ports:
+      - "5601:5601"
+    env_file:
+      - .env
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+  prometheus:
+      build:
+        context: ./monitoring/prometheus
+        dockerfile: Dockerfile
+      ports:
+        - "9090:9090"
+      env_file:
+        - .env
+      networks:
+        - elk
+  
+  grafana:
+      build:
+        context: ./monitoring/grafana
+        dockerfile: Dockerfile
+      ports:
+        - "3000:3000"
+      env_file:
+        - .env
+      networks:
+        - elk
+
+volumes:
+  esdata:
+    driver: local
+
+networks:
+  elk:
+    driver: bridge

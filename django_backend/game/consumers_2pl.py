@@ -14,12 +14,13 @@ from django.contrib.auth import get_user_model
 from datetime import datetime
 import time
 import uuid
+import logging
 
 
 #https://channels.readthedocs.io/en/stable/topics/consumers.html
 #https://docs.djangoproject.com/en/3.2/topics/auth/default/#user-objects
 
-
+logger = logging.getLogger('django')
 User = get_user_model() # get the user data model from the Django auth module
 
 class PongConsumer(AsyncWebsocketConsumer):
@@ -59,12 +60,14 @@ class PongConsumer(AsyncWebsocketConsumer):
 					# delete the player from disconnected, and resume game loop if both players are back
 					del self.disconnected_players[user.username]
 					print(f"Player {user.username} rejoined session {session_id}")
+					logger.info(f"Player {user.username} rejoined session {session_id}")
 					if len(self.game_sessions[session_id]['players']) == 2:
 						self.resume_game(session_id)
 					return
 				else:
 					del self.disconnected_players[user.username]
 					print(f"Rejoin deadline expired for player {user.username}")
+					logger.info(f"Rejoin deadline expired for player {user.username}")
 					return
 		
 			# check if the user is already in a game session, if yes, then close the connection with code 3001
@@ -72,6 +75,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 			for session in self.game_sessions.values():
 				if user.username in session['players'].values():
 					print(f"Player {user.username} has already joined a game session.")
+					logger.info(f"Player {user.username} has already joined a game session.")
 					await self.close(code = 3001)
 					return
 		
@@ -92,9 +96,11 @@ class PongConsumer(AsyncWebsocketConsumer):
 			else:
 				await self.close(code = 3002)
 				print("Connection closed: no available game session")
+				logger.info("Connection closed: no available game session")
 		else:
 			await self.close(code = 3003)
 			print("Connection closed for unauthenticated user")
+			logger.info("Connection closed for unauthenticated user")
 
 
 	# on disconnect, the method checks if the user was part of a game session, and if yes, then it removes the user from the game session
@@ -114,6 +120,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 				}
 				await self.channel_layer.group_discard(self.session_id, self.channel_name)
 				print(f"Player {player_name} disconnected from session {self.session_id}")
+				logger.info(f"Player {player_name} disconnected from session {self.session_id}")
 				if 'game_loop_task' in self.game_sessions[self.session_id]:
 					if self.game_sessions[self.session_id]['game_loop_task']:
 						self.game_sessions[self.session_id]['game_loop_task'].cancel()

@@ -23,11 +23,14 @@ from django.conf.urls.i18n import i18n_patterns
 from django.urls import include, re_path
 from django.views.static import serve
 
+
+
+
 urlpatterns = [
     path('set-language/', views.set_language, name='set_language'),
     path('admin/', admin.site.urls),
+    path('', include('django_prometheus.urls')),
 ]
-
 
 urlpatterns += i18n_patterns(
     path('', include('game.urls')),  # Include game app URLs with language prefix

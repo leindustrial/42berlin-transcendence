@@ -1,0 +1,28 @@
+{
+    "id": null,
+    "title": "Pong 3.0 Dashboard",
+    "tags": ["django"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "title": "Django Request Total",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(django_http_requests_total_by_method_total[2m])",
+            "intervalFactor": 2, 
+            "legendFormat": "{{method}} {{path}}",
+            "refId": "A"
+          }
+        ],
+        "xaxis": {
+          "mode": "time",
+          "show": true
+        },
+        "yaxis": {
+          "format": "short",
+          "show": true
+        }
+      }
+    ]
+}
