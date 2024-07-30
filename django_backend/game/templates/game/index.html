@@ -33,6 +33,13 @@
    
     <!-- Custom JavaScript -->
     <script src="{% static 'js/index.js' %}" defer></script>
+    <script src="{% static 'js/offline_game.js' %}" defer></script>
+    <script src="{% static 'js/offline_tour.js' %}" defer></script>
+    <script src="{% static 'js/2player.js' %}" defer></script>
+    <script src="{% static 'js/4player.js' %}" defer></script>
+    <script src="{% static 'js/tour.js' %}" defer></script>
+    <script src="{% static 'js/tour_game.js' %}" defer></script>
+
 </head>
 
 <body>
@@ -85,7 +92,7 @@
 
 
         <!-- Offline 1x1 game -->
-        <div id="offline-1x1" class="content-section" style="display:none;">
+        <div id="offline-1x1" class="content-section" style="display:none;" tabindex="0">
             <!-- Offline header button-->
             <div id="off-header-game" class="container header-game">
                 <div class="row justify-content-center">
@@ -123,7 +130,7 @@
         </div>
 
         <!-- Offline Tournament -->
-         <div id="offline-tournament" class="content-section" style="display:none;">
+         <div id="offline-tournament" class="content-section" style="display:none;" tabindex="0">
             <!-- Offline Tour header button-->
             <div id="off-header-game" class="container header-game">
                 <div class="row justify-content-center">
