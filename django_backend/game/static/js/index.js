@@ -24,6 +24,10 @@ function showSection(sectionId) {
     const footer = document.getElementById('footer-welcome')
     const profileNav = document.getElementById('profile-nav');
     const profileNav2 = document.getElementById('profile-nav2');
+    const offExitLogin = document.getElementById('off-exit-login');
+    const offHeaderGame = document.getElementById('off-header-game');
+    const horNav = document.getElementById('hor-nav');
+    const onHeaderGame = document.getElementById('online-header-game');
     
     if (sectionId === 'offline-choose-mode' || sectionId === 'id-login' || sectionId === 'id-signup' 
         || sectionId === 'get-started' || sectionId === 'id-update-user' || sectionId === 'id-update-displayname'
@@ -51,20 +55,24 @@ function showSection(sectionId) {
         if (profileNav2) profileNav2.style.display = 'none'
     }
 
-
-    const offHeaderGame = document.getElementById('off-header-game');
-    if (sectionId === 'offline-1x1' || sectionId === 'offline-tournament' || sectionId === 'login') {
+    if (sectionId === 'id-login' || sectionId === 'id-signup') {
+        if (offExitLogin) offExitLogin.style.display = 'block';
+    } else {
+        if (offExitLogin) offExitLogin.style.display = 'none';
+    }
+ 
+    if (sectionId === 'offline-ai' || sectionId === 'offline-1x1' || sectionId === 'offline-tournament') {
         if (offHeaderGame) offHeaderGame.style.display = 'block';
     } else {
         if (offHeaderGame) offHeaderGame.style.display = 'none';
     }
-    const horNav = document.getElementById('hor-nav');
+
     if (sectionId === 'get-started') {
         if (horNav) horNav.style.display = 'block';
     } else {
         if (horNav) horNav.style.display = 'none';
     }
-    const onHeaderGame = document.getElementById('online-header-game');
+
     if (sectionId === 'online-1x1' || sectionId === 'online-4' || sectionId === 'online-tournament') {
         if (onHeaderGame) onHeaderGame.style.display = 'block';
     } else {
