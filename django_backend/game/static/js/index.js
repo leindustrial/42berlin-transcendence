@@ -391,8 +391,10 @@ function setElementinnerHTML(element, string) {
 	}
 }
 
-// On initial load, show the appropriate section
 document.addEventListener('DOMContentLoaded', function() {
+    const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
+    showSection(initialSection);
+
     // csrfToken required for POST requests
 	const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 	window.csrf = csrfToken;
@@ -445,19 +447,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 
 	});
-
-    // $(document).on('click', '.signup-link', function(event) {
-	// 	hideElement(loginFormDiv);
-	// 	setElementinnerHTML(document.getElementById('id-signup').querySelector('.error-message'), "");
-	// 	showElement(signupFormDiv);
-
-	// });
-
-    // $(document).on('click', '.login-link', function(event) {
-	// 	hideElement(signupFormDiv);
-	// 	setElementinnerHTML(document.getElementById('id-login').querySelector('.error-message'), "");
-	// 	showElement(loginFormDiv);
-	// });
 
     $('#signup_form').on('submit', function(event) {
 		event.preventDefault();
@@ -757,8 +746,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 
-    const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
-    showSection(initialSection);
 
     // Offline game / tournament event listeners:
 
@@ -831,6 +818,8 @@ let message_4 = document.getElementById('message_4');
 let winnerMessage_4 = document.getElementById('winnerMessage_4');
 let winnerName_4 = document.getElementById('winnerName_4');
 
+let winner1_4 = null, winner2_4 = null, winner_final_4 = null;
+
 
 function offlineTourReset() {
     gameStateTour = 'begin';
@@ -841,6 +830,11 @@ function offlineTourReset() {
     input2_4.value = '';
     input3_4.value = '';
     input4_4.value = '';
+    name1_4.textContent = 'Player 1';
+    name2_4.textContent = 'Player 2';
+    winner1_4 = null;
+    winner2_4 = null;
+    winner_final_4 = null;
 
     // message_4.innerHTML = 'Press Enter to Play';
     // winnerMessage_4.style.display = 'none';
@@ -862,30 +856,24 @@ function startMatch() {
     document.getElementById('tournament-game').style.display = 'block';
     document.getElementById('tour_header').style.display = 'none';
     gameStateTour = 'start';
-    if (winner1 === null) {
-        player1Tour.textContent = pl1Name;
-        name1 = pl1Name;
-        player2Tour.textContent = pl2Name;
-        name2 = pl2Name;
-        winnerMessageTour.querySelector('#winnerName_4').innerHTML = `${pl1Name} vs ${pl2Name}!`;
-        winnerMessageTour.style.display = 'block';
-        //start_gameTour();
-    } else if (winner2 === null) {
-        player1Tour.textContent = pl3Name;
-        name1 = pl3Name;
-        player2Tour.textContent = pl4Name;
-        name2 = pl4Name;
-        winnerMessageTour.querySelector('#winnerName_4').innerHTML = `${pl3Name} vs ${pl4Name}!`;
-        winnerMessageTour.style.display = 'block';
-        //start_gameTour();
-    } else if (winner_final === null) {
-        player1Tour.textContent = winner1;
-        name1 = winner1;
-        player2Tour.textContent = winner2;
-        name2 = winner2;
-        winnerMessageTour.querySelector('#winnerName_4').innerHTML = `${winner1} vs ${winner2}!`;
-        winnerMessageTour.style.display = 'block';
-        //start_gameTour();
+    if (winner1_4 === null) {
+        console.log(pl1_4, pl2_4, name1_4.textContent, name2_4.textContent);
+        name1_4.textContent = pl1_4;
+        name2_4.textContent = pl2_4;
+        winnerName_4.innerHTML = `${pl1_4} vs ${pl2_4}!`;
+        winnerMessage_4.style.display = 'block';
+
+    } else if (winner2_4 === null) {
+        name1_4.textContent = pl3_4;
+        name2_4.textContent = pl4_4;
+        winnerMessage_4.innerHTML = `${pl3_4} vs ${pl4_4}!`;
+        winnerMessage_4.style.display = 'block';
+
+    } else if (winner_final_4 === null) {
+        name1_4.textContent = winner1_4;
+        name2_4.textContent = winner2_4;
+        winnerMessage_4.innerHTML = `${winner1_4} vs ${winner2_4}!`;
+        winnerMessage_4.style.display = 'block';
     }
 }
 
