@@ -301,7 +301,7 @@ form ul li {
     font-size: 30px;
 }
 
-#winner-message_1x1 {
+#winnerMessage_1x1 {
     position: absolute;
     top: 230px;
     display: none; /* Initially hide the winner message */

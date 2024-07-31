@@ -34,8 +34,8 @@ function offlineGameReset() {
     message_1x1.style.display = 'block';
     message_1x1.innerHTML = 'Press Enter to Play';
     winnerMessage_1x1.style.display = 'none';
-    winnerMessage_1x1.innerHTML = '';
-    winnerName_1x1.innerHTML = '';
+    // winnerMessage_1x1.innerHTML = '';
+    // winnerName_1x1.innerHTML = '';
     initializeGameElements_1x1()
     resetScores_1x1();
     resetBallPosition_1x1();
@@ -93,10 +93,10 @@ function resetScores_1x1() {
 
 function checkScores_1x1() {
     if (parseInt(score1_1x1.innerHTML) >= 3) {
-        displayWinner_1x1(document.getElementById('name1_1x1'));
+        displayWinner_1x1(name1_1x1.textContent);
         return true;
     } else if (parseInt(score2_1x1.innerHTML) >= 3) {
-        displayWinner_1x1(document.getElementById('name2_1x1'));
+        displayWinner_1x1(name2_1x1.textContent);
         return true;
     }
     return false;
@@ -104,8 +104,8 @@ function checkScores_1x1() {
 
 function displayWinner_1x1(winnerName) {
     gameState_1x1 = 'stop';
-    winnerMessage_1x1.style.display = 'block';
     winnerName_1x1.innerHTML = `${winnerName} wins!`;
+    winnerMessage_1x1.style.display = 'block';
     message_1x1.style.display = 'block';
     message_1x1.innerHTML = 'Game Over! Press Enter to Play Again';
     resetBallPosition_1x1();
@@ -962,8 +962,8 @@ document.addEventListener('DOMContentLoaded', function() {
    
     // Event listener for keyup to stop paddle movement
     document.addEventListener('keyup', function (e) {
-        if (e.key === 'w' || e.key === 's') velocity1_1x1 = 0;
-        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') velocity2_1x1 = 0;
+        if (e.key === 'w' && gameState_1x1 === 'play' || e.key === 's' && gameState_1x1 === 'play') velocity1_1x1 = 0;
+        if (e.key === 'ArrowUp' && gameState_1x1 === 'play' || e.key === 'ArrowDown'&& gameState_1x1 === 'play') velocity2_1x1 = 0;
     });
     
 });
