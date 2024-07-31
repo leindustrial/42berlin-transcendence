@@ -451,13 +451,13 @@ body {
     display: flex;
 }
 
-#name1_1x1, #player1Name_4 {
+#name1_1x1, #name1_4 {
     text-align: left;
     left: calc(50% - 440px);
     color: rgb(31, 172, 237);
 }
 
-#name2_1x1, #player2Name_4 {
+#name2_1x1, #name2_4 {
     text-align: right;
     right: calc(50% - 440px);
     color: rgb(191, 43, 221);

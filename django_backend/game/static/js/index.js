@@ -1,176 +1,3 @@
-// Game 1x1 =============================================================================================================
-
-// Global variables for offline game:
-let gameState_1x1;
-let input1_1x1 = document.getElementById('input1_1x1');
-let input2_1x1 = document.getElementById('input2_1x1');
-let name1_1x1 = document.getElementById('name1_1x1');
-let name2_1x1 = document.getElementById('name2_1x1');
-let message_1x1 = document.getElementById('message_1x1');
-let winnerMessage_1x1 = document.getElementById('winnerMessage_1x1');
-let winnerName_1x1 = document.getElementById('winnerName_1x1');
-let startGameBtn_1x1 = document.getElementById('startGameBtn_1x1');
-let score1_1x1 = document.getElementById('score1_1x1');
-let score2_1x1 = document.getElementById('score2_1x1');
-let board_1x1 = document.getElementById('board_1x1');
-let ball_1x1 = document.getElementById('ball_1x1');
-let paddle1_1x1 = document.getElementById('paddle1_1x1');
-let paddle2_1x1 = document.getElementById('paddle2_1x1');
-
-let paddle1_coord_1x1, paddle2_coord_1x1, paddle_common_1x1;
-
-const paddleSpeed = 3;
-let velocity1_1x1 = 0, velocity2_1x1 = 0;
-
-let dx, dy, dxd, dyd;
-
-function offlineGameReset() {
-    gameState_1x1 = 'begin';
-    document.getElementById('player_form_1x1').style.display = 'block';
-    input1_1x1.value = '';
-    input2_1x1.value = '';
-    name1_1x1.textContent = 'Player 1';
-    name2_1x1.textContent = 'Player 2';
-    message_1x1.style.display = 'block';
-    message_1x1.innerHTML = 'Press Enter to Play';
-    winnerMessage_1x1.style.display = 'none';
-    // winnerMessage_1x1.innerHTML = '';
-    // winnerName_1x1.innerHTML = '';
-    initializeGameElements_1x1()
-    resetScores_1x1();
-    resetBallPosition_1x1();
-    resetPaddlePositions_1x1();
-}
-
-function initializeGameElements_1x1() {
-    ball_coord_1x1 = ball_1x1.getBoundingClientRect();
-    board_coord_1x1 = board_1x1.getBoundingClientRect();
-    paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
-    paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
-    paddle_common_1x1 = document.querySelector('.paddle_off').getBoundingClientRect();
-
-    dx = Math.floor(Math.random() * 4) + 3;
-    dy = Math.floor(Math.random() * 4) + 3;
-    dxd = Math.floor(Math.random() * 2);
-    dyd = Math.floor(Math.random() * 2);
-
-    ball_1x1.style.top = board_coord_1x1.top + (board_coord_1x1.height / 2) - (ball_coord_1x1.height / 2) + 'px';
-    ball_1x1.style.left = board_coord_1x1.left + (board_coord_1x1.width / 2) - (ball_coord_1x1.width / 2) + 'px';
-}
-
-function resetPaddlePositions_1x1() {
-
-    paddle1_1x1.style.top = 360 + 'px';
-    paddle2_1x1.style.top = 360 + 'px';
-
-    paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
-    paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
-
-}
-
-function updatePaddlePositions_1x1() {
-
-    paddle1_1x1.style.top = Math.min(Math.max(board_coord_1x1.top, paddle1_coord_1x1.top + velocity1_1x1), board_coord_1x1.bottom - paddle1_coord_1x1.height) + 'px';
-    paddle2_1x1.style.top = Math.min(Math.max(board_coord_1x1.top, paddle2_coord_1x1.top + velocity2_1x1), board_coord_1x1.bottom - paddle2_coord_1x1.height) + 'px';
-
-    paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
-    paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
-
-    requestAnimationFrame(updatePaddlePositions_1x1);
-
-}
-
-function resetBallPosition_1x1() {
-    ball_1x1.style.top = board_coord_1x1.top + (board_coord_1x1.height / 2) - (ball_coord_1x1.height / 2) + 'px';
-    ball_1x1.style.left = board_coord_1x1.left + (board_coord_1x1.width / 2) - (ball_coord_1x1.width / 2) + 'px';   
-    ball_coord_1x1 = ball_1x1.getBoundingClientRect();
-}
-
-function resetScores_1x1() {
-    score1_1x1.innerHTML = '0';
-    score2_1x1.innerHTML = '0';
-}
-
-function checkScores_1x1() {
-    if (parseInt(score1_1x1.innerHTML) >= 3) {
-        displayWinner_1x1(name1_1x1.textContent);
-        return true;
-    } else if (parseInt(score2_1x1.innerHTML) >= 3) {
-        displayWinner_1x1(name2_1x1.textContent);
-        return true;
-    }
-    return false;
-}
-
-function displayWinner_1x1(winnerName) {
-    gameState_1x1 = 'stop';
-    winnerName_1x1.innerHTML = `${winnerName} wins!`;
-    winnerMessage_1x1.style.display = 'block';
-    message_1x1.style.display = 'block';
-    message_1x1.innerHTML = 'Game Over! Press Enter to Play Again';
-    resetBallPosition_1x1();
-    resetScores_1x1();
-    gameState_1x1 = 'start';
-}
-
-function moveBall_1x1(dx, dy, dxd, dyd) {
-    ball_coord_1x1 = ball_1x1.getBoundingClientRect();
-
-    if (ball_coord_1x1.top <= board_coord_1x1.top || ball_coord_1x1.bottom >= board_coord_1x1.bottom) {
-        dyd = 1 - dyd; // Reverse vertical direction
-    }
-
-    if (ball_coord_1x1.left <= paddle1_coord_1x1.right && ball_coord_1x1.top >= paddle1_coord_1x1.top && ball_coord_1x1.bottom <= paddle1_coord_1x1.bottom) {
-        dxd = 1; // Move ball to the right
-        dx = Math.floor(Math.random() * 4) + 3;
-        dy = Math.floor(Math.random() * 4) + 3;
-    }
-
-    if (ball_coord_1x1.right >= paddle2_coord_1x1.left && ball_coord_1x1.top >= paddle2_coord_1x1.top && ball_coord_1x1.bottom <= paddle2_coord_1x1.bottom) {
-        dxd = 0; // Move ball to the left
-        dx = Math.floor(Math.random() * 4) + 3;
-        dy = Math.floor(Math.random() * 4) + 3;
-    }
-
-    if (ball_coord_1x1.left <= board_coord_1x1.left || ball_coord_1x1.right >= board_coord_1x1.right) {
-        if (ball_coord_1x1.left <= board_coord_1x1.left) {
-            score2_1x1.innerHTML = +score2_1x1.innerHTML + 1;
-        } else {
-            score1_1x1.innerHTML = +score1_1x1.innerHTML + 1;
-        }
-        if (checkScores_1x1()) return;
-        gameState_1x1 = 'reset';
-        resetBallPosition_1x1();
-        setTimeout(() => {
-            gameState_1x1 = 'play';
-            moveBall_1x1(dx, dy, dxd, dyd);
-        }, 1000);
-        return;
-    }
-
-    ball_1x1.style.top = ball_coord_1x1.top + dy * (dyd === 0 ? -1 : 1) + 'px';
-    ball_1x1.style.left = ball_coord_1x1.left + dx * (dxd === 0 ? -1 : 1) + 'px';
-
-    requestAnimationFrame(() => {
-        moveBall_1x1(dx, dy, dxd, dyd);
-    });
-}
-
-function startGame_1x1() {   
-    console.log(gameState_1x1);
-    message_1x1.style.display = 'block';
-    winnerMessage_1x1.style.display = 'none';
-    gameState_1x1 = 'play';
-    message_1x1.innerHTML = 'Game Started';
-    setTimeout(() => message_1x1.innerHTML = '', 1500);
-
-    initializeGameElements_1x1();
-    updatePaddlePositions_1x1();
-    resetBallPosition_1x1();
-    resetScores_1x1();
-    moveBall_1x1(dx, dy, dxd, dyd);
-}
-
 // SHOW SECTIONS:
 window.addEventListener('hashchange', function() {
     const sectionId = window.location.hash.substring(1);
@@ -180,7 +7,6 @@ window.addEventListener('hashchange', function() {
 function showSection(sectionId) {
     // Get all sections & hide all sections
     const sections = document.querySelectorAll('.content-section');
-    let location;
 
     sections.forEach(section => {
         section.style.display = 'none';
@@ -190,14 +16,16 @@ function showSection(sectionId) {
     const selectedSection = document.getElementById(sectionId);
     if (selectedSection) {
         selectedSection.style.display = 'block';
-        location = sectionId;
-        console.log("location:")
-        console.log(location);
 
         const offGame = document.getElementById('offline-1x1');
+        const offTour = document.getElementById('offline-tournament');
         if (window.getComputedStyle(offGame).display === 'block'){
-            console.log('We are in the 1x1 game');
+            console.log('We are in the offline 1x1 game');
             offlineGameReset();
+        }
+        else if (window.getComputedStyle(offTour).display === 'block'){
+            console.log('We are in the offline tournament');
+            offlineTourReset();
         }
     }
 
@@ -932,38 +760,304 @@ document.addEventListener('DOMContentLoaded', function() {
     const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
     showSection(initialSection);
 
-    // Offline game event listeners:
+    // Offline game / tournament event listeners:
+
     document.addEventListener('keydown', function (e) {
-        console.log("1x1 game location!");
         if (e.key === 'Enter' && gameState_1x1 === 'start') startGame_1x1();
         if (e.key === 'w') velocity1_1x1 = gameState_1x1 === 'play' ? -paddleSpeed : 0;
         if (e.key === 's') velocity1_1x1 = gameState_1x1 === 'play' ? paddleSpeed : 0;
         if (e.key === 'ArrowUp') velocity2_1x1 = gameState_1x1 === 'play' ? -paddleSpeed : 0;
         if (e.key === 'ArrowDown') velocity2_1x1 = gameState_1x1 === 'play' ? paddleSpeed : 0;
     });
-   
+
+    document.addEventListener('keyup', function (e) {
+        if (e.key === 'w' && gameState_1x1 === 'play' || e.key === 's' && gameState_1x1 === 'play') velocity1_1x1 = 0;
+        if (e.key === 'ArrowUp' && gameState_1x1 === 'play' || e.key === 'ArrowDown'&& gameState_1x1 === 'play') velocity2_1x1 = 0;
+    });
+
     startGameBtn_1x1.addEventListener('click', function () {
-        input1_1x1 = document.getElementById('input1_1x1');
-        input2_1x1 = document.getElementById('input2_1x1');
         if (input1_1x1.value === input2_1x1.value) {
-            alert(':) Please enter different names for both players.');
+            alert('Please enter different names for both players.');
         } else if (input1_1x1.value && input2_1x1.value) {
             document.getElementById('player_form_1x1').style.display = 'none';
             gameState_1x1 = 'start';
             name1_1x1.textContent = input1_1x1.value;
             name2_1x1.textContent = input2_1x1.value;
-            player1Name = input1_1x1.value;
-            player2Name = input2_1x1.value;
-            console.log(gameState_1x1);
         } else {
             alert('Please enter names for both players.');
         }
     });
-   
-    // Event listener for keyup to stop paddle movement
-    document.addEventListener('keyup', function (e) {
-        if (e.key === 'w' && gameState_1x1 === 'play' || e.key === 's' && gameState_1x1 === 'play') velocity1_1x1 = 0;
-        if (e.key === 'ArrowUp' && gameState_1x1 === 'play' || e.key === 'ArrowDown'&& gameState_1x1 === 'play') velocity2_1x1 = 0;
+
+    startTourBtn.addEventListener('click', function () {
+        console.log('We are in start tournament');
+        if (areNotUnique(input1_4.value, input2_4.value, input3_4.value, input4_4.value)) {
+            alert('Please enter unique names for all players.');
+        } else if (input1_4.value && input2_4.value && input3_4.value && input4_4.value) {
+            document.getElementById('player_form_4').style.display = 'none';
+            pl1_4 = input1_4.value;
+            pl2_4 = input2_4.value
+            pl3_4 = input3_4.value;
+            pl4_4 = input4_4.value;
+            table1_4.textContent = input1_4.value;
+            table2_4.textContent = input2_4.value;
+            table3_4.textContent = input3_4.value;
+            table4_4.textContent = input4_4.value;
+            document.getElementById('tournament-table').style.display = 'block';
+            document.getElementById('go-to-match').addEventListener('click', startMatch);
+        } else {
+            alert('Please enter unique names for all players.');
+        }
     });
     
 });
+
+// Offline Tournament ========================================================================================================
+
+let gameStateTour;
+let startTourBtn = document.getElementById('startTourBtn');
+let input1_4 = document.getElementById('input1_4');
+let input2_4 = document.getElementById('input2_4');
+let input3_4 = document.getElementById('input3_4');
+let input4_4 = document.getElementById('input4_4');
+let pl1_4, pl2_4, pl3_4, pl4_4;
+let table1_4 = document.getElementById('table1_4'); 
+let table2_4 = document.getElementById('table2_4');
+let table3_4 = document.getElementById('table3_4');
+let table4_4 = document.getElementById('table4_4');
+
+let name1_4 = document.getElementById('name1_4');
+let name2_4 = document.getElementById('name2_4');
+let message_4 = document.getElementById('message_4');
+let winnerMessage_4 = document.getElementById('winnerMessage_4');
+let winnerName_4 = document.getElementById('winnerName_4');
+
+
+function offlineTourReset() {
+    gameStateTour = 'begin';
+    document.getElementById('player_form_4').style.display = 'block';
+    document.getElementById('tournament-table').style.display = 'none';            
+    document.getElementById('tournament-game').style.display = 'none';
+    input1_4.value = '';
+    input2_4.value = '';
+    input3_4.value = '';
+    input4_4.value = '';
+
+    // message_4.innerHTML = 'Press Enter to Play';
+    // winnerMessage_4.style.display = 'none';
+
+    // initializeGameElements_1x1()
+    // resetScores_1x1();
+    // resetBallPosition_1x1();
+    // resetPaddlePositions_1x1();
+}
+
+function areNotUnique(str1, str2, str3, str4) {
+    return str1 === str2 || str1 === str3 || str1 === str4 ||
+    str2 === str3 || str2 === str4 ||
+    str3 === str4;
+}
+
+function startMatch() {
+    document.getElementById('tournament-table').style.display = 'none';            
+    document.getElementById('tournament-game').style.display = 'block';
+    document.getElementById('tour_header').style.display = 'none';
+    gameStateTour = 'start';
+    if (winner1 === null) {
+        player1Tour.textContent = pl1Name;
+        name1 = pl1Name;
+        player2Tour.textContent = pl2Name;
+        name2 = pl2Name;
+        winnerMessageTour.querySelector('#winnerName_4').innerHTML = `${pl1Name} vs ${pl2Name}!`;
+        winnerMessageTour.style.display = 'block';
+        //start_gameTour();
+    } else if (winner2 === null) {
+        player1Tour.textContent = pl3Name;
+        name1 = pl3Name;
+        player2Tour.textContent = pl4Name;
+        name2 = pl4Name;
+        winnerMessageTour.querySelector('#winnerName_4').innerHTML = `${pl3Name} vs ${pl4Name}!`;
+        winnerMessageTour.style.display = 'block';
+        //start_gameTour();
+    } else if (winner_final === null) {
+        player1Tour.textContent = winner1;
+        name1 = winner1;
+        player2Tour.textContent = winner2;
+        name2 = winner2;
+        winnerMessageTour.querySelector('#winnerName_4').innerHTML = `${winner1} vs ${winner2}!`;
+        winnerMessageTour.style.display = 'block';
+        //start_gameTour();
+    }
+}
+
+// Offline game 1x1 ==========================================================================================================
+
+// Global variables for offline game:
+let gameState_1x1;
+let input1_1x1 = document.getElementById('input1_1x1');
+let input2_1x1 = document.getElementById('input2_1x1');
+let name1_1x1 = document.getElementById('name1_1x1');
+let name2_1x1 = document.getElementById('name2_1x1');
+let message_1x1 = document.getElementById('message_1x1');
+let winnerMessage_1x1 = document.getElementById('winnerMessage_1x1');
+let winnerName_1x1 = document.getElementById('winnerName_1x1');
+let startGameBtn_1x1 = document.getElementById('startGameBtn_1x1');
+let score1_1x1 = document.getElementById('score1_1x1');
+let score2_1x1 = document.getElementById('score2_1x1');
+let board_1x1 = document.getElementById('board_1x1');
+let ball_1x1 = document.getElementById('ball_1x1');
+let paddle1_1x1 = document.getElementById('paddle1_1x1');
+let paddle2_1x1 = document.getElementById('paddle2_1x1');
+
+let paddle1_coord_1x1, paddle2_coord_1x1, paddle_common_1x1;
+
+const paddleSpeed = 3;
+let velocity1_1x1 = 0, velocity2_1x1 = 0;
+
+let dx, dy, dxd, dyd;
+
+function offlineGameReset() {
+    gameState_1x1 = 'begin';
+    document.getElementById('player_form_1x1').style.display = 'block';
+    input1_1x1.value = '';
+    input2_1x1.value = '';
+    name1_1x1.textContent = 'Player 1';
+    name2_1x1.textContent = 'Player 2';
+    message_1x1.style.display = 'block';
+    message_1x1.innerHTML = 'Press Enter to Play';
+    winnerMessage_1x1.style.display = 'none';
+    // winnerMessage_1x1.innerHTML = '';
+    // winnerName_1x1.innerHTML = '';
+    initializeGameElements_1x1()
+    resetScores_1x1();
+    resetBallPosition_1x1();
+    resetPaddlePositions_1x1();
+}
+
+function initializeGameElements_1x1() {
+    ball_coord_1x1 = ball_1x1.getBoundingClientRect();
+    board_coord_1x1 = board_1x1.getBoundingClientRect();
+    paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
+    paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
+    paddle_common_1x1 = document.querySelector('.paddle_off').getBoundingClientRect();
+
+    dx = Math.floor(Math.random() * 4) + 3;
+    dy = Math.floor(Math.random() * 4) + 3;
+    dxd = Math.floor(Math.random() * 2);
+    dyd = Math.floor(Math.random() * 2);
+
+    ball_1x1.style.top = board_coord_1x1.top + (board_coord_1x1.height / 2) - (ball_coord_1x1.height / 2) + 'px';
+    ball_1x1.style.left = board_coord_1x1.left + (board_coord_1x1.width / 2) - (ball_coord_1x1.width / 2) + 'px';
+}
+
+function resetPaddlePositions_1x1() {
+
+    paddle1_1x1.style.top = 360 + 'px';
+    paddle2_1x1.style.top = 360 + 'px';
+
+    paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
+    paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
+
+}
+
+function updatePaddlePositions_1x1() {
+
+    paddle1_1x1.style.top = Math.min(Math.max(board_coord_1x1.top, paddle1_coord_1x1.top + velocity1_1x1), board_coord_1x1.bottom - paddle1_coord_1x1.height) + 'px';
+    paddle2_1x1.style.top = Math.min(Math.max(board_coord_1x1.top, paddle2_coord_1x1.top + velocity2_1x1), board_coord_1x1.bottom - paddle2_coord_1x1.height) + 'px';
+
+    paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
+    paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
+
+    requestAnimationFrame(updatePaddlePositions_1x1);
+
+}
+
+function resetBallPosition_1x1() {
+    ball_1x1.style.top = board_coord_1x1.top + (board_coord_1x1.height / 2) - (ball_coord_1x1.height / 2) + 'px';
+    ball_1x1.style.left = board_coord_1x1.left + (board_coord_1x1.width / 2) - (ball_coord_1x1.width / 2) + 'px';   
+    ball_coord_1x1 = ball_1x1.getBoundingClientRect();
+}
+
+function resetScores_1x1() {
+    score1_1x1.innerHTML = '0';
+    score2_1x1.innerHTML = '0';
+}
+
+function checkScores_1x1() {
+    if (parseInt(score1_1x1.innerHTML) >= 3) {
+        displayWinner_1x1(name1_1x1.textContent);
+        return true;
+    } else if (parseInt(score2_1x1.innerHTML) >= 3) {
+        displayWinner_1x1(name2_1x1.textContent);
+        return true;
+    }
+    return false;
+}
+
+function displayWinner_1x1(winnerName) {
+    gameState_1x1 = 'stop';
+    winnerName_1x1.innerHTML = `${winnerName} wins!`;
+    winnerMessage_1x1.style.display = 'block';
+    message_1x1.style.display = 'block';
+    message_1x1.innerHTML = 'Game Over! Press Enter to Play Again';
+    resetBallPosition_1x1();
+    resetScores_1x1();
+    gameState_1x1 = 'start';
+}
+
+function moveBall_1x1(dx, dy, dxd, dyd) {
+    ball_coord_1x1 = ball_1x1.getBoundingClientRect();
+
+    if (ball_coord_1x1.top <= board_coord_1x1.top || ball_coord_1x1.bottom >= board_coord_1x1.bottom) {
+        dyd = 1 - dyd; // Reverse vertical direction
+    }
+
+    if (ball_coord_1x1.left <= paddle1_coord_1x1.right && ball_coord_1x1.top >= paddle1_coord_1x1.top && ball_coord_1x1.bottom <= paddle1_coord_1x1.bottom) {
+        dxd = 1; // Move ball to the right
+        dx = Math.floor(Math.random() * 4) + 3;
+        dy = Math.floor(Math.random() * 4) + 3;
+    }
+
+    if (ball_coord_1x1.right >= paddle2_coord_1x1.left && ball_coord_1x1.top >= paddle2_coord_1x1.top && ball_coord_1x1.bottom <= paddle2_coord_1x1.bottom) {
+        dxd = 0; // Move ball to the left
+        dx = Math.floor(Math.random() * 4) + 3;
+        dy = Math.floor(Math.random() * 4) + 3;
+    }
+
+    if (ball_coord_1x1.left <= board_coord_1x1.left || ball_coord_1x1.right >= board_coord_1x1.right) {
+        if (ball_coord_1x1.left <= board_coord_1x1.left) {
+            score2_1x1.innerHTML = +score2_1x1.innerHTML + 1;
+        } else {
+            score1_1x1.innerHTML = +score1_1x1.innerHTML + 1;
+        }
+        if (checkScores_1x1()) return;
+        gameState_1x1 = 'reset';
+        resetBallPosition_1x1();
+        setTimeout(() => {
+            gameState_1x1 = 'play';
+            moveBall_1x1(dx, dy, dxd, dyd);
+        }, 1000);
+        return;
+    }
+
+    ball_1x1.style.top = ball_coord_1x1.top + dy * (dyd === 0 ? -1 : 1) + 'px';
+    ball_1x1.style.left = ball_coord_1x1.left + dx * (dxd === 0 ? -1 : 1) + 'px';
+
+    requestAnimationFrame(() => {
+        moveBall_1x1(dx, dy, dxd, dyd);
+    });
+}
+
+function startGame_1x1() {   
+    console.log(gameState_1x1);
+    message_1x1.style.display = 'block';
+    winnerMessage_1x1.style.display = 'none';
+    gameState_1x1 = 'play';
+    message_1x1.innerHTML = 'Game Started';
+    setTimeout(() => message_1x1.innerHTML = '', 1500);
+
+    initializeGameElements_1x1();
+    updatePaddlePositions_1x1();
+    resetBallPosition_1x1();
+    resetScores_1x1();
+    moveBall_1x1(dx, dy, dxd, dyd);
+}

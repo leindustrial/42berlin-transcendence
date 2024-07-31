@@ -121,8 +121,8 @@
                     <div class="row justify-content-center align-items-center">
                         <div class="col-auto">
                             <div id="player_form_1x1">
-                                <input type="text" class="form-control" id="input1_1x1" placeholder="Player 1 name" required>
-                                <input type="text" class="form-control" id="input2_1x1" placeholder="Player 2 name" required>
+                                <input type="text" class="form-control" id="input1_1x1" placeholder="Player 1 name" required maxlength="15">
+                                <input type="text" class="form-control" id="input2_1x1" placeholder="Player 2 name" required maxlength="15">
                                 <button id="startGameBtn_1x1" class="btn btn-primary offline-1x1">Start Game</button>
                             </div>
                             <div class="board" id="board_1x1">
@@ -148,11 +148,11 @@
          <div id="offline-tournament" class="content-section" style="display:none;" tabindex="0">
             <h1 class="text-center" id="tour_header">Tournament</h1>
             <div id="player_form_4">
-                <input type="text" class="form-control" id="player1NameInput_4" placeholder="Player 1 name" required maxlength="15">
-                <input type="text" class="form-control" id="player2NameInput_4" placeholder="Player 2 name" required maxlength="15">
-                <input type="text" class="form-control" id="player3NameInput_4" placeholder="Player 3 name" required maxlength="15">
-                <input type="text" class="form-control" id="player4NameInput_4" placeholder="Player 4 name" required maxlength="15">
-                <button id="startTourBtn" class="btn btn-primary">Start Game</button>
+                <input type="text" class="form-control" id="input1_4" placeholder="Player 1" required maxlength="15">
+                <input type="text" class="form-control" id="input2_4" placeholder="Player 2" required maxlength="15">
+                <input type="text" class="form-control" id="input3_4" placeholder="Player 3" required maxlength="15">
+                <input type="text" class="form-control" id="input4_4" placeholder="Player 4" required maxlength="15">
+                <button id="startTourBtn" class="btn btn-primary">Start Tournament</button>
             </div>
             
             <div class="tournament-table" id="tournament-table" style="display: none">
@@ -166,17 +166,17 @@
                             <div class="d-flex justify-content-center">
                                 <h3>Match 1</h3>
                             </div>
-                            <p class="player" id="table_name1_4"></p>
+                            <p class="player" id="table1_4"></p>
                             <p class="vs">vs</p>
-                            <p class="player" id="table_name2_4"></p>
+                            <p class="player" id="table2_4"></p>
                         </div>
                         <div class="match_off" id="match-semi-finals-1">
                             <div class="d-flex justify-content-center">
                                 <h3>Match 2</h3>
                             </div>
-                            <p class="player" id="table_name3_4"></p>
+                            <p class="player" id="table3_4"></p>
                             <p class="vs">vs</p>
-                            <p class="player" id="table_name4_4"></p>
+                            <p class="player" id="table4_4"></p>
                         </div>
                 </div>
                 <button id="go-to-match">Go to Match</button>
@@ -195,8 +195,8 @@
                                     <div class="paddle_off" id="paddle2_off_4"></div>
                                     <h3 class="scores_off" id="score1_off_4">0</h3>
                                     <h3 class="scores_off" id="score2_off_4">0</h3>
-                                    <h3 class="player_name_off" id="player1Name_4">Player 1</h3>
-                                    <h3 class="player_name_off" id="player2Name_4">Player 2</h3>
+                                    <h3 class="player_name_off" id="name1_4">Player 1</h3>
+                                    <h3 class="player_name_off" id="name2_4">Player 2</h3>
                                     <div id="winnerMessage_4" class="winner-message">
                                         <h2 id="winnerName_4"></h2>
                                     </div>
