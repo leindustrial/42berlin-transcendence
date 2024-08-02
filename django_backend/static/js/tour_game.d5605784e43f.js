@@ -1,20 +1,10 @@
-export function game_handler() {
-	const online1x1Html = `
-		<div id="game-area">
-			<p class="text-center"><h3 id="message" class="message"></h3></p>
-			<div id="ball"></div>
-			<div id="paddle1" class="paddle"></div>
-			<div id="paddle2" class="paddle"></div>
-			<div id="player1-name" class="player-name"></div>
-			<div id="score1">0</div>
-			<div id="player2-name" class="player-name"></div>
-			<div id="score2">0</div>
-		</div>
-	`
-	
-	setElementinnerHTML(document.getElementById('game-place'), online1x1Html);
-	showElement(document.getElementById('game-place'));
-	const socket = new WebSocket(`ws://${window.location.host}/ws/pong/`);
+document.addEventListener('DOMContentLoaded', () => {
+	const url = window.location.href;
+	const parts = url.split('/');
+	const indexOfSessionId = parts.indexOf('tour_game') + 1;
+	const sessionId = parts[indexOfSessionId];
+	console.log(sessionId);
+	const socket = new WebSocket(`wss://${window.location.host}/tour_game/${sessionId}/`);
 	const gameArea = document.getElementById('game-area');
 	const message = document.getElementById('message');
 	const ball = document.getElementById('ball');
@@ -24,6 +14,7 @@ export function game_handler() {
 	const score2 = document.getElementById('score2');
 	const player1 = document.getElementById('player1-name');
 	const player2 = document.getElementById('player2-name');
+
 
 	message.textContent = 'Waiting for players to join...';
 	const originalWidth = 900;
@@ -85,11 +76,11 @@ export function game_handler() {
 				updateGameState(data.game_state);
 				break;
 			case 'game_started':
-				// message.style.fontSize = '40px';
+				message.style.fontSize = '40px';
 				message.textContent = data.message;
 				setTimeout(() => {
 					message.textContent = '';
-					// message.style.fontSize = '10px';
+					message.style.fontSize = '10px';
 				}, 1000);
 				break;
 			case 'game_over':
@@ -121,32 +112,19 @@ export function game_handler() {
 	}
 
 	function resetGame() {
-		ball.style.left = '450px';
-		ball.style.top = '290px';
-		paddle1.style.top = '260px';
-		paddle2.style.top = '260px';
+		ball.style.left = '390px';
+		ball.style.top = '190px';
+		paddle1.style.top = '160px';
+		paddle2.style.top = '160px';
 		score1.textContent = '0';
 		score2.textContent = '0';
 	}
 
 	socket.onclose = (event) => {
-		switch (event.code) {
-			case 3001:
-				message.textContent = 'Player already joined the game. You will be redirected';
-				break;
-			case 3002:
-				message.textContent = 'Connection closed: no available game session';
-				break;
-			case 3003:
-				message.textContent = 'Connection closed for unauthenticated user';
-				break;
-			default:
-				message.textContent = 'You will be redirected to the home page.';
-		}
+		//message.textContent = 'Connection closed. Please refresh the page.';
+		message.textContent = 'You will be redirected to the home page.';
 		setTimeout(() => {
-			hideElement(document.getElementById('game-place'));
-			showElement(document.getElementById('get-started'));
-			window.location.hash = 'get-started';
+			window.location.href = '/tournament';
 		}, 3000);
 	};
 
@@ -154,4 +132,4 @@ export function game_handler() {
 		console.error('WebSocket Error:', error);
 		message.textContent = 'An error occurred. Please refresh the page.';
 	};
-}
+});

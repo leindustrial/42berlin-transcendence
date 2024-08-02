@@ -26,19 +26,17 @@
     letter-spacing: 3pt;
 }
 
-#header-game {
+.header-game {
     align-content: top;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-#choose-mode {
-    margin-top: 100px;
-    margin-bottom: 100px;
-}
-
 #footer-welcome {
-    margin-top: 30px;
+    margin-top: 50px;
+    padding-top: 50px;
+    margin-bottom: 50px;
+    padding-bottom: 50px;
 }
 
 #profile-menu {
@@ -76,12 +74,133 @@ h5 {
     padding-bottom: 20px;
 }
 
+h6 {
+    color: #ffffff;
+    font-size: 24pt;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+    margin-bottom: 30px;
+}
+
+p {
+    color: #ffffff;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+table {
+    color: #ffffff;
+}
+
+/* Login & signup forms: ---------------------------------------------------------------------------------------------------*/
+
+#login_form, #signup_form, #update_display_name_form, #update_avatar_form, #update_user_form {
+    width: 400px;
+    margin: 30px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 30px;
+}
+
+#id-login, #id-signup, #id-update-displayname, #id-update-avatar, #id-update-user {
+    text-align: center;
+    margin: 30px auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form .form-control {
+    width: 300px;
+    margin-bottom: 15px;
+}
+
+form label {
+    color: #7d7fac;  /* Customize label color */
+    text-align: left;
+    width: 300px;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+form a[type="submit"] {
+    width: 100px;
+    padding: 10px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.helptext {
+    color: #6c757d;  /* Help text color */
+    display: none;
+    width: 300px;
+}
+
+#id-avatar-helptext {
+    color: #6c757d;  /* Help text color */
+    display: none;
+    width: 300px;
+}
+
+form ul {
+    width: 300px;
+    list-style-type: none;
+    padding: 0;
+    font-size: 9pt;
+    line-height: 13pt;
+}
+
+form ul li {
+    margin-bottom: 10px;
+    padding: 0px;
+    border-radius: 4px;
+    color: #495057;
+    text-align: left;
+}
+
+
+/* Offline games login input form ------------------------------------------------------------------------------------*/
+
+#player_form_1x1, #player_form_4 {
+    width: 400px;
+    top: 250px;
+    left: calc(50% - 200px);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the items within the form */
+    justify-content: center; /* Centers the form vertically */
+    text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 30px;
+    position: absolute;
+    z-index: 1;
+}
+
 /* These are the navigation buttons: -------------------------------------------------------------------------------*/
+
 .btn-lg,.btn-sm {
     border-width: 2px;
 }
 
-.btn-group{
+.btn-block{
     margin-top: 0px;
 }
 
@@ -91,8 +210,13 @@ h5 {
 }
 
 .btn-group-vertical > button{
-    margin-bottom:10px;
-    border-radius:10px !important;
+    margin-bottom: 10px;
+    border-radius: 10px !important;
+}
+
+.choose-mode {
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 #nextGame {
@@ -107,6 +231,51 @@ h5 {
     z-index: 10; /* Ensure it's on top of other elements */
     display: none; /* Initially hidden, should be set to 'block' when needed */
 }
+
+#hor-nav, #profile-nav, #profile-nav2 {
+    margin-top: 50px;
+}
+
+/* Profile & friends -------------------------------------------------------------------------------------------------*/
+
+#profile, #profile-list-page {
+    width: 700px;
+    align-items: center;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 2px solid #7d7fac;
+    background-color: #323131;
+    border-radius: 30px;
+    padding: 30px;
+}
+
+.custom-divider {
+    border: 1px solid #232222;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.avatar-square {
+    width: 210px;
+    object-fit: cover;
+    border-radius: 0;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
+.text-start {
+    align-items: right;
+    margin-left: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
 
 /* Messages in the game ---------------------------------------------------------------------------------------------*/
 
@@ -132,7 +301,7 @@ h5 {
     font-size: 30px;
 }
 
-.winner-message {
+#winnerMessage_1x1, #winnerMessage_4 {
     position: absolute;
     top: 230px;
     display: none; /* Initially hide the winner message */
@@ -146,7 +315,7 @@ h5 {
     margin: 60px auto auto auto; 
 }
 
-#message { 
+#message_1x1, #message_4{ 
     position: fixed; 
     color: #7d7fac; 
     text-align: center;
@@ -170,38 +339,6 @@ h5 {
     letter-spacing: 3pt;
 }
 
-/* User login form ---------------------------------------------------------------------------------------------------*/
-
-#name_form {
-    width: 400px;
-    margin: 100px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: center;
-    text-align: center;
-} 
-
-
-/* Offline games login input form ------------------------------------------------------------------------------------*/
-
-#player_form {
-    width: 400px;
-    top: 250px;
-    left: calc(50% - 200px);
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers the items within the form */
-    justify-content: center; /* Centers the form vertically */
-    text-align: center;
-    background-color: white;
-    padding: 30px;
-    border-radius: 30px;
-    position: absolute;
-    z-index: 1;
-}
-
 /* Basic game  ------------------------------------------------------------------------------------------------------*/
 * { 
     margin: 0; 
@@ -222,7 +359,8 @@ body {
 /* Offline games ----------------------------------------------------------------------------------------------------*/
 
 .board { 
-    top: 50px;
+    top: 105px;
+    left: calc(50% - 450px);
     display: flex;
     justify-content: center;
     align-items: center; /* Center content vertically */
@@ -230,11 +368,31 @@ body {
     height: 600px; 
     border: 2px solid rgb(255, 255, 255);
     margin: auto; /* Center the board horizontally */
-    position: relative; /* Ensure proper positioning of child elements */
+    position: fixed; 
+}
+#board_1x1, #board_4 { 
+    top: 105px;
+    left: calc(50% - 450px);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically */
+    width: 900px; /* This ensures the width is 80% of the viewport width */
+    height: 600px; 
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto; /* Center the board horizontally */
+    position: fixed; 
 }
 
-  
-.ball { 
+#ball_1x1 { 
+    height: 30px; 
+    width: 30px; 
+    border-radius: 50%; 
+    position: fixed; 
+    top: 380px; 
+    left: calc(50% - 15px); 
+    background-color: white;
+}
+#ball_4 { 
     height: 30px; 
     width: 30px; 
     border-radius: 50%; 
@@ -244,6 +402,16 @@ body {
     background-color: white;
 }
 
+/* .ball { 
+    height: 30px; 
+    width: 30px; 
+    border-radius: 50%; 
+    position: fixed; 
+    top: 380px; 
+    left: calc(50% - 15px); 
+    background-color: white;
+} */
+
 .paddle_off { 
     height: 100px; 
     width: 10px; 
@@ -251,59 +419,56 @@ body {
     position: fixed;  
 } 
 
-.paddle_1_off { 
+#paddle1_1x1, #paddle1_4 {
+    top: 350px; 
     left: calc(50% - 440px);  
     background-color: rgb(31, 172, 237);
 } 
   
-.paddle_2_off {  
+#paddle2_1x1, #paddle2_4 {  
+    top: 350px;
     right: calc(50% - 440px);   
     background-color: rgb(191, 43, 221);
 }  
 
-#scores {
+.scores_off {
     top: 110px; 
     font-size: 30pt;
-    font-family:monospace;
+    font-family: monospace;
     text-transform: uppercase;
     letter-spacing: 3pt;
-
-}
-
-.player_1_score {
-    color: rgb(31, 172, 237);
     position: fixed;
-    left: calc(50% - 440px);
-    display: flex;
     justify-content: center;
-    margin: auto; /* Center the board horizontally */
-    z-index: 1; /* Ensure the score is on top of other elements */
+    margin: auto;
+    display: flex;
+    z-index: 1;
 }
 
-.player_2_score {
+#score1_1x1, #score1_4 {
+    color: rgb(31, 172, 237);
+    left: calc(50% - 440px);
+}
+
+#score2_1x1, #score2_4 {
     color: rgb(191, 43, 221);
-    position: fixed;
     right: calc(50% - 440px);
-    display: flex;
-    justify-content: center;
-    margin: auto; /* Center the board horizontally */
-    z-index: 1; /* Ensure the score is on top of other elements */
 }
 
-.player_1_name {
-    top: 80px; 
-    text-align: left;
-    color: rgb(31, 172, 237);
+.player_name_off {
+    top: 80px;
     position: fixed;
-    left: calc(50% - 440px);
     display: flex;
 }
-.player_2_name {
-    top: 80px; 
+
+#name1_1x1, #name1_4 {
+    text-align: left;
+    left: calc(50% - 440px);
+    color: rgb(31, 172, 237);
+}
+
+#name2_1x1, #name2_4 {
     text-align: right;
     right: calc(50% - 440px);
-    display: flex;
-    position: fixed;
     color: rgb(191, 43, 221);
 }
 

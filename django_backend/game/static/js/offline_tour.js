@@ -1,459 +1,136 @@
-// document.addEventListener('DOMContentLoaded', function () {
-//     let gameState = 'begin';
-//     let pl1_name = 'Player 1';
-//     let pl2_name = 'Player 2';
-//     let pl3_name = 'Player 3';
-//     let pl4_name = 'Player 4';
-//     let table_name1 = document.getElementById('table_name1');
-//     let table_name2 = document.getElementById('table_name2');
-//     let table_name3 = document.getElementById('table_name3');
-//     let table_name4 = document.getElementById('table_name4');
-//     let paddle_1, paddle_2, board, ball, score_1, score_2, message;
-//     let paddle_1_coord, paddle_2_coord, ball_coord, board_coord, paddle_common;
-//     let dx, dy, dxd, dyd;
-//     let winner1, winner2, winner_final;
+export function offlineTour_handler() {
+	const offlineTourHtml = `
+		<div id="offline-tournament">
+            <h1 class="text-center" id="tour_header">Tournament</h1>
+            <div id="player_form_4">
+                <input type="text" class="form-control" id="input1_4" placeholder="Player 1" required maxlength="15">
+                <input type="text" class="form-control" id="input2_4" placeholder="Player 2" required maxlength="15">
+                <input type="text" class="form-control" id="input3_4" placeholder="Player 3" required maxlength="15">
+                <input type="text" class="form-control" id="input4_4" placeholder="Player 4" required maxlength="15">
+                <button id="startTourBtn" class="btn btn-primary">Start Tournament</button>
+            </div>
+            
+            <div class="tournament-table" id="tournament-table" style="display: none">
+                <div id="champ"></div>
+                <div id="info"></div>
+                
+                <h2 class="text-center">Semi-finals</h2>
+                <div class="tournament_off">
+                        <div class="match_off" id="match-semi-finals-0">
+                            <div class="d-flex justify-content-center">
+                                <h3>Match 1</h3>
+                            </div>
+                            <p class="player" id="table1_4"></p>
+                            <p class="vs">vs</p>
+                            <p class="player" id="table2_4"></p>
+                        </div>
+                        <div class="match_off" id="match-semi-finals-1">
+                            <div class="d-flex justify-content-center">
+                                <h3>Match 2</h3>
+                            </div>
+                            <p class="player" id="table3_4"></p>
+                            <p class="vs">vs</p>
+                            <p class="player" id="table4_4"></p>
+                        </div>
+                </div>
+                <button id="go-to-match">Go to Match</button>
+            </div>
 
-//     let paddle1Velocity = 0, paddle2Velocity = 0;
-//     const paddleSpeed = 5;
+            <div class="tournament-game" id="tournament-game" style="display: none">
+                <div class="container" id="offline-game">
+                    <div class="container-fluid">
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-auto">
+                                <div class="board_4" id="board_4">
+                                    <div class="ball_4" id="ball_4"></div>
+                                    <div class="paddle_off" id="paddle1_4"></div>
+                                    <div class="paddle_off" id="paddle2_4"></div>
+                                    <h3 class="scores_off" id="score1_4">0</h3>
+                                    <h3 class="scores_off" id="score2_4">0</h3>
+                                    <h3 class="player_name_off" id="name1_4">Player 1</h3>
+                                    <h3 class="player_name_off" id="name2_4">Player 2</h3>
+                                    
+                                    <div id="winnerMessage_4" class="winner-message">
+                                        <h2 id="winnerName_4"></h2>
+                                    </div>
+                                    <div class="megaWinner" id="megaWinner_4" style="display: none;">
+                                        <h2 id="megaWinnerName_4"></h2>
+                                    </div>                           
+                                    <button id="nextGame" class="btn btn-primary" style="display: none;">Next Game!</button>
+                                    <p class="text-center"><h3 class="message" id="message_4">Press Enter to Play</h3></p>
+                                    
+                                    <div id="exitTour" class="content-section exit-tour" style="display:none;">
+                                        <div class="row justify-content-center">
+                                            <div class="btn-group-vertical">
+                                                <div class="container" id="choose-mode-online"> 
+                                                    <a href="#offline-choose-mode" type="button" class="btn btn-outline-primary btn-lg btn-block">Exit</a>
+                                                    <a href="#blockchain" type="button" class="btn btn-outline-primary btn-lg btn-block blockchain-button">Save Results in Blockchain</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-//     let pl1_input = document.getElementById('player1NameInput');
-//     let pl2_input = document.getElementById('player2NameInput');
-//     let pl3_input = document.getElementById('player3NameInput');
-//     let pl4_input = document.getElementById('player4NameInput');
-//     let startGameBtn = document.getElementById('startGameBtn');
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-//     // Event listener for start button click
-//     startGameBtn.addEventListener('click', function() {
-//         if (areNotUnique(pl1_input.value, pl2_input.value, pl3_input.value, pl4_input.value)) {
-//             alert('Please enter unique names for all players.');
-//         }
-//         else if (pl1_input.value && pl2_input.value && pl3_input.value && pl4_input.value) {
-//             pl1_name = pl1_input.value;
-//             pl2_name = pl2_input.value;
-//             pl3_name = pl3_input.value;
-//             pl4_name = pl4_input.value;
-//             table_name1.textContent = pl1_name;
-//             table_name2.textContent = pl2_name;
-//             table_name3.textContent = pl3_name;
-//             table_name4.textContent = pl4_name;
-//             // Hide / show :
-//             document.getElementById('player_form').style.display = 'none';
-//             document.getElementById('tournament-table').style.display = 'block';
-//             startTournament();
-//         } else {
-//             alert('Please enter unique names for all players.');
-//         }
-//     });
+        </div>
+	`
+    setElementinnerHTML(document.getElementById('game-place'), offlineTourHtml);
+	showElement(document.getElementById('game-place'));
 
-//     document.addEventListener('keydown', function(e) {
-//         if (e.key === 'Enter' && gameState === 'begin') {
-//             if (areNotUnique(pl1_input.value, pl2_input.value, pl3_input.value, pl4_input.value)) {
-//                 alert('Please enter unique names for all players.');
-//             }
-//             else if (pl1_input.value && pl2_input.value && pl3_input.value && pl4_input.value) {
-//                 pl1_name = pl1_input.value;
-//                 pl2_name = pl2_input.value;
-//                 pl3_name = pl3_input.value;
-//                 pl4_name = pl4_input.value;
-//                 table_name1.textContent = pl1_name;
-//                 table_name2.textContent = pl2_name;
-//                 table_name3.textContent = pl3_name;
-//                 table_name4.textContent = pl4_name;
-//                 // Hide the name form
-//                 document.getElementById('player_form').style.display = 'none';
-//                 document.getElementById('tournament-table').style.display = 'block';
-//                 startTournament();
-//             } else {
-//                 alert('Please enter unique names for all players.');
-//             }
-//         }
-//     });
+    let gameStateTour;
+    let startTourBtn = document.getElementById('startTourBtn');
+    let input1_4 = document.getElementById('input1_4');
+    let input2_4 = document.getElementById('input2_4');
+    let input3_4 = document.getElementById('input3_4');
+    let input4_4 = document.getElementById('input4_4');
+    let pl1_4, pl2_4, pl3_4, pl4_4;
+    let table1_4 = document.getElementById('table1_4'); 
+    let table2_4 = document.getElementById('table2_4');
+    let table3_4 = document.getElementById('table3_4');
+    let table4_4 = document.getElementById('table4_4');
 
-//     function startTournament() {
-//         document.getElementById('go-to-match').addEventListener('click', function() {
-//             document.getElementById('tournament-table').style.display = 'none';
-//             document.getElementById('tournament-game').style.display = 'block';
-//             document.getElementById('tour_header').style.display = 'none';
-//             gameState = 'start';
-//             let player1 = document.getElementById('player1Name');
-//             let player2 = document.getElementById('player2Name');
-//             if(!winner1)
-//             {
-//                 player1.textContent = pl1_name;
-//                 player2.textContent = pl2_name;
-//                 winnerMessage.style.display = 'block';
-//                 winnerMessage.querySelector('#winnerName').innerHTML = `${pl1_name} vs ${pl2_name}!`;
-//                 start_game();
-//             }
-//             else if(!winner2)
-//             {
-//                 player1.textContent = pl3_name;
-//                 player2.textContent = pl4_name;
-//                 winnerMessage.style.display = 'block';
-//                 winnerMessage.querySelector('#winnerName').innerHTML = `${pl3_name} vs ${pl4_name}!`;
-//                 start_game();
-//             }
-//             else if(!winner_final)
-//             {
-//                 player1.textContent = winner1;
-//                 player2.textContent = winner2;
-//                 winnerMessage.style.display = 'block';
-//                 winnerMessage.querySelector('#winnerName').innerHTML = `${winner1} vs ${winner2}!`;
-//                 start_game();
-//             }
-//         });
-//     }
+    let name1_4 = document.getElementById('name1_4');
+    let name2_4 = document.getElementById('name2_4');
+    let message_4 = document.getElementById('message_4');
+    let winnerMessage_4 = document.getElementById('winnerMessage_4');
+    let winnerName_4 = document.getElementById('winnerName_4');
 
-//     function startMatch() {
+    let winner1_4 = null, winner2_4 = null, winner_final_4 = null;
 
-//     }
+    let score1_4 = document.getElementById('score1_4');
+    let score2_4 = document.getElementById('score2_4');
+    let board_4 = document.getElementById('board_4');
+    let ball_4 = document.getElementById('ball_4');
+    let paddle1_4 = document.getElementById('paddle1_4');
+    let paddle2_4 = document.getElementById('paddle2_4');
 
-//     function areNotUnique(str1, str2, str3, str4) {
-//         return str1 === str2 || str1 === str3 || str1 === str4 ||
-//         str2 === str3 || str2 === str4 ||
-//         str3 === str4;
-//     }
+    let paddle1_coord_4, paddle2_coord_4, paddle_common_4, ball_coord_4, board_coord_4;
 
-//     function start_game() {
+    const paddleSpeed_4 = 3;
+    let velocity1_4 = 0, velocity2_4 = 0;
 
-//         // Game initialization logic
-//         initializeElements();
-//         updatePaddlePositions();
+    let dx4, dy4, dxd4, dyd4;
 
-//         // Listen for Enter key to start the game
-//         document.addEventListener('keydown', function(e) {
-//             if (e.key === 'Enter') {
-//                 if (gameState === 'start') {
-//                     gameState = 'play';
-//                     message.innerHTML = 'Game Started';
-//                     resetBallPosition();
-//                     requestAnimationFrame(() => {
-//                         dx = Math.floor(Math.random() * 4) + 3;
-//                         dy = Math.floor(Math.random() * 4) + 3;
-//                         dxd = Math.floor(Math.random() * 2);
-//                         dyd = Math.floor(Math.random() * 2);
-//                         moveBall(dx, dy, dxd, dyd);
-//                     });
-//                     winnerMessage.style.display = 'none';
-//                     setTimeout(() => {
-//                         message.innerHTML = '';
-//                     }, 1000);
-//                 }
-//             }
-//             if (e.key === 'w') {
-//                 if (gameState === 'play') {
-//                     paddle1Velocity = -paddleSpeed;
-//                 }
-//             }
-//             if (e.key === 's') {
-//                 if (gameState === 'play') {
-//                     paddle1Velocity = paddleSpeed;
-//                 }
-//             }
-//             if (e.key === 'ArrowUp') {
-//                 if (gameState === 'play') {
-//                     paddle2Velocity = -paddleSpeed;
-//                 }
-//             }
-//             if (e.key === 'ArrowDown') {
-//                 if (gameState === 'play') {
-//                     paddle2Velocity = paddleSpeed;
-//                 }
-//             }
-//         });
-    
-//         document.addEventListener('keyup', function(e) {
-//             if (e.key === 'w' || e.key === 's') {
-//                 paddle1Velocity = 0;
-//             }
-//             if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-//                 paddle2Velocity = 0;
-//             }
-//         });
-//     }
+    function initializeGameElements_4() {
+        board_coord_4 = board_4.getBoundingClientRect();
+        ball_coord_4 = ball_4.getBoundingClientRect();
+        paddle1_coord_4 = paddle1_4.getBoundingClientRect();
+        paddle2_coord_4 = paddle2_4.getBoundingClientRect();
+        paddle_common_4 = document.querySelector('.paddle_off').getBoundingClientRect();
 
-//     function initializeElements() {
-//         paddle_1 = document.querySelector('.paddle_1_off');
-//         paddle_2 = document.querySelector('.paddle_2_off');
-//         board = document.querySelector('.board');
-//         ball = document.querySelector('.ball');
-//         score_1 = document.querySelector('.player_1_score');
-//         score_2 = document.querySelector('.player_2_score');
-//         message = document.querySelector('.message');
-//         paddle_1_coord = paddle_1.getBoundingClientRect();
-//         paddle_2_coord = paddle_2.getBoundingClientRect();
-//         ball_coord = ball.getBoundingClientRect();
-//         board_coord = board.getBoundingClientRect();
-//         paddle_common = document.querySelector('.paddle_off').getBoundingClientRect();
+        dx4 = Math.floor(Math.random() * 4) + 3;
+        dy4 = Math.floor(Math.random() * 4) + 3;
+        dxd4 = Math.floor(Math.random() * 2);
+        dyd4 = Math.floor(Math.random() * 2);
 
-//         dx = Math.floor(Math.random() * 4) + 3;
-//         dy = Math.floor(Math.random() * 4) + 3;
-//         dxd = Math.floor(Math.random() * 2);
-//         dyd = Math.floor(Math.random() * 2);
-
-//         ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
-//         ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
-//     }
-
-//     function resetScores() {
-//         score_1.innerHTML = '0';
-//         score_2.innerHTML = '0';
-//     }
-
-//     function checkScores() {
-//         if (parseInt(score_1.innerHTML) >= 3) {
-//             displayWinner(pl1_name);
-//             if (!winner1)
-//                 winner1 = pl1_name;
-//             else if (!winner2)
-//                 winner2 = pl1_name;
-//             else if (!winner_final)
-//                 winner_final = pl1_name;
-//             return true;
-//         } else if (parseInt(score_2.innerHTML) >= 3) {
-//             displayWinner(pl2_name);
-//             if (!winner1)
-//                 winner1 = pl2_name;
-//             else if (!winner2)
-//                 winner2 = pl2_name;
-//             else if (!winner_final)
-//                 winner_final = pl2_name;
-//             return true;
-//         }
-//         return false;
-//     }
-
-//     function displayWinner(winnerName) {
-//         gameState = 'stop';
-//         winnerMessage.style.display = 'block';
-//         winnerMessage.querySelector('#winnerName').innerHTML = `${winnerName} wins!`;
-//         // gameState = 'start';
-//         resetScores();
-//         resetBallPosition();
-//         document.getElementById('nextGame').style.display = 'block';
-//         document.getElementById('nextGame').addEventListener('click', function() {
-//             document.getElementById('nextGame').style.display = 'none';
-//             startTournament();
-//         });
-//         // message.innerHTML = 'Game Over! Press Enter to Play Again';
-//     }
-
-//     function resetBallPosition() {
-//         ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
-//         ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
-        
-//         ball_coord = ball.getBoundingClientRect();
-//     }
-
-//     function moveBall(dx, dy, dxd, dyd) {
-//         ball_coord = ball.getBoundingClientRect();
-
-//         if (ball_coord.top <= board_coord.top || ball_coord.bottom >= board_coord.bottom) {
-//             dyd = 1 - dyd; // Reverse vertical direction
-//         }
-
-//         if (ball_coord.left <= paddle_1_coord.right && ball_coord.top >= paddle_1_coord.top && ball_coord.bottom <= paddle_1_coord.bottom) {
-//             dxd = 1; // Move ball to the right
-//             dx = Math.floor(Math.random() * 4) + 3;
-//             dy = Math.floor(Math.random() * 4) + 3;
-//         }
-
-//         if (ball_coord.right >= paddle_2_coord.left && ball_coord.top >= paddle_2_coord.top && ball_coord.bottom <= paddle_2_coord.bottom) {
-//             dxd = 0; // Move ball to the left
-//             dx = Math.floor(Math.random() * 4) + 3;
-//             dy = Math.floor(Math.random() * 4) + 3;
-//         }
-
-//         if (ball_coord.left <= board_coord.left || ball_coord.right >= board_coord.right) {
-//             if (ball_coord.left <= board_coord.left) {
-//                 score_2.innerHTML = +score_2.innerHTML + 1;
-//             } else {
-//                 score_1.innerHTML = +score_1.innerHTML + 1;
-//             }
-//             if (checkScores()) return;
-//             gameState = 'stop';
-//             resetBallPosition();
-//             setTimeout(() => {
-//                 gameState = 'play';
-//                 moveBall(dx, dy, dxd, dyd);
-//             }, 1000);
-//             return;
-//         }
-
-//         if ((ball_coord.top <= board_coord.top && ball_coord.left <= board_coord.left) ||
-//             (ball_coord.top <= board_coord.top && ball_coord.right >= board_coord.right) ||
-//             (ball_coord.bottom >= board_coord.bottom && ball_coord.left <= board_coord.left) ||
-//             (ball_coord.bottom >= board_coord.bottom && ball_coord.right >= board_coord.right)) {
-//             gameState = 'stop';
-//             message.innerHTML = 'Game Over! Press Enter to Play Again';
-//             return;
-//         }
-
-//         ball.style.top = ball_coord.top + dy * (dyd === 0 ? -1 : 1) + 'px';
-//         ball.style.left = ball_coord.left + dx * (dxd === 0 ? -1 : 1) + 'px';
-
-//         requestAnimationFrame(() => {
-//             moveBall(dx, dy, dxd, dyd);
-//         });
-//     }
-
-//     function updatePaddlePositions() {
-//         paddle_1.style.top = Math.min(Math.max(board_coord.top, paddle_1_coord.top + paddle1Velocity), board_coord.bottom - paddle_1_coord.height) + 'px';
-//         paddle_2.style.top = Math.min(Math.max(board_coord.top, paddle_2_coord.top + paddle2Velocity), board_coord.bottom - paddle_2_coord.height) + 'px';
-
-//         paddle_1_coord = paddle_1.getBoundingClientRect();
-//         paddle_2_coord = paddle_2.getBoundingClientRect();
-
-//         requestAnimationFrame(updatePaddlePositions);
-//     }
-
-//     // initializeElements();
-//     // updatePaddlePositions();
-//     // updatePlayerNames();
-// });
-
-document.addEventListener('DOMContentLoaded', function () {
-    let gameState = 'begin';
-    let name1, name2;
-    let pl1_name = 'Player 1';
-    let pl2_name = 'Player 2';
-    let pl3_name = 'Player 3';
-    let pl4_name = 'Player 4';
-    let table_name1 = document.getElementById('table_name1');
-    let table_name2 = document.getElementById('table_name2');
-    let table_name3 = document.getElementById('table_name3');
-    let table_name4 = document.getElementById('table_name4');
-    let paddle_1, paddle_2, board, ball, score_1, score_2, message;
-    let paddle_1_coord, paddle_2_coord, ball_coord, board_coord, paddle_common;
-    let dx, dy, dxd, dyd;
-    let winner1 = null;
-    let winner2 = null;
-    let winner_final = null;
-
-    let paddle1Velocity = 0, paddle2Velocity = 0;
-    const paddleSpeed = 5;
-
-    let pl1_input = document.getElementById('player1NameInput');
-    let pl2_input = document.getElementById('player2NameInput');
-    let pl3_input = document.getElementById('player3NameInput');
-    let pl4_input = document.getElementById('player4NameInput');
-    let startGameBtn = document.getElementById('startGameBtn');
-
-    // Event listener for start button click
-    startGameBtn.addEventListener('click', function() {
-        startTournament();
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && gameState === 'begin') 
-        {
-                startTournament();
-        } 
-        else if (gameState === 'start')
-        {
-                if (gameState === 'start') {
-                    gameState = 'play';
-                    message.innerHTML = 'Game Started';
-                    resetBallPosition();
-                    requestAnimationFrame(() => {
-                        dx = Math.floor(Math.random() * 4) + 3;
-                        dy = Math.floor(Math.random() * 4) + 3;
-                        dxd = Math.floor(Math.random() * 2);
-                        dyd = Math.floor(Math.random() * 2);
-                        moveBall(dx, dy, dxd, dyd);
-                    });
-                    winnerMessage.style.display = 'none';
-                    setTimeout(() => {
-                        message.innerHTML = '';
-                    }, 1000);
-                }
-        }
-        if (e.key === 'w') {
-            if (gameState === 'play') {
-                paddle1Velocity = -paddleSpeed;
-            }
-        }
-        if (e.key === 's') {
-            if (gameState === 'play') {
-                paddle1Velocity = paddleSpeed;
-            }
-        }
-        if (e.key === 'ArrowUp') {
-            if (gameState === 'play') {
-                paddle2Velocity = -paddleSpeed;
-            }
-        }
-        if (e.key === 'ArrowDown') {
-            if (gameState === 'play') {
-                paddle2Velocity = paddleSpeed;
-            }
-        }
-    });
-
-    document.addEventListener('keyup', function(e) {
-        if (e.key === 'w' || e.key === 's') {
-            paddle1Velocity = 0;
-        }
-        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-            paddle2Velocity = 0;
-        }
-    });
-
-    function startTournament() {
-        if (areNotUnique(pl1_input.value, pl2_input.value, pl3_input.value, pl4_input.value)) {
-            alert('Please enter unique names for all players.');
-        }
-        else if (pl1_input.value && pl2_input.value && pl3_input.value && pl4_input.value) {
-            pl1_name = pl1_input.value;
-            pl2_name = pl2_input.value;
-            pl3_name = pl3_input.value;
-            pl4_name = pl4_input.value;
-            table_name1.textContent = pl1_name;
-            table_name2.textContent = pl2_name;
-            table_name3.textContent = pl3_name;
-            table_name4.textContent = pl4_name;
-            // Hide / show :
-            document.getElementById('player_form').style.display = 'none';
-            document.getElementById('tournament-table').style.display = 'block';
-            document.getElementById('go-to-match').addEventListener('click', startMatch);
-        } else {
-            alert('Please enter unique names for all players.');
-        }
-    }
-
-    function startMatch() {
-        document.getElementById('tournament-table').style.display = 'none';
-        document.getElementById('tournament-game').style.display = 'block';
-        document.getElementById('tour_header').style.display = 'none';
-        gameState = 'start';
-        let player1 = document.getElementById('player1Name');
-        let player2 = document.getElementById('player2Name');
-
-        if (winner1 === null) {
-            player1.textContent = pl1_name;
-            name1 = pl1_name;
-            player2.textContent = pl2_name;
-            name2 = pl2_name;
-            winnerMessage.querySelector('#winnerName').innerHTML = `${pl1_name} vs ${pl2_name}!`;
-            winnerMessage.style.display = 'block';
-            start_game(pl1_name, pl2_name, 'winner1');
-        } else if (winner2 === null) {
-            player1.textContent = pl3_name;
-            name1 = pl3_name;
-            player2.textContent = pl4_name;
-            name2 = pl4_name
-            winnerMessage.querySelector('#winnerName').innerHTML = `${pl3_name} vs ${pl4_name}!`;
-            winnerMessage.style.display = 'block';
-            start_game(pl3_name, pl4_name, 'winner2');
-        } else if (winner_final === null) {
-            player1.textContent = winner1;
-            name1 = winner1;
-            player2.textContent = winner2;
-            name2 = winner2;
-            winnerMessage.querySelector('#winnerName').innerHTML = `${winner1} vs ${winner2}!`;
-            winnerMessage.style.display = 'block';
-            start_game(winner1, winner2, 'winner_final');
-        }
+        ball_4.style.top = board_coord_4.top + (board_coord_4.height / 2) - (ball_coord_4.height / 2) + 'px';
+        ball_4.style.left = board_coord_4.left + (board_coord_4.width / 2) - (ball_coord_4.width / 2) + 'px';
+        ball_coord_4 = ball_4.getBoundingClientRect();
     }
 
     function areNotUnique(str1, str2, str3, str4) {
@@ -462,187 +139,262 @@ document.addEventListener('DOMContentLoaded', function () {
         str3 === str4;
     }
 
-    function start_game(player1Name, player2Name, winnerKey) {
-        initializeElements();
-        updatePaddlePositions();
+    function resetBallPosition_4() {
+        ball_4.style.top = board_coord_4.top + (board_coord_4.height / 2) - (ball_coord_4.height / 2) + 'px';
+        ball_4.style.left = board_coord_4.left + (board_coord_4.width / 2) - (ball_coord_4.width / 2) + 'px';   
+        console.log(ball_4.style.top, ball_4.style.left);
+        ball_coord_4 = ball_4.getBoundingClientRect();
+    }
 
+    function resetScores_4() {
+        score1_4.innerHTML = '0';
+        score2_4.innerHTML = '0';
+    }
+
+    function resetPaddlePositions_4() {
+
+        paddle1_4.style.top = 360 + 'px';
+        paddle2_4.style.top = 360 + 'px';
+
+        paddle1_coord_4 = paddle1_4.getBoundingClientRect();
+        paddle2_coord_4 = paddle2_4.getBoundingClientRect();
+
+    }
+
+    function updatePaddlePositions_4() {
+
+        paddle1_4.style.top = Math.min(Math.max(board_coord_4.top, paddle1_coord_4.top + velocity1_4), board_coord_4.bottom - paddle1_coord_4.height) + 'px';
+        paddle2_4.style.top = Math.min(Math.max(board_coord_4.top, paddle2_coord_4.top + velocity2_4), board_coord_4.bottom - paddle2_coord_4.height) + 'px';
+
+        paddle1_coord_4 = paddle1_4.getBoundingClientRect();
+        paddle2_coord_4 = paddle2_4.getBoundingClientRect();
+
+        requestAnimationFrame(updatePaddlePositions_4);
+
+    }
+
+    function startMatch() {
+        document.getElementById('tour_header').style.display = 'none';
+        document.getElementById('tournament-table').style.display = 'none';     
+        document.getElementById('tournament-game').style.display = 'block';
+        message_4.innerHTML = 'Press Enter to Play';
+        message_4.style.display = 'block';
+        initializeGameElements_4()
+        resetBallPosition_4();
+        resetPaddlePositions_4();
+        gameStateTour = 'start';
+        if (winner1_4 === null) {
+            console.log(pl1_4, pl2_4, name1_4.textContent, name2_4.textContent);
+            name1_4.textContent = pl1_4;
+            name2_4.textContent = pl2_4;
+            winnerName_4.innerHTML = `${pl1_4} vs ${pl2_4}!`;
+            winnerMessage_4.style.display = 'block';
+            return;
+
+        } else if (winner2_4 === null) {
+            name1_4.textContent = pl3_4;
+            name2_4.textContent = pl4_4;
+            winnerName_4.innerHTML = `${pl3_4} vs ${pl4_4}!`;
+            winnerMessage_4.style.display = 'block';
+            return;
+
+        } else if (winner_final_4 === null) {
+            name1_4.textContent = winner1_4;
+            name2_4.textContent = winner2_4;
+            winnerName_4.innerHTML = `${winner1_4} vs ${winner2_4}!`;
+            winnerMessage_4.style.display = 'block';
+            return;
+        }
+    }
+
+    function startGame_4() {
+        message_4.style.display = 'block';
+        winnerMessage_4.style.display = 'none';
+        gameStateTour = 'play';
+        message_4.innerHTML = 'Game Started';
+        setTimeout(() => message_4.innerHTML = '', 1500);
+        
+        console.log('We are in the game tour');
+        initializeGameElements_4();
+        updatePaddlePositions_4();
+        resetBallPosition_4();
+        resetScores_4();
+        moveBall_4(dx4, dy4, dxd4, dyd4)
         document.getElementById('nextGame').style.display = 'none';
-        document.getElementById('nextGame').removeEventListener('click', startTournament);
+        document.getElementById('nextGame').removeEventListener('click', startMatch);
         document.getElementById('nextGame').addEventListener('click', () => {
             document.getElementById('nextGame').style.display = 'none';
             startMatch();
         });
-        // document.getElementById('exitTour').addEventListener('click', () => {
-        //     document.getElementById('tournament-table').style.display = 'block';
-        //     document.getElementById('tournament-game').style.display = 'none';
-        // });
     }
 
-    function initializeElements() {
-        paddle_1 = document.querySelector('.paddle_1_off');
-        paddle_2 = document.querySelector('.paddle_2_off');
-        board = document.querySelector('.board');
-        ball = document.querySelector('.ball');
-        score_1 = document.querySelector('.player_1_score');
-        score_2 = document.querySelector('.player_2_score');
-        message = document.querySelector('.message');
-        paddle_1_coord = paddle_1.getBoundingClientRect();
-        paddle_2_coord = paddle_2.getBoundingClientRect();
-        ball_coord = ball.getBoundingClientRect();
-        board_coord = board.getBoundingClientRect();
-        paddle_common = document.querySelector('.paddle_off').getBoundingClientRect();
+    function moveBall_4(dx, dy, dxd, dyd) {
+        ball_coord_4 = ball_4.getBoundingClientRect();
 
-        dx = Math.floor(Math.random() * 4) + 3;
-        dy = Math.floor(Math.random() * 4) + 3;
-        dxd = Math.floor(Math.random() * 2);
-        dyd = Math.floor(Math.random() * 2);
-
-        ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
-        ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
-    }
-
-    function resetScores() {
-        score_1.innerHTML = '0';
-        score_2.innerHTML = '0';
-    }
-
-
-    function checkScores() {
-        if (parseInt(score_1.innerHTML) >= 3) {
-            if (!winner1)
-            {
-                winner1 = name1;
-                gameState = 'stop';
-                displayWinner(name1, false);
-            }
-            else if (!winner2)
-            {
-                winner2 = name1;
-                gameState = 'stop';
-                displayWinner(name1, false);
-            }
-            else if (!winner_final)
-            {
-                winner_final = name1;
-                gameState = 'end';
-                displayWinner(name1, true);
-            }
-            return true;
-        } else if (parseInt(score_2.innerHTML) >= 3) {
-            if (!winner1)
-            {
-                winner1 = name2;
-                gameState = 'stop';
-                displayWinner(name2, false);
-            }
-            else if (!winner2)
-            {
-                winner2 = name2;
-                gameState = 'stop';
-                displayWinner(name2, false);
-            }
-            else if (!winner_final)
-            {
-                winner_final = name2;
-                gameState = 'end';
-                displayWinner(name2, true);
-            }
-            return true;
-        }
-        return false;
-    }
-    function endTournament(winnerName) {
-        document.getElementById('megaWinner').style.display = 'block';
-        document.getElementById('megaWinnerName').textContent = `🏆 ${winnerName} wins the Tournament! 🏆`;
-        document.getElementById('exitTour').style.display = 'block';
-    }
-
-    function displayWinner(winnerName, isFinal) {
-        if (isFinal === true) {
-            endTournament(winnerName);
-        } else {
-            winnerMessage.style.display = 'block';
-            winnerMessage.querySelector('#winnerName').innerHTML = `${winnerName} wins!`;
-            resetScores();
-            resetBallPosition();
-            document.getElementById('nextGame').style.display = 'block';
-            document.getElementById('nextGame').addEventListener('click', function() {
-                document.getElementById('nextGame').style.display = 'none';
-                startMatch();
-            });
-        }
-    }
-
-    function resetBallPosition() {
-        ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
-        ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
-        
-        ball_coord = ball.getBoundingClientRect();
-    }
-
-    function moveBall(dx, dy, dxd, dyd) {
-        ball_coord = ball.getBoundingClientRect();
-
-        if (ball_coord.top <= board_coord.top || ball_coord.bottom >= board_coord.bottom) {
+        if (ball_coord_4.top <= board_coord_4.top || ball_coord_4.bottom >= board_coord_4.bottom) {
             dyd = 1 - dyd; // Reverse vertical direction
         }
 
-        if (ball_coord.left <= paddle_1_coord.right && ball_coord.top >= paddle_1_coord.top && ball_coord.bottom <= paddle_1_coord.bottom) {
+        if (ball_coord_4.left <= paddle1_coord_4.right && ball_coord_4.top >= paddle1_coord_4.top && ball_coord_4.bottom <= paddle1_coord_4.bottom) {
             dxd = 1; // Move ball to the right
             dx = Math.floor(Math.random() * 4) + 3;
             dy = Math.floor(Math.random() * 4) + 3;
         }
 
-        if (ball_coord.right >= paddle_2_coord.left && ball_coord.top >= paddle_2_coord.top && ball_coord.bottom <= paddle_2_coord.bottom) {
+        if (ball_coord_4.right >= paddle2_coord_4.left && ball_coord_4.top >= paddle2_coord_4.top && ball_coord_4.bottom <= paddle2_coord_4.bottom) {
             dxd = 0; // Move ball to the left
             dx = Math.floor(Math.random() * 4) + 3;
             dy = Math.floor(Math.random() * 4) + 3;
         }
 
-        if (ball_coord.left <= board_coord.left || ball_coord.right >= board_coord.right) {
-            if (ball_coord.left <= board_coord.left) {
-                score_2.innerHTML = +score_2.innerHTML + 1;
+        if (ball_coord_4.left <= board_coord_4.left || ball_coord_4.right >= board_coord_4.right) {
+            if (ball_coord_4.left <= board_coord_4.left) {
+                score2_4.innerHTML = +score2_4.innerHTML + 1;
             } else {
-                score_1.innerHTML = +score_1.innerHTML + 1;
+                score1_4.innerHTML = +score1_4.innerHTML + 1;
             }
-            if (checkScores()) return;
-            gameState = 'stop';
-            resetBallPosition();
+            if (checkScores_4()) return;
+            gameStateTour = 'reset';
+            resetBallPosition_4();
             setTimeout(() => {
-                gameState = 'play';
-                moveBall(dx, dy, dxd, dyd);
+                gameStateTour = 'play';
+                moveBall_4(dx, dy, dxd, dyd);
             }, 1000);
             return;
         }
 
-        if ((ball_coord.top <= board_coord.top && ball_coord.left <= board_coord.left) ||
-            (ball_coord.top <= board_coord.top && ball_coord.right >= board_coord.right) ||
-            (ball_coord.bottom >= board_coord.bottom && ball_coord.left <= board_coord.left) ||
-            (ball_coord.bottom >= board_coord.bottom && ball_coord.right >= board_coord.right)) {
-            gameState = 'stop';
-            message.innerHTML = 'Game Over! Press Enter to Play Again';
-            return;
-        }
-
-        ball.style.top = ball_coord.top + dy * (dyd === 0 ? -1 : 1) + 'px';
-        ball.style.left = ball_coord.left + dx * (dxd === 0 ? -1 : 1) + 'px';
+        ball_4.style.top = ball_coord_4.top + dy * (dyd === 0 ? -1 : 1) + 'px';
+        ball_4.style.left = ball_coord_4.left + dx * (dxd === 0 ? -1 : 1) + 'px';
 
         requestAnimationFrame(() => {
-            moveBall(dx, dy, dxd, dyd);
+            moveBall_4(dx, dy, dxd, dyd);
         });
     }
 
-    function updatePaddlePositions() {
-        paddle_1.style.top = Math.min(Math.max(board_coord.top, paddle_1_coord.top + paddle1Velocity), board_coord.bottom - paddle_1_coord.height) + 'px';
-        paddle_2.style.top = Math.min(Math.max(board_coord.top, paddle_2_coord.top + paddle2Velocity), board_coord.bottom - paddle_2_coord.height) + 'px';
-
-        paddle_1_coord = paddle_1.getBoundingClientRect();
-        paddle_2_coord = paddle_2.getBoundingClientRect();
-
-        requestAnimationFrame(updatePaddlePositions);
+    function checkScores_4() {
+        if (parseInt(score1_4.innerHTML) >= 3) {
+            if (!winner1_4)
+            {
+                winner1_4 = name1_4.textContent;
+                gameStateTour = 'stop';
+                displayWinner_4(name1_4.textContent, false);
+            }
+            else if (!winner2_4)
+            {
+                winner2_4 = name1_4.textContent;
+                gameStateTour = 'stop';
+                displayWinner_4(name1_4.textContent, false);
+            }
+            else if (!winner_final_4)
+            {
+                winner_final_4 = name1_4.textContent;
+                gameStateTour = 'end';
+                displayWinner_4(name1_4.textContent, true);
+            }
+            return true;
+        } 
+        else if (parseInt(score2_4.innerHTML) >= 3) {
+            if (!winner1_4)
+            {
+                winner1_4 = name2_4.textContent;
+                gameStateTour = 'stop';
+                displayWinner_4(name2_4.textContent, false);
+            }
+            else if (!winner2_4)
+            {
+                winner2_4 = name2_4.textContent;
+                gameStateTour = 'stop';
+                displayWinner_4(name2_4.textContent, false);
+            }
+            else if (!winner_final_4)
+            {
+                winner_final_4 = name2_4.textContent;
+                gameStateTour = 'end';
+                displayWinner_4(name2_4.textContent, true);
+            }
+            return true;
+        }
+        return false;
     }
 
-    // initializeElements();
-    // updatePaddlePositions();
-    // updatePlayerNames();
-});
+    function displayWinner_4(winName, isFinal) {
+        if (isFinal === true) {
+            endTournament(winName);
+        } else {
+            winnerName_4.innerHTML = `${winName} wins!`;
+            winnerMessage_4.style.display = 'block';
+            resetScores_4();
+            resetBallPosition_4();
+            document.getElementById('nextGame').style.display = 'block';
+        }
+    }
+
+    function endTournament(winnerNameTour) {
+        document.getElementById('megaWinner_4').style.display = 'block';
+        document.getElementById('megaWinnerName_4').textContent = `🏆 ${winnerNameTour} wins the Tournament! 🏆`;
+        document.getElementById('exitTour').style.display = 'block';
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && gameStateTour === 'start') startGame_4();
+        if (e.key === 'w') velocity1_4 = gameStateTour === 'play' ? -paddleSpeed_4 : 0;
+        if (e.key === 's') velocity1_4 = gameStateTour === 'play' ? paddleSpeed_4 : 0;
+        if (e.key === 'ArrowUp') velocity2_4 = gameStateTour === 'play' ? -paddleSpeed_4 : 0;
+        if (e.key === 'ArrowDown') velocity2_4 = gameStateTour === 'play' ? paddleSpeed_4 : 0;
+    });
+
+    document.addEventListener('keyup', function (e) {
+        if (e.key === 'w' && gameStateTour === 'play' || e.key === 's' && gameStateTour === 'play') velocity1_4 = 0;
+        if (e.key === 'ArrowUp' && gameStateTour === 'play' || e.key === 'ArrowDown'&& gameStateTour === 'play') velocity2_4 = 0;
+
+    });
+    startTourBtn.addEventListener('click', function () {
+        console.log('We are in start tournament');
+        if (areNotUnique(input1_4.value, input2_4.value, input3_4.value, input4_4.value)) {
+            alert('Please enter unique names for all players.');
+        } else if (input1_4.value && input2_4.value && input3_4.value && input4_4.value) {
+            document.getElementById('player_form_4').style.display = 'none';
+            pl1_4 = input1_4.value;
+            pl2_4 = input2_4.value
+            pl3_4 = input3_4.value;
+            pl4_4 = input4_4.value;
+            table1_4.textContent = input1_4.value;
+            table2_4.textContent = input2_4.value;
+            table3_4.textContent = input3_4.value;
+            table4_4.textContent = input4_4.value;
+            document.getElementById('tournament-table').style.display = 'block';
+            document.getElementById('go-to-match').addEventListener('click', startMatch);
+        } else {
+            alert('Please enter unique names for all players.');
+        }
+    });
+
+    document.getElementById('nextGame').addEventListener('click', function() {
+        document.getElementById('nextGame').style.display = 'none';
+        startMatch();
+    });
+
+    // function offlineTourReset() {
+    //     gameStateTour = 'begin';
+    //     document.getElementById('player_form_4').style.display = 'block';
+    //     document.getElementById('tournament-table').style.display = 'none';            
+    //     document.getElementById('tournament-game').style.display = 'none';
+    //     message_4.style.display = 'none';
+    //     winnerMessage_4.style.display = 'none';
+    //     document.getElementById('megaWinner_4').style.display = 'none';
+    //     document.getElementById('exitTour').style.display = 'none';
+    //     input1_4.value = '';
+    //     input2_4.value = '';
+    //     input3_4.value = '';
+    //     input4_4.value = '';
+    //     name1_4.textContent = 'Player 1';
+    //     name2_4.textContent = 'Player 2';
+    //     winner1_4 = null;
+    //     winner2_4 = null;
+    //     winner_final_4 = null;
+    //     initializeGameElements_4()
+    //     resetBallPosition_4();
+    //     resetPaddlePositions_4();
+    //     resetScores_4();
+    // }
+}
