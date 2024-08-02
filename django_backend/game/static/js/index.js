@@ -1,13 +1,9 @@
-// SHOW SECTIONS:
-window.addEventListener('hashchange', function() {
-    const sectionId = window.location.hash.substring(1);
-    showSection(sectionId);
-});
+
 // SHOW SECTIONS // STERT OFFLINE GAMES:
+
 function showSection(sectionId) {
     // Get all sections & hide all sections
     const sections = document.querySelectorAll('.content-section');
-
     sections.forEach(section => {
         section.style.display = 'none';
     });
@@ -16,17 +12,6 @@ function showSection(sectionId) {
     const selectedSection = document.getElementById(sectionId);
     if (selectedSection) {
         selectedSection.style.display = 'block';
-
-        const offGame = document.getElementById('offline-1x1');
-        const offTour = document.getElementById('offline-tournament');
-        if (window.getComputedStyle(offGame).display === 'block'){
-            console.log('We are in the offline 1x1 game');
-            offlineGameReset();
-        }
-        else if (window.getComputedStyle(offTour).display === 'block'){
-            console.log('We are in the offline tournament');
-            offlineTourReset();
-        }
     }
 
     // Conditionally show/hide the logo and language
@@ -39,16 +24,22 @@ function showSection(sectionId) {
     const offHeaderGame = document.getElementById('off-header-game');
     const horNav = document.getElementById('hor-nav');
     const onHeaderGame = document.getElementById('online-header-game');
+    const blockchain = document.getElementById('blockchain');
+    
+    if (sectionId === 'offline-choose-mode') {
+        if (language) language.style.display = 'block';
+    }
+    else {
+        if (language) language.style.display = 'none';
+    }
     
     if (sectionId === 'offline-choose-mode' || sectionId === 'id-login' || sectionId === 'id-signup' 
         || sectionId === 'get-started' || sectionId === 'id-update-user' || sectionId === 'id-update-displayname'
-        || sectionId === 'id-update-avatar'
+        || sectionId === 'id-update-avatar' || sectionId === 'blockchain'
         || sectionId === 'profile' || sectionId === 'profile-list-page') {
-        if (language) language.style.display = 'block';
         if (headerWelcome) headerWelcome.style.display = 'block';
         if (footer) footer.style.display = 'block'
     } else {
-        if (language) language.style.display = 'none';
         if (headerWelcome) headerWelcome.style.display = 'none';
         if (footer) footer.style.display = 'none'
     }
@@ -72,7 +63,9 @@ function showSection(sectionId) {
         if (offExitLogin) offExitLogin.style.display = 'none';
     }
  
-    if (sectionId === 'offline-ai' || sectionId === 'offline-1x1' || sectionId === 'offline-tournament') {
+    if (sectionId === 'offline-ai' || sectionId === 'offline-1x1' || sectionId === 'offline-tournament'
+        || sectionId === 'blockchain'
+    ) {
         if (offHeaderGame) offHeaderGame.style.display = 'block';
     } else {
         if (offHeaderGame) offHeaderGame.style.display = 'none';
@@ -91,310 +84,69 @@ function showSection(sectionId) {
     }
 }
 
-function createProfilePage(data) {
-    // Construct the HTML for the profile page
-    let profilePageHtml = `
-    <div class="container profile-container">
-        <div class="row justify-content-center">
-            <!-- Main Container for Profile, Friends, Stats, and Match History -->
-            <div class="col-10">
-                <!-- Profile Section -->
-                <div class="row mb-4">
-
-                    <!-- Profile Information -->
-                    <div class="col-md-6">
-                        <h6 class="mb-3">Your Profile</h6>
-                        <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
-                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p>
-                        <a href="#id-update-user" class="text-primary mb-3 d-block">Edit Username</a>
-                        <p><span style="color: #ac8fa5;">Display Name:</span> <strong>${data.display_name ? data.display_name : '-'}</strong></p>
-                        <a href="#id-update-displayname" class="text-primary d-block">Edit Display Name</a>
-                    </div>
-
-                    <!-- Avatar Section -->
-                    <div class="col-md-6 text-center">
-                        <div class="profile-avatar mb-3">
-                            ${data.avatar ? `<img src="${data.avatar}" class="img-fluid avatar-square" alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid avatar-square" alt="Default Picture">`}
-                        </div>
-                        <a href="#id-update-avatar" class="text-primary">Edit Avatar</a>
-                    </div>
-                </div>
-
-                <!-- Friends Section -->
-                <hr class="custom-divider">
-                <div class="profile-friends mb-4">
-                    <h6>Your  Friends</h6>
-                    <ul class="list-unstyled">
-                        ${data.friends.map(friend => `
-                            <li class="mb-6">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <div class="profile-avatar">
-                                            ${friend.avatar ? `<img src="${friend.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Friend's Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <p><span style="color: #ac8fa5;">Username: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
-                                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${friend.id}</strong></p>
-                                    </div>
-                                    <div class="col-auto">
-                                        <p>
-                                            <span style="color: #ac8fa5;">Status:</span>
-                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? 'Online' : 'Offline'}</span>
-                                        </p>
-                                    </div>
-                                    <div class="col-auto">
-                                        <form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
-                                            <input type="hidden" name="action" value="unfriend">
-                                            <input type="hidden" name="user_id" value="${friend.id}">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm profile-link">Unfriend</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </li><br>
-                        `).join('')}
-                    </ul>
-                    <a href="#profile-list-page" class="profile-list-link">Make New Friends</a>
-                </div>
-
-                <!-- Stats Section -->
-                <hr class="custom-divider">
-                <div class="profile-stats mb-4">
-                    <h6>Your Stats</h6>
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Wins</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Losses</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Total Games</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>${data.wins}</td>
-                                <td>${data.losses}</td>
-                                <td>${data.total_games}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Match History Section -->
-                <hr class="custom-divider">
-                <div class="profile-match-history">
-                    <h6>Your Match History</h6>
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Date</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Winner</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Looser</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${data.match_history.filter(match => match.length === 3 && match.every(item => item)).map(match => `
-                                <tr>
-                                    <td>${match[0]}</td>
-                                    <td>${match[1]}</td>
-                                    <td>${match[2]}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-`;
-	return profilePageHtml;
-}
-
-function createProfileListPage(data) {
-	// Construct the HTML for the profile list page
-	let profileListPageHtml = `
-    <div class="container profile-list-container">
-        <div class="row justify-content-center">
-            <div class="col-10">
-                <h6>Registered Users</h6>
-                <ul class="list-unstyled">
-                    ${data.profiles.map(profile => `
-                        <li class="mb-3">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <div class="profile-avatar">
-                                        ${profile.avatar ? `<img src="${profile.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <p>
-                                        <span style="color: #ac8fa5;">Username:</span> <a href="#" class="other-profile-link" data-id="${profile.id}">${profile.username}</a>
-                                        <span style="color: #ac8fa5;"> | ID:</span> ${profile.id}
-                                    </p>
-                                </div>
-                                <div class="col-auto">
-                                    <form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
-                                        <input type="hidden" name="action" value="${profile.is_friend ? 'unfriend' : 'befriend'}">
-                                        <input type="hidden" name="user_id" value="${profile.id}">
-                                        <button type="submit" class="btn btn-outline-primary btn-sm">
-                                            ${profile.is_friend ? 'Unfriend' : 'Befriend'}
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </li>
-                    `).join('')}
-                </ul>
-            </div>
-        </div>
-    </div>
-`;
-
-	return profileListPageHtml;
-}
-
-function createOtherProfilePage(data) {
-    // Construct the HTML for the profile page
-    let profilePageHtml = `
-    <div class="container profile-container">
-        <div class="row justify-content-center">
-            <div class="col-10">
-
-                <div class="row mb-4">
-                    
-                    <!-- Profile Information on the Left -->
-                    <div class="col-md-6">
-                        <h6 class="mb-3">Profile</h6>
-                        <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
-                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p> 
-                        <p><span style="color: #ac8fa5;">Display Name:</span> <strong>${data.display_name ? data.display_name : '-'}</strong></p>
-                        </div>
-
-                    <!-- Avatar on the Right -->
-                    <div class="col-md-6 text-center">
-                        <div class="profile-avatar mb-3">
-                            ${data.avatar ? `<img src="${data.avatar}" class="img-fluid avatar-square" alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid avatar-square" alt="Default Picture">`}
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Friends Section -->
-                <hr class="custom-divider">
-                <div class="profile-friends mb-4">
-                    <h6 class="mb-3">Friends</h6>
-                    <ul class="list-unstyled">
-                        ${data.friends.map(friend => `
-                            <li class="mb-3">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <div class="profile-avatar">
-                                            ${friend.avatar ? `<img src="${friend.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Friend's Picture">` : `<img src="/media/avatars/kermit.png" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <p><span style="color: #ac8fa5;">Username: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
-                                        <p><span style="color: #ac8fa5;">User ID: </span> <strong>${friend.id}</strong></p>
-
-                                    </div>
-                                    <div class="col-auto">
-                                        <p>
-                                            <span style="color: #ac8fa5;">Status:</span>
-                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? 'Online' : 'Offline'}</span>
-                                        </p>
-                                    </div>
-                                    <div class="col-auto">
-                                        <form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
-                                            <input type="hidden" name="action" value="unfriend">
-                                            <input type="hidden" name="user_id" value="${friend.id}">
-                                        </form>
-                                    </div>
-                                </div>
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-
-                <!-- Stats Section -->
-                <hr class="custom-divider">
-                <div class="profile-stats mb-4">
-                    <h6>Stats</h6>
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Wins</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Losses</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Total Games</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>${data.wins}</td>
-                                <td>${data.losses}</td>
-                                <td>${data.total_games}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Match History Section -->
-                <hr class="custom-divider">
-                <div class="profile-match-history">
-                    <h6>Match History</h6>
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Date</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Winner</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Looser</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${data.match_history.filter(match => match.length === 3 && match.every(item => item)).map(match => `
-                                <tr>
-                                    <td>${match[0]}</td>
-                                    <td>${match[1]}</td>
-                                    <td>${match[2]}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-`;
-
-	return profilePageHtml;
-}
-
-
-function addElementToArray(array, element) {
-	if (element) {
-		array.push(element);
-	}
-}
-
-function showElement(element) {
-	if (element) {
-		element.style.display = 'block';
-	}
-}
-
-function hideElement(element) {
-	if (element) {
-		element.style.display = 'none';
-	}
-}
-
-function setElementinnerHTML(element, string) {
-	if (element) {
-		element.innerHTML = string;
-	}
-}
-
 document.addEventListener('DOMContentLoaded', function() {
+    // SHOW SECTIONS:
+    window.addEventListener('hashchange', function() {
+        const sectionId = window.location.hash.substring(1);
+        showSection(sectionId);
+    });
     const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
     showSection(initialSection);
 
+   // Buttons listeners for online games:
+    $(document).on('click', '.btn-2pl-game', function(event) {
+		console.log('Online 1x1 game clicked');
+		hideElement(document.getElementById('get-started'));
+		event.preventDefault();
+        window.location.hash = 'online-1x1';
+		import ('./2player.js').then(module => {
+			module.game_handler();
+		});
+	});
+
+	$(document).on('click', '.btn-4pl-game', function(event) {
+		console.log('Online 4x4 game clicked');
+		hideElement(document.getElementById('get-started'));
+		event.preventDefault();
+        window.location.hash = 'online-4';
+		import ('./4player.js').then(module => {
+			module.game_handler_4pl();
+		});
+	});
+
+    // Buttons listeners for offline games:
+    $(document).on('click', '.offline-1x1-button', function(event) {
+		console.log('Offline 1x1 game clicked');
+		hideElement(document.getElementById('offline-choose-mode'));
+		event.preventDefault();
+        window.location.hash = 'offline-1x1';
+		import ('./offline_game.js').then(module => {
+			module.offlineGame_handler();
+		});
+	});
+
+    $(document).on('click', '.offline-tournament-button', function(event) {
+		console.log('Offline TOUR game clicked');
+		hideElement(document.getElementById('offline-choose-mode'));
+		event.preventDefault();
+        window.location.hash = 'offline-tournament';
+		import ('./offline_tour.js').then(module => {
+			module.offlineTour_handler();
+		});
+	});
+
+    // Buttons listeners for blockchain:
+    $(document).on('click', '.blockchain-button', function(event) {
+		console.log('blockchain clicked');
+		hideElement(document.getElementById('tournament-game'));
+		event.preventDefault();
+        window.location.hash = 'blockchain';
+		import ('./blockchain.js').then(module => {
+			module.blockchain_handler();
+		});
+	});
+
+    // USER MANAGEMENT:
     // csrfToken required for POST requests
 	const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 	window.csrf = csrfToken;
@@ -745,307 +497,305 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		});
 	});
-
-
-    // Offline game / tournament event listeners:
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && gameState_1x1 === 'start') startGame_1x1();
-        if (e.key === 'w') velocity1_1x1 = gameState_1x1 === 'play' ? -paddleSpeed : 0;
-        if (e.key === 's') velocity1_1x1 = gameState_1x1 === 'play' ? paddleSpeed : 0;
-        if (e.key === 'ArrowUp') velocity2_1x1 = gameState_1x1 === 'play' ? -paddleSpeed : 0;
-        if (e.key === 'ArrowDown') velocity2_1x1 = gameState_1x1 === 'play' ? paddleSpeed : 0;
-    });
-
-    document.addEventListener('keyup', function (e) {
-        if (e.key === 'w' && gameState_1x1 === 'play' || e.key === 's' && gameState_1x1 === 'play') velocity1_1x1 = 0;
-        if (e.key === 'ArrowUp' && gameState_1x1 === 'play' || e.key === 'ArrowDown'&& gameState_1x1 === 'play') velocity2_1x1 = 0;
-    });
-
-    startGameBtn_1x1.addEventListener('click', function () {
-        if (input1_1x1.value === input2_1x1.value) {
-            alert('Please enter different names for both players.');
-        } else if (input1_1x1.value && input2_1x1.value) {
-            document.getElementById('player_form_1x1').style.display = 'none';
-            gameState_1x1 = 'start';
-            name1_1x1.textContent = input1_1x1.value;
-            name2_1x1.textContent = input2_1x1.value;
-        } else {
-            alert('Please enter names for both players.');
-        }
-    });
-
-    startTourBtn.addEventListener('click', function () {
-        console.log('We are in start tournament');
-        if (areNotUnique(input1_4.value, input2_4.value, input3_4.value, input4_4.value)) {
-            alert('Please enter unique names for all players.');
-        } else if (input1_4.value && input2_4.value && input3_4.value && input4_4.value) {
-            document.getElementById('player_form_4').style.display = 'none';
-            pl1_4 = input1_4.value;
-            pl2_4 = input2_4.value
-            pl3_4 = input3_4.value;
-            pl4_4 = input4_4.value;
-            table1_4.textContent = input1_4.value;
-            table2_4.textContent = input2_4.value;
-            table3_4.textContent = input3_4.value;
-            table4_4.textContent = input4_4.value;
-            document.getElementById('tournament-table').style.display = 'block';
-            document.getElementById('go-to-match').addEventListener('click', startMatch);
-        } else {
-            alert('Please enter unique names for all players.');
-        }
-    });
-    
 });
 
-// Offline Tournament ========================================================================================================
+// USER MANAGEMENT HELPER FUNCTIONS:
 
-let gameStateTour;
-let startTourBtn = document.getElementById('startTourBtn');
-let input1_4 = document.getElementById('input1_4');
-let input2_4 = document.getElementById('input2_4');
-let input3_4 = document.getElementById('input3_4');
-let input4_4 = document.getElementById('input4_4');
-let pl1_4, pl2_4, pl3_4, pl4_4;
-let table1_4 = document.getElementById('table1_4'); 
-let table2_4 = document.getElementById('table2_4');
-let table3_4 = document.getElementById('table3_4');
-let table4_4 = document.getElementById('table4_4');
+function createProfilePage(data) {
+    // Construct the HTML for the profile page
+    let profilePageHtml = `
+    <div class="container profile-container">
+        <div class="row justify-content-center">
+            <!-- Main Container for Profile, Friends, Stats, and Match History -->
+            <div class="col-10">
+                <!-- Profile Section -->
+                <div class="row mb-4">
 
-let name1_4 = document.getElementById('name1_4');
-let name2_4 = document.getElementById('name2_4');
-let message_4 = document.getElementById('message_4');
-let winnerMessage_4 = document.getElementById('winnerMessage_4');
-let winnerName_4 = document.getElementById('winnerName_4');
+                    <!-- Profile Information -->
+                    <div class="col-md-6">
+                        <h6 class="mb-3">Your Profile</h6>
+                        <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
+                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p>
+                        <a href="#id-update-user" class="text-primary mb-3 d-block">Edit Username</a>
+                        <p><span style="color: #ac8fa5;">Display Name:</span> <strong>${data.display_name ? data.display_name : '-'}</strong></p>
+                        <a href="#id-update-displayname" class="text-primary d-block">Edit Display Name</a>
+                    </div>
 
-let winner1_4 = null, winner2_4 = null, winner_final_4 = null;
+                    <!-- Avatar Section -->
+                    <div class="col-md-6 text-center">
+                        <div class="profile-avatar mb-3">
+                            ${data.avatar ? `<img src="${data.avatar}" class="img-fluid avatar-square" alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid avatar-square" alt="Default Picture">`}
+                        </div>
+                        <a href="#id-update-avatar" class="text-primary">Edit Avatar</a>
+                    </div>
+                </div>
 
+                <!-- Friends Section -->
+                <hr class="custom-divider">
+                <div class="profile-friends mb-4">
+                    <h6>Your  Friends</h6>
+                    <ul class="list-unstyled">
+                        ${data.friends.map(friend => `
+                            <li class="mb-6">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <div class="profile-avatar">
+                                            ${friend.avatar ? `<img src="${friend.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Friend's Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <p><span style="color: #ac8fa5;">Username: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
+                                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${friend.id}</strong></p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p>
+                                            <span style="color: #ac8fa5;">Status:</span>
+                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? 'Online' : 'Offline'}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
+                                            <input type="hidden" name="action" value="unfriend">
+                                            <input type="hidden" name="user_id" value="${friend.id}">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm profile-link">Unfriend</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li><br>
+                        `).join('')}
+                    </ul>
+                    <a href="#profile-list-page" class="profile-list-link">Make New Friends</a>
+                </div>
 
-function offlineTourReset() {
-    gameStateTour = 'begin';
-    document.getElementById('player_form_4').style.display = 'block';
-    document.getElementById('tournament-table').style.display = 'none';            
-    document.getElementById('tournament-game').style.display = 'none';
-    input1_4.value = '';
-    input2_4.value = '';
-    input3_4.value = '';
-    input4_4.value = '';
-    name1_4.textContent = 'Player 1';
-    name2_4.textContent = 'Player 2';
-    winner1_4 = null;
-    winner2_4 = null;
-    winner_final_4 = null;
+                <!-- Stats Section -->
+                <hr class="custom-divider">
+                <div class="profile-stats mb-4">
+                    <h6>Your Stats</h6>
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="background-color: transparent; color: #ac8fa5;">Wins</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">Losses</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">Total Games</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>${data.wins}</td>
+                                <td>${data.losses}</td>
+                                <td>${data.total_games}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-    // message_4.innerHTML = 'Press Enter to Play';
-    // winnerMessage_4.style.display = 'none';
-
-    // initializeGameElements_1x1()
-    // resetScores_1x1();
-    // resetBallPosition_1x1();
-    // resetPaddlePositions_1x1();
+                <!-- Match History Section -->
+                <hr class="custom-divider">
+                <div class="profile-match-history">
+                    <h6>Your Match History</h6>
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="background-color: transparent; color: #ac8fa5;">Date</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">Winner</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">Looser</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.match_history.filter(match => match.length === 3 && match.every(item => item)).map(match => `
+                                <tr>
+                                    <td>${match[0]}</td>
+                                    <td>${match[1]}</td>
+                                    <td>${match[2]}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+	return profilePageHtml;
 }
 
-function areNotUnique(str1, str2, str3, str4) {
-    return str1 === str2 || str1 === str3 || str1 === str4 ||
-    str2 === str3 || str2 === str4 ||
-    str3 === str4;
+function createProfileListPage(data) {
+	// Construct the HTML for the profile list page
+	let profileListPageHtml = `
+    <div class="container profile-list-container">
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <h6>Registered Users</h6>
+                <ul class="list-unstyled">
+                    ${data.profiles.map(profile => `
+                        <li class="mb-3">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="profile-avatar">
+                                        ${profile.avatar ? `<img src="${profile.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <p>
+                                        <span style="color: #ac8fa5;">Username:</span> <a href="#" class="other-profile-link" data-id="${profile.id}">${profile.username}</a>
+                                        <span style="color: #ac8fa5;"> | ID:</span> ${profile.id}
+                                    </p>
+                                </div>
+                                <div class="col-auto">
+                                    <form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
+                                        <input type="hidden" name="action" value="${profile.is_friend ? 'unfriend' : 'befriend'}">
+                                        <input type="hidden" name="user_id" value="${profile.id}">
+                                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                                            ${profile.is_friend ? 'Unfriend' : 'Befriend'}
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    </div>
+`;
+
+	return profileListPageHtml;
 }
 
-function startMatch() {
-    document.getElementById('tournament-table').style.display = 'none';            
-    document.getElementById('tournament-game').style.display = 'block';
-    document.getElementById('tour_header').style.display = 'none';
-    gameStateTour = 'start';
-    if (winner1_4 === null) {
-        console.log(pl1_4, pl2_4, name1_4.textContent, name2_4.textContent);
-        name1_4.textContent = pl1_4;
-        name2_4.textContent = pl2_4;
-        winnerName_4.innerHTML = `${pl1_4} vs ${pl2_4}!`;
-        winnerMessage_4.style.display = 'block';
+function createOtherProfilePage(data) {
+    // Construct the HTML for the profile page
+    let profilePageHtml = `
+    <div class="container profile-container">
+        <div class="row justify-content-center">
+            <div class="col-10">
 
-    } else if (winner2_4 === null) {
-        name1_4.textContent = pl3_4;
-        name2_4.textContent = pl4_4;
-        winnerMessage_4.innerHTML = `${pl3_4} vs ${pl4_4}!`;
-        winnerMessage_4.style.display = 'block';
+                <div class="row mb-4">
+                    
+                    <!-- Profile Information on the Left -->
+                    <div class="col-md-6">
+                        <h6 class="mb-3">Profile</h6>
+                        <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
+                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p> 
+                        <p><span style="color: #ac8fa5;">Display Name:</span> <strong>${data.display_name ? data.display_name : '-'}</strong></p>
+                        </div>
 
-    } else if (winner_final_4 === null) {
-        name1_4.textContent = winner1_4;
-        name2_4.textContent = winner2_4;
-        winnerMessage_4.innerHTML = `${winner1_4} vs ${winner2_4}!`;
-        winnerMessage_4.style.display = 'block';
-    }
+                    <!-- Avatar on the Right -->
+                    <div class="col-md-6 text-center">
+                        <div class="profile-avatar mb-3">
+                            ${data.avatar ? `<img src="${data.avatar}" class="img-fluid avatar-square" alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid avatar-square" alt="Default Picture">`}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Friends Section -->
+                <hr class="custom-divider">
+                <div class="profile-friends mb-4">
+                    <h6 class="mb-3">Friends</h6>
+                    <ul class="list-unstyled">
+                        ${data.friends.map(friend => `
+                            <li class="mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <div class="profile-avatar">
+                                            ${friend.avatar ? `<img src="${friend.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Friend's Picture">` : `<img src="/media/avatars/kermit.png" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <p><span style="color: #ac8fa5;">Username: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
+                                        <p><span style="color: #ac8fa5;">User ID: </span> <strong>${friend.id}</strong></p>
+
+                                    </div>
+                                    <div class="col-auto">
+                                        <p>
+                                            <span style="color: #ac8fa5;">Status:</span>
+                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? 'Online' : 'Offline'}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
+                                            <input type="hidden" name="action" value="unfriend">
+                                            <input type="hidden" name="user_id" value="${friend.id}">
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                <!-- Stats Section -->
+                <hr class="custom-divider">
+                <div class="profile-stats mb-4">
+                    <h6>Stats</h6>
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="background-color: transparent; color: #ac8fa5;">Wins</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">Losses</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">Total Games</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>${data.wins}</td>
+                                <td>${data.losses}</td>
+                                <td>${data.total_games}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Match History Section -->
+                <hr class="custom-divider">
+                <div class="profile-match-history">
+                    <h6>Match History</h6>
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="background-color: transparent; color: #ac8fa5;">Date</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">Winner</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">Looser</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.match_history.filter(match => match.length === 3 && match.every(item => item)).map(match => `
+                                <tr>
+                                    <td>${match[0]}</td>
+                                    <td>${match[1]}</td>
+                                    <td>${match[2]}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+
+	return profilePageHtml;
 }
 
-// Offline game 1x1 ==========================================================================================================
-
-// Global variables for offline game:
-let gameState_1x1;
-let input1_1x1 = document.getElementById('input1_1x1');
-let input2_1x1 = document.getElementById('input2_1x1');
-let name1_1x1 = document.getElementById('name1_1x1');
-let name2_1x1 = document.getElementById('name2_1x1');
-let message_1x1 = document.getElementById('message_1x1');
-let winnerMessage_1x1 = document.getElementById('winnerMessage_1x1');
-let winnerName_1x1 = document.getElementById('winnerName_1x1');
-let startGameBtn_1x1 = document.getElementById('startGameBtn_1x1');
-let score1_1x1 = document.getElementById('score1_1x1');
-let score2_1x1 = document.getElementById('score2_1x1');
-let board_1x1 = document.getElementById('board_1x1');
-let ball_1x1 = document.getElementById('ball_1x1');
-let paddle1_1x1 = document.getElementById('paddle1_1x1');
-let paddle2_1x1 = document.getElementById('paddle2_1x1');
-
-let paddle1_coord_1x1, paddle2_coord_1x1, paddle_common_1x1;
-
-const paddleSpeed = 3;
-let velocity1_1x1 = 0, velocity2_1x1 = 0;
-
-let dx, dy, dxd, dyd;
-
-function offlineGameReset() {
-    gameState_1x1 = 'begin';
-    document.getElementById('player_form_1x1').style.display = 'block';
-    input1_1x1.value = '';
-    input2_1x1.value = '';
-    name1_1x1.textContent = 'Player 1';
-    name2_1x1.textContent = 'Player 2';
-    message_1x1.style.display = 'block';
-    message_1x1.innerHTML = 'Press Enter to Play';
-    winnerMessage_1x1.style.display = 'none';
-    // winnerMessage_1x1.innerHTML = '';
-    // winnerName_1x1.innerHTML = '';
-    initializeGameElements_1x1()
-    resetScores_1x1();
-    resetBallPosition_1x1();
-    resetPaddlePositions_1x1();
+function addElementToArray(array, element) {
+	if (element) {
+		array.push(element);
+	}
 }
 
-function initializeGameElements_1x1() {
-    ball_coord_1x1 = ball_1x1.getBoundingClientRect();
-    board_coord_1x1 = board_1x1.getBoundingClientRect();
-    paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
-    paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
-    paddle_common_1x1 = document.querySelector('.paddle_off').getBoundingClientRect();
-
-    dx = Math.floor(Math.random() * 4) + 3;
-    dy = Math.floor(Math.random() * 4) + 3;
-    dxd = Math.floor(Math.random() * 2);
-    dyd = Math.floor(Math.random() * 2);
-
-    ball_1x1.style.top = board_coord_1x1.top + (board_coord_1x1.height / 2) - (ball_coord_1x1.height / 2) + 'px';
-    ball_1x1.style.left = board_coord_1x1.left + (board_coord_1x1.width / 2) - (ball_coord_1x1.width / 2) + 'px';
+function showElement(element) {
+	if (element) {
+		element.style.display = 'block';
+	}
 }
 
-function resetPaddlePositions_1x1() {
-
-    paddle1_1x1.style.top = 360 + 'px';
-    paddle2_1x1.style.top = 360 + 'px';
-
-    paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
-    paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
-
+function hideElement(element) {
+	if (element) {
+		element.style.display = 'none';
+	}
 }
 
-function updatePaddlePositions_1x1() {
-
-    paddle1_1x1.style.top = Math.min(Math.max(board_coord_1x1.top, paddle1_coord_1x1.top + velocity1_1x1), board_coord_1x1.bottom - paddle1_coord_1x1.height) + 'px';
-    paddle2_1x1.style.top = Math.min(Math.max(board_coord_1x1.top, paddle2_coord_1x1.top + velocity2_1x1), board_coord_1x1.bottom - paddle2_coord_1x1.height) + 'px';
-
-    paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
-    paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
-
-    requestAnimationFrame(updatePaddlePositions_1x1);
-
-}
-
-function resetBallPosition_1x1() {
-    ball_1x1.style.top = board_coord_1x1.top + (board_coord_1x1.height / 2) - (ball_coord_1x1.height / 2) + 'px';
-    ball_1x1.style.left = board_coord_1x1.left + (board_coord_1x1.width / 2) - (ball_coord_1x1.width / 2) + 'px';   
-    ball_coord_1x1 = ball_1x1.getBoundingClientRect();
-}
-
-function resetScores_1x1() {
-    score1_1x1.innerHTML = '0';
-    score2_1x1.innerHTML = '0';
-}
-
-function checkScores_1x1() {
-    if (parseInt(score1_1x1.innerHTML) >= 3) {
-        displayWinner_1x1(name1_1x1.textContent);
-        return true;
-    } else if (parseInt(score2_1x1.innerHTML) >= 3) {
-        displayWinner_1x1(name2_1x1.textContent);
-        return true;
-    }
-    return false;
-}
-
-function displayWinner_1x1(winnerName) {
-    gameState_1x1 = 'stop';
-    winnerName_1x1.innerHTML = `${winnerName} wins!`;
-    winnerMessage_1x1.style.display = 'block';
-    message_1x1.style.display = 'block';
-    message_1x1.innerHTML = 'Game Over! Press Enter to Play Again';
-    resetBallPosition_1x1();
-    resetScores_1x1();
-    gameState_1x1 = 'start';
-}
-
-function moveBall_1x1(dx, dy, dxd, dyd) {
-    ball_coord_1x1 = ball_1x1.getBoundingClientRect();
-
-    if (ball_coord_1x1.top <= board_coord_1x1.top || ball_coord_1x1.bottom >= board_coord_1x1.bottom) {
-        dyd = 1 - dyd; // Reverse vertical direction
-    }
-
-    if (ball_coord_1x1.left <= paddle1_coord_1x1.right && ball_coord_1x1.top >= paddle1_coord_1x1.top && ball_coord_1x1.bottom <= paddle1_coord_1x1.bottom) {
-        dxd = 1; // Move ball to the right
-        dx = Math.floor(Math.random() * 4) + 3;
-        dy = Math.floor(Math.random() * 4) + 3;
-    }
-
-    if (ball_coord_1x1.right >= paddle2_coord_1x1.left && ball_coord_1x1.top >= paddle2_coord_1x1.top && ball_coord_1x1.bottom <= paddle2_coord_1x1.bottom) {
-        dxd = 0; // Move ball to the left
-        dx = Math.floor(Math.random() * 4) + 3;
-        dy = Math.floor(Math.random() * 4) + 3;
-    }
-
-    if (ball_coord_1x1.left <= board_coord_1x1.left || ball_coord_1x1.right >= board_coord_1x1.right) {
-        if (ball_coord_1x1.left <= board_coord_1x1.left) {
-            score2_1x1.innerHTML = +score2_1x1.innerHTML + 1;
-        } else {
-            score1_1x1.innerHTML = +score1_1x1.innerHTML + 1;
-        }
-        if (checkScores_1x1()) return;
-        gameState_1x1 = 'reset';
-        resetBallPosition_1x1();
-        setTimeout(() => {
-            gameState_1x1 = 'play';
-            moveBall_1x1(dx, dy, dxd, dyd);
-        }, 1000);
-        return;
-    }
-
-    ball_1x1.style.top = ball_coord_1x1.top + dy * (dyd === 0 ? -1 : 1) + 'px';
-    ball_1x1.style.left = ball_coord_1x1.left + dx * (dxd === 0 ? -1 : 1) + 'px';
-
-    requestAnimationFrame(() => {
-        moveBall_1x1(dx, dy, dxd, dyd);
-    });
-}
-
-function startGame_1x1() {   
-    console.log(gameState_1x1);
-    message_1x1.style.display = 'block';
-    winnerMessage_1x1.style.display = 'none';
-    gameState_1x1 = 'play';
-    message_1x1.innerHTML = 'Game Started';
-    setTimeout(() => message_1x1.innerHTML = '', 1500);
-
-    initializeGameElements_1x1();
-    updatePaddlePositions_1x1();
-    resetBallPosition_1x1();
-    resetScores_1x1();
-    moveBall_1x1(dx, dy, dxd, dyd);
+function setElementinnerHTML(element, string) {
+	if (element) {
+		element.innerHTML = string;
+	}
 }

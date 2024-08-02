@@ -1,486 +1,228 @@
-// document.addEventListener('DOMContentLoaded', function () {
-//     let gameState = 'start';
-//     let paddle_1, paddle_2, board, ball, score_1, score_2, message;
-//     let paddle_1_coord, paddle_2_coord, ball_coord, board_coord, paddle_common;
-//     let dx, dy, dxd, dyd;
-//     let player1Name = 'Player 1'; // Default names
-//     let player2Name = 'Player 2';
-//     const player1 = document.getElementById('player1Name');
-// 	const player2 = document.getElementById('player2Name');
-//     let paddle1Velocity = 0, paddle2Velocity = 0;
-//     const paddleSpeed = 2;
-    
+export function offlineGame_handler() {
+	const offline1x1Html = `
+		<div id="offline-1x1">
+            <div class="container">
+                <div class="container-fluid">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-auto">
+                            <div id="player_form_1x1">
+                                <input type="text" class="form-control" id="input1_1x1" placeholder="Player 1 name" required maxlength="15">
+                                <input type="text" class="form-control" id="input2_1x1" placeholder="Player 2 name" required maxlength="15">
+                                <button id="startGameBtn_1x1" class="btn btn-primary offline-1x1">Start Game</button>
+                            </div>
+                            <div class="board_1x1" id="board_1x1">
+                                <div class='ball_1x1' id="ball_1x1"></div>
+                                <div class="paddle_off" id="paddle1_1x1"></div>
+                                <div class="paddle_off" id="paddle2_1x1"></div>
+                                <h3 class="scores_off" id="score1_1x1">0</h3>
+                                <h3 class="scores_off" id="score2_1x1">0</h3>
+                                <h3 class="player_name_off" id="name1_1x1">Player 1</h3>
+                                <h3 class="player_name_off" id="name2_1x1">Player 2</h3>
+                                <div id="winnerMessage_1x1">
+                                    <h2 id="winnerName_1x1">Winner!</h2>
+                                </div>
+                                <p class="text-center"><h3 class="message" id="message_1x1" >Press Enter to Play</h3></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	`
+    setElementinnerHTML(document.getElementById('game-place'), offline1x1Html);
+	showElement(document.getElementById('game-place'));
 
-//     // Input fields and start button
-//     let player1Input = document.getElementById('player1NameInput');
-//     let player2Input = document.getElementById('player2NameInput');
-//     let startGameBtn = document.getElementById('startGameBtn');
-
-//     // Event listener for start button click
-//     startGameBtn.addEventListener('click', function() {
-//         if (player1Input.value === player2Input.value) {
-//             alert('Please enter different names for both players.');
-//         }
-//         else if (player1Input.value && player2Input.value) {
-//             player1.textContent = player1Input.value;
-//             player1Name = player1Input.value;
-//             player2.textContent = player2Input.value;
-//             player2Name = player2Input.value;
-//             // Hide the name form
-//             document.getElementById('player_form').style.display = 'none';
-//             startGame();
-
-//         } else {
-//             alert('Please enter names for both players.');
-//         }
-//     });
-
-//     document.addEventListener('keydown', function(e) {
-//         if (e.key === 'Enter') {
-//             if (player1Input.value === player2Input.value) {
-//                 alert('Please enter different names for both players.');
-//             }
-//             else if (player1Input.value && player2Input.value) {
-//                 player1.textContent = player1Input.value;
-//                 player1Name = player1Input.value;
-//                 player2.textContent = player2Input.value;
-//                 player2Name = player2Input.value;
-//                 // Hide the name form
-//                 document.getElementById('player_form').style.display = 'none';
-//                 startGame();
-
-//             } else {
-//                 alert('Please enter names for both players.');
-//             }
-//         }
-//     });
-
-//     function startGame() {
-
-//         // Game initialization logic
-//         initializeElements();
-//         updatePaddlePositions();
-
-//         // Listen for Enter key to start the game
-//         document.addEventListener('keydown', function(e) {
-//             if (e.key === 'Enter') {
-//                 if (gameState === 'stop') {
-//                     // Hide winner message and reset game state
-//                     winnerMessage.style.display = 'none';
-//                     gameState = 'start';
-//                     resetScores();
-//                 }
-//                 if (gameState === 'start') {
-//                     if (player1Input.value === player2Input.value) {
-//                         alert('Please enter different names for both players.');
-//                     }
-//                     else if (player1Input.value && player2Input.value) {
-//                         player1.textContent = player1Input.value;
-//                         player1Name = player1Input.value;
-//                         player2.textContent = player2Input.value;
-//                         player2Name = player2Input.value;
-//                         gameState = 'play';
-//                         message.innerHTML = 'Game Started';
-//                         resetBallPosition();
-//                         requestAnimationFrame(() => {
-//                             dx = Math.floor(Math.random() * 4) + 3;
-//                             dy = Math.floor(Math.random() * 4) + 3;
-//                             dxd = Math.floor(Math.random() * 2);
-//                             dyd = Math.floor(Math.random() * 2);
-//                             moveBall(dx, dy, dxd, dyd);
-//                         });
-//                         document.getElementById('player_form').style.display = 'none';
-//                         //nameForm.style.display = 'none';
-//                         winnerMessage.style.display = 'none';
-//                         setTimeout(() => {
-//                             message.innerHTML = '';
-//                         }, 1000);
-//                     } else {
-//                         alert('Please enter names for both players.');
-//                     }
-//                 }
-//             }
-//             if (e.key === 'w') {
-//                 if (gameState === 'play') {
-//                     paddle1Velocity = -paddleSpeed;
-//                 }
-//             }
-//             if (e.key === 's') {
-//                 if (gameState === 'play') {
-//                     paddle1Velocity = paddleSpeed;
-//                 }
-//             }
-//             if (e.key === 'ArrowUp') {
-//                 if (gameState === 'play') {
-//                     paddle2Velocity = -paddleSpeed;
-//                 }
-//             }
-//             if (e.key === 'ArrowDown') {
-//                 if (gameState === 'play') {
-//                     paddle2Velocity = paddleSpeed;
-//                 }
-//             }
-//         });
-    
-//         document.addEventListener('keyup', function(e) {
-//             if (e.key === 'w' || e.key === 's') {
-//                 paddle1Velocity = 0;
-//             }
-//             if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-//                 paddle2Velocity = 0;
-//             }
-//         });
-//     }
-
-//     function initializeElements() {
-//         paddle_1 = document.querySelector('.paddle_1_off');
-//         paddle_2 = document.querySelector('.paddle_2_off');
-//         board = document.querySelector('.board');
-//         ball = document.querySelector('.ball');
-//         score_1 = document.querySelector('.player_1_score');
-//         score_2 = document.querySelector('.player_2_score');
-//         message = document.querySelector('.message');
-//         paddle_1_coord = paddle_1.getBoundingClientRect();
-//         paddle_2_coord = paddle_2.getBoundingClientRect();
-//         ball_coord = ball.getBoundingClientRect();
-//         board_coord = board.getBoundingClientRect();
-//         paddle_common = document.querySelector('.paddle_off').getBoundingClientRect();
-
-//         dx = Math.floor(Math.random() * 4) + 3;
-//         dy = Math.floor(Math.random() * 4) + 3;
-//         dxd = Math.floor(Math.random() * 2);
-//         dyd = Math.floor(Math.random() * 2);
-//         ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
-//         ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
-//     }
-
-//     function resetScores() {
-//         score_1.innerHTML = '0';
-//         score_2.innerHTML = '0';
-//     }
-
-//     function checkScores() {
-//         if (parseInt(score_1.innerHTML) >= 3) {
-//             displayWinner(player1Name);
-//             return true;
-//         } else if (parseInt(score_2.innerHTML) >= 3) {
-//             displayWinner(player2Name);
-//             return true;
-//         }
-//         return false;
-//     }
-
-//     function displayWinner(winnerName) {
-//         gameState = 'stop';
-//         winnerMessage.style.display = 'block';
-//         winnerMessage.querySelector('#winnerName').innerHTML = `${winnerName} wins!`;
-//         gameState = 'start';
-//         resetScores();
-//         resetBallPosition();
-//         message.innerHTML = 'Game Over! Press Enter to Play Again';
-//     }
-
-//     function resetBallPosition() {
-//         ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
-//         ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
         
-//         ball_coord = ball.getBoundingClientRect();
-//     }
+    let gameState_1x1;
+    let input1_1x1 = document.getElementById('input1_1x1');
+    let input2_1x1 = document.getElementById('input2_1x1');
+    let name1_1x1 = document.getElementById('name1_1x1');
+    let name2_1x1 = document.getElementById('name2_1x1');
+    let message_1x1 = document.getElementById('message_1x1');
+    let winnerMessage_1x1 = document.getElementById('winnerMessage_1x1');
+    let winnerName_1x1 = document.getElementById('winnerName_1x1');
+    let startGameBtn_1x1 = document.getElementById('startGameBtn_1x1');
+    let score1_1x1 = document.getElementById('score1_1x1');
+    let score2_1x1 = document.getElementById('score2_1x1');
+    let board_1x1 = document.getElementById('board_1x1');
+    let ball_1x1 = document.getElementById('ball_1x1');
+    let paddle1_1x1 = document.getElementById('paddle1_1x1');
+    let paddle2_1x1 = document.getElementById('paddle2_1x1');
 
-//     function moveBall(dx, dy, dxd, dyd) {
-//         ball_coord = ball.getBoundingClientRect();
-
-//         if (ball_coord.top <= board_coord.top || ball_coord.bottom >= board_coord.bottom) {
-//             dyd = 1 - dyd; // Reverse vertical direction
-//         }
-
-//         if (ball_coord.left <= paddle_1_coord.right && ball_coord.top >= paddle_1_coord.top && ball_coord.bottom <= paddle_1_coord.bottom) {
-//             dxd = 1; // Move ball to the right
-//             dx = Math.floor(Math.random() * 4) + 3;
-//             dy = Math.floor(Math.random() * 4) + 3;
-//         }
-
-//         if (ball_coord.right >= paddle_2_coord.left && ball_coord.top >= paddle_2_coord.top && ball_coord.bottom <= paddle_2_coord.bottom) {
-//             dxd = 0; // Move ball to the left
-//             dx = Math.floor(Math.random() * 4) + 3;
-//             dy = Math.floor(Math.random() * 4) + 3;
-//         }
-
-//         if (ball_coord.left <= board_coord.left || ball_coord.right >= board_coord.right) {
-//             if (ball_coord.left <= board_coord.left) {
-//                 score_2.innerHTML = +score_2.innerHTML + 1;
-//             } else {
-//                 score_1.innerHTML = +score_1.innerHTML + 1;
-//             }
-//             if (checkScores()) return;
-//             gameState = 'reset';
-//             resetBallPosition();
-//             setTimeout(() => {
-//                 gameState = 'play';
-//                 moveBall(dx, dy, dxd, dyd);
-//             }, 1000);
-//             return;
-//         }
-
-//         if ((ball_coord.top <= board_coord.top && ball_coord.left <= board_coord.left) ||
-//             (ball_coord.top <= board_coord.top && ball_coord.right >= board_coord.right) ||
-//             (ball_coord.bottom >= board_coord.bottom && ball_coord.left <= board_coord.left) ||
-//             (ball_coord.bottom >= board_coord.bottom && ball_coord.right >= board_coord.right)) {
-//             gameState = 'stop';
-//             message.innerHTML = 'Game Over! Press Enter to Play Again';
-//             return;
-//         }
-
-//         ball.style.top = ball_coord.top + dy * (dyd === 0 ? -1 : 1) + 'px';
-//         ball.style.left = ball_coord.left + dx * (dxd === 0 ? -1 : 1) + 'px';
-
-//         requestAnimationFrame(() => {
-//             moveBall(dx, dy, dxd, dyd);
-//         });
-//     }
-
-//     function updatePaddlePositions() {
-//         paddle_1.style.top = Math.min(Math.max(board_coord.top, paddle_1_coord.top + paddle1Velocity), board_coord.bottom - paddle_1_coord.height) + 'px';
-//         paddle_2.style.top = Math.min(Math.max(board_coord.top, paddle_2_coord.top + paddle2Velocity), board_coord.bottom - paddle_2_coord.height) + 'px';
-
-//         paddle_1_coord = paddle_1.getBoundingClientRect();
-//         paddle_2_coord = paddle_2.getBoundingClientRect();
-
-//         requestAnimationFrame(updatePaddlePositions);
-//     }
-
-//     initializeElements();
-//     updatePaddlePositions();
-//     updatePlayerNames();
-// });
-
-document.addEventListener('DOMContentLoaded', function() {
-    const section1 = document.getElementById('offline-1x1');
-    if (!section1 || window.getComputedStyle(section1).display !== 'block') return;
-    console.log('We are in the 1x1 game');
-
-    let gameState = 'begin';
-
-    let paddle_1, paddle_2, board, ball, score_1, score_2;
-    let paddle_1_coord, paddle_2_coord, ball_coord, board_coord;
-    let dx, dy, dxd, dyd;
+    let paddle1_coord_1x1, paddle2_coord_1x1, paddle_common_1x1, ball_coord_1x1, board_coord_1x1;
 
     const paddleSpeed = 3;
-    let paddle1Velocity = 0, paddle2Velocity = 0;
+    let velocity1_1x1 = 0, velocity2_1x1 = 0;
 
-    let player1Name = 'Player 1'; // Default names
-    let player2Name = 'Player 2';
-    let player1 = document.getElementById('player1Name_off_1x1');
-    let player2 = document.getElementById('player2Name_off_1x1');
-    let player1Input;
-    let player2Input;
+    let dx, dy, dxd, dyd;
 
-    let message = document.getElementById('message_off_1x1');
-    let winnerMessage = document.getElementById('winnerMessage_off_1x1');
-
-    let startGameBtn = document.getElementById('startGameBtn_1x1');
-    let exitOffGameBtn = document.getElementById('exitOffGameBtn_1x1');
-
-
-    // Event listener for Enter key to start game
-    document.addEventListener('keydown', function (e) {
-        console.log("1x1 game location!");
-        console.log(gameState);
-        if (e.key === 'Enter' && gameState === 'begin')
-        {
-            player1Input = document.getElementById('player1NameInput_off_1x1');
-            player2Input = document.getElementById('player2NameInput_off_1x1');
-            if (player1Input.value === player2Input.value) {
-                alert(':) Please enter different names for both players.');
-            } else if (player1Input && player2Input) {
-                document.getElementById('player_form_1x1').style.display = 'none';
-                player1.textContent = player1Input.value;
-                player2.textContent = player2Input.value;
-                player1Name = player1Input.value;
-                player2Name = player2Input.value;
-                gameState = 'start';
-                console.log(gameState);
-            } else {
-                alert('Please enter names for both players.');
-            }
-        }
-        else if (e.key === 'Enter' && gameState === 'start') startGame();
-        if (e.key === 'w') paddle1Velocity = gameState === 'play' ? -paddleSpeed : 0;
-        if (e.key === 's') paddle1Velocity = gameState === 'play' ? paddleSpeed : 0;
-        if (e.key === 'ArrowUp') paddle2Velocity = gameState === 'play' ? -paddleSpeed : 0;
-        if (e.key === 'ArrowDown') paddle2Velocity = gameState === 'play' ? paddleSpeed : 0;
-    });
-
-    startGameBtn.addEventListener('click', function () {
-        player1Input = document.getElementById('player1NameInput_off_1x1');
-        player2Input = document.getElementById('player2NameInput_off_1x1');
-        if (player1Input.value === player2Input.value) {
-            alert(':) Please enter different names for both players.');
-        } else if (player1Input.value && player2Input.value) {
-            document.getElementById('player_form_1x1').style.display = 'none';
-            gameState = 'start';
-            player1.textContent = player1Input.value;
-            player2.textContent = player2Input.value;
-            player1Name = player1Input.value;
-            player2Name = player2Input.value;
-            console.log(gameState);
-        } else {
-            alert('Please enter names for both players.');
-        }
-    });
-
-
-    exitOffGameBtn.addEventListener('click', function () {
-        gameState = 'reset';
-        initializeGameElements();
-        updatePaddlePositions();
-        resetBallPosition();
-        resetScores();
-        resetPlayers();
-        // resetPaddles();
-        document.getElementById('message_off_1x1').innerHTML = 'Press Enter to Play'
-        document.getElementById('message_off_1x1').style.display = 'block';
-        document.getElementById('winnerMessage_off_1x1').style.display = 'none';
-        document.getElementById('player_form_1x1').style.display = 'block';
-        document.getElementById('player1Name_off_1x1').innerHTML = 'Player 1';
-        document.getElementById('player2Name_off_1x1').innerHTML = 'Player 2';
-        gameState = 'begin';
-        window.location.hash = 'offline-choose-mode';
-    });
-
-    // Event listener for keyup to stop paddle movement
-    document.addEventListener('keyup', function (e) {
-        if (e.key === 'w' || e.key === 's') paddle1Velocity = 0;
-        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') paddle2Velocity = 0;
-    });
-
-    function startGame() {
-            console.log(gameState);
-            message.style.display = 'block';
-            winnerMessage.style.display = 'none';
-            gameState = 'play';
-            message.innerHTML = 'Game Started';
-            setTimeout(() => message.innerHTML = '', 1500);
-            initializeGameElements();
-            updatePaddlePositions();
-            resetBallPosition();
-            resetScores();
-            moveBall(dx, dy, dxd, dyd);
-    }
-
-    function initializeGameElements() {
-        paddle_1 = document.getElementById('paddle1_off_1x1');
-        paddle_2 = document.getElementById('paddle2_off_1x1');
-        board = document.getElementById('board_off_1x1');
-        ball = document.getElementById('ball_off_1x1');
-        score_1 = document.getElementById('score1_off_1x1');
-        score_2 = document.getElementById('score2_off_1x1');
-        paddle_1_coord = paddle_1.getBoundingClientRect();
-        paddle_2_coord = paddle_2.getBoundingClientRect();
-        ball_coord = ball.getBoundingClientRect();
-        board_coord = board.getBoundingClientRect();
-        paddle_common = document.querySelector('.paddle_off').getBoundingClientRect();
+    function initializeGameElements_1x1() {
+        ball_coord_1x1 = ball_1x1.getBoundingClientRect();
+        board_coord_1x1 = board_1x1.getBoundingClientRect();
+        paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
+        paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
+        paddle_common_1x1 = document.querySelector('.paddle_off').getBoundingClientRect();
 
         dx = Math.floor(Math.random() * 4) + 3;
         dy = Math.floor(Math.random() * 4) + 3;
         dxd = Math.floor(Math.random() * 2);
         dyd = Math.floor(Math.random() * 2);
-        ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
-        ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
+
+        ball_1x1.style.top = board_coord_1x1.top + (board_coord_1x1.height / 2) - (ball_coord_1x1.height / 2) + 'px';
+        ball_1x1.style.left = board_coord_1x1.left + (board_coord_1x1.width / 2) - (ball_coord_1x1.width / 2) + 'px';
     }
 
-    function updatePaddlePositions() {
-        paddle_1.style.top = Math.min(Math.max(board_coord.top, paddle_1_coord.top + paddle1Velocity), board_coord.bottom - paddle_1_coord.height) + 'px';
-        paddle_2.style.top = Math.min(Math.max(board_coord.top, paddle_2_coord.top + paddle2Velocity), board_coord.bottom - paddle_2_coord.height) + 'px';
+    function updatePaddlePositions_1x1() {
 
-        paddle_1_coord = paddle_1.getBoundingClientRect();
-        paddle_2_coord = paddle_2.getBoundingClientRect();
+        paddle1_1x1.style.top = Math.min(Math.max(board_coord_1x1.top, paddle1_coord_1x1.top + velocity1_1x1), board_coord_1x1.bottom - paddle1_coord_1x1.height) + 'px';
+        paddle2_1x1.style.top = Math.min(Math.max(board_coord_1x1.top, paddle2_coord_1x1.top + velocity2_1x1), board_coord_1x1.bottom - paddle2_coord_1x1.height) + 'px';
 
-        requestAnimationFrame(updatePaddlePositions);
+        paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
+        paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
+
+        requestAnimationFrame(updatePaddlePositions_1x1);
+
     }
 
-    function resetBallPosition() {
-        ball.style.top = board_coord.top + (board_coord.height / 2) - (ball_coord.height / 2) + 'px';
-        ball.style.left = board_coord.left + (board_coord.width / 2) - (ball_coord.width / 2) + 'px';
-        
-        ball_coord = ball.getBoundingClientRect();
+    function resetBallPosition_1x1() {
+        ball_1x1.style.top = board_coord_1x1.top + (board_coord_1x1.height / 2) - (ball_coord_1x1.height / 2) + 'px';
+        ball_1x1.style.left = board_coord_1x1.left + (board_coord_1x1.width / 2) - (ball_coord_1x1.width / 2) + 'px';   
+        ball_coord_1x1 = ball_1x1.getBoundingClientRect();
     }
 
-
-    function moveBall(dx, dy, dxd, dyd) {
-        ball_coord = ball.getBoundingClientRect();
-
-        if (ball_coord.top <= board_coord.top || ball_coord.bottom >= board_coord.bottom) {
-            dyd = 1 - dyd; // Reverse vertical direction
-        }
-
-        if (ball_coord.left <= paddle_1_coord.right && ball_coord.top >= paddle_1_coord.top && ball_coord.bottom <= paddle_1_coord.bottom) {
-            dxd = 1; // Move ball to the right
-            dx = Math.floor(Math.random() * 4) + 3;
-            dy = Math.floor(Math.random() * 4) + 3;
-        }
-
-        if (ball_coord.right >= paddle_2_coord.left && ball_coord.top >= paddle_2_coord.top && ball_coord.bottom <= paddle_2_coord.bottom) {
-            dxd = 0; // Move ball to the left
-            dx = Math.floor(Math.random() * 4) + 3;
-            dy = Math.floor(Math.random() * 4) + 3;
-        }
-
-        if (ball_coord.left <= board_coord.left || ball_coord.right >= board_coord.right) {
-            if (ball_coord.left <= board_coord.left) {
-                score_2.innerHTML = +score_2.innerHTML + 1;
-            } else {
-                score_1.innerHTML = +score_1.innerHTML + 1;
-            }
-            if (checkScores()) return;
-            gameState = 'reset';
-            resetBallPosition();
-            setTimeout(() => {
-                gameState = 'play';
-                moveBall(dx, dy, dxd, dyd);
-            }, 1000);
-            return;
-        }
-
-        ball.style.top = ball_coord.top + dy * (dyd === 0 ? -1 : 1) + 'px';
-        ball.style.left = ball_coord.left + dx * (dxd === 0 ? -1 : 1) + 'px';
-
-        requestAnimationFrame(() => {
-            moveBall(dx, dy, dxd, dyd);
-        });
+    function resetScores_1x1() {
+        score1_1x1.innerHTML = '0';
+        score2_1x1.innerHTML = '0';
     }
 
-    function checkScores() {
-        if (parseInt(score_1.innerHTML) >= 3) {
-            displayWinner(player1Name);
+    function checkScores_1x1() {
+        if (parseInt(score1_1x1.innerHTML) >= 3) {
+            displayWinner_1x1(name1_1x1.textContent);
             return true;
-        } else if (parseInt(score_2.innerHTML) >= 3) {
-            displayWinner(player2Name);
+        } else if (parseInt(score2_1x1.innerHTML) >= 3) {
+            displayWinner_1x1(name2_1x1.textContent);
             return true;
         }
         return false;
     }
 
-    function displayWinner(winnerName) {
-        gameState = 'stop';
-        winnerMessage.style.display = 'block';
-        document.getElementById('winnerName_off_1x1').innerHTML = `${winnerName} wins!`;
-        message.style.display = 'block';
-        message.innerHTML = 'Game Over! Press Enter to Play Again';
-        resetBallPosition();
-        resetScores();
-        gameState = 'start';
+    function displayWinner_1x1(winnerName) {
+        gameState_1x1 = 'stop';
+        winnerName_1x1.innerHTML = `${winnerName} wins!`;
+        winnerMessage_1x1.style.display = 'block';
+        message_1x1.style.display = 'block';
+        message_1x1.innerHTML = 'Game Over! Press Enter to Play Again';
+        resetBallPosition_1x1();
+        resetScores_1x1();
+        gameState_1x1 = 'start';
     }
 
-    function resetScores() {
-        score_1.innerHTML = '0';
-        score_2.innerHTML = '0';
+    function moveBall_1x1(dx, dy, dxd, dyd) {
+        ball_coord_1x1 = ball_1x1.getBoundingClientRect();
+
+        if (ball_coord_1x1.top <= board_coord_1x1.top || ball_coord_1x1.bottom >= board_coord_1x1.bottom) {
+            dyd = 1 - dyd; // Reverse vertical direction
+        }
+
+        if (ball_coord_1x1.left <= paddle1_coord_1x1.right && ball_coord_1x1.top >= paddle1_coord_1x1.top && ball_coord_1x1.bottom <= paddle1_coord_1x1.bottom) {
+            dxd = 1; // Move ball to the right
+            dx = Math.floor(Math.random() * 4) + 3;
+            dy = Math.floor(Math.random() * 4) + 3;
+        }
+
+        if (ball_coord_1x1.right >= paddle2_coord_1x1.left && ball_coord_1x1.top >= paddle2_coord_1x1.top && ball_coord_1x1.bottom <= paddle2_coord_1x1.bottom) {
+            dxd = 0; // Move ball to the left
+            dx = Math.floor(Math.random() * 4) + 3;
+            dy = Math.floor(Math.random() * 4) + 3;
+        }
+
+        if (ball_coord_1x1.left <= board_coord_1x1.left || ball_coord_1x1.right >= board_coord_1x1.right) {
+            if (ball_coord_1x1.left <= board_coord_1x1.left) {
+                score2_1x1.innerHTML = +score2_1x1.innerHTML + 1;
+            } else {
+                score1_1x1.innerHTML = +score1_1x1.innerHTML + 1;
+            }
+            if (checkScores_1x1()) return;
+            gameState_1x1 = 'reset';
+            resetBallPosition_1x1();
+            setTimeout(() => {
+                gameState_1x1 = 'play';
+                moveBall_1x1(dx, dy, dxd, dyd);
+            }, 1000);
+            return;
+        }
+
+        ball_1x1.style.top = ball_coord_1x1.top + dy * (dyd === 0 ? -1 : 1) + 'px';
+        ball_1x1.style.left = ball_coord_1x1.left + dx * (dxd === 0 ? -1 : 1) + 'px';
+
+        requestAnimationFrame(() => {
+            moveBall_1x1(dx, dy, dxd, dyd);
+        });
     }
 
-    function resetPlayers() {
-        if(player1Input)
-            player1Input.value = '';
-        if(player2Input)
-            player2Input.value = '';
+    function startGame_1x1() {   
+        console.log(gameState_1x1);
+        message_1x1.style.display = 'block';
+        winnerMessage_1x1.style.display = 'none';
+        gameState_1x1 = 'play';
+        message_1x1.innerHTML = 'Game Started';
+        setTimeout(() => message_1x1.innerHTML = '', 1500);
+
+        initializeGameElements_1x1();
+        updatePaddlePositions_1x1();
+        resetBallPosition_1x1();
+        resetScores_1x1();
+        moveBall_1x1(dx, dy, dxd, dyd);
     }
-});
+
+    startGameBtn_1x1.addEventListener('click', function () {
+        if (input1_1x1.value === input2_1x1.value) {
+            alert('Please enter different names for both players.');
+        } else if (input1_1x1.value && input2_1x1.value) {
+            document.getElementById('player_form_1x1').style.display = 'none';
+            gameState_1x1 = 'start';
+            name1_1x1.textContent = input1_1x1.value;
+            name2_1x1.textContent = input2_1x1.value;
+        } else {
+            alert('Please enter names for both players.');
+        }
+    });
+    
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && gameState_1x1 === 'start') startGame_1x1();
+        if (e.key === 'w') velocity1_1x1 = gameState_1x1 === 'play' ? -paddleSpeed : 0;
+        if (e.key === 's') velocity1_1x1 = gameState_1x1 === 'play' ? paddleSpeed : 0;
+        if (e.key === 'ArrowUp') velocity2_1x1 = gameState_1x1 === 'play' ? -paddleSpeed : 0;
+        if (e.key === 'ArrowDown') velocity2_1x1 = gameState_1x1 === 'play' ? paddleSpeed : 0;
+    });
+
+    document.addEventListener('keyup', function (e) {
+        if (e.key === 'w' && gameState_1x1 === 'play' || e.key === 's' && gameState_1x1 === 'play') velocity1_1x1 = 0;
+        if (e.key === 'ArrowUp' && gameState_1x1 === 'play' || e.key === 'ArrowDown'&& gameState_1x1 === 'play') velocity2_1x1 = 0;
+    });
+
+    // function offlineGameReset() {
+    //     gameState_1x1 = 'begin';
+    //     document.getElementById('player_form_1x1').style.display = 'block';
+    //     input1_1x1.value = '';
+    //     input2_1x1.value = '';
+    //     name1_1x1.textContent = 'Player 1';
+    //     name2_1x1.textContent = 'Player 2';
+    //     message_1x1.style.display = 'block';
+    //     message_1x1.innerHTML = 'Press Enter to Play';
+    //     winnerMessage_1x1.style.display = 'none';
+    //     initializeGameElements_1x1()
+    //     resetScores_1x1();
+    //     resetBallPosition_1x1();
+    //     resetPaddlePositions_1x1();
+    // }
+
+    // function resetPaddlePositions_1x1() {
+
+    //     paddle1_1x1.style.top = 360 + 'px';
+    //     paddle2_1x1.style.top = 360 + 'px';
+
+    //     paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
+    //     paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
+    // }
+}

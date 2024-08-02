@@ -301,7 +301,7 @@ form ul li {
     font-size: 30px;
 }
 
-#winnerMessage_1x1 {
+#winnerMessage_1x1, #winnerMessage_4 {
     position: absolute;
     top: 230px;
     display: none; /* Initially hide the winner message */
@@ -315,7 +315,7 @@ form ul li {
     margin: 60px auto auto auto; 
 }
 
-#message_1x1 { 
+#message_1x1, #message_4{ 
     position: fixed; 
     color: #7d7fac; 
     text-align: center;
@@ -370,7 +370,7 @@ body {
     margin: auto; /* Center the board horizontally */
     position: fixed; 
 }
-#board_1x1 { 
+#board_1x1, #board_4 { 
     top: 105px;
     left: calc(50% - 450px);
     display: flex;
@@ -384,6 +384,15 @@ body {
 }
 
 #ball_1x1 { 
+    height: 30px; 
+    width: 30px; 
+    border-radius: 50%; 
+    position: fixed; 
+    top: 380px; 
+    left: calc(50% - 15px); 
+    background-color: white;
+}
+#ball_4 { 
     height: 30px; 
     width: 30px; 
     border-radius: 50%; 
@@ -410,13 +419,13 @@ body {
     position: fixed;  
 } 
 
-#paddle1_1x1, #paddle1_off_4 {
+#paddle1_1x1, #paddle1_4 {
     top: 350px; 
     left: calc(50% - 440px);  
     background-color: rgb(31, 172, 237);
 } 
   
-#paddle2_1x1, #paddle2_off_4 {  
+#paddle2_1x1, #paddle2_4 {  
     top: 350px;
     right: calc(50% - 440px);   
     background-color: rgb(191, 43, 221);
@@ -435,12 +444,12 @@ body {
     z-index: 1;
 }
 
-#score1_1x1, #score1_off_4 {
+#score1_1x1, #score1_4 {
     color: rgb(31, 172, 237);
     left: calc(50% - 440px);
 }
 
-#score2_1x1, #score2_off_4 {
+#score2_1x1, #score2_4 {
     color: rgb(191, 43, 221);
     right: calc(50% - 440px);
 }

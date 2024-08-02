@@ -1,5 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-	const socket = new WebSocket(`wss://${window.location.host}/wss/pong/`);
+export function game_handler() {
+	const online1x1Html = `
+		<div id="game-area">
+			<p class="text-center"><h3 id="message" class="message"></h3></p>
+			<div id="ball"></div>
+			<div id="paddle1" class="paddle"></div>
+			<div id="paddle2" class="paddle"></div>
+			<div id="player1-name" class="player-name"></div>
+			<div id="score1">0</div>
+			<div id="player2-name" class="player-name"></div>
+			<div id="score2">0</div>
+		</div>
+	`
+	
+	setElementinnerHTML(document.getElementById('game-place'), online1x1Html);
+	showElement(document.getElementById('game-place'));
+	const socket = new WebSocket(`ws://${window.location.host}/ws/pong/`);
 	const gameArea = document.getElementById('game-area');
 	const message = document.getElementById('message');
 	const ball = document.getElementById('ball');
@@ -9,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const score2 = document.getElementById('score2');
 	const player1 = document.getElementById('player1-name');
 	const player2 = document.getElementById('player2-name');
-
 
 	message.textContent = 'Waiting for players to join...';
 	const originalWidth = 900;
@@ -130,7 +144,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				message.textContent = 'You will be redirected to the home page.';
 		}
 		setTimeout(() => {
-			window.location.href = '/';
+			hideElement(document.getElementById('game-place'));
+			showElement(document.getElementById('get-started'));
+			window.location.hash = 'get-started';
 		}, 3000);
 	};
 
@@ -138,4 +154,4 @@ document.addEventListener('DOMContentLoaded', () => {
 		console.error('WebSocket Error:', error);
 		message.textContent = 'An error occurred. Please refresh the page.';
 	};
-});
+}
