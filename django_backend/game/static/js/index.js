@@ -135,7 +135,19 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 
-    // Buttons listeners for blockchain:
+     // Buttons listener for offline AI Opponent:
+
+     $(document).on('click', '.offline-ai-button', function(event) {
+		console.log('Offline AI game clicked');
+		hideElement(document.getElementById('offline-choose-mode'));
+		event.preventDefault();
+        window.location.hash = 'offline-ai';
+		import ('./offline_ai.js').then(module => {
+			module.offlineAI_handler();
+		});
+	});
+
+    // Buttons listener for blockchain:
     $(document).on('click', '.blockchain-button', function(event) {
 		console.log('blockchain clicked');
 		hideElement(document.getElementById('tournament-game'));

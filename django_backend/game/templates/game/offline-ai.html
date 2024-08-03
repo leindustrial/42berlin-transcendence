@@ -1,0 +1,121 @@
+{% extends "game/index.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block vs_computer_game %}
+
+<!-- Game navigation bar -->
+{% include 'game/header-button-unlogged.html' %}
+
+
+<!-- VS Computer game -->
+<style>
+    canvas {
+        display: block;
+        margin: auto;
+        background-color: #000;
+    }
+    #screen {
+        align-content: center;
+        margin-top: 0px;
+        padding-top: 0px;
+        height: 100vh;
+    }
+
+
+    #logo-big {
+        color: #ffffff;
+        font-size: 46pt;
+        font-family: "Monoton", sans-serif;
+        ;
+        text-transform: uppercase;
+        letter-spacing: 5pt;
+        margin-top: 10px;
+    }
+
+    #user-navbar {
+        margin-bottom: 30px;
+    }
+
+    #sublitle {
+        color: #ff56d8;
+        font-size: 16pt;
+        font-family: monospace;
+        text-transform: uppercase;
+        letter-spacing: 3pt;
+    }
+
+    #header-welcome {
+        margin-bottom: 80px;
+    }
+
+    #footer-welcome {
+        margin-top: 80px;
+    }
+
+    h1 {
+        color: #ffffff;
+        font-size: 40pt;
+        font-family: "Monoton", sans-serif;
+        ;
+        text-transform: uppercase;
+        letter-spacing: 5pt;
+    }
+
+    h2 {
+        color: #ff56d8;
+        font-size: 16pt;
+        font-family: monospace;
+        text-transform: uppercase;
+        letter-spacing: 3pt;
+
+    }
+
+    h3 {
+        color: #ffffff;
+        font-size: 10pt;
+        font-family: monospace;
+        text-transform: uppercase;
+        letter-spacing: 3pt;
+    }
+
+    .btn-lg,
+    .btn-sm {
+        border-width: 2px;
+    }
+
+    .btn-group {
+        margin-top: 0px;
+    }
+
+    .btn-group-vertical {
+        width: 400px;
+
+    }
+
+    .btn-group-vertical>button {
+        margin-bottom: 10px;
+        border-radius: 10px !important;
+    }
+
+    #name_form {
+        width: 400px;
+        margin: 100px auto;
+        /* Centers the form horizontally */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Centers the items within the form */
+        justify-content: center;
+        /* Centers the form vertically */
+        text-align: center;
+    }
+
+</style>
+<body>
+    <canvas id="pongCanvas" width="1024" height="620"></canvas>
+
+
+    <script src="{% static 'js/vs_computer_game.js' %}"></script>
+</body>
+{% endblock vs_computer_game %}

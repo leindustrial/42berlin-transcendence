@@ -65,7 +65,7 @@ h2 {
 h3 {
     color: #ffffff;
     font-size: 10pt;
-    font-family:monospace;
+    font-family: monospace;
     text-transform: uppercase;
     letter-spacing: 3pt;
 }
@@ -460,13 +460,13 @@ body {
     display: flex;
 }
 
-#name1_1x1, #name1_4 {
+#name1_1x1, #name1_4, #name1_ai {
     text-align: left;
     left: calc(50% - 440px);
     color: rgb(31, 172, 237);
 }
 
-#name2_1x1, #name2_4 {
+#name2_1x1, #name2_4, #name2_ai {
     text-align: right;
     right: calc(50% - 440px);
     color: rgb(191, 43, 221);
