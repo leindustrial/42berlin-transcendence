@@ -4,23 +4,25 @@ import { winner } from "./offline_tour.js";
 
 export function blockchain_handler() {
   const blockchainHtml = `
-    <div id="blockchain">
-        <div class="container my-5">
-            <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
-                <div id="spinner" class="spinner-border text-primary d-none" role="status">
-                    <span class="sr-only"></span>
+        <div id="blockchain">
+            <div class="container my-5">
+                <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
+                    <div id="spinner" class="spinner-border text-primary d-none" role="status">
+                        <span class="sr-only"></span>
+                    </div>
+                    <h6 class="text-body-emphasis">Submit Transaction to Ethereum Blockchain</h6>
+                    <p class="col-lg-6 mx-auto mb-4">
+                        Submitting a transaction to the Ethereum blockchain will broadcast it to the network for validation by validators.
+                        Once confirmed, The Winner is recorded on the blockchain, ensuring transparency and security.
+                    </p>
+                    <button type="button" id="connectButton" class="btn btn-outline-primary btn-lg px-4">Connect Wallet</button>
+                    <button type="button" id="fundButton" class="btn btn-outline-secondary btn-lg px-4">Save Name</button>
+                    <br><br>
+                    <div id="alertContainer"></div>
                 </div>
-                <h6 class="text-body-emphasis">Submit Transaction to Ethereum Blockchain</h6>
-                <p class="col-lg-6 mx-auto mb-4">
-                    Submitting a transaction to the Ethereum blockchain will broadcast it to the network for validation by validators. Once confirmed, The Winner is recorded on the blockchain, ensuring transparency and security.
-                </p>
-                <button type="button" id="connectButton" class="btn btn-outline-primary btn-lg px-4">Connect Wallet</button>
-                <button type="button" id="fundButton" class="btn btn-outline-secondary btn-lg px-4">Save Name</button>
-                <br><br>
-                <div id="alertContainer"></div>
             </div>
         </div>
-    </div>`;
+    `;
 
   setElementinnerHTML(document.getElementById("game-place"), blockchainHtml);
   showElement(document.getElementById("game-place"));
@@ -48,6 +50,7 @@ export function blockchain_handler() {
 
   async function fund() {
     const username = winner;
+
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
@@ -55,6 +58,7 @@ export function blockchain_handler() {
       );
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
+
       try {
         const transactionResponse = await contract.recordWinner(username);
         spinner.classList.remove("d-none");
@@ -83,6 +87,10 @@ export function blockchain_handler() {
   }
 
   function replaceInputWithAlert(transactionHash) {
+    // Remove the input container
+    // inputContainer.remove();
+
+    // Create and show the alert
     const alertDiv = document.createElement("div");
     alertDiv.className = "alert alert-success";
     alertDiv.role = "alert";
