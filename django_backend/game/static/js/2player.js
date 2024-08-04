@@ -154,4 +154,11 @@ export function game_handler() {
 		console.error('WebSocket Error:', error);
 		message.textContent = 'An error occurred. Please refresh the page.';
 	};
+
+	function cleanupGame() {
+		console.log('Cleaning up game');
+		socket.close();
+	};
+	window.addEventListener('beforeunload', cleanupGame);
+	window.addEventListener('popstate', cleanupGame);
 }
