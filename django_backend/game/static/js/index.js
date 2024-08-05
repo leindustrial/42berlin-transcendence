@@ -12,7 +12,17 @@ function showSection(sectionId) {
     const selectedSection = document.getElementById(sectionId);
     if (selectedSection) {
         selectedSection.style.display = 'block';
+        if (sectionId === 'tour-hall') {
+            onTourHallVisible();
+        }
+        else if (sectionId === 'online-1x1') {
+            gameVisible1x1();
+        }
+        else if (sectionId === 'online-4') {
+            gameVisible4();
+        }
     }
+
 
     // Conditionally show/hide the logo and language
     const language = document.getElementById('language');
@@ -77,11 +87,32 @@ function showSection(sectionId) {
         if (horNav) horNav.style.display = 'none';
     }
 
-    if (sectionId === 'online-1x1' || sectionId === 'online-4' || sectionId === 'online-tournament') {
+    if (sectionId === 'online-1x1' || sectionId === 'online-4' || sectionId === 'tour-hall') {
         if (onHeaderGame) onHeaderGame.style.display = 'block';
     } else {
         if (onHeaderGame) onHeaderGame.style.display = 'none';
     }
+}
+
+function onTourHallVisible() {
+    console.log('Tournament hall is now visible.');
+    import ('./tour.js').then(module => {
+        module.startTournament();
+    });
+}
+
+function gameVisible1x1() {
+    console.log('1x1 game is now visible.');
+    import ('./2player.js').then(module => {
+        module.game_handler();
+    });
+}
+
+function gameVisible4() {
+    console.log('4x4 game is now visible.');
+    import ('./4player.js').then(module => {
+        module.game_handler_4pl();
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -96,12 +127,13 @@ document.addEventListener('DOMContentLoaded', function() {
    // Buttons listeners for online games:
     $(document).on('click', '.btn-2pl-game', function(event) {
 		console.log('Online 1x1 game clicked');
+        sendLogToLogstash('User clicked on button 2pl-game', 'info');
 		hideElement(document.getElementById('get-started'));
 		event.preventDefault();
         window.location.hash = 'online-1x1';
-		import ('./2player.js').then(module => {
-			module.game_handler();
-		});
+		// import ('./2player.js').then(module => {
+		// 	module.game_handler();
+		// });
 	});
 
 	$(document).on('click', '.btn-4pl-game', function(event) {
@@ -109,9 +141,25 @@ document.addEventListener('DOMContentLoaded', function() {
 		hideElement(document.getElementById('get-started'));
 		event.preventDefault();
         window.location.hash = 'online-4';
-		import ('./4player.js').then(module => {
-			module.game_handler_4pl();
-		});
+		// import ('./4player.js').then(module => {
+		// 	module.game_handler_4pl();
+		// });
+	});
+
+    $(document).on('click', '.btn-online-tour', function(event) {
+        hideElement(document.getElementById('get-started'));
+        event.preventDefault();
+        window.location.hash = 'tour-hall';
+        // setTimeout(() => {
+        //     window.location.hash = 'tour-hall';
+        // }, 2000) ;
+		// console.log('online tournament clicked now');
+		// hideElement(document.getElementById('get-started'));
+		// event.preventDefault();
+        // window.location.hash = 'tour-hall';
+		// import ('./tour.js').then(module => {
+		// 	module.startTournament();
+		// });
 	});
 
     // Buttons listeners for offline games:
@@ -798,4 +846,27 @@ function setElementinnerHTML(element, string) {
 	if (element) {
 		element.innerHTML = string;
 	}
+}
+
+function sendLogToLogstash(logMessage, logLevel = 'info') {
+    fetch('http://logstash:5044', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        timestamp: new Date().toISOString(),
+        message: logMessage,
+        level: logLevel,
+        type: 'js_logs'
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(data => console.log('Log sent to Logstash:', data))
+    .catch(error => console.error('Error sending log to Logstash:', error));
 }

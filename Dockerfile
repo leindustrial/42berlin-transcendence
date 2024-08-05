@@ -2,6 +2,7 @@ FROM python:3-alpine
 WORKDIR /usr/src/app
 COPY . .
 WORKDIR /usr/src/app/django_backend
+ENV PIP_CONSTRAINT=constraints.txt
 RUN python3 -m pip install --user virtualenv
 RUN python3 -m virtualenv myenv
 RUN /bin/sh -c "source myenv/bin/activate && pip install -r requirements.txt"

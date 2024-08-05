@@ -261,68 +261,19 @@
                             <a href="#online-4" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Four players" %}</a> -->
                             <a href="#game-place" type="button" class="btn btn-outline-primary btn-lg btn-block btn-2pl-game">{% translate "Two players" %}</a>
                             <a href="#game-place" type="button" class="btn btn-outline-primary btn-lg btn-block btn-4pl-game">{% translate "Four players" %}</a>
-                            <a href="#online-tournament" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Tournament" %}</a>
+                            <a href="#online-tournament" type="button" class="btn btn-outline-primary btn-lg btn-block btn-online-tour">{% translate "Tournament" %}</a>
                         </div>
                     </div>
             </div>
         </div>
 
         <!-- CONTENT PLACEHOLDER FOR GAMES & BLOCKCHAIN: -->
-        <div id="game-place" class="content-section" style="display:none;"></div>
-
+        <div id="online-1x1" class="content-section" style="display:none;"></div>
+        <div id="online-4" class="content-section" style="display:none;"></div>
+        <div id="tour-hall" class="content-section tournament-hall" style="display:none;"></div>
+        <div id="tour-game" class="content-section tournament-hall" style="display:none;"></div>
         <!-- Online Tournament -->
-        <div id="online-tournament" class="content-section" style="display:none;">
-            <div id="tournament-page">
-                <h1 class="text-center">Tournament</h1>
-                <p class="welcome">Welcome, <span id="username">{{ user.username }}</span>!</p>
-                <div id="champ"></div>
-                <div id="info"></div>
-                <div class="tournament">
-                    <div class="round" id="semi-finals">
-                        <h2 class="text-center">Semi-finals</h2>
-                        <div class="match" id="match-semi-finals-0">
-                            <h3>Match 1</h3>
-                            <p class="player player1">Waiting for player</p>
-                            <p class="vs">vs</p>
-                            <p class="player player2">Waiting for player</p>
-                        </div>
-                        <div class="match" id="match-semi-finals-1">
-                            <h3>Match 2</h3>
-                            <p class="player player1">Waiting for player</p>
-                            <p class="vs">vs</p>
-                            <p class="player player2">Waiting for player</p>
-                        </div>
-                    </div>
-                    <div class="round">
-                        <h2 class="text-center">Final</h2>
-                        <div class="match" id="match-final">
-                            <h3>Final Match</h3>
-                            <p class="player player1">Waiting for player</p>
-                            <p class="vs">vs</p>
-                            <p class="player player2">Waiting for player</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <button id="go-to-match" class="hidden">Go to Match</button>
-                <!-- <script src="{% static 'js/tour.js' %}"></script> -->
-            </div>
-        </div>
-
-        <!-- Online Tournament game -->
-        <div id="online-tournament-game" class="content-section" style="display:none;">
-            <div id="game-area">
-                <div id="message" class="message"></div>
-                <div id="ball"></div>
-                <div id="paddle1" class="paddle"></div>
-                <div id="paddle2" class="paddle"></div>
-                <div id="player1-name" class="player-name"></div>
-                <div id="score1">0</div>
-                <div id="player2-name" class="player-name"></div>
-                <div id="score2">0</div>
-            </div>
-        </div>
-
+        
         <!-- USERS!========================================================================================================== -->
         
         <!-- Profile navigation buttons -->
