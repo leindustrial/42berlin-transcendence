@@ -45,9 +45,9 @@ class PongConsumer(AsyncWebsocketConsumer):
 			self.game_sessions[session_id] = {
 				'players': {},
 				'game_state': {
-					'ball': {'x': 390, 'y': 190, 'dx': 5, 'dy': 5},
-					'paddle1': 160,
-					'paddle2': 160,
+					'ball': {'x': 450, 'y': 290, 'dx': 5, 'dy': 5},
+					'paddle1': 260,
+					'paddle2': 260,
 					'score': {'player1': 0, 'player2': 0}
 				},
 				'game_loop_task': None
@@ -89,10 +89,10 @@ class PongConsumer(AsyncWebsocketConsumer):
 					self.countdown_task = asyncio.create_task(self.start_game_countdown(session_id))
 			else:
 				print("Not a tournament game session.")
-				await self.close(code=1008)
+				await self.close(code=3002)
 		else:
 			print("User is not authenticated. Closing connection...")
-			await self.close()
+			await self.close(3003)
 
 	async def disconnect(self, close_code):
 		if hasattr(self, 'session_id') and self.session_id in self.game_sessions:
@@ -133,7 +133,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 			paddle = 'paddle2'
 		if key == 'ArrowUp' and self.game_sessions[self.session_id]['game_state'][paddle] > 0:
 			self.game_sessions[self.session_id]['game_state'][paddle] -= 10
-		elif key == 'ArrowDown' and self.game_sessions[self.session_id]['game_state'][paddle] < 300:
+		elif key == 'ArrowDown' and self.game_sessions[self.session_id]['game_state'][paddle] < 500:
 			self.game_sessions[self.session_id]['game_state'][paddle] += 10
 
 
@@ -153,9 +153,9 @@ class PongConsumer(AsyncWebsocketConsumer):
 		self.game_sessions[new_session_id] = {
 			'players': {},
 			'game_state': {
-				'ball': {'x': 390, 'y': 190, 'dx': 5, 'dy': 5},
-				'paddle1': 160,
-				'paddle2': 160,
+				'ball': {'x': 450, 'y': 290, 'dx': 5, 'dy': 5},
+				'paddle1': 260,
+				'paddle2': 260,
 				'score': {'player1': 0, 'player2': 0}
 			},
 			'game_loop_task': None
@@ -254,23 +254,23 @@ class PongConsumer(AsyncWebsocketConsumer):
 		game_state['ball']['x'] += game_state['ball']['dx']
 		game_state['ball']['y'] += game_state['ball']['dy']
 
-		if game_state['ball']['y'] <= 0 or game_state['ball']['y'] >= 380:
+		if game_state['ball']['y'] <= 15 or game_state['ball']['y'] >= 585:
 			game_state['ball']['dy'] *= -1
 
-		if (game_state['ball']['x'] <= 20 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 80):
+		if (game_state['ball']['x'] <= 30 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 100):
 			game_state['ball']['dx'] *= -1
-		elif (game_state['ball']['x'] >= 760 and game_state['paddle2'] <= game_state['ball']['y'] <= game_state['paddle2'] + 80):
+		elif (game_state['ball']['x'] >= 865 and game_state['paddle2'] <= game_state['ball']['y'] <= game_state['paddle2'] + 100):
 			game_state['ball']['dx'] *= -1
 
-		if game_state['ball']['x'] <= 0:
+		if game_state['ball']['x'] <= 10:
 			game_state['score']['player2'] += 1
 			self.reset_ball(session_id)
-		elif game_state['ball']['x'] >= 780:
+		elif game_state['ball']['x'] >= 890:
 			game_state['score']['player1'] += 1
 			self.reset_ball(session_id)
 
-		if game_state['score']['player1'] >= 1 or game_state['score']['player2'] >=1: # how many goals needed to win a game. change in this line and next line
-			winner = list(self.game_sessions[session_id]['players'].values())[1] if game_state['score']['player1'] >= 1 else list(self.game_sessions[session_id]['players'].values())[0]
+		if game_state['score']['player1'] >= 2 or game_state['score']['player2'] >=2: # how many goals needed to win a game. change in this line and next line
+			winner = list(self.game_sessions[session_id]['players'].values())[1] if game_state['score']['player1'] >= 2 else list(self.game_sessions[session_id]['players'].values())[0]
 			result = {
 				'players': list(self.game_sessions[session_id]['players'].values()),
 				'winner': winner,
@@ -281,16 +281,16 @@ class PongConsumer(AsyncWebsocketConsumer):
 
 	def reset_ball(self, session_id):
 		game_state = self.game_sessions[session_id]['game_state']
-		game_state['ball']['x'] = 390
-		game_state['ball']['y'] = 190
+		game_state['ball']['x'] = 450
+		game_state['ball']['y'] = 290
 		game_state['ball']['dx'] = random.choice([-5, 5])
 		game_state['ball']['dy'] = random.choice([-5, 5])
 		
 	def reset_game(self, session_id):
 		self.game_sessions[session_id]['game_state'] = {
-			'ball': {'x': 390, 'y': 190, 'dx': 5, 'dy': 5},
-			'paddle1': 160,
-			'paddle2': 160,
+			'ball': {'x': 450, 'y': 290, 'dx': 5, 'dy': 5},
+			'paddle1': 260,
+			'paddle2': 260,
 			'score': {'player1': 0, 'player2': 0}
 		}
 		self.game_sessions[session_id]['players'] = {}
@@ -394,6 +394,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 		if tournament['final']['session_id'] and tournament['final']['session_id'] == self.sessionId:
 			tournament['final']['winner'] = result['winner']		
 			cache.set('tournament', tournament, timeout=3600)
+		print('Tournament updated:', tournament)
 		#await asyncio.sleep(1)
 
 	

@@ -17,10 +17,10 @@ export function game_handler_4pl() {
 			<div id="four_score4">0</div>
 		</div>
 	`
-	setElementinnerHTML(document.getElementById('game-place'), online4x4Html);
-	showElement(document.getElementById('game-place'));
+	setElementinnerHTML(document.getElementById('online-4'), online4x4Html);
+	showElement(document.getElementById('online-4'));
 
-	const socket = new WebSocket(`ws://${window.location.host}/ws/4pong/`);
+	const socket = new WebSocket(`ws://${window.location.host}/wss/4pong/`);
 	const gameArea = document.getElementById('four_game-area');
 	const message = document.getElementById('four_message');
 	const ball = document.getElementById('four_ball');
@@ -38,7 +38,6 @@ export function game_handler_4pl() {
 	const player4Name = document.getElementById('four_player4-name');
 
 	message.textContent = 'Waiting for players to join...';
-
 
 	document.addEventListener('keydown', (e) => {
 		if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
@@ -70,16 +69,13 @@ export function game_handler_4pl() {
 				console.log(data.game_state);
 				break;
 			case 'game_started':
-				// message.style.fontSize = '40px';
 				message.textContent = 'Game Started!';
 				setTimeout(() => {
 					message.textContent = '';
-					// message.style.fontSize = '10px';
 				}, 1000);
 				break;
 			case 'game_over':
 				message.textContent = `Game Over! ${data.winner} wins!`;
-				// resetGame();
 				break;
 
 		}
@@ -103,7 +99,6 @@ export function game_handler_4pl() {
 			}, 1000);
 		}
 		if (state.goal) {
-			// message.style.fontSize = '40px';
 			message.textContent = 'Goal!';
 			setTimeout(() => {
 				message.textContent = '';
@@ -126,16 +121,35 @@ export function game_handler_4pl() {
 			default:
 				message.textContent = 'You will be redirected to the home page.';
 		}
-		setTimeout(() => {
-			hideElement(document.getElementById('game-place'));
-			showElement(document.getElementById('get-started'));
-			window.location.hash = 'get-started';
-		}, 3000);
+		if (socket.readyState === WebSocket.CLOSED) {
+			setTimeout(() => {
+				window.location.hash = 'get-started';
+			}, 3000);
+		}
 	};
 
 	socket.onerror = (error) => {
 		console.error('WebSocket Error:', error);
 		message.textContent = 'An error occurred. Please refresh the page.';
 	};
+
+	function cleanupGame() {
+		console.log('Cleaning up game');
+		socket.close();
+		deactivateListeners();
+		//history.pushState(null, '', window.location.href);
+	};
+
+	function deactivateListeners() {
+		window.removeEventListener('beforeunload', cleanupGame);
+		window.removeEventListener('popstate', cleanupGame);
+	}
+	
+	function setupEventListeners() {
+		window.addEventListener('beforeunload', cleanupGame);
+		window.addEventListener('popstate', cleanupGame);
+	}
+
+	setupEventListeners();
 }
 

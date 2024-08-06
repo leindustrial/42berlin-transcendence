@@ -25,7 +25,7 @@ User = get_user_model() # get the user data model from the Django auth module
 class PongConsumer(AsyncWebsocketConsumer):
 	game_sessions = {}
 	disconnected_players = {}
-	rejoin_timeout = 10  # should be changed to a better amount
+	rejoin_timeout = 30  # should be changed to a better amount
 
 	
 	

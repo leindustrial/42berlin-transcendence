@@ -23,8 +23,8 @@ User = get_user_model()
 class PongConsumer(AsyncWebsocketConsumer):
 	game_sessions = {}
 	disconnected_players = {}
-	rejoin_timeout = 10
-	goals_to_win = 5
+	rejoin_timeout = 30
+	goals_to_win = 3
 	paddle_speed = 10
 
 	async def connect(self):
