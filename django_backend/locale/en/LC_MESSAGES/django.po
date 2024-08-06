@@ -207,6 +207,61 @@ msgstr "Please enter different names for players."
 msgid "wins!"
 msgstr "wins!"
 
+msgid "Start Tournament"
+msgstr "Start Tournament"
+
+msgid "Next Game!"
+msgstr "Next Game!"
+
+msgid "Save Results in Blockchain"
+msgstr "Save Results in Blockchain"
+
+msgid "wins the Tournament!"
+msgstr "wins the Tournament!"
+
+msgid "Semi-finals"
+msgstr "Semi-finals"
+
+msgid "Match"
+msgstr "Match"
+
+msgid "Go to Match"
+msgstr "Go to Match"
+
+msgid "Submit Transaction to Ethereum Blockchain"
+msgstr "Submit Transaction to Ethereum Blockchain"
+
+msgid "Submitting a transaction to the Ethereum blockchain will broadcast it to the network for validation by validators. Once confirmed, The Winner is recorded on the blockchain, ensuring transparency and security."
+msgstr "Submitting a transaction to the Ethereum blockchain will broadcast it to the network for validation by validators. Once confirmed, The Winner is recorded on the blockchain, ensuring transparency and security."
+
+msgid "Connect Wallet"
+msgstr "Connect Wallet"
+
+msgid "Save Tournament Results"
+msgstr "Save Tournament Results"
+
+msgid "Please install Metamask"
+msgstr "Please install Metamask"
+
+msgid "Transaction successful! Check it out on"
+msgstr "Transaction successful! Check it out on"
+
+msgid "Connected"
+msgstr "Connected"
+
+msgid "AI player"
+msgstr "AI player"
+
+msgid "Human"
+msgstr "Human"
+
+msgid "AI player Won!"
+msgstr "AI player Won!"
+
+msgid "Human Won!"
+msgstr "Human Won!"
+
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""

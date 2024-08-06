@@ -9,13 +9,13 @@ export function offlineAI_handler() {
             top: 52px;
         }
     </style>
-    <h3 class="player_name_off" id="name1_ai">AI player</h3>
-    <h3 class="player_name_off" id="name2_ai">You</h3>
+    <h3 class="player_name_off" id="name1_ai">🤖 ${AI}</h3>
+    <h3 class="player_name_off" id="name2_ai">${HUMAN}</h3>
     <canvas id="pongCanvas" width="900" height="600">
     </canvas>
 `
-    setElementinnerHTML(document.getElementById('game-place'), offlineAIHtml);
-	showElement(document.getElementById('game-place'));
+    setElementinnerHTML(document.getElementById('offline-ai'), offlineAIHtml);
+	showElement(document.getElementById('offline-ai'));
 
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
@@ -101,25 +101,55 @@ export function offlineAI_handler() {
         }
     }
 
+    // function checkScores() {
+    //     if (score1 >= endScore || score2 >= endScore) {
+
+    //         ctx.fillStyle = "#7d7fac";
+    //         ctx.font = 'normal 11pt monospace';
+    //         ctx.textAlign = "center";
+
+    //         ctx.fillText(`${GAME_OVER}`.toUpperCase(), canvas.width / 2, canvas.height / 2 + 60);
+    //         gamestate = "stop";
+    //         if (score1 == endScore) {
+    //             ctx.fillText(`${AI_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 55);
+    //             resetBall()
+    //             draw()
+    //         } else {
+    //             ctx.fillText(`${HUMAN_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 55);
+    //             resetBall()
+    //             draw()
+    //         }
+
+    //     }
+    // }
     function checkScores() {
         if (score1 >= endScore || score2 >= endScore) {
-
+            // Draw the game over message
             ctx.fillStyle = "#7d7fac";
-            ctx.font = 'normal 10pt monospace';
+            ctx.font = 'normal 11pt monospace';
             ctx.textAlign = "center";
-
-            ctx.fillText("Game Over!".toUpperCase(), canvas.width / 2, canvas.height / 2 - 25);
-
+            ctx.fillText(`${GAME_OVER}`.toUpperCase(), canvas.width / 2, canvas.height / 2 + 60);
+            
+            // Draw the winner message
             if (score1 == endScore) {
-                ctx.fillText("AI Player won!".toUpperCase(), canvas.width / 2, canvas.height / 2 + 25);
-            } else {
-                ctx.fillText("You won!".toUpperCase(), canvas.width / 2, canvas.height / 2 + 25);
-            }
-            ctx.fillText("Press enter to play again.".toUpperCase(), canvas.width / 2, canvas.height / 2 + 75);
+                // AI won
+                ctx.fillStyle = "#ff56d8"; // Red color for AI win
+                ctx.font = 'normal 15pt monospace'; // Bigger and bold font
+                ctx.textAlign = "center";
+                ctx.fillText(`${AI_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 50);
 
+            } else {
+                // Human won
+                ctx.fillStyle = "#00ff00"; // Green color for Human win
+                ctx.font = 'bold 20pt Arial'; // Bigger and bold font
+                ctx.textAlign = "center";
+                ctx.fillText(`${HUMAN_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 55);
+
+            }
             gamestate = "stop";
         }
     }
+    
 
     function resetBall() {
         ballX = canvas.width / 2;
@@ -130,11 +160,11 @@ export function offlineAI_handler() {
     function drawScores() {
 
         ctx.fillStyle = '#1faced';
-        ctx.font = '30px monospace';
-        ctx.fillText(score1, 50, 50); // Draw left player (AI) score
+        ctx.font = '30pt monospace';
+        ctx.fillText(score1, 20, 40); // Draw left player (AI) score
 
         ctx.fillStyle = '#bf2bdd';
-        ctx.fillText(score2, canvas.width - 50, 50); // Draw right player (You) score
+        ctx.fillText(score2, canvas.width - 20, 40); // Draw right player (You) score
     }
 
     function draw() {
@@ -155,12 +185,13 @@ export function offlineAI_handler() {
 
     function startMessage() {
 
-        ctx.fillStyle = "#FFF";
-        ctx.font = 'bold 40px monospace';
+        ctx.fillStyle = "#7d7fac";
+        ctx.font = 'normal 11pt monospace';
         ctx.textAlign = "center";
 
-        ctx.fillText("Press Enter to Start!", canvas.width / 2, canvas.height / 2 - 75);
+        ctx.fillText(`${PRESS_ENTER}`.toUpperCase(), canvas.width / 2, canvas.height / 2 + 65);
     }
+    
 
     function gameLoop() {
         if (gameStarted == false) {

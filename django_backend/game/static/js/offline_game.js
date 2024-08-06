@@ -30,8 +30,8 @@ export function offlineGame_handler() {
             </div>
         </div>
 	`
-    setElementinnerHTML(document.getElementById('game-place'), offline1x1Html);
-	showElement(document.getElementById('game-place'));
+    setElementinnerHTML(document.getElementById('offline-1x1'), offline1x1Html);
+	showElement(document.getElementById('offline-1x1'));
 
         
     let gameState_1x1;
