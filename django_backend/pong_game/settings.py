@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
+import graypy
+from logging.handlers import RotatingFileHandler
+import logging
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -51,6 +54,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 	'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware', #for the language support
     'django.middleware.locale.LocaleMiddleware', #for the language support
     'django.middleware.common.CommonMiddleware', #for the language support
@@ -58,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'pong_game.urls'
@@ -164,4 +169,33 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
     }
+}
+
+PROMETHEUS_EXPORT_MIGRATIONS = True
+PROMETHEUS_EXPORT_ADMIN = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'gelf_error': {
+            'class': 'graypy.GELFUDPHandler',
+            'host': 'logstash',
+            'port': 12201,
+            'level': 'ERROR',
+        },
+        'gelf_info': {
+            'class': 'graypy.GELFUDPHandler',
+            'host': 'logstash',
+            'port': 12201,
+            'level': 'INFO',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['gelf_error', 'gelf_info'],
+            'level': 'DEBUG',  # DEBUG captures all levels
+            'propagate': True,
+        },
+    },
 }

@@ -1,0 +1,11 @@
+groups:
+  - name: django_alerts
+    rules:
+      - alert: HighResponseTime
+        expr: rate(django_http_requests_duration_seconds_sum{status="5xx"}[5m]) > 0.5
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High response time detected"
+          description: "The response time for Django requests is unusually high."

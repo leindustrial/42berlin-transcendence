@@ -6,6 +6,7 @@ urlpatterns = [
 
 	path('', views.get_started, name='get-started'),
 	path('test/', views.test, name='test'),
+    path('api/get-username/', views.get_username, name='get-username'),
     # path('', views.hello, name='hello'),
     # path('game-start/', views.game_start, name='game_start'),
     # path('two-pl-game/', views.two_pl_game, name='two_pl_game'),

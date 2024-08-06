@@ -1,0 +1,5 @@
+groups:
+  - name: pong3_rules
+    rules:
+      - record: job:django_http_responses_streaming_total:sum
+        expr: sum(django_http_responses_streaming_total) by (job)
