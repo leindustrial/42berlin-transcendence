@@ -101,27 +101,6 @@ export function offlineAI_handler() {
         }
     }
 
-    // function checkScores() {
-    //     if (score1 >= endScore || score2 >= endScore) {
-
-    //         ctx.fillStyle = "#7d7fac";
-    //         ctx.font = 'normal 11pt monospace';
-    //         ctx.textAlign = "center";
-
-    //         ctx.fillText(`${GAME_OVER}`.toUpperCase(), canvas.width / 2, canvas.height / 2 + 60);
-    //         gamestate = "stop";
-    //         if (score1 == endScore) {
-    //             ctx.fillText(`${AI_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 55);
-    //             resetBall()
-    //             draw()
-    //         } else {
-    //             ctx.fillText(`${HUMAN_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 55);
-    //             resetBall()
-    //             draw()
-    //         }
-
-    //     }
-    // }
     function checkScores() {
         if (score1 >= endScore || score2 >= endScore) {
             // Draw the game over message
@@ -133,17 +112,17 @@ export function offlineAI_handler() {
             // Draw the winner message
             if (score1 == endScore) {
                 // AI won
-                ctx.fillStyle = "#ff56d8"; // Red color for AI win
-                ctx.font = 'normal 15pt monospace'; // Bigger and bold font
+                ctx.fillStyle = "#ff56d8";
+                ctx.font = 'normal 15pt monospace';
                 ctx.textAlign = "center";
                 ctx.fillText(`${AI_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 50);
 
             } else {
                 // Human won
-                ctx.fillStyle = "#00ff00"; // Green color for Human win
-                ctx.font = 'bold 20pt Arial'; // Bigger and bold font
+                ctx.fillStyle = "#ff56d8"; 
+                ctx.font = 'normal 15pt monospace';
                 ctx.textAlign = "center";
-                ctx.fillText(`${HUMAN_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 55);
+                ctx.fillText(`${HUMAN_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 50);
 
             }
             gamestate = "stop";
