@@ -178,7 +178,38 @@ msgstr "Keine Datei ausgewählt"
 msgid "Change"
 msgstr "Ändern"
 
+msgid "Player"
+msgstr "Spieler"
 
+msgid "Play against AI"
+msgstr "Gegen KI spielen"
+
+msgid "Play 1 x 1 offline"
+msgstr "1 x 1 offline spielen"
+
+msgid "Offline Tournament"
+msgstr "Offline-Turnier"
+
+msgid "Return"
+msgstr "Zurück"
+
+msgid "Enter players names:"
+msgstr "Namen der Spieler eingeben:"
+
+msgid "Start Game"
+msgstr "Spiel starten"
+
+msgid "Game Over! Press Enter to Play Again"
+msgstr "Spiel vorbei! Drücken Sie Enter, um erneut zu spielen"
+
+msgid "Game Started"
+msgstr "Spiel wurde gestartet"
+
+msgid "Please enter different names for players."
+msgstr "Bitte geben Sie unterschiedliche Namen für Spieler ein."
+
+msgid "wins!"
+msgstr "gewinnt!"
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

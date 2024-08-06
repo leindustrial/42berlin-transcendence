@@ -24,8 +24,6 @@
     <link rel="icon" href="{% static 'img/fav.ico' %}" type="image/x-icon">
 
     <!-- Bootstrap JS and dependencies -->
- 
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -33,11 +31,6 @@
    
     <!-- Custom JavaScript -->
     <script src="{% static 'js/index.js' %}" defer></script>
-   
-    <!-- <script src="{% static 'js/2player.js' %}" defer></script> -->
-    <!-- <script src="{% static 'js/4player.js' %}" defer></script>
-    <script src="{% static 'js/tour.js' %}" defer></script>
-    <script src="{% static 'js/tour_game.js' %}" defer></script> -->
 
 </head>
 
@@ -102,7 +95,7 @@
                     <div class="container" id="choose-mode-online"> 
                         <a href="#offline-ai" type="button" class="btn btn-outline-primary btn-lg btn-block offline-ai-button">{% translate "Play against AI" %}</a>
                         <a href="#offline-1x1" type="button" class="btn btn-outline-primary btn-lg btn-block offline-1x1-button">{% translate "Play 1 x 1 offline" %}</a>
-                        <a href="#offline-tournament" type="button" class="btn btn-outline-primary btn-lg btn-block offline-tournament-button">{% translate "Tournament offline" %}</a>
+                        <a href="#offline-tournament" type="button" class="btn btn-outline-primary btn-lg btn-block offline-tournament-button">{% translate "Offline Tournament" %}</a>
                         <a href="#id-login" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Login and play online" %}</a>
                     </div>
                 </div>
@@ -293,8 +286,19 @@
         </div>
 
     </div>
+
+    <!-- Variables and translation -->
     <script>
 		const DEFAULT_AVATAR_URL = "{% static 'avatar/kermit.png' %}";
+        const PRESS_ENTER = "{% translate 'Press Enter to Play' %}";
+        const PLAYER = "{% translate 'Player' %}";
+        const ENTER_NAMES = "{% translate 'Enter players names:' %}";
+        const START_GAME = "{% translate 'Start Game' %}";
+        const GAME_OVER = "{% translate 'Game Over! Press Enter to Play Again' %}";
+        const GAME_STARTED = "{% translate 'Game Started' %}";
+        const DIFF_NAMES = "{% translate 'Please enter different names for players.' %}";
+        const WINS = "{% translate 'wins!' %}";
+
 	</script>
 </body>
 </html>

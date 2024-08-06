@@ -66,9 +66,14 @@ function showSection(sectionId) {
         || sectionId === 'id-update-avatar' || sectionId === 'blockchain'
         || sectionId === 'profile' || sectionId === 'profile-list-page') {
         if (headerWelcome) headerWelcome.style.display = 'block';
-        if (footer) footer.style.display = 'block'
     } else {
         if (headerWelcome) headerWelcome.style.display = 'none';
+    }
+
+    if (sectionId === 'offline-choose-mode' || sectionId === 'id-login' || sectionId === 'id-signup' 
+        || sectionId === 'get-started' || sectionId === 'blockchain') {
+        if (footer) footer.style.display = 'block'
+    } else {
         if (footer) footer.style.display = 'none'
     }
 
@@ -170,20 +175,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		console.log('Offline 1x1 game clicked');
 		hideElement(document.getElementById('offline-choose-mode'));
 		event.preventDefault();
-        window.location.hash = 'offline-1x1';
 		import ('./offline_game.js').then(module => {
 			module.offlineGame_handler();
 		});
+        window.location.hash = 'offline-1x1';
 	});
 
     $(document).on('click', '.offline-tournament-button', function(event) {
 		console.log('Offline TOUR game clicked');
 		hideElement(document.getElementById('offline-choose-mode'));
 		event.preventDefault();
-        window.location.hash = 'offline-tournament';
 		import ('./offline_tour.js').then(module => {
 			module.offlineTour_handler();
 		});
+        window.location.hash = 'offline-tournament';
 	});
 
      // Buttons listener for offline AI Opponent:
