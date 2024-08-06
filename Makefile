@@ -52,7 +52,7 @@ clean :
 		echo "No volumes to remove"; \
 	fi
 
-full_clean : clean
+pls_dont_use_this : clean
 	docker system prune -a --volumes -f
 	docker volume prune -f
 
