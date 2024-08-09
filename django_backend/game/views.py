@@ -32,7 +32,7 @@ def set_language(request):
 
 # @login_required
 def get_started(request):
-    logger.info('main page visited')
+    #logger.info('main page visited')
     SignUpForm = UserCreationForm()
     AvatarForm = UpdateAvatarForm()
     return render(request, 'game/index.html', {'UserCreationForm': SignUpForm, 'UpdateAvatarForm': AvatarForm,})
@@ -45,7 +45,7 @@ def test(request):
 
 @login_required
 def get_username(request):
-    logger.info('username requested')
+    #logger.info('username requested')
     return JsonResponse({'username': request.user.username})
 
 @csrf_exempt

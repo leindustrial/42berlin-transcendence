@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
    // Buttons listeners for online games:
     $(document).on('click', '.btn-2pl-game', function(event) {
 		console.log('Online 1x1 game clicked');
-        sendLog('info', 'Online 1x1 game clicked');
+        //sendLog('info', 'Online 1x1 game clicked');
 		//hideElement(document.getElementById('get-started'));
 		event.preventDefault();
         window.location.hash = 'online-1x1';
