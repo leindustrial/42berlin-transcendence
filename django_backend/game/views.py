@@ -37,12 +37,6 @@ def get_started(request):
     AvatarForm = UpdateAvatarForm()
     return render(request, 'game/index.html', {'UserCreationForm': SignUpForm, 'UpdateAvatarForm': AvatarForm,})
 
-def test(request):
-    SignUpForm = UserCreationForm()
-    AvatarForm = UpdateAvatarForm()
-    # DisplayNameForm = UpdateDisplayNameForm()
-    return render(request, 'game/test.html', {'UserCreationForm': SignUpForm, 'UpdateAvatarForm': AvatarForm,})
-
 @login_required
 def get_username(request):
     logger.info('username requested')
@@ -70,9 +64,6 @@ def log_view(request):
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
     return JsonResponse({'error': 'Invalid request'}, status=400)
-
-# def hello(request):
-# 	return render(request, 'game/hello.html')
 
 # def offline_game(request):
 #     return render(request, 'game/offline-game.html')

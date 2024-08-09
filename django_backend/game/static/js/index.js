@@ -302,7 +302,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     $('#logoutform').on('submit', function(event) {
 		event.preventDefault();
-		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 		const formData = new FormData();
 		formData.append('csrfmiddlewaretoken', window.csrf)
@@ -345,7 +344,6 @@ document.addEventListener('DOMContentLoaded', function() {
     $(document).on('click', '.profile-link', function(event) {
 		console.log('Button clicked');
 
-		// const url = window.location.href + 'json';
 		const url = '/game-start/users/json_profile/';
 		console.log(`Sending fetch request to: ${url}`);
 
@@ -584,8 +582,6 @@ function createProfilePage(data) {
                         <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
                         <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p>
                         <a href="#id-update-user" class="text-primary mb-3 d-block">Edit Username</a>
-                        <p><span style="color: #ac8fa5;">Display Name:</span> <strong>${data.display_name ? data.display_name : '-'}</strong></p>
-                        <a href="#id-update-displayname" class="text-primary d-block">Edit Display Name</a>
                     </div>
 
                     <!-- Avatar Section -->
@@ -742,8 +738,7 @@ function createOtherProfilePage(data) {
                     <div class="col-md-6">
                         <h6 class="mb-3">Profile</h6>
                         <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
-                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p> 
-                        <p><span style="color: #ac8fa5;">Display Name:</span> <strong>${data.display_name ? data.display_name : '-'}</strong></p>
+                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p>
                         </div>
 
                     <!-- Avatar on the Right -->
@@ -764,7 +759,7 @@ function createOtherProfilePage(data) {
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <div class="profile-avatar">
-                                            ${friend.avatar ? `<img src="${friend.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Friend's Picture">` : `<img src="/media/avatars/kermit.png" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
+                                            ${friend.avatar ? `<img src="${friend.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Friend's Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
                                         </div>
                                     </div>
                                     <div class="col">
