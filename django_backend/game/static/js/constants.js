@@ -1,4 +1,4 @@
-export const contractAddress = "0x9659E388f46CF770f2c22E717eC8806F4aCDe2A1";
+export const contractAddress = "0x00b87EA040F64a4D22A348b9694eA573Ce82867D";
 export const abi = [
   {
     inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -8,8 +8,8 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "string", name: "_username", type: "string" }],
-    name: "getGameResultsByUsername",
+    inputs: [{ internalType: "string", name: "_winner", type: "string" }],
+    name: "getGameResultsByWinner",
     outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
     stateMutability: "view",
     type: "function",
