@@ -70,7 +70,7 @@ function showSection(sectionId) {
         if (headerWelcome) headerWelcome.style.display = 'none';
     }
 
-    if (sectionId === 'offline-choose-mode' || sectionId === 'id-login' || sectionId === 'id-signup' 
+    if (sectionId === 'offline-choose-mode' || sectionId === 'id-login'
         || sectionId === 'get-started' || sectionId === 'blockchain') {
         if (footer) footer.style.display = 'block'
     } else {
@@ -145,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const sectionId = window.location.hash.substring(1);
         showSection(sectionId);
     });
+
     const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
 	showSection(initialSection);
 	
@@ -585,12 +586,10 @@ function createProfilePage(data) {
 
                     <!-- Profile Information -->
                     <div class="col-md-6">
-                        <h6 class="mb-3">Your Profile</h6>
-                        <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
-                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p>
-                        <a href="#id-update-user" class="text-primary mb-3 d-block">Edit Username</a>
-                        <p><span style="color: #ac8fa5;">Display Name:</span> <strong>${data.display_name ? data.display_name : '-'}</strong></p>
-                        <a href="#id-update-displayname" class="text-primary d-block">Edit Display Name</a>
+                        <h6 class="mb-3">${YOUR_PROF}</h6>
+                        <p><span style="color: #ac8fa5;">${USERNAME}:</span> <strong>${data.username}</strong></p>
+                        <p><span style="color: #ac8fa5;">${UID}:</span> <strong>${data.userid}</strong></p>
+                        <a href="#id-update-user" class="text-primary mb-3 d-block">${EDIT_USERNAME}</a>
                     </div>
 
                     <!-- Avatar Section -->
@@ -598,14 +597,14 @@ function createProfilePage(data) {
                         <div class="profile-avatar mb-3">
                             ${data.avatar ? `<img src="${data.avatar}" class="img-fluid avatar-square" alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid avatar-square" alt="Default Picture">`}
                         </div>
-                        <a href="#id-update-avatar" class="text-primary">Edit Avatar</a>
+                        <a href="#id-update-avatar" class="text-primary">${EDIT_AVATAR}</a>
                     </div>
                 </div>
 
                 <!-- Friends Section -->
                 <hr class="custom-divider">
                 <div class="profile-friends mb-4">
-                    <h6>Your  Friends</h6>
+                    <h6>${YOUR_FR}</h6>
                     <ul class="list-unstyled">
                         ${data.friends.map(friend => `
                             <li class="mb-6">
@@ -616,39 +615,39 @@ function createProfilePage(data) {
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <p><span style="color: #ac8fa5;">Username: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
-                                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${friend.id}</strong></p>
+                                        <p><span style="color: #ac8fa5;">${USERNAME}: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
+                                        <p><span style="color: #ac8fa5;">${UID}:</span> <strong>${friend.id}</strong></p>
                                     </div>
                                     <div class="col-auto">
                                         <p>
-                                            <span style="color: #ac8fa5;">Status:</span>
-                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? 'Online' : 'Offline'}</span>
+                                            <span style="color: #ac8fa5;">${STATUS}:</span>
+                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? ONLINE : OFFLINE}</span>
                                         </p>
                                     </div>
                                     <div class="col-auto">
                                         <form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
                                             <input type="hidden" name="action" value="unfriend">
                                             <input type="hidden" name="user_id" value="${friend.id}">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm profile-link">Unfriend</button>
+                                            <button type="submit" class="btn btn-outline-danger btn-sm profile-link">${UNFR}</button>
                                         </form>
                                     </div>
                                 </div>
                             </li><br>
                         `).join('')}
                     </ul>
-                    <a href="#profile-list-page" class="profile-list-link">Make New Friends</a>
+                    <a href="#profile-list-page" class="profile-list-link">${FIND_FR}</a>
                 </div>
 
                 <!-- Stats Section -->
                 <hr class="custom-divider">
                 <div class="profile-stats mb-4">
-                    <h6>Your Stats</h6>
+                    <h6>${YOUR_STATS}</h6>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Wins</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Losses</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Total Games</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${WINS_PROF}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${LOSSES}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${TOT_GAMES}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -664,13 +663,13 @@ function createProfilePage(data) {
                 <!-- Match History Section -->
                 <hr class="custom-divider">
                 <div class="profile-match-history">
-                    <h6>Your Match History</h6>
+                    <h6>${YOUR_MATCH_HIST}</h6>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Date</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Winner</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Looser</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${DATE_PROF}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${WINNER}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${LOOSER}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -697,7 +696,7 @@ function createProfileListPage(data) {
     <div class="container profile-list-container">
         <div class="row justify-content-center">
             <div class="col-10">
-                <h6>Registered Users</h6>
+                <h6>${REG_USR}</h6>
                 <ul class="list-unstyled">
                     ${data.profiles.map(profile => `
                         <li class="mb-3">
@@ -709,7 +708,7 @@ function createProfileListPage(data) {
                                 </div>
                                 <div class="col">
                                     <p>
-                                        <span style="color: #ac8fa5;">Username:</span> <a href="#" class="other-profile-link" data-id="${profile.id}">${profile.username}</a>
+                                        <span style="color: #ac8fa5;">${USERNAME}:</span> <a href="#" class="other-profile-link" data-id="${profile.id}">${profile.username}</a>
                                         <span style="color: #ac8fa5;"> | ID:</span> ${profile.id}
                                     </p>
                                 </div>
@@ -718,7 +717,7 @@ function createProfileListPage(data) {
                                         <input type="hidden" name="action" value="${profile.is_friend ? 'unfriend' : 'befriend'}">
                                         <input type="hidden" name="user_id" value="${profile.id}">
                                         <button type="submit" class="btn btn-outline-primary btn-sm">
-                                            ${profile.is_friend ? 'Unfriend' : 'Befriend'}
+                                            ${profile.is_friend ? UNFR : BEFR}
                                         </button>
                                     </form>
                                 </div>
@@ -745,10 +744,9 @@ function createOtherProfilePage(data) {
                     
                     <!-- Profile Information on the Left -->
                     <div class="col-md-6">
-                        <h6 class="mb-3">Profile</h6>
-                        <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
-                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p> 
-                        <p><span style="color: #ac8fa5;">Display Name:</span> <strong>${data.display_name ? data.display_name : '-'}</strong></p>
+                        <h6 class="mb-3">${PROF}</h6>
+                        <p><span style="color: #ac8fa5;">${USERNAME}:</span> <strong>${data.username}</strong></p>
+                        <p><span style="color: #ac8fa5;">${UID}:</span> <strong>${data.userid}</strong></p> 
                         </div>
 
                     <!-- Avatar on the Right -->
@@ -762,7 +760,7 @@ function createOtherProfilePage(data) {
                 <!-- Friends Section -->
                 <hr class="custom-divider">
                 <div class="profile-friends mb-4">
-                    <h6 class="mb-3">Friends</h6>
+                    <h6 class="mb-3">${FR}</h6>
                     <ul class="list-unstyled">
                         ${data.friends.map(friend => `
                             <li class="mb-3">
@@ -773,14 +771,14 @@ function createOtherProfilePage(data) {
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <p><span style="color: #ac8fa5;">Username: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
-                                        <p><span style="color: #ac8fa5;">User ID: </span> <strong>${friend.id}</strong></p>
+                                        <p><span style="color: #ac8fa5;">${USERNAME}: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
+                                        <p><span style="color: #ac8fa5;">${UID}: </span> <strong>${friend.id}</strong></p>
 
                                     </div>
                                     <div class="col-auto">
                                         <p>
-                                            <span style="color: #ac8fa5;">Status:</span>
-                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? 'Online' : 'Offline'}</span>
+                                            <span style="color: #ac8fa5;">${STATUS}:</span>
+                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? ONLINE : OFFLINE}</span>
                                         </p>
                                     </div>
                                     <div class="col-auto">
@@ -798,13 +796,13 @@ function createOtherProfilePage(data) {
                 <!-- Stats Section -->
                 <hr class="custom-divider">
                 <div class="profile-stats mb-4">
-                    <h6>Stats</h6>
+                    <h6>${STATS}</h6>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Wins</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Losses</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Total Games</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${WINS_PROF}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${LOSSES}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${TOT_GAMES}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -820,13 +818,13 @@ function createOtherProfilePage(data) {
                 <!-- Match History Section -->
                 <hr class="custom-divider">
                 <div class="profile-match-history">
-                    <h6>Match History</h6>
+                    <h6>${MATCH_HIST}</h6>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Date</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Winner</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Looser</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${DATE_PROF}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${WINNER}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${LOOSER}</th>
                             </tr>
                         </thead>
                         <tbody>

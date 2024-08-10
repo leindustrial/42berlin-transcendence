@@ -99,12 +99,6 @@ msgstr "Display Name for Tournaments"
 msgid "Friends with"
 msgstr "Friends with"
 
-msgid "online"
-msgstr "online"
-
-msgid "offline"
-msgstr "offline"
-
 msgid "Make new friends"
 msgstr "Make new friends"
 
@@ -114,14 +108,14 @@ msgstr "Stats"
 msgid "Games Played"
 msgstr "Games Played"
 
-msgid "Wins"
-msgstr "Wins"
+msgid "Won"
+msgstr "Won"
 
 msgid "Losses"
 msgstr "Losses"
 
-msgid "1v1 Match History"
-msgstr "1v1 Match History"
+msgid "Match History"
+msgstr "Match History"
 
 msgid "TimeStamp"
 msgstr "TimeStamp"
@@ -129,8 +123,8 @@ msgstr "TimeStamp"
 msgid "Winner"
 msgstr "Winner"
 
-msgid "Loser"
-msgstr "Loser"
+msgid "Looser"
+msgstr "Looser"
 
 msgid "change"
 msgstr "change"
@@ -261,6 +255,72 @@ msgstr "AI player Won!"
 msgid "Human Won!"
 msgstr "Human Won!"
 
+msgid "Please check your username and password are correct"
+msgstr "Please check your username and password are correct"
+
+msgid "Please check your username and password are conform"
+msgstr "Please check your username and password are conform"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Find New Friends"
+msgstr "Find New Friends"
+
+msgid "Your Profile"
+msgstr "Your Profile"
+
+msgid "Your Friends"
+msgstr "Your Friends"
+
+msgid "User ID"
+msgstr "User ID"
+
+msgid "Your Stats"
+msgstr "Your Stats"
+
+msgid "Your Match History"
+msgstr "Your Match History"
+
+msgid "Total Games"
+msgstr "Total Games"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Online"
+msgstr "Online"
+
+msgid "Edit Username"
+msgstr "Edit Username"
+
+msgid "Edit Avatar"
+msgstr "Edit Avatar"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Friends"
+msgstr "Friends"
+
+msgid "There is an error with your form"
+msgstr "There is an error with your form"
+
+msgid "Choose File"
+msgstr "Choose File"
+
+
+msgid "Your profile picture has been updated"
+msgstr "Your profile picture has been updated"
+
+msgid "Your username has been updated"
+msgstr "Your username has been updated"
+
+msgid "Registered Users"
+msgstr "Registered Users"
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

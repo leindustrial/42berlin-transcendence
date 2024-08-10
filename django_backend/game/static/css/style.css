@@ -236,6 +236,29 @@ form ul li {
     margin-top: 50px;
 }
 
+#signup_submit, #login_submit {
+    width: 300px;
+}
+.file-upload-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.file-upload-input {
+    display: none;
+}
+
+.file-upload-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.file-name {
+    margin-left: 10px;
+}
 /* Profile & friends -------------------------------------------------------------------------------------------------*/
 
 #profile, #profile-list-page {

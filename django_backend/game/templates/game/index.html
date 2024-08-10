@@ -119,7 +119,7 @@
             <div class="row justify-content-center">
                 <div class="btn-group" role="group">
                     <a href="#profile" type="button" class="btn btn-outline-primary btn-sm online-nav profile-link">👤 {% translate "Profile" %}</a>
-                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm online-nav profile-list-link">Find New Friends</a>
+                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm online-nav profile-list-link">{% translate "Find New Friends" %}</a>
                     <div id="id-logout">
                         <form id="logoutform" method="POST" action="{% url 'json_logout' %}">
                             {% csrf_token %}
@@ -168,7 +168,7 @@
             <div class="row justify-content-center">
                 <div class="btn-group">
                     <a href="#get-started" type="button" class="btn btn-outline-primary btn-sm">👈 {% translate "MENU" %}</a>
-                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm profile-list-link">Find New Friends</a>
+                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm profile-list-link">{% translate "Find New Friends" %}</a>
                     <div id="id-logout">
                         <form id="logoutform2" method="POST" action="{% url 'json_logout' %}">
                             {% csrf_token %}
@@ -185,7 +185,7 @@
             <div class="row justify-content-center">
                 <div class="btn-group">
                     <a href="#profile" type="button" class="btn btn-outline-primary btn-sm profile-link">👈 {% translate "Profile" %}</a>
-                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm profile-list-link">Find New Friends</a>
+                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm profile-list-link">{% translate "Find New Friends" %}</a>
                     <div id="id-logout">
                         <form id="logoutform3" method="POST" action="{% url 'json_logout' %}">
                             {% csrf_token %}
@@ -206,18 +206,18 @@
                         <form id="login_form" method="POST" action="{% url 'json_login' %}" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="login_name" class="form-label">Username:</label>
+                                <label for="login_name" class="form-label">{% translate "Username" %}:</label>
                                 <input type="text" id="login_name" name="login_name" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label for="login_password" class="form-label">Password:</label>
+                                <label for="login_password" class="form-label">{% translate "Password" %}:</label>
                                 <input type="password" id="login_password" name="login_password" class="form-control" required>
                             </div>
                             <div class="d-grid gap-2">
                                 <a href="#get-started" id="login_submit" class="btn btn-outline-primary btn-lg btn-block login-submit">{% translate "Login" %}</a>
                             </div>
                         </form>
-                        <p>Don't have an account? Create one <a href="#id-signup" class="signup-link">Here</a></p>
+                        <p>{% translate "Don't have an account? Create one" %} <a href="#id-signup" class="signup-link">{% translate "Here" %}</a></p>
                     </div>
                 </div>
             </div>
@@ -235,7 +235,7 @@
                     {{ UserCreationForm.as_p }}
                 <a href="#get-started" type="submit" id="signup_submit" class="btn btn-outline-primary btn-lg btn-block signup-submit">{% translate "Sign Up" %}</a>
             </form>
-            <p>Already have an account? Log in <a href="#id-login" class="login-link">Here</a></p>
+            <p>{% translate "Have an account? Log in" %} <a href="#id-login" class="login-link">{% translate "Here" %}</a></p>
         </div>
 
         <div id="id-update-user" class="content-section" style="display: none;">
@@ -244,20 +244,22 @@
             <form id="update_user_form" method="POST" action="{% url 'json_update_user' %}">
             {% csrf_token %}
             <div>
-                    <label for ="update_username">Username:</label>
-                    <input type="text" id="update_username" name="update_username" required><br>
-                    <label for="update_password1">Password1:</label>
-                    <input type="password" id="update_password1" name="update_password1" required><br>
-                    <label for="update_password2">Password2:</label>
-                    <input type="password" id="update_password2" name="update_password2" required><br>
+                <h3 style="color:#323131">{% translate 'Edit Username' %}</h3>
+                <br>
+                <label for ="update_username">{% translate "Username" %}:</label>
+                <input type="text" id="update_username" name="update_username" required><br>
+                <label for="update_password1">{% translate "Password" %}:</label>
+                <input type="password" id="update_password1" name="update_password1" required><br>
+                <label for="update_password2">{% translate "Confirm Password" %}:</label>
+                <input type="password" id="update_password2" name="update_password2" required><br>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save">
+                <button type="submit" class="btn btn-primary">{% translate 'Save' %}</button>
             </div>
             </form>
         </div>
 
-        <div id="id-update-displayname" class="content-section" style="display: none;">
+        <!-- <div id="id-update-displayname" class="content-section" style="display: none;">
             <p class="error-message"></p>
             <p class="success-message"></p>
             <form id="update_display_name_form" method="POST" action="{% url 'json_update_display_name' %}">
@@ -270,18 +272,65 @@
                     <input type="submit" value="Save">
                 </div>
             </form>
-        </div>
+        </div> -->
+
+        <!-- <div id="id-update-avatar" class="content-section" style="display: none;">
+            <p class="error-message"></p>
+            <p class="success-message"></p>
+            <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+                <div>
+                    <h3 style="color:#323131">{% translate 'Edit Avatar' %}</h3>
+                    <br>
+                </div>
+                {{ UpdateAvatarForm.as_p }}
+                <button type="submit" class="btn btn-primary">{% translate 'Save' %}</button>
+            </form>
+        </div> -->
 
         <div id="id-update-avatar" class="content-section" style="display: none;">
             <p class="error-message"></p>
             <p class="success-message"></p>
             <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-                {{ UpdateAvatarForm.as_p }}
-                <input type="submit" value="Save">
+                {% csrf_token %}
+                <div>
+                    <h3 style="color:#323131">{% translate 'Edit Avatar' %}</h3>
+                    <br>
+                    <div class="file-upload-wrapper">
+                        <!-- File input -->
+                        <input type="file" id="id_avatar" name="avatar" class="file-upload-input" required>
+                        
+                        <!-- Custom button to trigger file input -->
+                        <button type="button" class="file-upload-button" onclick="document.getElementById('id_avatar').click();">
+                            {% translate "Choose File" %}
+                        </button>
+        
+                        <!-- File name display -->
+                        <span id="file-name" class="file-name">
+                            {% translate "No file chosen" %}
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">{% translate 'Save' %}</button>
+                </div>
             </form>
         </div>
-
+        
+        <script>
+            document.getElementById('id_avatar').addEventListener('change', function() {
+                const fileInput = document.getElementById('id_avatar');
+                const fileNameDisplay = document.getElementById('file-name');
+                
+                if (fileInput.files.length > 0) {
+                    fileNameDisplay.textContent = fileInput.files[0].name;
+                } else {
+                    fileNameDisplay.textContent = "{% translate 'No file chosen' %}";
+                }
+            });
+        </script>
+        
+    
         
         <!-- Footer -->
         <div class="container" id="footer-welcome">
@@ -322,6 +371,34 @@
         const HUMAN = "{% translate 'Human' %}";
         const AI_WON = "{% translate 'AI player Won!' %}";
         const HUMAN_WON = "{% translate 'Human Won!' %}";
+        
+        const CONF_PASS = "{% translate 'Confirm Password' %}";
+        const FIND_FR = "{% translate 'Find New Friends' %}";
+        const PROF = "{% translate 'Profile' %}";
+        const FR = "{% translate 'Friends' %}";
+        const UID = "{% translate 'User ID' %}";
+        const STATS = "{% translate 'Stats' %}";
+        const MATCH_HIST = "{% translate 'Match History' %}";
+        const YOUR_PROF = "{% translate 'Your Profile' %}";
+        const YOUR_FR = "{% translate 'Your Friends' %}";
+        const YOUR_STATS = "{% translate 'Your Stats' %}";
+        const YOUR_MATCH_HIST = "{% translate 'Your Match History' %}";
+        const WINS_PROF = "{% translate 'Wins' %}";
+        const LOSSES = "{% translate 'Losses' %}";
+        const DATE_PROF = "{% translate 'Date' %}";
+        const WINNER = "{% translate 'Winner' %}";
+        const LOOSER = "{% translate 'Looser' %}";
+        const TOT_GAMES = "{% translate 'Total Games' %}";
+        const STATUS = "{% translate 'Status' %}";
+        const OFFLINE = "{% translate 'Offline' %}";
+        const ONLINE = "{% translate 'Online' %}";
+        const BEFR = "{% translate 'Befriend' %}";
+        const UNFR = "{% translate 'Unfriend' %}";
+        const EDIT_USERNAME = "{% translate 'Edit Username' %}";
+        const EDIT_AVATAR = "{% translate 'Edit Avatar' %}";
+        const USERNAME = "{% translate 'Username' %}";
+        const SAVE = "{% translate 'Save' %}";
+        const REG_USR = "{% translate 'Registered Users' %}";
 
 	</script>
 </body>

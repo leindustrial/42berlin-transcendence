@@ -7,6 +7,7 @@ from .models import Profile
 from django.contrib.auth.models import User
 import os
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 from django.http import JsonResponse, HttpResponse
 from django.middleware.csrf import get_token
 
@@ -142,7 +143,7 @@ def json_signup(request):
             data = 'User' + username + 'created succesfully'
             return JsonResponse({'msg': data, 'status': 'success', 'csrf_token': get_token(request)})
         else:
-            return JsonResponse({'error': 'Please check your username and password are conform'}, status=400)
+            return JsonResponse({'error': _('Please check your username and password are conform')}, status=400)
     else:
         return JsonResponse({'error': 'Not a valid request'}, status=405)
 
@@ -157,7 +158,7 @@ def json_login(request):
             login(request, user)
             return JsonResponse({'msg':'You are now logged in', 'status': 'success', 'csrf_token': get_token(request)})
         else:
-            return JsonResponse({'error': 'Please check your username and password are correct'}, status=400)
+            return JsonResponse({'error': _("Please check your username and password are correct")}, status=400)
     else:
         return JsonResponse({'error': 'Not a valid request'}, status=405)
 
@@ -377,8 +378,8 @@ def json_update_user(request):
         if form.is_valid():
             form.save()
             login(request, current_user)
-            return JsonResponse({'msg':'Your account has been updated', 'status': 'success', 'csrf_token': get_token(request)})
-        return JsonResponse({'error': 'There is an error with your form'}, status=400)
+            return JsonResponse({'msg':_('Your account has been updated'), 'status': 'success', 'csrf_token': get_token(request)})
+        return JsonResponse({'error': _('There is an error with your form')}, status=400)
     else:
         return JsonResponse({'error': 'You need to log in first'}, status=403)
 
@@ -410,7 +411,7 @@ def json_update_display_name(request):
             form.save()
             login(request, current_user)
             return JsonResponse({'msg':'Display Name has been updated', 'status': 'success', 'csrf_token': get_token(request),})
-        return JsonResponse({'error': 'There is an error with your form'}, status=400)
+        return JsonResponse({'error': _('There is an error with your form')}, status=400)
     else:
         return JsonResponse({'error': 'You need to log in first'}, status=403)
 
@@ -444,8 +445,8 @@ def json_update_avatar(request):
                     if os.path.exists(old_avatar.path):
                         os.remove(old_avatar.path)
                 login(request, current_user)
-                return JsonResponse({'msg':'Your Profile picture has been updated', 'status': 'success', 'csrf_token': get_token(request)})
-            return JsonResponse({'error': 'There is an error with your form'}, status=400)
+                return JsonResponse({'msg': _('Your profile picture has been updated'), 'status': 'success', 'csrf_token': get_token(request)})
+            return JsonResponse({'error': _('There is an error with your form')}, status=400)
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     else:
         return JsonResponse({'error': 'You need to log in first'}, status=403)

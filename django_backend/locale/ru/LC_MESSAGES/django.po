@@ -101,11 +101,11 @@ msgstr "Имя для турниров"
 msgid "Friends with"
 msgstr "Друзья с"
 
-msgid "online"
-msgstr "онлайн"
+msgid "Online"
+msgstr "Oнлайн"
 
-msgid "offline"
-msgstr "оффлайн"
+msgid "Offline"
+msgstr "Oффлайн"
 
 msgid "Make new friends"
 msgstr "Завести новых друзей"
@@ -131,7 +131,7 @@ msgstr "Временная метка"
 msgid "Winner"
 msgstr "Победитель"
 
-msgid "Loser"
+msgid "Looser"
 msgstr "Проигравший"
 
 msgid "change"
@@ -153,10 +153,10 @@ msgid "Last seen"
 msgstr "Последний визит"
 
 msgid "Unfriend"
-msgstr "Удалить из друзей"
+msgstr "Удалить"
 
 msgid "Befriend"
-msgstr "Добавить в друзья"
+msgstr "Добавить"
 
 msgid "Save"
 msgstr "Сохранить"
@@ -265,6 +265,67 @@ msgstr "Игрок ИИ выиграл!"
 
 msgid "Human Won!"
 msgstr "Человек выиграл!"
+
+msgid "Please check your username and password are correct"
+msgstr "Пожалуйста, проверьте, правильны ли ваше имя пользователя и пароль"
+
+msgid "Please check your username and password are conform"
+msgstr "Пожалуйста, проверьте, соответствуют ли ваше имя пользователя и пароль"
+
+msgid "Confirm Password"
+msgstr "Подтвердите пароль"
+
+msgid "Find New Friends"
+msgstr "Найти новых друзей"
+
+msgid "Your Profile"
+msgstr "Ваш профиль"
+
+msgid "Your Friends"
+msgstr "Ваши друзья"
+
+msgid "User ID"
+msgstr "ID пользователя"
+
+msgid "Your Stats"
+msgstr "Ваша статистика"
+
+msgid "Your Match History"
+msgstr "Ваша история матчей"
+
+msgid "Total Games"
+msgstr "Всего игр"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Edit Username"
+msgstr "Изменить имя пользователя"
+
+msgid "Edit Avatar"
+msgstr "Изменить аватар"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Friendsh"
+msgstr "Друзья"
+
+msgid "There is an error with your form"
+msgstr "Произошла ошибка в вашей форме"
+
+msgid "Choose file"
+msgstr "Выберите Файл"
+
+msgid "Your profile picture has been updated"
+msgstr "Ваше изображение профиля обновлено"
+
+msgid "Your username has been updated"
+msgstr "Ваше имя пользователя обновлено"
+
+msgid "Registered Users"
+msgstr "Зарегистрированные пользователи"
+
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

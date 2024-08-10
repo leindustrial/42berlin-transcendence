@@ -15,7 +15,7 @@ export function game_handler() {
 	
 	setElementinnerHTML(document.getElementById('online-1x1'), online1x1Html);
 	showElement(document.getElementById('online-1x1'));
-	const socket = new WebSocket(`ws://${window.location.host}/wss/pong/`);
+	const socket = new WebSocket(`wss://${window.location.host}/wss/pong/`);
 	const gameArea = document.getElementById('game-area');
 	const message = document.getElementById('message');
 	const ball = document.getElementById('ball');
