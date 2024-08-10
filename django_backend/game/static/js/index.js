@@ -293,9 +293,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (xhr.responseJSON && xhr.responseJSON.error) {
 					errorMsg = xhr.responseJSON.error;
 				}
-				console.log(errorMsg);
-				const errorP = document.getElementById('id-signup').querySelector('.error-message');
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				console.log(`${errorMsg}`);
+				// const errorP = document.getElementById('id-signup').querySelector('.error-message');
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -321,8 +322,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				showElement(loginFormDiv);
                 window.location.hash = 'offline-choose-mode';
 			},
-			error: function(data) {
-				console.log(data);
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+                alert(`${errorMsg}`);
 			},
 		});
 	});
@@ -384,7 +389,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				// container.html(JSON.stringify(data)); // Displaying data for debug purposes
 			},
 			error: function(xhr, status, error) {
-				console.error('An error occurred:', status, error);
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMsg = xhr.responseJSON.error;
+                }
+                alert(`${errorMsg}`);
+                window.location.hash = 'id-login';
 			}
 		});
     });
@@ -408,8 +418,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
-				setElementinnerHTML(errorP, "");
-				setElementinnerHTML(successP, data.msg);
+				// setElementinnerHTML(errorP, "");
+				// setElementinnerHTML(successP, data.msg);
+                alert(data.msg);
 			},
 			error: function(xhr, status, error) {
 				let errorMsg = "Error";
@@ -417,8 +428,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				setElementinnerHTML(successP, "");
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// setElementinnerHTML(successP, "");
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -451,8 +463,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				setElementinnerHTML(successP, "");
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// setElementinnerHTML(successP, "");
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -482,8 +495,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
-				setElementinnerHTML(errorP, "");
-				setElementinnerHTML(successP, data.msg);
+				// setElementinnerHTML(errorP, "");
+				// setElementinnerHTML(successP, data.msg);
+                alert(data.msg);
                 window.location.hash = 'id-update-avatar';
 			},
 			error: function(xhr, status, error) {
@@ -492,8 +506,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				setElementinnerHTML(successP, "");
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// setElementinnerHTML(successP, "");
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			},
 			cache: false,
 			contentType: false,
@@ -526,9 +541,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				window.lastDisplayedElement = profileListPageDiv;
 				// window.csrf = data.csrf_token;
 			},
-			error: function(data) {
-				console.log(data);
-				// To Do
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+                alert(`${errorMsg}`);
 			}
 		});
 	})
@@ -553,8 +571,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.hash = 'profile';
 			},
 			error: function(xhr, status, error) {
-				console.error('Error fetching profile details:', status, error);
-				// Optionally give feedback to the user
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+                alert(`${errorMsg}`);
 			}
 		});
 	});
