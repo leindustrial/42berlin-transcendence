@@ -24,8 +24,6 @@
     <link rel="icon" href="{% static 'img/fav.ico' %}" type="image/x-icon">
 
     <!-- Bootstrap JS and dependencies -->
- 
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -33,11 +31,6 @@
    
     <!-- Custom JavaScript -->
     <script src="{% static 'js/index.js' %}" defer></script>
-   
-    <!-- <script src="{% static 'js/2player.js' %}" defer></script> -->
-    <!-- <script src="{% static 'js/4player.js' %}" defer></script>
-    <script src="{% static 'js/tour.js' %}" defer></script>
-    <script src="{% static 'js/tour_game.js' %}" defer></script> -->
 
 </head>
 
@@ -102,7 +95,7 @@
                     <div class="container" id="choose-mode-online"> 
                         <a href="#offline-ai" type="button" class="btn btn-outline-primary btn-lg btn-block offline-ai-button">{% translate "Play against AI" %}</a>
                         <a href="#offline-1x1" type="button" class="btn btn-outline-primary btn-lg btn-block offline-1x1-button">{% translate "Play 1 x 1 offline" %}</a>
-                        <a href="#offline-tournament" type="button" class="btn btn-outline-primary btn-lg btn-block offline-tournament-button">{% translate "Tournament offline" %}</a>
+                        <a href="#offline-tournament" type="button" class="btn btn-outline-primary btn-lg btn-block offline-tournament-button">{% translate "Offline Tournament" %}</a>
                         <a href="#id-login" type="button" class="btn btn-outline-primary btn-lg btn-block">{% translate "Login and play online" %}</a>
                     </div>
                 </div>
@@ -126,7 +119,7 @@
             <div class="row justify-content-center">
                 <div class="btn-group" role="group">
                     <a href="#profile" type="button" class="btn btn-outline-primary btn-sm online-nav profile-link">👤 {% translate "Profile" %}</a>
-                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm online-nav profile-list-link">Find New Friends</a>
+                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm online-nav profile-list-link">{% translate "Find New Friends" %}</a>
                     <div id="id-logout">
                         <form id="logoutform" method="POST" action="{% url 'json_logout' %}">
                             {% csrf_token %}
@@ -159,6 +152,9 @@
 
         <!-- CONTENT PLACEHOLDER FOR GAMES & BLOCKCHAIN: -->
 		<div id="game-place" class="content-section" style="display:none;"></div>
+        <div id="offline-ai" class="content-section" style="display:none;"></div>
+        <div id="offline-1x1" class="content-section" style="display:none;"></div>
+        <div id="offline-tournament" class="content-section" style="display:none;"></div>
         <div id="online-1x1" class="content-section" style="display:none;"></div>
         <div id="online-4" class="content-section" style="display:none;"></div>
         <div id="tour-hall" class="content-section tournament-hall" style="display:none;"></div>
@@ -172,7 +168,7 @@
             <div class="row justify-content-center">
                 <div class="btn-group">
                     <a href="#get-started" type="button" class="btn btn-outline-primary btn-sm">👈 {% translate "MENU" %}</a>
-                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm profile-list-link">Find New Friends</a>
+                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm profile-list-link">{% translate "Find New Friends" %}</a>
                     <div id="id-logout">
                         <form id="logoutform2" method="POST" action="{% url 'json_logout' %}">
                             {% csrf_token %}
@@ -189,7 +185,7 @@
             <div class="row justify-content-center">
                 <div class="btn-group">
                     <a href="#profile" type="button" class="btn btn-outline-primary btn-sm profile-link">👈 {% translate "Profile" %}</a>
-                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm profile-list-link">Find New Friends</a>
+                    <a href="#profile-list-page" type="button" class="btn btn-outline-primary btn-sm profile-list-link">{% translate "Find New Friends" %}</a>
                     <div id="id-logout">
                         <form id="logoutform3" method="POST" action="{% url 'json_logout' %}">
                             {% csrf_token %}
@@ -210,18 +206,18 @@
                         <form id="login_form" method="POST" action="{% url 'json_login' %}" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="login_name" class="form-label">Username:</label>
+                                <label for="login_name" class="form-label">{% translate "Username" %}:</label>
                                 <input type="text" id="login_name" name="login_name" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label for="login_password" class="form-label">Password:</label>
+                                <label for="login_password" class="form-label">{% translate "Password" %}:</label>
                                 <input type="password" id="login_password" name="login_password" class="form-control" required>
                             </div>
                             <div class="d-grid gap-2">
                                 <a href="#get-started" id="login_submit" class="btn btn-outline-primary btn-lg btn-block login-submit">{% translate "Login" %}</a>
                             </div>
                         </form>
-                        <p>Don't have an account? Create one <a href="#id-signup" class="signup-link">Here</a></p>
+                        <p>{% translate "Don't have an account? Create one" %} <a href="#id-signup" class="signup-link">{% translate "Here" %}</a></p>
                     </div>
                 </div>
             </div>
@@ -239,7 +235,7 @@
                     {{ UserCreationForm.as_p }}
                 <a href="#get-started" type="submit" id="signup_submit" class="btn btn-outline-primary btn-lg btn-block signup-submit">{% translate "Sign Up" %}</a>
             </form>
-            <p>Already have an account? Log in <a href="#id-login" class="login-link">Here</a></p>
+            <p>{% translate "Have an account? Log in" %} <a href="#id-login" class="login-link">{% translate "Here" %}</a></p>
         </div>
 
         <div id="id-update-user" class="content-section" style="display: none;">
@@ -248,20 +244,22 @@
             <form id="update_user_form" method="POST" action="{% url 'json_update_user' %}">
             {% csrf_token %}
             <div>
-                    <label for ="update_username">Username:</label>
-                    <input type="text" id="update_username" name="update_username" required><br>
-                    <label for="update_password1">Password1:</label>
-                    <input type="password" id="update_password1" name="update_password1" required><br>
-                    <label for="update_password2">Password2:</label>
-                    <input type="password" id="update_password2" name="update_password2" required><br>
+                <h3 style="color:#323131">{% translate 'Edit Username' %}</h3>
+                <br>
+                <label for ="update_username">{% translate "Username" %}:</label>
+                <input type="text" id="update_username" name="update_username" required><br>
+                <label for="update_password1">{% translate "Password" %}:</label>
+                <input type="password" id="update_password1" name="update_password1" required><br>
+                <label for="update_password2">{% translate "Confirm Password" %}:</label>
+                <input type="password" id="update_password2" name="update_password2" required><br>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save">
+                <button type="submit" class="btn btn-primary">{% translate 'Save' %}</button>
             </div>
             </form>
         </div>
 
-        <div id="id-update-displayname" class="content-section" style="display: none;">
+        <!-- <div id="id-update-displayname" class="content-section" style="display: none;">
             <p class="error-message"></p>
             <p class="success-message"></p>
             <form id="update_display_name_form" method="POST" action="{% url 'json_update_display_name' %}">
@@ -274,18 +272,65 @@
                     <input type="submit" value="Save">
                 </div>
             </form>
-        </div>
+        </div> -->
+
+        <!-- <div id="id-update-avatar" class="content-section" style="display: none;">
+            <p class="error-message"></p>
+            <p class="success-message"></p>
+            <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+                <div>
+                    <h3 style="color:#323131">{% translate 'Edit Avatar' %}</h3>
+                    <br>
+                </div>
+                {{ UpdateAvatarForm.as_p }}
+                <button type="submit" class="btn btn-primary">{% translate 'Save' %}</button>
+            </form>
+        </div> -->
 
         <div id="id-update-avatar" class="content-section" style="display: none;">
             <p class="error-message"></p>
             <p class="success-message"></p>
             <form id="update_avatar_form" method="POST" action="{% url 'json_update_avatar' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-                {{ UpdateAvatarForm.as_p }}
-                <input type="submit" value="Save">
+                {% csrf_token %}
+                <div>
+                    <h3 style="color:#323131">{% translate 'Edit Avatar' %}</h3>
+                    <br>
+                    <div class="file-upload-wrapper">
+                        <!-- File input -->
+                        <input type="file" id="id_avatar" name="avatar" class="file-upload-input" required>
+                        
+                        <!-- Custom button to trigger file input -->
+                        <button type="button" class="file-upload-button" onclick="document.getElementById('id_avatar').click();">
+                            {% translate "Choose File" %}
+                        </button>
+        
+                        <!-- File name display -->
+                        <span id="file-name" class="file-name">
+                            {% translate "No file chosen" %}
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">{% translate 'Save' %}</button>
+                </div>
             </form>
         </div>
-
+        
+        <script>
+            document.getElementById('id_avatar').addEventListener('change', function() {
+                const fileInput = document.getElementById('id_avatar');
+                const fileNameDisplay = document.getElementById('file-name');
+                
+                if (fileInput.files.length > 0) {
+                    fileNameDisplay.textContent = fileInput.files[0].name;
+                } else {
+                    fileNameDisplay.textContent = "{% translate 'No file chosen' %}";
+                }
+            });
+        </script>
+        
+    
         
         <!-- Footer -->
         <div class="container" id="footer-welcome">
@@ -293,8 +338,83 @@
         </div>
 
     </div>
+
+    <!-- Variables and translation -->
     <script>
 		const DEFAULT_AVATAR_URL = "{% static 'avatar/kermit.png' %}";
+        const PRESS_ENTER = "{% translate 'Press Enter to Play' %}";
+        const PLAYER = "{% translate 'Player' %}";
+        const ENTER_NAMES = "{% translate 'Enter players names:' %}";
+        const START_GAME = "{% translate 'Start Game' %}";
+        const GAME_OVER = "{% translate 'Game Over! Press Enter to Play Again' %}";
+        const GAME_STARTED = "{% translate 'Game Started' %}";
+        const DIFF_NAMES = "{% translate 'Please enter different names for players.' %}";
+        const WINS = "{% translate 'wins!' %}";
+        const EXIT_GAME = "{% translate 'Exit the game' %}";
+
+        const TOUR = "{% translate 'Tournament' %}";
+        const START_TOUR = "{% translate 'Start Tournament' %}";
+        const NEXT_GAME = "{% translate 'Next Game!' %}";
+        const SAVE_BLOCKCHAIN = "{% translate 'Save Results in Blockchain' %}";
+        const WINS_TOUR = "{% translate 'wins the Tournament!' %}";
+        const SEMI_FIN = "{% translate 'Semi-finals' %}";
+        const MATCH = "{% translate 'Match' %}";
+        const GO_TO_MATCH = "{% translate 'Go to Match' %}";
+        const SUBMIT_ETH = "{% translate 'Submit Transaction to Ethereum Blockchain' %}";
+        const ETH_TEXT = "{% translate 'Submitting a transaction to the Ethereum blockchain will broadcast it to the network for validation by validators. Once confirmed, The Winner is recorded on the blockchain, ensuring transparency and security.' %}";
+        const CONNECT_WALLET = "{% translate 'Connect Wallet' %}";
+        const BLOCKCHAIN_FINALIZE = "{% translate 'Save Tournament Results' %}";
+        const INST_METAMASK = "{% translate 'Please install Metamask' %}";
+        const SUCCESS_TRANSACTION = "{% translate 'Transaction successful! Check it out on' %}";
+        const CONNECTED = "{% translate 'Connected' %}";
+        const AI = "{% translate 'AI player' %}";
+        const HUMAN = "{% translate 'Human' %}";
+        const AI_WON = "{% translate 'AI player Won!' %}";
+        const HUMAN_WON = "{% translate 'Human Won!' %}";
+        
+        const CONF_PASS = "{% translate 'Confirm Password' %}";
+        const FIND_FR = "{% translate 'Find New Friends' %}";
+        const PROF = "{% translate 'Profile' %}";
+        const FR = "{% translate 'Friends' %}";
+        const UID = "{% translate 'User ID' %}";
+        const STATS = "{% translate 'Stats' %}";
+        const MATCH_HIST = "{% translate 'Match History' %}";
+        const YOUR_PROF = "{% translate 'Your Profile' %}";
+        const YOUR_FR = "{% translate 'Your Friends' %}";
+        const YOUR_STATS = "{% translate 'Your Stats' %}";
+        const YOUR_MATCH_HIST = "{% translate 'Your Match History' %}";
+        const WINS_PROF = "{% translate 'Wins' %}";
+        const LOSSES = "{% translate 'Losses' %}";
+        const DATE_PROF = "{% translate 'Date' %}";
+        const WINNER = "{% translate 'Winner' %}";
+        const LOOSER = "{% translate 'Looser' %}";
+        const TOT_GAMES = "{% translate 'Total Games' %}";
+        const STATUS = "{% translate 'Status' %}";
+        const OFFLINE = "{% translate 'Offline' %}";
+        const ONLINE = "{% translate 'Online' %}";
+        const BEFR = "{% translate 'Befriend' %}";
+        const UNFR = "{% translate 'Unfriend' %}";
+        const EDIT_USERNAME = "{% translate 'Edit Username' %}";
+        const EDIT_AVATAR = "{% translate 'Edit Avatar' %}";
+        const USERNAME = "{% translate 'Username' %}";
+        const SAVE = "{% translate 'Save' %}";
+        const REG_USR = "{% translate 'Registered Users' %}";
+
+        const WAIT = "{% translate 'Waiting for players to join' %}";
+        const JOINED = "{% translate 'joined the game' %}";
+        const REJOINED = "{% translate 'rejoined the game' %}";
+        const REDIR = "{% translate 'Player already joined the game. You will be redirected' %}";
+        const NO_SESSION = "{% translate 'Connection closed: no available game session' %}";
+        const CON_CLOSED = "{% translate 'Connection closed for unauthenticated user' %}";
+        const REDIR_HOME = "{% translate 'You will be redirected to the home page' %}";
+        const ERR = "{% translate 'An error occurred. Please refresh the page' %}";
+        const COUNT_DOWN = "{% translate 'Game starts in' %}";
+        const GET_READY = "{% translate 'Players joined. Get ready!' %}";
+        const OUT = "{% translate 'Out of bounds!' %}";
+        const GOAL = "{% translate 'Goal!' %}";
+        const WON = "{% translate 'won' %}"
+        const GAME_OVER2 = "{% translate 'Game Over!' %}"
+
 	</script>
 </body>
 </html>

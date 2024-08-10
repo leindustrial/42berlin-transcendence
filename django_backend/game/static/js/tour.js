@@ -57,7 +57,7 @@ export async function startTournament() {
 	}
 
 	const tournamentSocket = new WebSocket(
-		'ws://' + window.location.host + '/wss/tournament/'
+		'wss://' + window.location.host + '/wss/tournament/'
 	);
 	document.getElementById('usernames').textContent = username;
 	tournamentSocket.onmessage = (event) => {

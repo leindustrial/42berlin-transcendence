@@ -2,24 +2,28 @@ export let winner = "";
 export function offlineTour_handler() {
   const offlineTourHtml = `
 		<div id="offline-tournament">
-            <h1 class="text-center" id="tour_header">Tournament</h1>
+            <div id="tour_header">
+              <p class="text-center" id="logo-big">PONG 3.1</p>
+              <p class="text-center" id ="sublitle">${TOUR}</p>
+             </div> 
             <div id="player_form_4">
-                <input type="text" class="form-control" id="input1_4" placeholder="Player 1" required maxlength="15">
-                <input type="text" class="form-control" id="input2_4" placeholder="Player 2" required maxlength="15">
-                <input type="text" class="form-control" id="input3_4" placeholder="Player 3" required maxlength="15">
-                <input type="text" class="form-control" id="input4_4" placeholder="Player 4" required maxlength="15">
-                <button id="startTourBtn" class="btn btn-primary">Start Tournament</button>
+              <h3 style="color:#323131">${ENTER_NAMES}</h3>
+                <input type="text" class="form-control" id="input1_4" placeholder="${PLAYER} 1" required maxlength="15">
+                <input type="text" class="form-control" id="input2_4" placeholder="${PLAYER} 2" required maxlength="15">
+                <input type="text" class="form-control" id="input3_4" placeholder="${PLAYER} 3" required maxlength="15">
+                <input type="text" class="form-control" id="input4_4" placeholder="${PLAYER} 4" required maxlength="15">
+                <button id="startTourBtn" class="btn btn-primary">${START_TOUR}</button>
             </div>
             
             <div class="tournament-table" id="tournament-table" style="display: none">
                 <div id="champ"></div>
                 <div id="info"></div>
                 
-                <h2 class="text-center">Semi-finals</h2>
+                <h2 class="text-center" style="color:white">${SEMI_FIN}:</h2>
                 <div class="tournament_off">
                         <div class="match_off" id="match-semi-finals-0">
                             <div class="d-flex justify-content-center">
-                                <h3>Match 1</h3>
+                                <h3>${MATCH} 1</h3>
                             </div>
                             <p class="player" id="table1_4"></p>
                             <p class="vs">vs</p>
@@ -27,14 +31,14 @@ export function offlineTour_handler() {
                         </div>
                         <div class="match_off" id="match-semi-finals-1">
                             <div class="d-flex justify-content-center">
-                                <h3>Match 2</h3>
+                                <h3>${MATCH} 2</h3>
                             </div>
                             <p class="player" id="table3_4"></p>
                             <p class="vs">vs</p>
                             <p class="player" id="table4_4"></p>
                         </div>
                 </div>
-                <button id="go-to-match">Go to Match</button>
+                <button id="go-to-match">${GO_TO_MATCH}</button>
             </div>
 
             <div class="tournament-game" id="tournament-game" style="display: none">
@@ -48,8 +52,8 @@ export function offlineTour_handler() {
                                     <div class="paddle_off" id="paddle2_4"></div>
                                     <h3 class="scores_off" id="score1_4">0</h3>
                                     <h3 class="scores_off" id="score2_4">0</h3>
-                                    <h3 class="player_name_off" id="name1_4">Player 1</h3>
-                                    <h3 class="player_name_off" id="name2_4">Player 2</h3>
+                                    <h3 class="player_name_off" id="name1_4">${PLAYER} 1</h3>
+                                    <h3 class="player_name_off" id="name2_4">${PLAYER} 2</h3>
                                     
                                     <div id="winnerMessage_4" class="winner-message">
                                         <h2 id="winnerName_4"></h2>
@@ -57,15 +61,15 @@ export function offlineTour_handler() {
                                     <div class="megaWinner" id="megaWinner_4" style="display: none;">
                                         <h2 id="megaWinnerName_4"></h2>
                                     </div>                           
-                                    <button id="nextGame" class="btn btn-primary" style="display: none;">Next Game!</button>
-                                    <p class="text-center"><h3 class="message" id="message_4">Press Enter to Play</h3></p>
+                                    <button id="nextGame" class="btn btn-primary" style="display: none;">${NEXT_GAME}</button>
+                                    <p class="text-center"><h3 class="message" id="message_4">${PRESS_ENTER}</h3></p>
                                     
                                     <div id="exitTour" class="content-section exit-tour" style="display:none;">
                                         <div class="row justify-content-center">
                                             <div class="btn-group-vertical">
                                                 <div class="container" id="choose-mode-online"> 
-                                                    <a href="#offline-choose-mode" type="button" class="btn btn-outline-primary btn-lg btn-block">Exit</a>
-                                                    <a href="#blockchain" type="button" class="btn btn-outline-primary btn-lg btn-block blockchain-button">Save Results in Blockchain</a>
+                                                    <a href="#offline-choose-mode" type="button" class="btn btn-outline-primary btn-lg btn-block">${EXIT_GAME}</a>
+                                                    <a href="#blockchain" type="button" class="btn btn-outline-primary btn-lg btn-block blockchain-button">${SAVE_BLOCKCHAIN}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -80,8 +84,8 @@ export function offlineTour_handler() {
 
         </div>
 	`;
-  setElementinnerHTML(document.getElementById("game-place"), offlineTourHtml);
-  showElement(document.getElementById("game-place"));
+  setElementinnerHTML(document.getElementById("offline-tournament"), offlineTourHtml);
+  showElement(document.getElementById("offline-tournament"));
 
   let gameStateTour;
   let startTourBtn = document.getElementById("startTourBtn");
@@ -212,7 +216,7 @@ export function offlineTour_handler() {
     document.getElementById("tour_header").style.display = "none";
     document.getElementById("tournament-table").style.display = "none";
     document.getElementById("tournament-game").style.display = "block";
-    message_4.innerHTML = "Press Enter to Play";
+    message_4.innerHTML = `${PRESS_ENTER}`;
     message_4.style.display = "block";
     initializeGameElements_4();
     resetBallPosition_4();
@@ -244,7 +248,7 @@ export function offlineTour_handler() {
     message_4.style.display = "block";
     winnerMessage_4.style.display = "none";
     gameStateTour = "play";
-    message_4.innerHTML = "Game Started";
+    message_4.innerHTML = `${GAME_STARTED}`;
     setTimeout(() => (message_4.innerHTML = ""), 1500);
 
     console.log("We are in the game tour");
@@ -359,7 +363,7 @@ export function offlineTour_handler() {
     if (isFinal === true) {
       endTournament(winName);
     } else {
-      winnerName_4.innerHTML = `${winName} wins!`;
+      winnerName_4.innerHTML = `${winName} ${WINS}`;
       winnerMessage_4.style.display = "block";
       resetScores_4();
       resetBallPosition_4();
@@ -371,7 +375,7 @@ export function offlineTour_handler() {
     document.getElementById("megaWinner_4").style.display = "block";
     document.getElementById(
       "megaWinnerName_4"
-    ).textContent = `🏆 ${winnerNameTour} wins the Tournament! 🏆`;
+    ).textContent = `🏆 ${winnerNameTour} ${WINS_TOUR} 🏆`;
     document.getElementById("exitTour").style.display = "block";
     winner = winnerNameTour;
   }
@@ -410,7 +414,7 @@ export function offlineTour_handler() {
         input4_4.value
       )
     ) {
-      alert("Please enter unique names for all players.");
+      alert(`${DIFF_NAMES}`);
     } else if (
       input1_4.value &&
       input2_4.value &&
@@ -431,7 +435,7 @@ export function offlineTour_handler() {
         .getElementById("go-to-match")
         .addEventListener("click", startMatch);
     } else {
-      alert("Please enter unique names for all players.");
+      alert(`${DIFF_NAMES}`);
     }
   });
 

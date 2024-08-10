@@ -9,13 +9,13 @@ export function offlineAI_handler() {
             top: 52px;
         }
     </style>
-    <h3 class="player_name_off" id="name1_ai">AI player</h3>
-    <h3 class="player_name_off" id="name2_ai">You</h3>
+    <h3 class="player_name_off" id="name1_ai">🤖 ${AI}</h3>
+    <h3 class="player_name_off" id="name2_ai">${HUMAN}</h3>
     <canvas id="pongCanvas" width="900" height="600">
     </canvas>
 `
-    setElementinnerHTML(document.getElementById('game-place'), offlineAIHtml);
-	showElement(document.getElementById('game-place'));
+    setElementinnerHTML(document.getElementById('offline-ai'), offlineAIHtml);
+	showElement(document.getElementById('offline-ai'));
 
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
@@ -28,8 +28,8 @@ export function offlineAI_handler() {
     let paddle2Y = (canvas.height - paddleHeight) / 2;
     let ballX = canvas.width / 2;
     let ballY = canvas.height / 2;
-    let ballSpeedX = 7;
-    let ballSpeedY = 7;
+    let ballSpeedX = 5;
+    let ballSpeedY = 5;
     let gamestate = "stop";
     let gameStarted = false;
     let score1 = 0;
@@ -75,7 +75,7 @@ export function offlineAI_handler() {
         ballY += ballSpeedY;
 
         // Ball collision with top and bottom
-        if (ballY <= 0 || ballY >= canvas.height) {
+        if (ballY <= 10 || ballY >= canvas.height - 10) {
             ballSpeedY = -ballSpeedY;
         }
 
@@ -87,6 +87,8 @@ export function offlineAI_handler() {
                 score2++;
                 if (score2 !== endScore)
                     resetBall();
+                else
+                    drawBall();
             }
         }
 
@@ -97,29 +99,42 @@ export function offlineAI_handler() {
                 score1++;
                 if (score1 !== endScore)
                     resetBall();
+                else
+                    drawBall();
             }
         }
     }
 
     function checkScores() {
         if (score1 >= endScore || score2 >= endScore) {
-
+            // Draw the game over message
+            
             ctx.fillStyle = "#7d7fac";
-            ctx.font = 'normal 10pt monospace';
+            ctx.font = 'normal 11pt monospace';
             ctx.textAlign = "center";
+            ctx.fillText(`${GAME_OVER}`.toUpperCase(), canvas.width / 2, canvas.height / 2 + 60);
 
-            ctx.fillText("Game Over!".toUpperCase(), canvas.width / 2, canvas.height / 2 - 25);
-
+            // Draw the winner message
             if (score1 == endScore) {
-                ctx.fillText("AI Player won!".toUpperCase(), canvas.width / 2, canvas.height / 2 + 25);
+                // AI won
+                ctx.fillStyle = "#ff56d8";
+                ctx.font = 'normal 15pt monospace';
+                ctx.textAlign = "center";
+                ctx.fillText(`${AI_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 50);
+
             } else {
-                ctx.fillText("You won!".toUpperCase(), canvas.width / 2, canvas.height / 2 + 25);
+                // Human won
+                ctx.fillStyle = "#ff56d8"; 
+                ctx.font = 'normal 15pt monospace';
+                ctx.textAlign = "center";
+                ctx.fillText(`${HUMAN_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 50);
+
             }
-            ctx.fillText("Press enter to play again.".toUpperCase(), canvas.width / 2, canvas.height / 2 + 75);
 
             gamestate = "stop";
         }
     }
+    
 
     function resetBall() {
         ballX = canvas.width / 2;
@@ -130,11 +145,18 @@ export function offlineAI_handler() {
     function drawScores() {
 
         ctx.fillStyle = '#1faced';
-        ctx.font = '30px monospace';
-        ctx.fillText(score1, 50, 50); // Draw left player (AI) score
+        ctx.font = '30pt monospace';
+        ctx.fillText(score1, 20, 40); // Draw left player (AI) score
 
         ctx.fillStyle = '#bf2bdd';
-        ctx.fillText(score2, canvas.width - 50, 50); // Draw right player (You) score
+        ctx.fillText(score2, canvas.width - 20, 40); // Draw right player (You) score
+    }
+
+    function drawBall() {
+        ballX = canvas.width / 2;
+        ballY = canvas.height / 2;
+
+        drawCircle(ballX, ballY, ballSize, '#FFF');
     }
 
     function draw() {
@@ -152,15 +174,17 @@ export function offlineAI_handler() {
         drawScores(); // Draw scores on the canvas
         checkScores();
     }
+    
 
     function startMessage() {
 
-        ctx.fillStyle = "#FFF";
-        ctx.font = 'bold 40px monospace';
+        ctx.fillStyle = "#7d7fac";
+        ctx.font = 'normal 11pt monospace';
         ctx.textAlign = "center";
 
-        ctx.fillText("Press Enter to Start!", canvas.width / 2, canvas.height / 2 - 75);
+        ctx.fillText(`${PRESS_ENTER}`.toUpperCase(), canvas.width / 2, canvas.height / 2 + 65);
     }
+    
 
     function gameLoop() {
         if (gameStarted == false) {

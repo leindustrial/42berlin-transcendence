@@ -15,7 +15,7 @@ export function startGame(sessionId, oldSocket) {
 	setElementinnerHTML(document.getElementById('tour-game'), tourGameHTML);
 	showElement(document.getElementById('tour-game'));
 
-	const socket = new WebSocket(`ws://${window.location.host}/tour_game/${sessionId}/`);
+	const socket = new WebSocket(`wss://${window.location.host}/tour_game/${sessionId}/`);
 	const gameArea = document.getElementById('game-area');
 	const message = document.getElementById('message');
 	const ball = document.getElementById('ball');

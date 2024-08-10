@@ -35,8 +35,8 @@
 #footer-welcome {
     margin-top: 50px;
     padding-top: 50px;
-    margin-bottom: 50px;
-    padding-bottom: 50px;
+    bottom: 50px;
+    position: fixed;
 }
 
 #profile-menu {
@@ -236,6 +236,29 @@ form ul li {
     margin-top: 50px;
 }
 
+#signup_submit, #login_submit {
+    width: 300px;
+}
+.file-upload-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.file-upload-input {
+    display: none;
+}
+
+.file-upload-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.file-name {
+    margin-left: 10px;
+}
 /* Profile & friends -------------------------------------------------------------------------------------------------*/
 
 #profile, #profile-list-page {
@@ -674,7 +697,6 @@ body {
 }
 
 #four_score2 {
-
     top: -60px;
     color: rgb(66, 210, 143);
 }
@@ -715,9 +737,8 @@ body {
 }
 
 #four_player4-name {
-    left: 10%;
-    bottom: 2%;
-	color: white;
+    bottom: 20px;
+	color: rgb(251, 237, 132);
 }
 
 
@@ -825,7 +846,7 @@ body {
     border-left-color: #09f;
     animation: spin 1s ease infinite;
     margin: auto;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
