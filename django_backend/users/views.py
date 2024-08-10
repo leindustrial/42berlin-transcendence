@@ -127,31 +127,37 @@ def json_signup(request):
             data = 'User' + username + 'created succesfully'
             return JsonResponse({'msg': data, 'status': 'success', 'csrf_token': get_token(request)})
         else:
-            return JsonResponse({'error': '400 - Please check your username and password are conform'}, status=400)
+            return JsonResponse({'error': 'Please check your username and password are conform', 'status_code': 401}, status=400)
     else:
-        return JsonResponse({'error': '405 - Not a valid request'}, status=405)
+        return JsonResponse({'error': 'Not a valid request', 'status_code': 405}, status=405)
 
 def json_login(request):
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        # print(username)
-        user = authenticate(request, username=username, password=password)
-        # print(f"Authenticated user: {user}")
-        if user is not None:
-            login(request, user)
-            return JsonResponse({'msg':'You are now logged in', 'status': 'success', 'csrf_token': get_token(request)})
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.method == "POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            # print(username)
+            user = authenticate(request, username=username, password=password)
+            # print(f"Authenticated user: {user}")
+            if user is not None:
+                login(request, user)
+                return JsonResponse({'msg':'You are now logged in', 'status': 'success', 'csrf_token': get_token(request)})
+            else:
+                return JsonResponse({'error': 'Please check your username and password are correct', 'status_code': 400}, status=400)
         else:
-            return JsonResponse({'error': '400 - Please check your username and password are correct'}, status=400)
+            return JsonResponse({'error': 'Not a valid request', 'status_code': 405}, status=405)
     else:
-        return JsonResponse({'error': '405 - Not a valid request'}, status=405)
+        return redirect('/')
 
 def json_logout(request):
-    if request.user.is_authenticated:
-        logout(request)
-        return JsonResponse({'msg':'You are now logged out', 'status': 'success', 'csrf_token': get_token(request)})
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.user.is_authenticated:
+            logout(request)
+            return JsonResponse({'msg':'You are now logged out', 'status': 'success', 'csrf_token': get_token(request)})
+        else:
+            return JsonResponse({'error': 'You need to log in first', 'status_code': 403}, status=403)
     else:
-        return JsonResponse({'error': '403 - You need to log in first'}, status=403)
+        return redirect('/')
 
 def json_profile_pk(request, pk):
     if request.method == 'GET':
@@ -159,7 +165,7 @@ def json_profile_pk(request, pk):
             try:
                 user = User.objects.get(pk=pk)
             except User.DoesNotExist:
-                return JsonResponse({'error': '404 - Invalid request, User does not exist'}, status=404)
+                return JsonResponse({'error': 'Invalid request, User does not exist', 'status_code': 404}, status=404)
             try:
                 profile = Profile.objects.get(user=user)
                 if profile.avatar:
@@ -199,56 +205,59 @@ def json_profile_pk(request, pk):
                 }
                 return JsonResponse(data)
             except Profile.DoesNotExist:
-                return JsonResponse({'error': '404 - Invalid request, Profile does not exist'}, status=404)
+                return JsonResponse({'error': 'Invalid request, Profile does not exist', 'status_code': 404}, status=404)
         else:
-            return JsonResponse({'error': '403 - You need to log in first'}, status=403)
+            return JsonResponse({'error': 'You need to log in first', 'status_code': 403}, status=403)
     else:
-        return JsonResponse({'error': '405 - Invalid request method'}, status=405)
+        return JsonResponse({'error': 'Invalid request method', 'status_code': 405}, status=405)
 
 def json_profile(request):
-    if request.method == 'GET':
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         if request.user.is_authenticated:
-            profile = Profile.objects.get(user_id=request.user.id)
-            if profile.avatar:
-                profile_pic_url = profile.avatar.url
-            else:
-                profile_pic_url = None
-            match_history = profile.match_history
-            if match_history is None:
-                match_history = ""
-            match_history = match_history.split(';')
-            table_data = []
-            for match in match_history:
-                row = match.split(',')
-                row = [item.strip() for item in row]
-                table_data.append(row)
-            total_games = profile.wins + profile.losses
-            # manual Serialization
-            data = {
-                'userid': request.user.id,
-                'username': profile.user.username,
-                'display_name': profile.display_name,
-                'avatar': profile_pic_url,
-                'wins': profile.wins,
-                'losses': profile.losses,
-                'total_games': total_games,
-                'friends': [
-                    {
-                        'username': friend.user.username,
-                        'id': friend.user.id,
-                        'online_status': friend.online_status,
-                        'avatar': friend.avatar.url if friend.avatar else None,  # Use a default image URL if avatar is not set
+            if request.method == 'GET':
+                profile = Profile.objects.get(user_id=request.user.id)
+                if profile.avatar:
+                    profile_pic_url = profile.avatar.url
+                else:
+                    profile_pic_url = None
+                match_history = profile.match_history
+                if match_history is None:
+                    match_history = ""
+                match_history = match_history.split(';')
+                table_data = []
+                for match in match_history:
+                    row = match.split(',')
+                    row = [item.strip() for item in row]
+                    table_data.append(row)
+                total_games = profile.wins + profile.losses
+                # manual Serialization
+                data = {
+                    'userid': request.user.id,
+                    'username': profile.user.username,
+                    'display_name': profile.display_name,
+                    'avatar': profile_pic_url,
+                    'wins': profile.wins,
+                    'losses': profile.losses,
+                    'total_games': total_games,
+                    'friends': [
+                        {
+                            'username': friend.user.username,
+                            'id': friend.user.id,
+                            'online_status': friend.online_status,
+                            'avatar': friend.avatar.url if friend.avatar else None,  # Use a default image URL if avatar is not set
 
-                    } for friend in profile.friends.all()
-                ],
-                'match_history': table_data,
-                'status': 'success'
-            }
-            return JsonResponse(data)
+                        } for friend in profile.friends.all()
+                    ],
+                    'match_history': table_data,
+                    'status': 'success'
+                }
+                return JsonResponse(data)
+            else:
+                return JsonResponse({'error': 'Invalid request method', 'status_code': 405}, status=405)
         else:
-            return JsonResponse({'error': '403 - You need to log in first'}, status=403)
+            return JsonResponse({'error': 'You need to log in first', 'status_code': 403}, status=403)
     else:
-        return JsonResponse({'error': '405 - Invalid request method'}, status=405)
+        return redirect('/')
 
 def json_profile_list(request):
     if request.user.is_authenticated:
@@ -303,11 +312,11 @@ def json_profile_list(request):
                 }
                 return JsonResponse(data)
             else:
-                return JsonResponse({'error': '404 - Not an existing profile id'}, status=404)
+                return JsonResponse({'error': '404 - Not an existing profile id', 'status_code': 404}, status=404)
         else:
-            return JsonResponse({'error': '405 - Method not allowed'}, status=405)
+            return JsonResponse({'error': '405 - Method not allowed', 'status_code': 405}, status=405)
     else:
-        return JsonResponse({'error': '403 - You need to log in first'}, status=403)
+        return JsonResponse({'error': '403 - You need to log in first', 'status_code': 403}, status=403)
 
 def json_update_user(request):
     if request.user.is_authenticated:
@@ -318,9 +327,9 @@ def json_update_user(request):
             form.save()
             login(request, current_user)
             return JsonResponse({'msg':'Your account has been updated', 'status': 'success', 'csrf_token': get_token(request)})
-        return JsonResponse({'error': '400 - There is an error with your form'}, status=400)
+        return JsonResponse({'error': '400 - There is an error with your form', 'status_code': 400}, status=400)
     else:
-        return JsonResponse({'error': '403 - You need to log in first'}, status=403)
+        return JsonResponse({'error': '403 - You need to log in first', 'status_code': 403}, status=403)
 
 def json_update_display_name(request):
     if request.user.is_authenticated:
@@ -334,9 +343,9 @@ def json_update_display_name(request):
             form.save()
             login(request, current_user)
             return JsonResponse({'msg':'Display Name has been updated', 'status': 'success', 'csrf_token': get_token(request),})
-        return JsonResponse({'error': '400 - There is an error with your form'}, status=400)
+        return JsonResponse({'error': '400 - There is an error with your form', 'status_code': 400}, status=400)
     else:
-        return JsonResponse({'error': '403 - You need to log in first'}, status=403)
+        return JsonResponse({'error': '403 - You need to log in first', 'status_code': 403}, status=403)
 
 def json_update_avatar(request):
     if request.user.is_authenticated:
@@ -353,7 +362,7 @@ def json_update_avatar(request):
                         os.remove(old_avatar.path)
                 login(request, current_user)
                 return JsonResponse({'msg':'Your Profile picture has been updated', 'status': 'success', 'csrf_token': get_token(request)})
-            return JsonResponse({'error': '400 - There is an error with your form'}, status=400)
-        return JsonResponse({'error': '405 - Method not allowed'}, status=405)
+            return JsonResponse({'error': '400 - There is an error with your form', 'status_code': 400}, status=400)
+        return JsonResponse({'error': '405 - Method not allowed', 'status_code': 405}, status=405)
     else:
-        return JsonResponse({'error': '403 - You need to log in first'}, status=403)
+        return JsonResponse({'error': '403 - You need to log in first', 'status_code': 403}, status=403)

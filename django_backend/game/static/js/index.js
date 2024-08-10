@@ -260,8 +260,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				const errorP = document.getElementById('id-login').querySelector('.error-message');
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// const errorP = document.getElementById('id-login').querySelector('.error-message');
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -345,7 +346,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		console.log('Button clicked');
 
 		const url = '/game-start/users/json_profile/';
-		console.log(`Sending fetch request to: ${url}`);
 
 		$.ajax({
 			type: 'GET',
@@ -358,16 +358,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				// window.lastDisplayedElement = profilePageDiv;
 			},
 			error: function(xhr, status, error) {
-				// console.error('An error occurred:', ${data.error});
 				let errorMsg = "Error";
 				if (xhr.responseJSON && xhr.responseJSON.error) {
                     errorMsg = xhr.responseJSON.error;
                 }
-				// hideElement(window.lastDisplayedElement);
-				setElementinnerHTML(profilePageDiv, `${errorMsg}`);
-				showElement(profilePageDiv);
-				// window.lastDisplayedElement = profilePageDiv;
-				// container.html('An error occurred while fetching the profile.');
+                alert(`${errorMsg}`);
+                window.location.hash = 'id-login';
 			}
 		});
     });
