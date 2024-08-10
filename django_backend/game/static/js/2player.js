@@ -26,7 +26,7 @@ export function game_handler() {
 	const player1 = document.getElementById('player1-name');
 	const player2 = document.getElementById('player2-name');
 
-	message.textContent = 'Waiting for players to join...';
+	message.textContent = `${WAIT}`;
 
 	document.addEventListener('keydown', (e) => {
 		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
@@ -41,7 +41,7 @@ export function game_handler() {
 		const data = JSON.parse(event.data);
 		switch (data.type) {
 			case 'player_joined':
-				message.textContent = `${data.name} joined the game`;
+				message.textContent = `${data.name} ${JOINED}`;
 				player1.textContent = data.name;
 				setTimeout(() => {
 					message.textContent = '';
@@ -66,13 +66,13 @@ export function game_handler() {
 				}, 1000);
 				break;
 			case 'game_over':
-				message.textContent = `Game Over! ${data.winner} wins!`;
+				message.textContent = `${GAME_OVER2} ${data.winner} ${WON}!`;
 				break;
 			case 'game_stop':
 				message.textContent = data.message;
 				break;
 			case 'player_rejoined':
-				message.textContent = `${data.name} rejoined the game`;
+				message.textContent = `${data.name} ${REJOINED}`;
 				player1.textContent = data.name;
 				player2.textContent = data.opponent;
 				setTimeout(() => {
@@ -96,16 +96,16 @@ export function game_handler() {
 	socket.onclose = (event) => {
 		switch (event.code) {
 			case 3001:
-				message.textContent = 'Player already joined the game. You will be redirected';
+				message.textContent = `${REDIR}`;
 				break;
 			case 3002:
-				message.textContent = 'Connection closed: no available game session';
+				message.textContent = `${NO_SESSION}`;
 				break;
 			case 3003:
-				message.textContent = 'Connection closed for unauthenticated user';
+				message.textContent = `${CON_CLOSED}`;
 				break;
 			default:
-				message.textContent = 'You will be redirected to the home page.';
+				message.textContent = `${REDIR_HOME}`;
 		}
 		if (socket.readyState === WebSocket.CLOSED) {
 			setTimeout(() => {
@@ -116,7 +116,7 @@ export function game_handler() {
 
 	socket.onerror = (error) => {
 		console.error('WebSocket Error:', error);
-		message.textContent = 'An error occurred. Please refresh the page.';
+		message.textContent = `${ERR}`;
 	};
 
 	function cleanupGame() {

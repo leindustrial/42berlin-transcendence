@@ -322,6 +322,49 @@ msgstr "Your username has been updated"
 msgid "Registered Users"
 msgstr "Registered Users"
 
+
+msgid "Waiting for players to join"
+msgstr "Waiting for players to join"
+
+msgid "joined the game"
+msgstr "joined the game"
+
+msgid "rejoined the game"
+msgstr "rejoined the game"
+
+msgid "Player already joined the game. You will be redirected"
+msgstr "Player already joined the game. You will be redirected"
+
+msgid "Connection closed: no available game session"
+msgstr "Connection closed: no available game session"
+
+msgid "Connection closed for unauthenticated user"
+msgstr "Connection closed for unauthenticated user"
+
+msgid "You will be redirected to the home page"
+msgstr "You will be redirected to the home page"
+
+msgid "An error occurred. Please refresh the page"
+msgstr "An error occurred. Please refresh the page"
+
+msgid "Game starts in"
+msgstr "Game starts in"
+
+msgid "Players joined. Get ready!"
+msgstr "Players joined. Get ready!"
+
+msgid "Out of bounds!"
+msgstr "Out of bounds!"
+
+msgid "Goal!"
+msgstr "Goal!"
+
+msgid "Game Over!"
+msgstr "Game Over!"
+
+msgid "Wait for the opponent to rejoin"
+msgstr "Wait for the opponent to rejoin"
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""

@@ -327,6 +327,49 @@ msgid "Registered Users"
 msgstr "Registrierte Benutzer"
 
 
+msgid "Waiting for players to join"
+msgstr "Warten auf Spieler, die beitreten"
+
+msgid "joined the game"
+msgstr "dem Spiel beigetreten"
+
+msgid "rejoined the game"
+msgstr "dem Spiel wieder beigetreten"
+
+msgid "Player already joined the game. You will be redirected"
+msgstr "Spieler ist bereits dem Spiel beigetreten. Sie werden weitergeleitet"
+
+msgid "Connection closed: no available game session"
+msgstr "Verbindung geschlossen: Keine verfügbare Spielsitzung"
+
+msgid "Connection closed for unauthenticated user"
+msgstr "Verbindung geschlossen für nicht authentifizierten Benutzer"
+
+msgid "You will be redirected to the home page"
+msgstr "Sie werden zur Startseite weitergeleitet"
+
+msgid "An error occurred. Please refresh the page"
+msgstr "Ein Fehler ist aufgetreten. Bitte aktualisieren Sie die Seite"
+
+msgid "Game starts in"
+msgstr "Das Spiel beginnt in"
+
+msgid "Players joined. Get ready!"
+msgstr "Spieler beigetreten. Bereit machen!"
+
+msgid "Out of bounds!"
+msgstr "Aus dem Spiel!"
+
+msgid "Goal!"
+msgstr "Tor!"
+
+msgid "Game Over!"
+msgstr "Spiel vorbei!"
+
+msgid "Wait for the opponent to rejoin"
+msgstr "Warten Sie, bis der Gegner wieder beitritt"
+
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""

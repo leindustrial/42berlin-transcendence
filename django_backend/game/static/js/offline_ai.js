@@ -28,8 +28,8 @@ export function offlineAI_handler() {
     let paddle2Y = (canvas.height - paddleHeight) / 2;
     let ballX = canvas.width / 2;
     let ballY = canvas.height / 2;
-    let ballSpeedX = 7;
-    let ballSpeedY = 7;
+    let ballSpeedX = 5;
+    let ballSpeedY = 5;
     let gamestate = "stop";
     let gameStarted = false;
     let score1 = 0;
@@ -75,7 +75,7 @@ export function offlineAI_handler() {
         ballY += ballSpeedY;
 
         // Ball collision with top and bottom
-        if (ballY <= 0 || ballY >= canvas.height) {
+        if (ballY <= 10 || ballY >= canvas.height - 10) {
             ballSpeedY = -ballSpeedY;
         }
 
@@ -87,6 +87,8 @@ export function offlineAI_handler() {
                 score2++;
                 if (score2 !== endScore)
                     resetBall();
+                else
+                    drawBall();
             }
         }
 
@@ -97,6 +99,8 @@ export function offlineAI_handler() {
                 score1++;
                 if (score1 !== endScore)
                     resetBall();
+                else
+                    drawBall();
             }
         }
     }
@@ -104,11 +108,12 @@ export function offlineAI_handler() {
     function checkScores() {
         if (score1 >= endScore || score2 >= endScore) {
             // Draw the game over message
+            
             ctx.fillStyle = "#7d7fac";
             ctx.font = 'normal 11pt monospace';
             ctx.textAlign = "center";
             ctx.fillText(`${GAME_OVER}`.toUpperCase(), canvas.width / 2, canvas.height / 2 + 60);
-            
+
             // Draw the winner message
             if (score1 == endScore) {
                 // AI won
@@ -125,6 +130,7 @@ export function offlineAI_handler() {
                 ctx.fillText(`${HUMAN_WON}`.toUpperCase(), canvas.width / 2, canvas.height / 2 - 50);
 
             }
+
             gamestate = "stop";
         }
     }
@@ -146,6 +152,13 @@ export function offlineAI_handler() {
         ctx.fillText(score2, canvas.width - 20, 40); // Draw right player (You) score
     }
 
+    function drawBall() {
+        ballX = canvas.width / 2;
+        ballY = canvas.height / 2;
+
+        drawCircle(ballX, ballY, ballSize, '#FFF');
+    }
+
     function draw() {
         // Clear canvas
         drawRect(0, 0, canvas.width, canvas.height, '#fff');
@@ -161,6 +174,7 @@ export function offlineAI_handler() {
         drawScores(); // Draw scores on the canvas
         checkScores();
     }
+    
 
     function startMessage() {
 

@@ -119,7 +119,7 @@ export function game_handler_4pl() {
 				message.textContent = 'Connection closed for unauthenticated user';
 				break;
 			default:
-				message.textContent = 'You will be redirected to the home page.';
+				message.textContent = 'You will be redirected to the home page';
 		}
 		if (socket.readyState === WebSocket.CLOSED) {
 			setTimeout(() => {
@@ -130,7 +130,7 @@ export function game_handler_4pl() {
 
 	socket.onerror = (error) => {
 		console.error('WebSocket Error:', error);
-		message.textContent = 'An error occurred. Please refresh the page.';
+		message.textContent = 'An error occurred. Please refresh the page';
 	};
 
 	function cleanupGame() {
