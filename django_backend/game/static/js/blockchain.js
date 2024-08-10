@@ -46,7 +46,19 @@ export function blockchain_handler() {
   }
 
   async function fund() {
-    const username = winner; // Change this line: add string 'PONG 3.0 tournament' + date + 'winner:' + username
+
+    const now = new Date();
+
+    const day = String(now.getDate()).padStart(2, "0");
+    const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const year = now.getFullYear();
+
+    const formattedDate = `${day}/${month}/${year}`;
+
+    const username = `PONG 3.0 tournament | Date:${formattedDate} | winner: ${winner}`;
+
+    // const username = winner; //'PONG 3.0 tournament' + date + 'winner:' + winner
+
 
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(
