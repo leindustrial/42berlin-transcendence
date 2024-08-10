@@ -35,7 +35,7 @@ def get_started(request):
     logger.info('main page visited')
     SignUpForm = UserCreationForm()
     AvatarForm = UpdateAvatarForm()
-    return render(request, 'game/index.html', {'UserCreationForm': SignUpForm, 'UpdateAvatarForm': AvatarForm,})
+    return render(request, 'game/index.html', {'UserCreationForm': SignUpForm, 'UpdateAvatarForm': AvatarForm, 'is_authenticated': str(request.user.is_authenticated),})
 
 @login_required
 def get_username(request):

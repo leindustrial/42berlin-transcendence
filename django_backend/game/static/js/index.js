@@ -213,6 +213,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // csrfToken required for POST requests
 	const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 	window.csrf = csrfToken;
+    if (IS_AUTHENTICATED === "True") {
+        window.is_authenticated = true;
+    } else {
+        window.is_authenticated = false;
+    };
+    console.log(window.is_authenticated);
 
     window.lastDisplayedElement = null;
     window.userElements = [];
@@ -251,7 +257,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				// commented this out to prevent the get-started section from showing up after login
 				// now the main show section is controlled by the hashchange event listener
 				// showElement(getStartedDiv);
-
+                window.is_authenticated = true;
+                console.log(window.is_authenticated);
 				window.location.hash = 'get-started';
 			},
 			error: function(xhr, status, error) {
@@ -286,6 +293,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				window.csrf = data.csrf_token;
 				hideElement(signupFormDiv);
 				// showElement(navbarDiv);
+                window.is_authenticated = true;
+                console.log(window.is_authenticated);
                 window.location.hash = 'get-started';
 			},
 			error: function(xhr, status, error) {
@@ -316,6 +325,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
+                window.is_authenticated = false;
+                console.log(window.is_authenticated);
 				window.userElements.forEach(element => {
 					hideElement(element);
 				});
