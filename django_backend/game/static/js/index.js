@@ -40,6 +40,9 @@ function showSection(sectionId) {
 			selectedSection.style.display = 'block';
 		}
     }
+    else if (selectedSection) {
+        sectionId = 'offline-choose-mode';
+    }
 
 
     // Conditionally show/hide the logo and language
@@ -135,13 +138,23 @@ function gameVisible4() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // global window bool var for USER AUTHENTICATION STATUS
+    if (IS_AUTHENTICATED === "True") {
+        window.is_authenticated = true;
+        const initialSection = window.location.hash.substring(1) || 'get-started';
+        showSection(initialSection);
+    } else {
+        window.is_authenticated = false;
+        const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
+        showSection(initialSection);
+    };
+    console.log(window.is_authenticated);
+
     // SHOW SECTIONS:
     window.addEventListener('hashchange', function() {
         const sectionId = window.location.hash.substring(1);
         showSection(sectionId);
     });
-    const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
-	showSection(initialSection);
 	
    // Buttons listeners for online games:
     $(document).on('click', '.btn-2pl-game', function(event) {
@@ -213,12 +226,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // csrfToken required for POST requests
 	const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 	window.csrf = csrfToken;
-    if (IS_AUTHENTICATED === "True") {
-        window.is_authenticated = true;
-    } else {
-        window.is_authenticated = false;
-    };
-    console.log(window.is_authenticated);
 
     window.lastDisplayedElement = null;
     window.userElements = [];
