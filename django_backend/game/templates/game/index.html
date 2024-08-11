@@ -358,6 +358,7 @@
     <script>
 		const DEFAULT_AVATAR_URL = "{% static 'avatar/kermit.png' %}";
         var IS_AUTHENTICATED = "{{ is_authenticated }}";
+
         const PRESS_ENTER = "{% translate 'Press Enter to Play' %}";
         const PLAYER = "{% translate 'Player' %}";
         const ENTER_NAMES = "{% translate 'Enter players names:' %}";
@@ -417,6 +418,7 @@
         const REG_USR = "{% translate 'Registered Users' %}";
 
         const WAIT = "{% translate 'Waiting for players to join' %}";
+        const WAIT_REJOIN = "{% translate 'Wait for the opponent to rejoin' %}";
         const JOINED = "{% translate 'joined the game' %}";
         const REJOINED = "{% translate 'rejoined the game' %}";
         const REDIR = "{% translate 'Player already joined the game. You will be redirected' %}";
@@ -424,11 +426,11 @@
         const CON_CLOSED = "{% translate 'Connection closed for unauthenticated user' %}";
         const REDIR_HOME = "{% translate 'You will be redirected to the home page' %}";
         const ERR = "{% translate 'An error occurred. Please refresh the page' %}";
-        const COUNT_DOWN = "{% translate 'Game starts in' %}";
+        const STARTED = "{% translate 'Game Started' %}";
         const GET_READY = "{% translate 'Players joined. Get ready!' %}";
         const OUT = "{% translate 'Out of bounds!' %}";
         const GOAL = "{% translate 'Goal!' %}";
-        const WON = "{% translate 'won' %}"
+        const WON = "{% translate 'Won' %}"
         const GAME_OVER2 = "{% translate 'Game Over!' %}"
 
 	</script>

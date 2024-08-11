@@ -310,8 +310,8 @@ msgstr "Datum"
 msgid "Friends"
 msgstr "Freunde"
 
-msgid "There is an error with your form"
-msgstr "Es gibt einen Fehler in Ihrem Formular"
+msgid "400 - There is an error with your form"
+msgstr "400 - Es gibt einen Fehler in Ihrem Formular"
 
 msgid "Choose File"
 msgstr "Datei Auswählen"
@@ -375,6 +375,8 @@ msgstr "Fehler 404"
 msgid "Page Not Found"
 msgstr "Seite nicht gefunden"
 
+msgid "Won"
+msgstr "hat gewonnen"
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

@@ -15,7 +15,7 @@ export function game_handler() {
 	
 	setElementinnerHTML(document.getElementById('online-1x1'), online1x1Html);
 	showElement(document.getElementById('online-1x1'));
-	const socket = new WebSocket(`wss://${window.location.host}/wss/pong/`);
+	const socket = new WebSocket(`ws://${window.location.host}/wss/pong/`);
 	const gameArea = document.getElementById('game-area');
 	const message = document.getElementById('message');
 	const ball = document.getElementById('ball');
@@ -49,7 +49,7 @@ export function game_handler() {
 				break;
 			case 'both_players_joined':
 				console.log('Both players joined');
-				message.textContent = data.message;
+				message.textContent = `${GET_READY}`;
 				console.log(data.name);
 				player2.textContent = data.name;
 				break;
@@ -60,7 +60,7 @@ export function game_handler() {
 				updateGameState(data.game_state);
 				break;
 			case 'game_started':
-				message.textContent = data.message;
+				message.textContent = `${STARTED}!`;
 				setTimeout(() => {
 					message.textContent = '';
 				}, 1000);
@@ -69,7 +69,7 @@ export function game_handler() {
 				message.textContent = `${GAME_OVER2} ${data.winner} ${WON}!`;
 				break;
 			case 'game_stop':
-				message.textContent = data.message;
+				message.textContent = `${WAIT_REJOIN}`;
 				break;
 			case 'player_rejoined':
 				message.textContent = `${data.name} ${REJOINED}`;

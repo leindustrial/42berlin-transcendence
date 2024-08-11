@@ -129,7 +129,7 @@ def json_signup(request):
                 data = 'User' + username + 'created succesfully'
                 return JsonResponse({'msg': data, 'status': 'success', 'csrf_token': get_token(request)})
             else:
-                return JsonResponse({'error': 'Please check your username and password are conform', 'status_code': 401}, status=400)
+                return JsonResponse({'error': _('Please check your username and password are conform'), 'status_code': 401}, status=400)
         else:
             return JsonResponse({'error': 'Not a valid request', 'status_code': 405}, status=405)
     else:
@@ -147,7 +147,7 @@ def json_login(request):
                 login(request, user)
                 return JsonResponse({'msg':'You are now logged in', 'status': 'success', 'csrf_token': get_token(request)})
             else:
-                return JsonResponse({'error': 'Please check your username and password are correct', 'status_code': 400}, status=400)
+                return JsonResponse({'error': _('Please check your username and password are correct'), 'status_code': 400}, status=400)
         else:
             return JsonResponse({'error': 'Not a valid request', 'status_code': 405}, status=405)
     else:
@@ -337,8 +337,8 @@ def json_update_user(request):
             if form.is_valid():
                 form.save()
                 login(request, current_user)
-                return JsonResponse({'msg':'Your account has been updated', 'status': 'success', 'csrf_token': get_token(request)})
-            return JsonResponse({'error': '400 - There is an error with your form', 'status_code': 400}, status=400)
+                return JsonResponse({'msg':_('Your username has been updated'), 'status': 'success', 'csrf_token': get_token(request)})
+            return JsonResponse({'error': _('400 - There is an error with your form'), 'status_code': 400}, status=400)
         else:
             return JsonResponse({'error': '403 - You need to log in first', 'status_code': 403}, status=403)
     else:
@@ -356,8 +356,8 @@ def json_update_display_name(request):
                     return HttpResponse('Display Name already exists')
                 form.save()
                 login(request, current_user)
-                return JsonResponse({'msg':'Display Name has been updated', 'status': 'success', 'csrf_token': get_token(request),})
-            return JsonResponse({'error': '400 - There is an error with your form', 'status_code': 400}, status=400)
+                return JsonResponse({'msg':_('Display Name has been updated'), 'status': 'success', 'csrf_token': get_token(request),})
+            return JsonResponse({'error': _('400 - There is an error with your form'), 'status_code': 400}, status=400)
         else:
             return JsonResponse({'error': '403 - You need to log in first', 'status_code': 403}, status=403)
     else:
@@ -378,8 +378,8 @@ def json_update_avatar(request):
                         if os.path.exists(old_avatar.path):
                             os.remove(old_avatar.path)
                     login(request, current_user)
-                    return JsonResponse({'msg':'Your Profile picture has been updated', 'status': 'success', 'csrf_token': get_token(request)})
-                return JsonResponse({'error': '400 - There is an error with your form', 'status_code': 400}, status=400)
+                    return JsonResponse({'msg':_('Your profile picture has been updated'), 'status': 'success', 'csrf_token': get_token(request)})
+                return JsonResponse({'error': _('400 - There is an error with your form'), 'status_code': 400}, status=400)
             return JsonResponse({'error': '405 - Method not allowed', 'status_code': 405}, status=405)
         else:
             return JsonResponse({'error': '403 - You need to log in first', 'status_code': 403}, status=403)
