@@ -212,7 +212,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 				session_id,
 				{
 					'type': 'countdown',
-					'message': f"Game starts in {i} seconds..."
+					'message': "{i}"
 				}
 			)
 			await asyncio.sleep(1)
@@ -254,13 +254,13 @@ class PongConsumer(AsyncWebsocketConsumer):
 		if game_state['ball']['x'] <= 10 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 100:
 			game_state['ball']['dx'] *= -1
 			game_state['last_touch'] = 'player1'
-		elif game_state['ball']['x'] >= 590 and game_state['paddle3'] <= game_state['ball']['y'] <= game_state['paddle3'] + 100:
+		elif game_state['ball']['x'] >= 570 and game_state['paddle3'] <= game_state['ball']['y'] <= game_state['paddle3'] + 100:
 			game_state['ball']['dx'] *= -1
 			game_state['last_touch'] = 'player3'
 		elif game_state['ball']['y'] <= 10 and game_state['paddle2'] <= game_state['ball']['x'] <= game_state['paddle2'] + 100:
 			game_state['ball']['dy'] *= -1
 			game_state['last_touch'] = 'player2'
-		elif game_state['ball']['y'] >= 590 and game_state['paddle4'] <= game_state['ball']['x'] <= game_state['paddle4'] + 100:
+		elif game_state['ball']['y'] >= 570 and game_state['paddle4'] <= game_state['ball']['x'] <= game_state['paddle4'] + 100:
 			game_state['ball']['dy'] *= -1
 			game_state['last_touch'] = 'player4'
 		if game_state['ball']['x'] < -20 or game_state['ball']['x'] > 600 or game_state['ball']['y'] < -20 or game_state['ball']['y'] > 600:

@@ -306,8 +306,8 @@ msgstr "Date"
 msgid "Friends"
 msgstr "Friends"
 
-msgid "There is an error with your form"
-msgstr "There is an error with your form"
+msgid "400 - There is an error with your form"
+msgstr "400 - There is an error with your form"
 
 msgid "Choose File"
 msgstr "Choose File"

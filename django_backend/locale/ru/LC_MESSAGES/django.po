@@ -122,8 +122,8 @@ msgstr "Победы"
 msgid "Losses"
 msgstr "Поражения"
 
-msgid "1v1 Match History"
-msgstr "История матчей 1 на 1"
+msgid "Match History"
+msgstr "История матчей"
 
 msgid "TimeStamp"
 msgstr "Временная метка"
@@ -308,11 +308,11 @@ msgstr "Изменить аватар"
 msgid "Date"
 msgstr "Дата"
 
-msgid "Friendsh"
+msgid "Friends"
 msgstr "Друзья"
 
-msgid "There is an error with your form"
-msgstr "Произошла ошибка в вашей форме"
+msgid "400 - There is an error with your form"
+msgstr "400 - Произошла ошибка в вашей форме"
 
 msgid "Choose File"
 msgstr "Выберите Файл"
@@ -375,6 +375,8 @@ msgstr "Ошибка 404"
 msgid "Page Not Found"
 msgstr "Страница не найдена"
 
+msgid "Won"
+msgstr "выиграл"
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

@@ -717,7 +717,7 @@ body {
 #four_player1-name, #four_player2-name, #four_player3-name, #four_player4-name {
     position: absolute;
     font-size: 10pt;
-    font-family:monospace;
+    font-family: monospace;
     text-transform: uppercase;
     letter-spacing: 3pt;
 }
