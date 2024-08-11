@@ -314,7 +314,7 @@ msgstr "Друзья"
 msgid "There is an error with your form"
 msgstr "Произошла ошибка в вашей форме"
 
-msgid "Choose file"
+msgid "Choose File"
 msgstr "Выберите Файл"
 
 msgid "Your profile picture has been updated"
@@ -368,6 +368,13 @@ msgstr "Игра окончена!"
 
 msgid "Wait for the opponent to rejoin"
 msgstr "Подождите, пока противник вернется"
+
+msgid "Error 404"
+msgstr "Ошибка 404"
+
+msgid "Page Not Found"
+msgstr "Страница не найдена"
+
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
