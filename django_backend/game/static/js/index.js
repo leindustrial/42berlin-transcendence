@@ -45,7 +45,9 @@ function showSection(sectionId) {
                 window.location.hash = 'offline-choose-mode';
                 // document.getElementById('offline-choose-mode').style.display = 'block';
             }            
-            else if ((sectionId === 'id-login' || sectionId === 'id-signup' || sectionId === 'offline-choose-mode') && window.is_authenticated === true)
+            else if ((sectionId === 'id-login' || sectionId === 'id-signup' || sectionId === 'offline-choose-mode'
+                || sectionId === 'offline-ai' || sectionId === 'offline-1x1' || sectionId === 'offline-tournament') 
+                && window.is_authenticated === true)
             {
                 window.location.hash = 'get-started';
                 // document.getElementById('get-started').style.display = 'block';
