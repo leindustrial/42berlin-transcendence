@@ -212,7 +212,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 				session_id,
 				{
 					'type': 'countdown',
-					'message': "{i}"
+					'message': f"{i}"
 				}
 			)
 			await asyncio.sleep(1)
