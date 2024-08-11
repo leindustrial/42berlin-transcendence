@@ -369,6 +369,12 @@ msgstr "Spiel vorbei!"
 msgid "Wait for the opponent to rejoin"
 msgstr "Warten Sie, bis der Gegner wieder beitritt"
 
+msgid "Error 404"
+msgstr "Fehler 404"
+
+msgid "Page Not Found"
+msgstr "Seite nicht gefunden"
+
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

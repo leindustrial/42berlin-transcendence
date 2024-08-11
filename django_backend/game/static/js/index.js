@@ -1,6 +1,7 @@
 
 // SHOW SECTIONS // STERT OFFLINE GAMES:
 
+
 function showSection(sectionId) {
     // Get all sections & hide all sections
     const sections = document.querySelectorAll('.content-section');
@@ -11,7 +12,7 @@ function showSection(sectionId) {
     // Show only selected (via click on button/link) section
     const selectedSection = document.getElementById(sectionId);
     if (selectedSection) {
-		if (sectionId === 'get-started') {
+		if (sectionId === 'get-started' && window.is_authenticated === true) {
 
 			// a delay in the loading this setion is necessary to ensure that the event listeners to capture the exit event are set up
 			// and cleared after closing the ws connection. delay time filled with a loading animation. without this delay, the exit event
@@ -24,24 +25,50 @@ function showSection(sectionId) {
 				console.log('Get started section is now visible.');
 			}, 3000);
 		}
-        else if (sectionId === 'tour-hall') {
+        else if (sectionId === 'tour-hall' && window.is_authenticated === true) {
 			selectedSection.style.display = 'block';
             onTourHallVisible();
         }
-        else if (sectionId === 'online-1x1') {
+        else if (sectionId === 'online-1x1' && window.is_authenticated === true) {
 			selectedSection.style.display = 'block';
             gameVisible1x1();
         }
-        else if (sectionId === 'online-4') {
+        else if (sectionId === 'online-4' && window.is_authenticated === true) {
 			selectedSection.style.display = 'block';
             gameVisible4();
         }
 		else {
-			selectedSection.style.display = 'block';
+            if ((sectionId === 'get-started' || sectionId === 'tour-hall' || sectionId === 'online-1x1'|| sectionId === 'online-4' 
+                || sectionId === 'profile' || sectionId === 'profile-list-page' || sectionId === 'id-update-user' || sectionId === 'id-update-avatar')
+                && (window.is_authenticated === false))
+            {
+                window.location.hash = 'offline-choose-mode';
+                // document.getElementById('offline-choose-mode').style.display = 'block';
+            }            
+            else if ((sectionId === 'id-login' || sectionId === 'id-signup' || sectionId === 'offline-choose-mode') && window.is_authenticated === true)
+            {
+                window.location.hash = 'get-started';
+                // document.getElementById('get-started').style.display = 'block';
+            }
+            else {
+                console.log('showing section');
+                selectedSection.style.display = 'block';
+            }
 		}
     }
     else if (selectedSection) {
         sectionId = 'offline-choose-mode';
+    }
+    else
+    {
+        if (sectionId !== 'get-started' && sectionId !== 'offline-choose-mode' && sectionId !== 'offline-ai' && sectionId !== 'offline-1x1'
+            && sectionId !== 'offline-tournament' && sectionId !== 'id-login' && sectionId !== 'id-signup' && sectionId !== 'profile' && sectionId !== 'profile-list-page'
+            && sectionId !== 'id-update-user' && sectionId !== 'id-update-avatar' && sectionId !== 'online-1x1' 
+            && sectionId !== 'online-1x1' && sectionId !== 'online-4' && sectionId !== 'tour-hall')
+        {
+            console.log('page not found');
+            window.location.hash = '404-page-not-found';
+        }
     }
 
 
@@ -67,7 +94,7 @@ function showSection(sectionId) {
     if (sectionId === 'offline-choose-mode' || sectionId === 'id-login' || sectionId === 'id-signup' 
         || sectionId === 'get-started' || sectionId === 'id-update-user' || sectionId === 'id-update-displayname'
         || sectionId === 'id-update-avatar' || sectionId === 'blockchain'
-        || sectionId === 'profile' || sectionId === 'profile-list-page') {
+        || sectionId === 'profile' || sectionId === 'profile-list-page' || sectionId === '404-page-not-found') {
         if (headerWelcome) headerWelcome.style.display = 'block';
     } else {
         if (headerWelcome) headerWelcome.style.display = 'none';
@@ -147,10 +174,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (IS_AUTHENTICATED === "True") {
         window.is_authenticated = true;
         const initialSection = window.location.hash.substring(1) || 'get-started';
+        window.location.hash = 'get-started';
         showSection(initialSection);
     } else {
         window.is_authenticated = false;
         const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
+        window.location.hash = 'offline-choose-mode';
         showSection(initialSection);
     };
     console.log(window.is_authenticated);
@@ -161,8 +190,8 @@ document.addEventListener('DOMContentLoaded', function() {
         showSection(sectionId);
     });
 
-    const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
-	showSection(initialSection);
+    // const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
+	// showSection(initialSection);
 	
    // Buttons listeners for online games:
     $(document).on('click', '.btn-2pl-game', function(event) {
