@@ -40,6 +40,9 @@ function showSection(sectionId) {
 			selectedSection.style.display = 'block';
 		}
     }
+    else if (selectedSection) {
+        sectionId = 'offline-choose-mode';
+    }
 
 
     // Conditionally show/hide the logo and language
@@ -140,6 +143,18 @@ function gameVisible4() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // global window bool var for USER AUTHENTICATION STATUS
+    if (IS_AUTHENTICATED === "True") {
+        window.is_authenticated = true;
+        const initialSection = window.location.hash.substring(1) || 'get-started';
+        showSection(initialSection);
+    } else {
+        window.is_authenticated = false;
+        const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
+        showSection(initialSection);
+    };
+    console.log(window.is_authenticated);
+
     // SHOW SECTIONS:
     window.addEventListener('hashchange', function() {
         const sectionId = window.location.hash.substring(1);
@@ -257,7 +272,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				// commented this out to prevent the get-started section from showing up after login
 				// now the main show section is controlled by the hashchange event listener
 				// showElement(getStartedDiv);
-
+                window.is_authenticated = true;
+                console.log(window.is_authenticated);
 				window.location.hash = 'get-started';
 			},
 			error: function(xhr, status, error) {
@@ -266,8 +282,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				const errorP = document.getElementById('id-login').querySelector('.error-message');
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// const errorP = document.getElementById('id-login').querySelector('.error-message');
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -291,6 +308,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				window.csrf = data.csrf_token;
 				hideElement(signupFormDiv);
 				// showElement(navbarDiv);
+                window.is_authenticated = true;
+                console.log(window.is_authenticated);
                 window.location.hash = 'get-started';
 			},
 			error: function(xhr, status, error) {
@@ -298,9 +317,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (xhr.responseJSON && xhr.responseJSON.error) {
 					errorMsg = xhr.responseJSON.error;
 				}
-				console.log(errorMsg);
-				const errorP = document.getElementById('id-signup').querySelector('.error-message');
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				console.log(`${errorMsg}`);
+				// const errorP = document.getElementById('id-signup').querySelector('.error-message');
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -308,7 +328,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     $('#logoutform').on('submit', function(event) {
 		event.preventDefault();
-		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 		const formData = new FormData();
 		formData.append('csrfmiddlewaretoken', window.csrf)
@@ -321,14 +340,20 @@ document.addEventListener('DOMContentLoaded', function() {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
+                window.is_authenticated = false;
+                console.log(window.is_authenticated);
 				window.userElements.forEach(element => {
 					hideElement(element);
 				});
 				showElement(loginFormDiv);
                 window.location.hash = 'offline-choose-mode';
 			},
-			error: function(data) {
-				console.log(data);
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+                alert(`${errorMsg}`);
 			},
 		});
 	});
@@ -351,9 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
     $(document).on('click', '.profile-link', function(event) {
 		console.log('Button clicked');
 
-		// const url = window.location.href + 'json';
 		const url = '/game-start/users/json_profile/';
-		console.log(`Sending fetch request to: ${url}`);
 
 		$.ajax({
 			type: 'GET',
@@ -366,16 +389,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				// window.lastDisplayedElement = profilePageDiv;
 			},
 			error: function(xhr, status, error) {
-				// console.error('An error occurred:', ${data.error});
 				let errorMsg = "Error";
 				if (xhr.responseJSON && xhr.responseJSON.error) {
                     errorMsg = xhr.responseJSON.error;
                 }
-				// hideElement(window.lastDisplayedElement);
-				setElementinnerHTML(profilePageDiv, `${errorMsg}`);
-				showElement(profilePageDiv);
-				// window.lastDisplayedElement = profilePageDiv;
-				// container.html('An error occurred while fetching the profile.');
+                alert(`${errorMsg}`);
+                window.location.hash = 'id-login';
 			}
 		});
     });
@@ -396,7 +415,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				// container.html(JSON.stringify(data)); // Displaying data for debug purposes
 			},
 			error: function(xhr, status, error) {
-				console.error('An error occurred:', status, error);
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMsg = xhr.responseJSON.error;
+                }
+                alert(`${errorMsg}`);
+                window.location.hash = 'id-login';
 			}
 		});
     });
@@ -420,8 +444,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
-				setElementinnerHTML(errorP, "");
-				setElementinnerHTML(successP, data.msg);
+				// setElementinnerHTML(errorP, "");
+				// setElementinnerHTML(successP, data.msg);
+                alert(data.msg);
 			},
 			error: function(xhr, status, error) {
 				let errorMsg = "Error";
@@ -429,8 +454,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				setElementinnerHTML(successP, "");
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// setElementinnerHTML(successP, "");
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -463,8 +489,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				setElementinnerHTML(successP, "");
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// setElementinnerHTML(successP, "");
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -494,8 +521,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
-				setElementinnerHTML(errorP, "");
-				setElementinnerHTML(successP, data.msg);
+				// setElementinnerHTML(errorP, "");
+				// setElementinnerHTML(successP, data.msg);
+                alert(data.msg);
                 window.location.hash = 'id-update-avatar';
 			},
 			error: function(xhr, status, error) {
@@ -504,8 +532,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				setElementinnerHTML(successP, "");
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// setElementinnerHTML(successP, "");
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			},
 			cache: false,
 			contentType: false,
@@ -538,9 +567,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				window.lastDisplayedElement = profileListPageDiv;
 				// window.csrf = data.csrf_token;
 			},
-			error: function(data) {
-				console.log(data);
-				// To Do
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+                alert(`${errorMsg}`);
 			}
 		});
 	})
@@ -565,8 +597,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.hash = 'profile';
 			},
 			error: function(xhr, status, error) {
-				console.error('Error fetching profile details:', status, error);
-				// Optionally give feedback to the user
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+                alert(`${errorMsg}`);
 			}
 		});
 	});
@@ -767,7 +802,7 @@ function createOtherProfilePage(data) {
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <div class="profile-avatar">
-                                            ${friend.avatar ? `<img src="${friend.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Friend's Picture">` : `<img src="/media/avatars/kermit.png" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
+                                            ${friend.avatar ? `<img src="${friend.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Friend's Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
                                         </div>
                                     </div>
                                     <div class="col">
