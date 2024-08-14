@@ -26,11 +26,12 @@ export function game_handler() {
 	const score2 = document.getElementById('score2');
 	const player1 = document.getElementById('player1-name');
 	const player2 = document.getElementById('player2-name');
+	let stat_check = false;
 
 	message.textContent = `${WAIT}`;
 
 	document.addEventListener('keydown', (e) => {
-		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+		if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && stat_check === true) {
 			socket.send(JSON.stringify({
 				type: 'paddle_move',
 				key: e.key
@@ -62,23 +63,27 @@ export function game_handler() {
 				break;
 			case 'game_started':
 				message.textContent = `${STARTED}!`;
+				stat_check = true;
 				messageTimeout = setTimeout(() => {
 					message.textContent = '';
 				}, 1000);
 				break;
 			case 'game_over':
 				message.textContent = `${GAME_OVER2} ${data.winner} ${WON}!`;
+				stat_check = false;
 				break;
 			case 'game_stop':
 				if (messageTimeout) {
 					clearTimeout(messageTimeout);
 				}
 				message.textContent = `${WAIT_REJOIN}`;
+				stat_check = false;
 				break;
 			case 'player_rejoined':
 				message.textContent = `${data.name} ${REJOINED}`;
 				player1.textContent = data.name;
 				player2.textContent = data.opponent;
+				stat_check = true;
 				messageTimeout = setTimeout(() => {
 					message.textContent = '';
 				}, 3000);
