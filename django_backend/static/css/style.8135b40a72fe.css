@@ -1,0 +1,872 @@
+#header-welcome {
+    margin-bottom: 10px;
+}
+
+#screen {
+    align-content: top;
+    margin-top: 0px;
+    padding-top: 0px;
+    height: 100vh;
+}
+
+#logo-big {
+    color: #ffffff;
+    font-size: 46pt;
+    font-family: "Monoton", sans-serif;;
+    text-transform: uppercase;
+    letter-spacing: 5pt;
+    margin-top: 10px;
+}
+
+#sublitle {
+    color: #ff56d8;
+    font-size: 16pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+.header-game {
+    align-content: top;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#footer-welcome {
+    margin-top: 50px;
+    padding-top: 50px;
+    bottom: 50px;
+    position: fixed;
+}
+
+#profile-menu {
+    margin-bottom: 50px;
+}
+
+/* Text styles  -----------------------------------------------------------------------------------------------------*/
+
+h1 {
+    color: #ffffff;
+    font-size: 40pt;
+    font-family: "Monoton", sans-serif;;
+    text-transform: uppercase;
+    letter-spacing: 5pt;
+}
+
+h2 {
+    color: #ff56d8;
+    font-size: 16pt;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+
+}
+
+h3 {
+    color: #ffffff;
+    font-size: 10pt;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+h5 {
+    padding-bottom: 20px;
+}
+
+h6 {
+    color: #ffffff;
+    font-size: 24pt;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+    margin-bottom: 30px;
+}
+
+p {
+    color: #ffffff;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+table {
+    color: #ffffff;
+}
+
+/* Login & signup forms: ---------------------------------------------------------------------------------------------------*/
+
+#login_form, #signup_form, #update_display_name_form, #update_avatar_form, #update_user_form {
+    width: 400px;
+    margin: 30px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 30px;
+}
+
+#id-login, #id-signup, #id-update-displayname, #id-update-avatar, #id-update-user {
+    text-align: center;
+    margin: 30px auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form .form-control {
+    width: 300px;
+    margin-bottom: 15px;
+}
+
+form label {
+    color: #7d7fac;  /* Customize label color */
+    text-align: left;
+    width: 300px;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+form a[type="submit"] {
+    width: 100px;
+    padding: 10px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.helptext {
+    color: #6c757d;  /* Help text color */
+    display: none;
+    width: 300px;
+}
+
+#id-avatar-helptext {
+    color: #6c757d;  /* Help text color */
+    display: none;
+    width: 300px;
+}
+
+form ul {
+    width: 300px;
+    list-style-type: none;
+    padding: 0;
+    font-size: 9pt;
+    line-height: 13pt;
+}
+
+form ul li {
+    margin-bottom: 10px;
+    padding: 0px;
+    border-radius: 4px;
+    color: #495057;
+    text-align: left;
+}
+
+
+/* Offline games login input form ------------------------------------------------------------------------------------*/
+
+#player_form_1x1, #player_form_4 {
+    width: 400px;
+    top: 250px;
+    left: calc(50% - 200px);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the items within the form */
+    justify-content: center; /* Centers the form vertically */
+    text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 30px;
+    position: absolute;
+    z-index: 1;
+}
+
+/* These are the navigation buttons: -------------------------------------------------------------------------------*/
+
+.btn-lg,.btn-sm {
+    border-width: 2px;
+}
+
+.btn-block{
+    margin-top: 0px;
+}
+
+.btn-group-vertical {
+    width: 400px;
+
+}
+
+.btn-group-vertical > button{
+    margin-bottom: 10px;
+    border-radius: 10px !important;
+}
+
+.choose-mode {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#nextGame {
+    width: 300px;
+    height: 50px;
+    z-index: 1;
+}
+
+#exitTour {
+    width: 300px;
+    height: 100px;
+    z-index: 10; /* Ensure it's on top of other elements */
+    display: none; /* Initially hidden, should be set to 'block' when needed */
+}
+
+#hor-nav, #profile-nav, #profile-nav2 {
+    margin-top: 50px;
+}
+
+#signup_submit, #login_submit {
+    width: 300px;
+}
+.file-upload-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.file-upload-input {
+    display: none;
+}
+
+.file-upload-button {
+    background-color: white;
+    border: 2px solid #007bff;
+    color: #007bff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.file-name {
+    margin-left: 10px;
+}
+/* Profile & friends -------------------------------------------------------------------------------------------------*/
+
+#profile, #profile-list-page {
+    width: 700px;
+    align-items: center;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 2px solid #7d7fac;
+    background-color: #323131;
+    border-radius: 30px;
+    padding: 30px;
+}
+
+.custom-divider {
+    border: 1px solid #232222;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.avatar-square {
+    width: 210px;
+    object-fit: cover;
+    border-radius: 0;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
+.text-start {
+    align-items: right;
+    margin-left: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
+
+/* Messages in the game ---------------------------------------------------------------------------------------------*/
+
+#champ{
+    text-align: center;
+    font-size: 3.2em;
+    font-weight: bold;
+    color: #ff56d8;
+    margin-top: 40px;
+}
+
+.megaWinner {
+    position: absolute;
+    top: 200px; /* Adjust based on your layout */
+    font-weight: bold;
+    color: #ffffff;
+    z-index: 10; /* Ensure it's on top of other elements */
+    display: none; /* Initially hidden, should be set to 'block' when needed */
+}
+
+#megaWinnerName {
+    color: #ffffff;
+    font-size: 30px;
+}
+
+#winnerMessage_1x1, #winnerMessage_4 {
+    position: absolute;
+    top: 230px;
+    display: none; /* Initially hide the winner message */
+}
+
+.message { 
+    position: fixed; 
+    color: #7d7fac; 
+    text-align: center;
+    top: 385px; 
+    margin: 60px auto auto auto; 
+}
+
+#message_1x1, #message_4{ 
+    position: fixed; 
+    color: #7d7fac; 
+    text-align: center;
+    top: 385px; 
+    margin: 60px auto auto auto; 
+    /* font-size: 10pt;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt; */
+}
+
+#four_message {
+    position: fixed; 
+    color: #7d7fac; 
+    text-align: center;
+    top: 300px; 
+    margin: 60px auto auto auto; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+/* Basic game  ------------------------------------------------------------------------------------------------------*/
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+} 
+
+body { 
+    height: 100vh; 
+    width: 100vw; 
+    background-color: #232222; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 0px;
+    padding-top: 0px;
+}
+/* Offline games ----------------------------------------------------------------------------------------------------*/
+
+.board { 
+    top: 105px;
+    left: calc(50% - 450px);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically */
+    width: 900px; /* This ensures the width is 80% of the viewport width */
+    height: 600px; 
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto; /* Center the board horizontally */
+    position: fixed; 
+}
+#board_1x1, #board_4 { 
+    top: 105px;
+    left: calc(50% - 450px);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically */
+    width: 900px; /* This ensures the width is 80% of the viewport width */
+    height: 600px; 
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto; /* Center the board horizontally */
+    position: fixed; 
+}
+
+#ball_1x1 { 
+    height: 30px; 
+    width: 30px; 
+    border-radius: 50%; 
+    position: fixed; 
+    top: 380px; 
+    left: calc(50% - 15px); 
+    background-color: white;
+}
+#ball_4 { 
+    height: 30px; 
+    width: 30px; 
+    border-radius: 50%; 
+    position: fixed; 
+    top: 380px; 
+    left: calc(50% - 15px); 
+    background-color: white;
+}
+
+/* .ball { 
+    height: 30px; 
+    width: 30px; 
+    border-radius: 50%; 
+    position: fixed; 
+    top: 380px; 
+    left: calc(50% - 15px); 
+    background-color: white;
+} */
+
+.paddle_off { 
+    height: 100px; 
+    width: 10px; 
+    top: 350px;
+    position: fixed;  
+} 
+
+#paddle1_1x1, #paddle1_4 {
+    top: 350px; 
+    left: calc(50% - 440px);  
+    background-color: rgb(31, 172, 237);
+} 
+  
+#paddle2_1x1, #paddle2_4 {  
+    top: 350px;
+    right: calc(50% - 440px);   
+    background-color: rgb(191, 43, 221);
+}  
+
+.scores_off {
+    top: 110px; 
+    font-size: 30pt;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+    position: fixed;
+    justify-content: center;
+    margin: auto;
+    display: flex;
+    z-index: 1;
+}
+
+#score1_1x1, #score1_4 {
+    color: rgb(31, 172, 237);
+    left: calc(50% - 440px);
+}
+
+#score2_1x1, #score2_4 {
+    color: rgb(191, 43, 221);
+    right: calc(50% - 440px);
+}
+
+.player_name_off {
+    top: 80px;
+    position: fixed;
+    display: flex;
+}
+
+#name1_1x1, #name1_4, #name1_ai {
+    text-align: left;
+    left: calc(50% - 440px);
+    color: rgb(31, 172, 237);
+}
+
+#name2_1x1, #name2_4, #name2_ai {
+    text-align: right;
+    right: calc(50% - 440px);
+    color: rgb(191, 43, 221);
+}
+
+.form-control {
+    width: 100%; /* Full width input */
+    margin-bottom: 10px; /* Spacing between inputs */
+}
+
+.btn-primary {
+    width: 100%; /* Full width button */
+    margin-top: 10px; /* Spacing between input and button */
+}
+
+.tournament_off {
+    display: flex;
+    flex-direction: row; /* Added missing semicolon */
+    justify-content: center;
+    /* margin-top: 30px;
+    margin-left: 30px;
+    margin-right: 30px; */
+}
+
+.match_off {
+    width: 300px; /* Corrected the width property */
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 30px;
+}
+
+/* Online games -----------------------------------------------------------------------------------------------------*/
+
+#game-area {
+    top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 900px;
+    height: 600px; 
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto;
+    position: relative;
+}
+
+#ball {
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%;
+    position: absolute;
+    background-color: white;
+    /* transform: translate(-50%, -50%); */
+    left: 450px;
+    top: 290px;
+    transition: 0.06s;
+}
+
+.paddle {
+    position: absolute;
+    height: 100px; 
+    width: 10px;
+    top: 260px;
+}
+
+#paddle1 {
+    left: calc(50% - 440px); 
+    top: 260px; 
+    background-color: rgb(31, 172, 237);
+}
+
+#paddle2 {
+    right: calc(50% - 440px);
+    top: 260px;
+    background-color: rgb(191, 43, 221);
+}
+
+#score1, #score2 {
+    top: 104px; 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#score1 {
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(50% - 440px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
+}
+
+#score2 {
+    color: rgb(191, 43, 221);
+    position: fixed;
+    right: calc(50% - 440px);
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center the board horizontally */
+    z-index: 1; /* Ensure the score is on top of other elements */
+}
+
+
+#player1-name, #player2-name {
+    top: 79px; 
+    font-size: 10pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#player1-name {
+
+    text-align: left;
+    color: rgb(31, 172, 237);
+    position: fixed;
+    left: calc(50% - 440px);
+    display: flex;
+}
+
+#player2-name {
+
+    text-align: right;
+    right: calc(50% - 440px);
+    display: flex;
+    position: fixed;
+    color: rgb(191, 43, 221);
+}
+
+#four_game-area {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 55px;
+    width: 600px;
+    height: 600px;
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto;
+}
+
+#four_ball {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    /* transform: translate(-50%, -50%); */
+}
+
+.four_paddle {
+    position: absolute;
+    /* background-color: white; */
+}
+
+#four_paddle1 {
+    left: 0px;
+    width: 10px;
+    height: 100px;
+	background-color: rgb(31, 172, 237);
+}
+
+#four_paddle2 {
+    top: 0px;
+    width: 100px;
+    height: 10px;
+
+	background-color: rgb(66, 210, 143);
+}
+
+#four_paddle3 {
+    right: 0px;
+    width: 10px;
+    height: 100px;
+	background-color: rgb(191, 43, 221);
+}
+
+#four_paddle4 {
+    bottom: 0px;
+    width: 100px;
+    height: 10px;
+	background-color: rgb(251, 237, 132);
+}
+/* #score1, #score2 {
+    top: 104px; 
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+} */
+#four_score1, #four_score2, #four_score3, #four_score4 {
+    position: absolute;
+    font-size: 30pt;
+    font-family:monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt
+}
+
+#four_score1 {
+    left: -40px;
+    top: 270px;
+    color: rgb(31, 172, 237);
+}
+
+#four_score2 {
+    top: -60px;
+    color: rgb(66, 210, 143);
+}
+
+#four_score3 {
+    right: -40px;
+    top: 270px;
+    color: rgb(191, 43, 221);
+}
+
+#four_score4 {
+
+    bottom: -60px;
+    color: rgb(251, 237, 132);
+}
+
+#four_player1-name, #four_player2-name, #four_player3-name, #four_player4-name {
+    position: absolute;
+    font-size: 10pt;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 3pt;
+}
+
+#four_player1-name {
+    left: 20px;
+	color: rgb(31, 172, 237);
+}
+
+#four_player2-name {
+    top: 20px;
+	color: rgb(66, 210, 143);
+}
+
+#four_player3-name {
+    right: 20px;
+	color: rgb(191, 43, 221);
+}
+
+#four_player4-name {
+    bottom: 20px;
+	color: rgb(251, 237, 132);
+}
+
+
+#tournament-page {
+    font-family: Arial, sans-serif;
+    /* background-color: #f0f0f0; */
+    margin: 0;
+    padding: 20px;
+}
+#tournament-page .tournament-container {
+    max-width: 800px;
+    margin: 0 auto;
+    /* background-color: white; */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    color: white;
+    padding: 20px;
+}
+
+/* h1, h2 {
+    text-align: center;
+    color: white;
+} */
+.tournament {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+.round {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 30%;
+}
+.match {
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #232222;
+}
+.match h3 {
+    margin: 0 0 10px 0;
+    color: #007bff;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+.player {
+    margin: 5px 0;
+    padding: 5px;
+    color:  #ff56d8;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+}
+.vs {
+    font-weight: bold;
+    color: #007bff;
+    /* center the vs */
+    display: flex;
+    justify-content: center;
+    /* center vertically */
+    align-items: center;
+}
+
+#go-to-match {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color:  #ff56d8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#go-to-match:hover {
+    background-color: #ff56d8;
+}
+.hidden {
+    display: none !important;
+}
+
+.welcome {
+    font-family:monospace;
+    color: #007bff;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#info {
+    font-family:monospace;
+    color: white;
+    text-align: center;
+    margin-top: 25px;
+    bottom: 20px;
+	  color: rgb(251, 237, 132);
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #09f;
+    animation: spin 1s ease infinite;
+    margin: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading-animation {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

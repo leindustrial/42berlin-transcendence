@@ -5,12 +5,12 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 
-class UpdateDisplayNameForm(forms.ModelForm):
-	display_name = forms.CharField(max_length=12)
+# class UpdateDisplayNameForm(forms.ModelForm):
+# 	display_name = forms.CharField(max_length=12)
 
-	class Meta:
-		model = Profile
-		fields = ['display_name']
+# 	class Meta:
+# 		model = Profile
+# 		fields = ['display_name']
 
 class UpdateAvatarForm(forms.ModelForm):
     class Meta:
