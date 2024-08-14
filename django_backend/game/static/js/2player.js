@@ -1,5 +1,6 @@
 export function game_handler() {
-	let cleaning = false;
+	let messageTimeout;
+
 	const online1x1Html = `
 		<div id="game-area">
 			<p class="text-center"><h3 id="message" class="message"></h3></p>
@@ -15,7 +16,7 @@ export function game_handler() {
 	
 	setElementinnerHTML(document.getElementById('online-1x1'), online1x1Html);
 	showElement(document.getElementById('online-1x1'));
-	const socket = new WebSocket(`ws://${window.location.host}/wss/pong/`);
+	const socket = new WebSocket(`wss://${window.location.host}/wss/pong/`);
 	const gameArea = document.getElementById('game-area');
 	const message = document.getElementById('message');
 	const ball = document.getElementById('ball');
@@ -43,7 +44,7 @@ export function game_handler() {
 			case 'player_joined':
 				message.textContent = `${data.name} ${JOINED}`;
 				player1.textContent = data.name;
-				setTimeout(() => {
+				messageTimeout = setTimeout(() => {
 					message.textContent = '';
 				}, 1000);
 				break;
@@ -61,7 +62,7 @@ export function game_handler() {
 				break;
 			case 'game_started':
 				message.textContent = `${STARTED}!`;
-				setTimeout(() => {
+				messageTimeout = setTimeout(() => {
 					message.textContent = '';
 				}, 1000);
 				break;
@@ -69,13 +70,16 @@ export function game_handler() {
 				message.textContent = `${GAME_OVER2} ${data.winner} ${WON}!`;
 				break;
 			case 'game_stop':
+				if (messageTimeout) {
+					clearTimeout(messageTimeout);
+				}
 				message.textContent = `${WAIT_REJOIN}`;
 				break;
 			case 'player_rejoined':
 				message.textContent = `${data.name} ${REJOINED}`;
 				player1.textContent = data.name;
 				player2.textContent = data.opponent;
-				setTimeout(() => {
+				messageTimeout = setTimeout(() => {
 					message.textContent = '';
 				}, 3000);
 				break;
@@ -108,7 +112,7 @@ export function game_handler() {
 				message.textContent = `${REDIR_HOME}`;
 		}
 		if (socket.readyState === WebSocket.CLOSED) {
-			setTimeout(() => {
+			messageTimeout = setTimeout(() => {
 				window.location.hash = 'get-started';
 			}, 3000);
 		}

@@ -1,4 +1,6 @@
 export function game_handler_4pl() {
+	let messageTimeout;
+	
 	const online4x4Html = `
 		<div id="four_game-area">
 			<p class="text-center"><h3 id="four_message" class="four_message"></h3></p>
@@ -20,7 +22,7 @@ export function game_handler_4pl() {
 	setElementinnerHTML(document.getElementById('online-4'), online4x4Html);
 	showElement(document.getElementById('online-4'));
 
-	const socket = new WebSocket(`ws://${window.location.host}/wss/4pong/`);
+	const socket = new WebSocket(`wss://${window.location.host}/wss/4pong/`);
 	const gameArea = document.getElementById('four_game-area');
 	const message = document.getElementById('four_message');
 	const ball = document.getElementById('four_ball');
@@ -70,7 +72,7 @@ export function game_handler_4pl() {
 				break;
 			case 'game_started':
 				message.textContent = `${STARTED}!`;
-				setTimeout(() => {
+				messageTimeout = setTimeout(() => {
 					message.textContent = '';
 				}, 1000);
 				break;
@@ -97,13 +99,13 @@ export function game_handler_4pl() {
 		score4.textContent = state.score.player4;
 		if (state.out_of_bounds) {
 			message.textContent = `${OUT}!`;
-			setTimeout(() => {
+			messageTimeout = setTimeout(() => {
 				message.textContent = '';
 			}, 1000);
 		}
 		if (state.goal) {
 			message.textContent = `${GOAL}!`;
-			setTimeout(() => {
+			messageTimeout = setTimeout(() => {
 				message.textContent = '';
 		}, 1000);
 		message.style.fontSize = '10px';
@@ -125,7 +127,7 @@ export function game_handler_4pl() {
 				message.textContent = `${REDIR_HOME}`;
 		}
 		if (socket.readyState === WebSocket.CLOSED) {
-			setTimeout(() => {
+			messageTimeout = setTimeout(() => {
 				window.location.hash = 'get-started';
 			}, 3000);
 		}

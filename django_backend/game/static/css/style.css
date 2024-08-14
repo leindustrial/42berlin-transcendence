@@ -543,9 +543,10 @@ body {
     border-radius: 50%;
     position: absolute;
     background-color: white;
-    transform: translate(-50%, -50%);
+    /* transform: translate(-50%, -50%); */
     left: 450px;
     top: 290px;
+    transition: 0.06s;
 }
 
 .paddle {
