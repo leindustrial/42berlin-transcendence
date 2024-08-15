@@ -316,7 +316,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 		game_state['ball']['x'] += game_state['ball']['dx']
 		game_state['ball']['y'] += game_state['ball']['dy']
 
-		if game_state['ball']['y'] <= 15 or game_state['ball']['y'] >= 585:
+		if game_state['ball']['y'] <= 10 or game_state['ball']['y'] >= 585:
 			game_state['ball']['dy'] *= -1
 
 		if (game_state['ball']['x'] <= 30 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 100):
