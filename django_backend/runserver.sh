@@ -20,6 +20,7 @@ fi
 cd ..
 source myenv/bin/activate
 python manage.py migrate
+python manage.py createsuperuser --noinput
 echo yes | python manage.py collectstatic
 echo "Starting server"
 daphne -e ssl:8043:privateKey=../ssl/private.key:certKey=../ssl/certificate.crt pong_game.asgi:application
