@@ -6,9 +6,10 @@ export function offlineGame_handler() {
                     <div class="row justify-content-center align-items-center">
                         <div class="col-auto">
                             <div id="player_form_1x1">
-                                <input type="text" class="form-control" id="input1_1x1" placeholder="Player 1 name" required maxlength="15">
-                                <input type="text" class="form-control" id="input2_1x1" placeholder="Player 2 name" required maxlength="15">
-                                <button id="startGameBtn_1x1" class="btn btn-primary offline-1x1">Start Game</button>
+                                <h3 style="color:#323131">${ENTER_NAMES}</h3>
+                                <input type="text" class="form-control" id="input1_1x1" placeholder="${PLAYER} 1" required maxlength="15">
+                                <input type="text" class="form-control" id="input2_1x1" placeholder="${PLAYER} 2" required maxlength="15">
+                                <button id="startGameBtn_1x1" class="btn btn-primary offline-1x1">${START_GAME}</button>
                             </div>
                             <div class="board_1x1" id="board_1x1">
                                 <div class='ball_1x1' id="ball_1x1"></div>
@@ -16,12 +17,12 @@ export function offlineGame_handler() {
                                 <div class="paddle_off" id="paddle2_1x1"></div>
                                 <h3 class="scores_off" id="score1_1x1">0</h3>
                                 <h3 class="scores_off" id="score2_1x1">0</h3>
-                                <h3 class="player_name_off" id="name1_1x1">Player 1</h3>
-                                <h3 class="player_name_off" id="name2_1x1">Player 2</h3>
+                                <h3 class="player_name_off" id="name1_1x1">${PLAYER} 1</h3>
+                                <h3 class="player_name_off" id="name2_1x1">${PLAYER} 2</h3>
                                 <div id="winnerMessage_1x1">
                                     <h2 id="winnerName_1x1">Winner!</h2>
                                 </div>
-                                <p class="text-center"><h3 class="message" id="message_1x1" >Press Enter to Play</h3></p>
+                                <p class="text-center"><h3 class="message" id="message_1x1" >${PRESS_ENTER}</h3></p>
                             </div>
                         </div>
                     </div>
@@ -29,8 +30,8 @@ export function offlineGame_handler() {
             </div>
         </div>
 	`
-    setElementinnerHTML(document.getElementById('game-place'), offline1x1Html);
-	showElement(document.getElementById('game-place'));
+    setElementinnerHTML(document.getElementById('offline-1x1'), offline1x1Html);
+	showElement(document.getElementById('offline-1x1'));
 
         
     let gameState_1x1;
@@ -108,10 +109,10 @@ export function offlineGame_handler() {
 
     function displayWinner_1x1(winnerName) {
         gameState_1x1 = 'stop';
-        winnerName_1x1.innerHTML = `${winnerName} wins!`;
+        winnerName_1x1.innerHTML = `${winnerName} ${WINS}`;
         winnerMessage_1x1.style.display = 'block';
         message_1x1.style.display = 'block';
-        message_1x1.innerHTML = 'Game Over! Press Enter to Play Again';
+        message_1x1.innerHTML = `${GAME_OVER}`;
         resetBallPosition_1x1();
         resetScores_1x1();
         gameState_1x1 = 'start';
@@ -165,7 +166,7 @@ export function offlineGame_handler() {
         message_1x1.style.display = 'block';
         winnerMessage_1x1.style.display = 'none';
         gameState_1x1 = 'play';
-        message_1x1.innerHTML = 'Game Started';
+        message_1x1.innerHTML = `${GAME_STARTED}`;
         setTimeout(() => message_1x1.innerHTML = '', 1500);
 
         initializeGameElements_1x1();
@@ -177,14 +178,14 @@ export function offlineGame_handler() {
 
     startGameBtn_1x1.addEventListener('click', function () {
         if (input1_1x1.value === input2_1x1.value) {
-            alert('Please enter different names for both players.');
+            alert(`${DIFF_NAMES}`);
         } else if (input1_1x1.value && input2_1x1.value) {
             document.getElementById('player_form_1x1').style.display = 'none';
             gameState_1x1 = 'start';
             name1_1x1.textContent = input1_1x1.value;
             name2_1x1.textContent = input2_1x1.value;
         } else {
-            alert('Please enter names for both players.');
+            alert(`${DIFF_NAMES}`);
         }
     });
     

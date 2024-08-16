@@ -1,6 +1,7 @@
 
 // SHOW SECTIONS // STERT OFFLINE GAMES:
 
+
 function showSection(sectionId) {
     // Get all sections & hide all sections
     const sections = document.querySelectorAll('.content-section');
@@ -11,8 +12,67 @@ function showSection(sectionId) {
     // Show only selected (via click on button/link) section
     const selectedSection = document.getElementById(sectionId);
     if (selectedSection) {
-        selectedSection.style.display = 'block';
+		if (sectionId === 'get-started' && window.is_authenticated === true) {
+
+			// a delay in the loading this setion is necessary to ensure that the event listeners to capture the exit event are set up
+			// and cleared after closing the ws connection. delay time filled with a loading animation. without this delay, the exit event
+			// it is possible that the user is kicked out of the game when changing sections too fast because the event listeners are still active.
+		
+			document.getElementById('loading-animation').style.display = 'flex';
+			setTimeout(() => {
+				document.getElementById('loading-animation').style.display = 'none';
+				selectedSection.style.display = 'block';
+				console.log('Get started section is now visible.');
+			}, 3000);
+		}
+        else if (sectionId === 'tour-hall' && window.is_authenticated === true) {
+			selectedSection.style.display = 'block';
+            onTourHallVisible();
+        }
+        else if (sectionId === 'online-1x1' && window.is_authenticated === true) {
+			selectedSection.style.display = 'block';
+            gameVisible1x1();
+        }
+        else if (sectionId === 'online-4' && window.is_authenticated === true) {
+			selectedSection.style.display = 'block';
+            gameVisible4();
+        }
+		else {
+            if ((sectionId === 'get-started' || sectionId === 'tour-hall' || sectionId === 'online-1x1'|| sectionId === 'online-4' 
+                || sectionId === 'profile' || sectionId === 'profile-list-page' || sectionId === 'id-update-user' || sectionId === 'id-update-avatar')
+                && (window.is_authenticated === false))
+            {
+                window.location.hash = 'offline-choose-mode';
+                // document.getElementById('offline-choose-mode').style.display = 'block';
+            }            
+            else if ((sectionId === 'id-login' || sectionId === 'id-signup' || sectionId === 'offline-choose-mode'
+                || sectionId === 'offline-ai' || sectionId === 'offline-1x1' || sectionId === 'offline-tournament') 
+                && window.is_authenticated === true)
+            {
+                window.location.hash = 'get-started';
+                // document.getElementById('get-started').style.display = 'block';
+            }
+            else {
+                console.log('showing section');
+                selectedSection.style.display = 'block';
+            }
+		}
     }
+    else if (selectedSection) {
+        sectionId = 'offline-choose-mode';
+    }
+    else
+    {
+        if (sectionId !== 'get-started' && sectionId !== 'offline-choose-mode' && sectionId !== 'offline-ai' && sectionId !== 'offline-1x1'
+            && sectionId !== 'offline-tournament' && sectionId !== 'id-login' && sectionId !== 'id-signup' && sectionId !== 'profile' && sectionId !== 'profile-list-page'
+            && sectionId !== 'id-update-user' && sectionId !== 'id-update-avatar' && sectionId !== 'online-1x1' 
+            && sectionId !== 'online-1x1' && sectionId !== 'online-4' && sectionId !== 'tour-hall')
+        {
+            console.log('page not found');
+            window.location.hash = '404-page-not-found';
+        }
+    }
+
 
     // Conditionally show/hide the logo and language
     const language = document.getElementById('language');
@@ -36,11 +96,16 @@ function showSection(sectionId) {
     if (sectionId === 'offline-choose-mode' || sectionId === 'id-login' || sectionId === 'id-signup' 
         || sectionId === 'get-started' || sectionId === 'id-update-user' || sectionId === 'id-update-displayname'
         || sectionId === 'id-update-avatar' || sectionId === 'blockchain'
-        || sectionId === 'profile' || sectionId === 'profile-list-page') {
+        || sectionId === 'profile' || sectionId === 'profile-list-page' || sectionId === '404-page-not-found') {
         if (headerWelcome) headerWelcome.style.display = 'block';
-        if (footer) footer.style.display = 'block'
     } else {
         if (headerWelcome) headerWelcome.style.display = 'none';
+    }
+
+    if (sectionId === 'offline-choose-mode' || sectionId === 'id-login'
+        || sectionId === 'get-started' || sectionId === 'blockchain') {
+        if (footer) footer.style.display = 'block'
+    } else {
         if (footer) footer.style.display = 'none'
     }
 
@@ -77,41 +142,79 @@ function showSection(sectionId) {
         if (horNav) horNav.style.display = 'none';
     }
 
-    if (sectionId === 'online-1x1' || sectionId === 'online-4' || sectionId === 'online-tournament') {
+    if (sectionId === 'online-1x1' || sectionId === 'online-4' || sectionId === 'tour-hall') {
         if (onHeaderGame) onHeaderGame.style.display = 'block';
     } else {
         if (onHeaderGame) onHeaderGame.style.display = 'none';
     }
 }
 
+// Monitor the visibility of the online games sections: necessary for the browser buttons to function properly
+function onTourHallVisible() {
+    console.log('Tournament hall is now visible.');
+    import ('./tour.js').then(module => {
+        module.startTournament();
+    });
+}
+
+function gameVisible1x1() {
+    console.log('1x1 game is now visible.');
+    import ('./2player.js').then(module => {
+        module.game_handler();
+    });
+}
+
+function gameVisible4() {
+    console.log('4x4 game is now visible.');
+    import ('./4player.js').then(module => {
+        module.game_handler_4pl();
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    // global window bool var for USER AUTHENTICATION STATUS
+    if (IS_AUTHENTICATED === "True") {
+        window.is_authenticated = true;
+        const initialSection = window.location.hash.substring(1) || 'get-started';
+        window.location.hash = 'get-started';
+        showSection(initialSection);
+    } else {
+        window.is_authenticated = false;
+        const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
+        window.location.hash = 'offline-choose-mode';
+        showSection(initialSection);
+    };
+    console.log(window.is_authenticated);
+
     // SHOW SECTIONS:
     window.addEventListener('hashchange', function() {
         const sectionId = window.location.hash.substring(1);
         showSection(sectionId);
     });
-    const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
-    showSection(initialSection);
 
+    // const initialSection = window.location.hash.substring(1) || 'offline-choose-mode';
+	// showSection(initialSection);
+	
    // Buttons listeners for online games:
     $(document).on('click', '.btn-2pl-game', function(event) {
 		console.log('Online 1x1 game clicked');
-		hideElement(document.getElementById('get-started'));
+        sendLog('info', 'Online 1x1 game clicked');
+		//hideElement(document.getElementById('get-started'));
 		event.preventDefault();
         window.location.hash = 'online-1x1';
-		import ('./2player.js').then(module => {
-			module.game_handler();
-		});
 	});
 
 	$(document).on('click', '.btn-4pl-game', function(event) {
 		console.log('Online 4x4 game clicked');
-		hideElement(document.getElementById('get-started'));
+		//hideElement(document.getElementById('get-started'));
 		event.preventDefault();
         window.location.hash = 'online-4';
-		import ('./4player.js').then(module => {
-			module.game_handler_4pl();
-		});
+	});
+
+    $(document).on('click', '.btn-online-tour', function(event) {
+        //hideElement(document.getElementById('get-started'));
+        event.preventDefault();
+        window.location.hash = 'tour-hall';
 	});
 
     // Buttons listeners for offline games:
@@ -119,23 +222,35 @@ document.addEventListener('DOMContentLoaded', function() {
 		console.log('Offline 1x1 game clicked');
 		hideElement(document.getElementById('offline-choose-mode'));
 		event.preventDefault();
-        window.location.hash = 'offline-1x1';
 		import ('./offline_game.js').then(module => {
 			module.offlineGame_handler();
 		});
+        window.location.hash = 'offline-1x1';
 	});
 
     $(document).on('click', '.offline-tournament-button', function(event) {
 		console.log('Offline TOUR game clicked');
 		hideElement(document.getElementById('offline-choose-mode'));
 		event.preventDefault();
-        window.location.hash = 'offline-tournament';
 		import ('./offline_tour.js').then(module => {
 			module.offlineTour_handler();
 		});
+        window.location.hash = 'offline-tournament';
 	});
 
-    // Buttons listeners for blockchain:
+     // Buttons listener for offline AI Opponent:
+
+     $(document).on('click', '.offline-ai-button', function(event) {
+		console.log('Offline AI game clicked');
+		hideElement(document.getElementById('offline-choose-mode'));
+		event.preventDefault();
+        window.location.hash = 'offline-ai';
+		import ('./offline_ai.js').then(module => {
+			module.offlineAI_handler();
+		});
+	});
+
+    // Buttons listener for blockchain:
     $(document).on('click', '.blockchain-button', function(event) {
 		console.log('blockchain clicked');
 		hideElement(document.getElementById('tournament-game'));
@@ -184,8 +299,13 @@ document.addEventListener('DOMContentLoaded', function() {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
 				hideElement(loginFormDiv);
-				showElement(getStartedDiv);
-                window.location.hash = 'get-started';
+				
+				// commented this out to prevent the get-started section from showing up after login
+				// now the main show section is controlled by the hashchange event listener
+				// showElement(getStartedDiv);
+                window.is_authenticated = true;
+                console.log(window.is_authenticated);
+				window.location.hash = 'get-started';
 			},
 			error: function(xhr, status, error) {
 				let errorMsg = "Error";
@@ -193,8 +313,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				const errorP = document.getElementById('id-login').querySelector('.error-message');
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// const errorP = document.getElementById('id-login').querySelector('.error-message');
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -218,6 +339,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				window.csrf = data.csrf_token;
 				hideElement(signupFormDiv);
 				// showElement(navbarDiv);
+                window.is_authenticated = true;
+                console.log(window.is_authenticated);
                 window.location.hash = 'get-started';
 			},
 			error: function(xhr, status, error) {
@@ -225,9 +348,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (xhr.responseJSON && xhr.responseJSON.error) {
 					errorMsg = xhr.responseJSON.error;
 				}
-				console.log(errorMsg);
-				const errorP = document.getElementById('id-signup').querySelector('.error-message');
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				console.log(`${errorMsg}`);
+				// const errorP = document.getElementById('id-signup').querySelector('.error-message');
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -235,7 +359,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     $('#logoutform').on('submit', function(event) {
 		event.preventDefault();
-		// const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 		const formData = new FormData();
 		formData.append('csrfmiddlewaretoken', window.csrf)
@@ -248,14 +371,20 @@ document.addEventListener('DOMContentLoaded', function() {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
+                window.is_authenticated = false;
+                console.log(window.is_authenticated);
 				window.userElements.forEach(element => {
 					hideElement(element);
 				});
 				showElement(loginFormDiv);
                 window.location.hash = 'offline-choose-mode';
 			},
-			error: function(data) {
-				console.log(data);
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+                alert(`${errorMsg}`);
 			},
 		});
 	});
@@ -278,9 +407,7 @@ document.addEventListener('DOMContentLoaded', function() {
     $(document).on('click', '.profile-link', function(event) {
 		console.log('Button clicked');
 
-		// const url = window.location.href + 'json';
 		const url = '/game-start/users/json_profile/';
-		console.log(`Sending fetch request to: ${url}`);
 
 		$.ajax({
 			type: 'GET',
@@ -293,16 +420,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				// window.lastDisplayedElement = profilePageDiv;
 			},
 			error: function(xhr, status, error) {
-				// console.error('An error occurred:', ${data.error});
 				let errorMsg = "Error";
 				if (xhr.responseJSON && xhr.responseJSON.error) {
                     errorMsg = xhr.responseJSON.error;
                 }
-				// hideElement(window.lastDisplayedElement);
-				setElementinnerHTML(profilePageDiv, `${errorMsg}`);
-				showElement(profilePageDiv);
-				// window.lastDisplayedElement = profilePageDiv;
-				// container.html('An error occurred while fetching the profile.');
+                alert(`${errorMsg}`);
+                window.location.hash = 'id-login';
 			}
 		});
     });
@@ -323,7 +446,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				// container.html(JSON.stringify(data)); // Displaying data for debug purposes
 			},
 			error: function(xhr, status, error) {
-				console.error('An error occurred:', status, error);
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMsg = xhr.responseJSON.error;
+                }
+                alert(`${errorMsg}`);
+                window.location.hash = 'id-login';
 			}
 		});
     });
@@ -347,8 +475,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
-				setElementinnerHTML(errorP, "");
-				setElementinnerHTML(successP, data.msg);
+				// setElementinnerHTML(errorP, "");
+				// setElementinnerHTML(successP, data.msg);
+                alert(data.msg);
 			},
 			error: function(xhr, status, error) {
 				let errorMsg = "Error";
@@ -356,8 +485,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				setElementinnerHTML(successP, "");
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// setElementinnerHTML(successP, "");
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -390,8 +520,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				setElementinnerHTML(successP, "");
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// setElementinnerHTML(successP, "");
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			}
 		});
 
@@ -421,8 +552,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			success: function(data) {
 				console.log(data.msg);
 				window.csrf = data.csrf_token;
-				setElementinnerHTML(errorP, "");
-				setElementinnerHTML(successP, data.msg);
+				// setElementinnerHTML(errorP, "");
+				// setElementinnerHTML(successP, data.msg);
+                alert(data.msg);
                 window.location.hash = 'id-update-avatar';
 			},
 			error: function(xhr, status, error) {
@@ -431,8 +563,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					errorMsg = xhr.responseJSON.error;
 				}
 				console.log(errorMsg);
-				setElementinnerHTML(successP, "");
-				setElementinnerHTML(errorP, `${errorMsg}`);
+				// setElementinnerHTML(successP, "");
+				// setElementinnerHTML(errorP, `${errorMsg}`);
+                alert(`${errorMsg}`);
 			},
 			cache: false,
 			contentType: false,
@@ -465,9 +598,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				window.lastDisplayedElement = profileListPageDiv;
 				// window.csrf = data.csrf_token;
 			},
-			error: function(data) {
-				console.log(data);
-				// To Do
+			error: function(xhr, status, error) {
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+                alert(`${errorMsg}`);
 			}
 		});
 	})
@@ -492,8 +628,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.hash = 'profile';
 			},
 			error: function(xhr, status, error) {
-				console.error('Error fetching profile details:', status, error);
-				// Optionally give feedback to the user
+				let errorMsg = "Error";
+				if (xhr.responseJSON && xhr.responseJSON.error) {
+					errorMsg = xhr.responseJSON.error;
+				}
+                alert(`${errorMsg}`);
 			}
 		});
 	});
@@ -513,12 +652,10 @@ function createProfilePage(data) {
 
                     <!-- Profile Information -->
                     <div class="col-md-6">
-                        <h6 class="mb-3">Your Profile</h6>
-                        <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
-                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p>
-                        <a href="#id-update-user" class="text-primary mb-3 d-block">Edit Username</a>
-                        <p><span style="color: #ac8fa5;">Display Name:</span> <strong>${data.display_name ? data.display_name : '-'}</strong></p>
-                        <a href="#id-update-displayname" class="text-primary d-block">Edit Display Name</a>
+                        <h6 class="mb-3">${YOUR_PROF}</h6>
+                        <p><span style="color: #ac8fa5;">${USERNAME}:</span> <strong>${data.username}</strong></p>
+                        <p><span style="color: #ac8fa5;">${UID}:</span> <strong>${data.userid}</strong></p>
+                        <a href="#id-update-user" class="text-primary mb-3 d-block">${EDIT_USERNAME}</a>
                     </div>
 
                     <!-- Avatar Section -->
@@ -526,14 +663,14 @@ function createProfilePage(data) {
                         <div class="profile-avatar mb-3">
                             ${data.avatar ? `<img src="${data.avatar}" class="img-fluid avatar-square" alt="Profile Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid avatar-square" alt="Default Picture">`}
                         </div>
-                        <a href="#id-update-avatar" class="text-primary">Edit Avatar</a>
+                        <a href="#id-update-avatar" class="text-primary">${EDIT_AVATAR}</a>
                     </div>
                 </div>
 
                 <!-- Friends Section -->
                 <hr class="custom-divider">
                 <div class="profile-friends mb-4">
-                    <h6>Your  Friends</h6>
+                    <h6>${YOUR_FR}</h6>
                     <ul class="list-unstyled">
                         ${data.friends.map(friend => `
                             <li class="mb-6">
@@ -544,39 +681,39 @@ function createProfilePage(data) {
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <p><span style="color: #ac8fa5;">Username: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
-                                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${friend.id}</strong></p>
+                                        <p><span style="color: #ac8fa5;">${USERNAME}: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
+                                        <p><span style="color: #ac8fa5;">${UID}:</span> <strong>${friend.id}</strong></p>
                                     </div>
                                     <div class="col-auto">
                                         <p>
-                                            <span style="color: #ac8fa5;">Status:</span>
-                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? 'Online' : 'Offline'}</span>
+                                            <span style="color: #ac8fa5;">${STATUS}:</span>
+                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? ONLINE : OFFLINE}</span>
                                         </p>
                                     </div>
                                     <div class="col-auto">
                                         <form class="Friends-Form" method="POST" action="/en/game-start/users/json_profile_list/">
                                             <input type="hidden" name="action" value="unfriend">
                                             <input type="hidden" name="user_id" value="${friend.id}">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm profile-link">Unfriend</button>
+                                            <button type="submit" class="btn btn-outline-danger btn-sm profile-link">${UNFR}</button>
                                         </form>
                                     </div>
                                 </div>
                             </li><br>
                         `).join('')}
                     </ul>
-                    <a href="#profile-list-page" class="profile-list-link">Make New Friends</a>
+                    <a href="#profile-list-page" class="profile-list-link">${FIND_FR}</a>
                 </div>
 
                 <!-- Stats Section -->
                 <hr class="custom-divider">
                 <div class="profile-stats mb-4">
-                    <h6>Your Stats</h6>
+                    <h6>${YOUR_STATS}</h6>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Wins</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Losses</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Total Games</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${WINS_PROF}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${LOSSES}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${TOT_GAMES}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -592,13 +729,13 @@ function createProfilePage(data) {
                 <!-- Match History Section -->
                 <hr class="custom-divider">
                 <div class="profile-match-history">
-                    <h6>Your Match History</h6>
+                    <h6>${YOUR_MATCH_HIST}</h6>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Date</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Winner</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Looser</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${DATE_PROF}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${WINNER}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${LOOSER}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -625,7 +762,7 @@ function createProfileListPage(data) {
     <div class="container profile-list-container">
         <div class="row justify-content-center">
             <div class="col-10">
-                <h6>Registered Users</h6>
+                <h6>${REG_USR}</h6>
                 <ul class="list-unstyled">
                     ${data.profiles.map(profile => `
                         <li class="mb-3">
@@ -637,7 +774,7 @@ function createProfileListPage(data) {
                                 </div>
                                 <div class="col">
                                     <p>
-                                        <span style="color: #ac8fa5;">Username:</span> <a href="#" class="other-profile-link" data-id="${profile.id}">${profile.username}</a>
+                                        <span style="color: #ac8fa5;">${USERNAME}:</span> <a href="#" class="other-profile-link" data-id="${profile.id}">${profile.username}</a>
                                         <span style="color: #ac8fa5;"> | ID:</span> ${profile.id}
                                     </p>
                                 </div>
@@ -646,7 +783,7 @@ function createProfileListPage(data) {
                                         <input type="hidden" name="action" value="${profile.is_friend ? 'unfriend' : 'befriend'}">
                                         <input type="hidden" name="user_id" value="${profile.id}">
                                         <button type="submit" class="btn btn-outline-primary btn-sm">
-                                            ${profile.is_friend ? 'Unfriend' : 'Befriend'}
+                                            ${profile.is_friend ? UNFR : BEFR}
                                         </button>
                                     </form>
                                 </div>
@@ -673,10 +810,9 @@ function createOtherProfilePage(data) {
                     
                     <!-- Profile Information on the Left -->
                     <div class="col-md-6">
-                        <h6 class="mb-3">Profile</h6>
-                        <p><span style="color: #ac8fa5;">Username:</span> <strong>${data.username}</strong></p>
-                        <p><span style="color: #ac8fa5;">User ID:</span> <strong>${data.userid}</strong></p> 
-                        <p><span style="color: #ac8fa5;">Display Name:</span> <strong>${data.display_name ? data.display_name : '-'}</strong></p>
+                        <h6 class="mb-3">${PROF}</h6>
+                        <p><span style="color: #ac8fa5;">${USERNAME}:</span> <strong>${data.username}</strong></p>
+                        <p><span style="color: #ac8fa5;">${UID}:</span> <strong>${data.userid}</strong></p> 
                         </div>
 
                     <!-- Avatar on the Right -->
@@ -690,25 +826,25 @@ function createOtherProfilePage(data) {
                 <!-- Friends Section -->
                 <hr class="custom-divider">
                 <div class="profile-friends mb-4">
-                    <h6 class="mb-3">Friends</h6>
+                    <h6 class="mb-3">${FR}</h6>
                     <ul class="list-unstyled">
                         ${data.friends.map(friend => `
                             <li class="mb-3">
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <div class="profile-avatar">
-                                            ${friend.avatar ? `<img src="${friend.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Friend's Picture">` : `<img src="/media/avatars/kermit.png" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
+                                            ${friend.avatar ? `<img src="${friend.avatar}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Friend's Picture">` : `<img src="${DEFAULT_AVATAR_URL}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;" alt="Default Picture">`}
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <p><span style="color: #ac8fa5;">Username: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
-                                        <p><span style="color: #ac8fa5;">User ID: </span> <strong>${friend.id}</strong></p>
+                                        <p><span style="color: #ac8fa5;">${USERNAME}: </span><a href="#profile" class="other-profile-link" data-id="${friend.id}"><strong>${friend.username}</strong></a></p>
+                                        <p><span style="color: #ac8fa5;">${UID}: </span> <strong>${friend.id}</strong></p>
 
                                     </div>
                                     <div class="col-auto">
                                         <p>
-                                            <span style="color: #ac8fa5;">Status:</span>
-                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? 'Online' : 'Offline'}</span>
+                                            <span style="color: #ac8fa5;">${STATUS}:</span>
+                                            <span style="color: ${friend.online_status ? 'green' : 'red'};">${friend.online_status ? ONLINE : OFFLINE}</span>
                                         </p>
                                     </div>
                                     <div class="col-auto">
@@ -726,13 +862,13 @@ function createOtherProfilePage(data) {
                 <!-- Stats Section -->
                 <hr class="custom-divider">
                 <div class="profile-stats mb-4">
-                    <h6>Stats</h6>
+                    <h6>${STATS}</h6>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Wins</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Losses</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Total Games</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${WINS_PROF}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${LOSSES}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${TOT_GAMES}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -748,13 +884,13 @@ function createOtherProfilePage(data) {
                 <!-- Match History Section -->
                 <hr class="custom-divider">
                 <div class="profile-match-history">
-                    <h6>Match History</h6>
+                    <h6>${MATCH_HIST}</h6>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
-                                <th style="background-color: transparent; color: #ac8fa5;">Date</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Winner</th>
-                                <th style="background-color: transparent; color: #ac8fa5;">Looser</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${DATE_PROF}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${WINNER}</th>
+                                <th style="background-color: transparent; color: #ac8fa5;">${LOOSER}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -799,3 +935,45 @@ function setElementinnerHTML(element, string) {
 		element.innerHTML = string;
 	}
 }
+
+// LOGGING SERVICE: IT SENDS LOGS TO THE BACKEND VIA API
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+
+function sendLog(level, message) {
+	fetch('/api/logs/', {
+	  method: 'POST',
+	  headers: {
+		'Content-Type': 'application/json',
+		'X-CSRFToken': getCookie('csrftoken')
+	  },
+	  body: JSON.stringify({
+		level: level,
+		message: message
+	  })
+	})
+	.then(response => {
+	  if (response.ok) {
+		console.log('Log successfully sent.');
+	  } else {
+		console.error('Error sending log:', response.statusText);
+	  }
+	})
+	.catch(error => console.error('Error:', error));
+}
+  

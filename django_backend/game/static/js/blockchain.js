@@ -10,13 +10,10 @@ export function blockchain_handler() {
                     <div id="spinner" class="spinner-border text-primary d-none" role="status">
                         <span class="sr-only"></span>
                     </div>
-                    <h6 class="text-body-emphasis">Submit Transaction to Ethereum Blockchain</h6>
-                    <p class="col-lg-6 mx-auto mb-4">
-                        Submitting a transaction to the Ethereum blockchain will broadcast it to the network for validation by validators.
-                        Once confirmed, The Winner is recorded on the blockchain, ensuring transparency and security.
-                    </p>
-                    <button type="button" id="connectButton" class="btn btn-outline-primary btn-lg px-4">Connect Wallet</button>
-                    <button type="button" id="fundButton" class="btn btn-outline-secondary btn-lg px-4">Save Name</button>
+                    <h6 class="text-body-emphasis">${SUBMIT_ETH}</h6>
+                    <p class="col-lg-6 mx-auto mb-4">${ETH_TEXT}</p>
+                    <button type="button" id="connectButton" class="btn btn-outline-primary btn-lg px-4">${CONNECT_WALLET}</button>
+                    <button type="button" id="fundButton" class="btn btn-outline-secondary btn-lg px-4">${BLOCKCHAIN_FINALIZE}</button>
                     <br><br>
                     <div id="alertContainer"></div>
                 </div>
@@ -39,16 +36,17 @@ export function blockchain_handler() {
     if (typeof window.ethereum !== "undefined") {
       try {
         await window.ethereum.request({ method: "eth_requestAccounts" });
-        connectButton.innerHTML = "Connected";
+        connectButton.innerHTML = `${CONNCTED}`;
       } catch (error) {
         console.error(error);
       }
     } else {
-      connectButton.innerHTML = "Please install Metamask";
+      connectButton.innerHTML = `${INST_METAMASK}`;
     }
   }
 
   async function fund() {
+
     const now = new Date();
 
     const day = String(now.getDate()).padStart(2, "0");
@@ -76,7 +74,7 @@ export function blockchain_handler() {
         console.error(error);
       }
     } else {
-      fundButton.innerHTML = "Please install Metamask";
+      fundButton.innerHTML = `${INST_METAMASK}`;
     }
   }
 
@@ -99,6 +97,7 @@ export function blockchain_handler() {
     const alertDiv = document.createElement("div");
     alertDiv.className = "alert alert-success";
     alertDiv.role = "alert";
+
     alertDiv.innerHTML = `
         Transaction successful! <br>
         Recorded on the blockchain: ${username} <br>

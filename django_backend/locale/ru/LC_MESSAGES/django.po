@@ -101,11 +101,11 @@ msgstr "Имя для турниров"
 msgid "Friends with"
 msgstr "Друзья с"
 
-msgid "online"
-msgstr "онлайн"
+msgid "Online"
+msgstr "Oнлайн"
 
-msgid "offline"
-msgstr "оффлайн"
+msgid "Offline"
+msgstr "Oффлайн"
 
 msgid "Make new friends"
 msgstr "Завести новых друзей"
@@ -122,8 +122,8 @@ msgstr "Победы"
 msgid "Losses"
 msgstr "Поражения"
 
-msgid "1v1 Match History"
-msgstr "История матчей 1 на 1"
+msgid "Match History"
+msgstr "История матчей"
 
 msgid "TimeStamp"
 msgstr "Временная метка"
@@ -131,7 +131,7 @@ msgstr "Временная метка"
 msgid "Winner"
 msgstr "Победитель"
 
-msgid "Loser"
+msgid "Looser"
 msgstr "Проигравший"
 
 msgid "change"
@@ -153,10 +153,10 @@ msgid "Last seen"
 msgstr "Последний визит"
 
 msgid "Unfriend"
-msgstr "Удалить из друзей"
+msgstr "Удалить"
 
 msgid "Befriend"
-msgstr "Добавить в друзья"
+msgstr "Добавить"
 
 msgid "Save"
 msgstr "Сохранить"
@@ -178,6 +178,205 @@ msgstr "Файл не выбран"
 
 msgid "Change"
 msgstr "Изменить"
+
+msgid "Player"
+msgstr "Игрок"
+
+msgid "Play against AI"
+msgstr "Играть против ИИ"
+
+msgid "Play 1 x 1 offline"
+msgstr "Играть 1 x 1 оффлайн"
+
+msgid "Offline Tournament"
+msgstr "Оффлайн турнир"
+
+msgid "Return"
+msgstr "Назад"
+
+msgid "Enter players names:"
+msgstr "Введите имена игроков:"
+
+msgid "Start Game"
+msgstr "Начать игру"
+
+msgid "Game Over! Press Enter to Play Again"
+msgstr "Игра окончена! Нажмите Enter, чтобы сыграть снова"
+
+msgid "Game Started"
+msgstr "Игра началась"
+
+msgid "Please enter different names for players."
+msgstr "Пожалуйста, введите разные имена для игроков."
+
+msgid "wins!"
+msgstr "побеждает!"
+
+msgid "Start Tournament"
+msgstr "Начать турнир"
+
+msgid "Next Game!"
+msgstr "Следующая игра!"
+
+msgid "Save Results in Blockchain"
+msgstr "Сохранить результаты в блокчейне"
+
+msgid "wins the Tournament!"
+msgstr "побеждает в турнире!"
+
+msgid "Semi-finals"
+msgstr "Полуфиналы"
+
+msgid "Match"
+msgstr "Матч"
+
+msgid "Go to Match"
+msgstr "Перейти к матчу"
+
+msgid "Submit Transaction to Ethereum Blockchain"
+msgstr "Отправить транзакцию в блокчейн Ethereum"
+
+msgid "Submitting a transaction to the Ethereum blockchain will broadcast it to the network for validation by validators. Once confirmed, The Winner is recorded on the blockchain, ensuring transparency and security."
+msgstr "Отправка транзакции в блокчейн Ethereum передаст её в сеть для проверки валидаторами. После подтверждения победитель будет записан в блокчейн, обеспечивая прозрачность и безопасность."
+
+msgid "Connect Wallet"
+msgstr "Подключить кошелек"
+
+msgid "Save Tournament Results"
+msgstr "Сохранить результаты турнира"
+
+msgid "Please install Metamask"
+msgstr "Пожалуйста, установите Metamask"
+
+msgid "Transaction successful! Check it out on"
+msgstr "Транзакция успешна! Проверьте её на"
+
+msgid "Connected"
+msgstr "Подключено"
+
+msgid "AI player"
+msgstr "Игрок ИИ"
+
+msgid "Human"
+msgstr "Человек"
+
+msgid "AI player Won!"
+msgstr "Игрок ИИ выиграл!"
+
+msgid "Human Won!"
+msgstr "Человек выиграл!"
+
+msgid "Please check your username and password are correct"
+msgstr "Пожалуйста, проверьте, правильны ли ваше имя пользователя и пароль"
+
+msgid "Please check your username and password are conform"
+msgstr "Пожалуйста, проверьте, соответствуют ли ваше имя пользователя и пароль"
+
+msgid "Confirm Password"
+msgstr "Подтвердите пароль"
+
+msgid "Find New Friends"
+msgstr "Найти новых друзей"
+
+msgid "Your Profile"
+msgstr "Ваш профиль"
+
+msgid "Your Friends"
+msgstr "Ваши друзья"
+
+msgid "User ID"
+msgstr "ID пользователя"
+
+msgid "Your Stats"
+msgstr "Ваша статистика"
+
+msgid "Your Match History"
+msgstr "Ваша история матчей"
+
+msgid "Total Games"
+msgstr "Всего игр"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Edit Username"
+msgstr "Изменить имя пользователя"
+
+msgid "Edit Avatar"
+msgstr "Изменить аватар"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Friends"
+msgstr "Друзья"
+
+msgid "400 - There is an error with your form"
+msgstr "400 - Произошла ошибка в вашей форме"
+
+msgid "Choose File"
+msgstr "Выберите Файл"
+
+msgid "Your profile picture has been updated"
+msgstr "Ваше изображение профиля обновлено"
+
+msgid "Your username has been updated"
+msgstr "Ваше имя пользователя обновлено"
+
+msgid "Registered Users"
+msgstr "Зарегистрированные пользователи"
+
+
+msgid "Waiting for players to join"
+msgstr "Ожидание присоединения игроков"
+
+msgid "joined the game"
+msgstr "присоединился к игре"
+
+msgid "rejoined the game"
+msgstr "снова присоединился к игре"
+
+msgid "Player already joined the game. You will be redirected"
+msgstr "Игрок уже присоединился к игре. Вы будете перенаправлены"
+
+msgid "Connection closed: no available game session"
+msgstr "Соединение закрыто: доступных игровых сессий нет"
+
+msgid "Connection closed for unauthenticated user"
+msgstr "Соединение закрыто для неавторизованного пользователя"
+
+msgid "You will be redirected to the home page"
+msgstr "Вы будете перенаправлены на главную страницу"
+
+msgid "An error occurred. Please refresh the page"
+msgstr "Произошла ошибка. Пожалуйста, обновите страницу"
+
+msgid "Game starts in"
+msgstr "Игра начнется через"
+
+msgid "Players joined. Get ready!"
+msgstr "Игроки присоединились. Готовьтесь!"
+
+msgid "Out of bounds!"
+msgstr "Мяч вышел за пределы!"
+
+msgid "Goal!"
+msgstr "Гол!"
+
+msgid "Game Over!"
+msgstr "Игра окончена!"
+
+msgid "Wait for the opponent to rejoin"
+msgstr "Подождите, пока противник вернется"
+
+msgid "Error 404"
+msgstr "Ошибка 404"
+
+msgid "Page Not Found"
+msgstr "Страница не найдена"
+
+msgid "Won"
+msgstr "выиграл"
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

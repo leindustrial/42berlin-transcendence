@@ -99,12 +99,6 @@ msgstr "Display Name for Tournaments"
 msgid "Friends with"
 msgstr "Friends with"
 
-msgid "online"
-msgstr "online"
-
-msgid "offline"
-msgstr "offline"
-
 msgid "Make new friends"
 msgstr "Make new friends"
 
@@ -114,14 +108,14 @@ msgstr "Stats"
 msgid "Games Played"
 msgstr "Games Played"
 
-msgid "Wins"
-msgstr "Wins"
+msgid "Won"
+msgstr "Won"
 
 msgid "Losses"
 msgstr "Losses"
 
-msgid "1v1 Match History"
-msgstr "1v1 Match History"
+msgid "Match History"
+msgstr "Match History"
 
 msgid "TimeStamp"
 msgstr "TimeStamp"
@@ -129,8 +123,8 @@ msgstr "TimeStamp"
 msgid "Winner"
 msgstr "Winner"
 
-msgid "Loser"
-msgstr "Loser"
+msgid "Looser"
+msgstr "Looser"
 
 msgid "change"
 msgstr "change"
@@ -173,6 +167,210 @@ msgstr "No file chosen"
 
 msgid "Change"
 msgstr "Change"
+
+msgid "Player"
+msgstr "Player"
+
+msgid "Play against AI"
+msgstr "Play against AI"
+
+msgid "Play 1 x 1 offline"
+msgstr "Play 1 x 1 offline"
+
+msgid "Offline Tournament"
+msgstr "Offline Tournament"
+
+msgid "Return"
+msgstr "Return"
+
+msgid "Enter players names:"
+msgstr "Enter players names:"
+
+msgid "Start Game"
+msgstr "Start Game"
+
+msgid "Game Over! Press Enter to Play Again"
+msgstr "Game Over! Press Enter to Play Again"
+
+msgid "Game Started"
+msgstr "Game Started"
+
+msgid "Please enter different names for players."
+msgstr "Please enter different names for players."
+
+msgid "wins!"
+msgstr "wins!"
+
+msgid "Start Tournament"
+msgstr "Start Tournament"
+
+msgid "Next Game!"
+msgstr "Next Game!"
+
+msgid "Save Results in Blockchain"
+msgstr "Save Results in Blockchain"
+
+msgid "wins the Tournament!"
+msgstr "wins the Tournament!"
+
+msgid "Semi-finals"
+msgstr "Semi-finals"
+
+msgid "Match"
+msgstr "Match"
+
+msgid "Go to Match"
+msgstr "Go to Match"
+
+msgid "Submit Transaction to Ethereum Blockchain"
+msgstr "Submit Transaction to Ethereum Blockchain"
+
+msgid "Submitting a transaction to the Ethereum blockchain will broadcast it to the network for validation by validators. Once confirmed, The Winner is recorded on the blockchain, ensuring transparency and security."
+msgstr "Submitting a transaction to the Ethereum blockchain will broadcast it to the network for validation by validators. Once confirmed, The Winner is recorded on the blockchain, ensuring transparency and security."
+
+msgid "Connect Wallet"
+msgstr "Connect Wallet"
+
+msgid "Save Tournament Results"
+msgstr "Save Tournament Results"
+
+msgid "Please install Metamask"
+msgstr "Please install Metamask"
+
+msgid "Transaction successful! Check it out on"
+msgstr "Transaction successful! Check it out on"
+
+msgid "Connected"
+msgstr "Connected"
+
+msgid "AI player"
+msgstr "AI player"
+
+msgid "Human"
+msgstr "Human"
+
+msgid "AI player Won!"
+msgstr "AI player Won!"
+
+msgid "Human Won!"
+msgstr "Human Won!"
+
+msgid "Please check your username and password are correct"
+msgstr "Please check your username and password are correct"
+
+msgid "Please check your username and password are conform"
+msgstr "Please check your username and password are conform"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Find New Friends"
+msgstr "Find New Friends"
+
+msgid "Your Profile"
+msgstr "Your Profile"
+
+msgid "Your Friends"
+msgstr "Your Friends"
+
+msgid "User ID"
+msgstr "User ID"
+
+msgid "Your Stats"
+msgstr "Your Stats"
+
+msgid "Your Match History"
+msgstr "Your Match History"
+
+msgid "Total Games"
+msgstr "Total Games"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Online"
+msgstr "Online"
+
+msgid "Edit Username"
+msgstr "Edit Username"
+
+msgid "Edit Avatar"
+msgstr "Edit Avatar"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Friends"
+msgstr "Friends"
+
+msgid "400 - There is an error with your form"
+msgstr "400 - There is an error with your form"
+
+msgid "Choose File"
+msgstr "Choose File"
+
+
+msgid "Your profile picture has been updated"
+msgstr "Your profile picture has been updated"
+
+msgid "Your username has been updated"
+msgstr "Your username has been updated"
+
+msgid "Registered Users"
+msgstr "Registered Users"
+
+
+msgid "Waiting for players to join"
+msgstr "Waiting for players to join"
+
+msgid "joined the game"
+msgstr "joined the game"
+
+msgid "rejoined the game"
+msgstr "rejoined the game"
+
+msgid "Player already joined the game. You will be redirected"
+msgstr "Player already joined the game. You will be redirected"
+
+msgid "Connection closed: no available game session"
+msgstr "Connection closed: no available game session"
+
+msgid "Connection closed for unauthenticated user"
+msgstr "Connection closed for unauthenticated user"
+
+msgid "You will be redirected to the home page"
+msgstr "You will be redirected to the home page"
+
+msgid "An error occurred. Please refresh the page"
+msgstr "An error occurred. Please refresh the page"
+
+msgid "Game starts in"
+msgstr "Game starts in"
+
+msgid "Players joined. Get ready!"
+msgstr "Players joined. Get ready!"
+
+msgid "Out of bounds!"
+msgstr "Out of bounds!"
+
+msgid "Goal!"
+msgstr "Goal!"
+
+msgid "Game Over!"
+msgstr "Game Over!"
+
+msgid "Wait for the opponent to rejoin"
+msgstr "Wait for the opponent to rejoin"
+
+msgid "Error 404"
+msgstr "Error 404"
+
+msgid "Page Not Found"
+msgstr "Page Not Found"
+
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
