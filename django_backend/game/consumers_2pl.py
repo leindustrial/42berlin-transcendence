@@ -26,9 +26,9 @@ class PongConsumer(AsyncWebsocketConsumer):
 	game_sessions = {}
 	disconnected_players = {}
 	rejoin_timeout = 30  # should be changed to a better amount
-	dx = 5
-	dy = 5
-	fps = 90
+	dx = 3.5
+	dy = 3.5
+	fps = 30
 	
 	
 	# 												***	websocket connection handling ***
@@ -149,6 +149,8 @@ class PongConsumer(AsyncWebsocketConsumer):
 		data = json.loads(text_data)
 		if data['type'] == 'paddle_move':
 			await self.move_paddle(data['key'])
+		elif data['type'] == 'paddle_stop':
+			await self.stop_paddle(data['key'])
 
 	async def move_paddle(self, key):
 		user = self.scope['user']
@@ -161,6 +163,20 @@ class PongConsumer(AsyncWebsocketConsumer):
 				self.game_sessions[self.session_id]['game_state'][paddle] -= 15
 			elif key == 'ArrowDown' and self.game_sessions[self.session_id]['game_state'][paddle] < 485:
 				self.game_sessions[self.session_id]['game_state'][paddle] += 15
+		except Exception as e:
+			print(f"Error exception moving paddle: {e}")
+
+	async def stop_paddle(self, key):
+		user = self.scope['user']
+		try:
+			if user.username == list(self.game_sessions[self.session_id]['players'].values())[1]:
+				paddle = 'paddle1'
+			else:
+				paddle = 'paddle2'
+			if key == 'ArrowUp':
+				self.game_sessions[self.session_id]['game_state'][paddle] = 0
+			elif key == 'ArrowDown':
+				self.game_sessions[self.session_id]['game_state'][paddle] = 0
 		except Exception as e:
 			print(f"Error exception moving paddle: {e}")
 
@@ -316,19 +332,19 @@ class PongConsumer(AsyncWebsocketConsumer):
 		game_state['ball']['x'] += game_state['ball']['dx']
 		game_state['ball']['y'] += game_state['ball']['dy']
 
-		if game_state['ball']['y'] <= 10 or game_state['ball']['y'] >= 585:
+		if game_state['ball']['y'] <= 0 or game_state['ball']['y'] >= 570:
 			game_state['ball']['dy'] *= -1
 
-		if (game_state['ball']['x'] <= 30 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 100):
+		if (game_state['ball']['x'] <= 15 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 100):
 			game_state['ball']['dx'] *= -1
-		elif (game_state['ball']['x'] >= 865 and game_state['paddle2'] <= game_state['ball']['y'] <= game_state['paddle2'] + 100):
+		elif (game_state['ball']['x'] >= 855 and game_state['paddle2'] <= game_state['ball']['y'] <= game_state['paddle2'] + 100):
 			game_state['ball']['dx'] *= -1
 
-		if game_state['ball']['x'] <= 10:
+		if game_state['ball']['x'] <= 0:
 			game_state['score']['player2'] += 1
 			game_state['goal'] = True
 			self.reset_ball(session_id)
-		elif game_state['ball']['x'] >= 890:
+		elif game_state['ball']['x'] >= 870:
 			game_state['score']['player1'] += 1
 			game_state['goal'] = True
 			self.reset_ball(session_id)

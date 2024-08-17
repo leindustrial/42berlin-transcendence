@@ -66,7 +66,7 @@ function showSection(sectionId) {
         if (sectionId !== 'get-started' && sectionId !== 'offline-choose-mode' && sectionId !== 'offline-ai' && sectionId !== 'offline-1x1'
             && sectionId !== 'offline-tournament' && sectionId !== 'id-login' && sectionId !== 'id-signup' && sectionId !== 'profile' && sectionId !== 'profile-list-page'
             && sectionId !== 'id-update-user' && sectionId !== 'id-update-avatar' && sectionId !== 'online-1x1' 
-            && sectionId !== 'online-1x1' && sectionId !== 'online-4' && sectionId !== 'tour-hall')
+            && sectionId !== 'online-1x1' && sectionId !== 'online-4' && sectionId !== 'tour-hall' && sectionId !== 'blockchain')
         {
             console.log('page not found');
             window.location.hash = '404-page-not-found';
