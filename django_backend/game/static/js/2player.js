@@ -38,14 +38,6 @@ export function game_handler() {
 			}));
 		}
 	});
-	document.addEventListener('keyup', (e) => {
-		if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && stat_check === true) {
-			socket.send(JSON.stringify({
-				type: 'paddle_stop',
-				key: e.key
-			}));
-		}
-	});
 
 	socket.onmessage = (event) => {
 		const data = JSON.parse(event.data);

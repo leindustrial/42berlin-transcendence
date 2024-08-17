@@ -72,6 +72,7 @@ function showSection(sectionId) {
             window.location.hash = '404-page-not-found';
         }
     }
+    // if contains 'tour-game!'
 
 
     // Conditionally show/hide the logo and language

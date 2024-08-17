@@ -26,9 +26,9 @@ class PongConsumer(AsyncWebsocketConsumer):
 	game_sessions = {}
 	disconnected_players = {}
 	rejoin_timeout = 30  # should be changed to a better amount
-	dx = 3.5
-	dy = 3.5
-	fps = 30
+	dx = 4.5
+	dy = 4.5
+	fps = 50
 	
 	
 	# 												***	websocket connection handling ***
@@ -149,8 +149,6 @@ class PongConsumer(AsyncWebsocketConsumer):
 		data = json.loads(text_data)
 		if data['type'] == 'paddle_move':
 			await self.move_paddle(data['key'])
-		elif data['type'] == 'paddle_stop':
-			await self.stop_paddle(data['key'])
 
 	async def move_paddle(self, key):
 		user = self.scope['user']
@@ -163,20 +161,6 @@ class PongConsumer(AsyncWebsocketConsumer):
 				self.game_sessions[self.session_id]['game_state'][paddle] -= 15
 			elif key == 'ArrowDown' and self.game_sessions[self.session_id]['game_state'][paddle] < 485:
 				self.game_sessions[self.session_id]['game_state'][paddle] += 15
-		except Exception as e:
-			print(f"Error exception moving paddle: {e}")
-
-	async def stop_paddle(self, key):
-		user = self.scope['user']
-		try:
-			if user.username == list(self.game_sessions[self.session_id]['players'].values())[1]:
-				paddle = 'paddle1'
-			else:
-				paddle = 'paddle2'
-			if key == 'ArrowUp':
-				self.game_sessions[self.session_id]['game_state'][paddle] = 0
-			elif key == 'ArrowDown':
-				self.game_sessions[self.session_id]['game_state'][paddle] = 0
 		except Exception as e:
 			print(f"Error exception moving paddle: {e}")
 
@@ -340,11 +324,11 @@ class PongConsumer(AsyncWebsocketConsumer):
 		elif (game_state['ball']['x'] >= 855 and game_state['paddle2'] <= game_state['ball']['y'] <= game_state['paddle2'] + 100):
 			game_state['ball']['dx'] *= -1
 
-		if game_state['ball']['x'] <= 0:
+		if game_state['ball']['x'] <= -5:
 			game_state['score']['player2'] += 1
 			game_state['goal'] = True
 			self.reset_ball(session_id)
-		elif game_state['ball']['x'] >= 870:
+		elif game_state['ball']['x'] >= 875:
 			game_state['score']['player1'] += 1
 			game_state['goal'] = True
 			self.reset_ball(session_id)
