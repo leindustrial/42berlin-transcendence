@@ -27,6 +27,22 @@ def set_language(request):
     next_url = request.POST.get('next') or '/'
     return redirect(next_url)
 
+def set_language(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.method == 'POST':
+            language = request.POST.get('language')
+            if language:
+                request.session[translation.LANGUAGE_SESSION_KEY] = language
+                activate(language)
+                logger.info(f'Language set to {language}')
+                return JsonResponse({'msg': 'Language set successfully', 'status': 'success', 'csrf_token': get_token(request)})
+            else:
+                return JsonResponse({'error': 'No language provided', 'status': 'error', 'csrf_token': get_token(request)}, status=400)
+        else:
+            return JsonResponse({'error': 'Invalid request method', 'status': 'error'}, status=405)
+    else:
+        next_url = request.POST.get('next') or '/'
+        return redirect(next_url)
 
 # Create your views here.
 

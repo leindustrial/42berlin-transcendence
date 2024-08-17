@@ -44,7 +44,7 @@
             <p class="text-center" id ="sublitle">{% translate "game that takes you to transcendence" %}</p>
         </div>
 
-        <!-- Language Switcher Dropdown -->
+        <!-- Language Switcher Dropdown
         <div id="language" class="container mt-3" style="display:none;">
             <div class="row justify-content-center">
                 <form id="languageForm" action="{% url 'set_language' %}" method="post" class="form-inline">
@@ -66,7 +66,57 @@
                     });
                 </script>
             </div>
-        </div> 
+        </div>  -->
+
+        <!-- Language Switcher Dropdown -->
+        <div id="language" class="container mt-3" style="display:none;">
+            <div class="row justify-content-center">
+                <form id="languageForm" action="{% url 'set_language' %}" method="post" class="form-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <div class="input-group">
+                        <select name="language" id="languageSelect" class="custom-select">
+                            {% for lang_code, lang_name in languages %}
+                                <option value="{{ lang_code }}" {% if lang_code == request.LANGUAGE_CODE %} selected {% endif %}>
+                                    {{ lang_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+                <script>
+                    function getCookie(name) {
+                        let cookieValue = null;
+                        if (document.cookie && document.cookie !== '') {
+                            const cookies = document.cookie.split(';');
+                            for (let i = 0; i < cookies.length; i++) {
+                                const cookie = cookies[i].trim();
+                                // Does this cookie string begin with the name we want?
+                                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
+                            }
+                        }
+                        return cookieValue;
+                    }
+
+                    document.getElementById('languageSelect').addEventListener('change', function() {
+                        // Get CSRF token from cookie
+                        const csrftoken = getCookie('csrftoken');
+                        
+                        // Set the CSRF token in the form's hidden input field
+                        const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+                        if (csrfInput) {
+                            csrfInput.value = csrftoken;
+                        }
+
+                        // Submit the form
+                        document.getElementById('languageForm').submit();
+                    });
+                </script>
+            </div>
+        </div>
 
         <div id="404-page-not-found" class="content-section" style="display:none;">
             <br><br><br><br>
