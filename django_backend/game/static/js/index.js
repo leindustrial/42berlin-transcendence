@@ -3,12 +3,16 @@
 
 
 function showSection(sectionId) {
+    let tourGame;
     // Get all sections & hide all sections
     const sections = document.querySelectorAll('.content-section');
     sections.forEach(section => {
         section.style.display = 'none';
     });
-
+    if (sectionId.includes('tour-game!'))
+        tourGame = true;
+    else
+        tourGame = false;
     // Show only selected (via click on button/link) section
     const selectedSection = document.getElementById(sectionId);
     if (selectedSection) {
@@ -66,13 +70,14 @@ function showSection(sectionId) {
         if (sectionId !== 'get-started' && sectionId !== 'offline-choose-mode' && sectionId !== 'offline-ai' && sectionId !== 'offline-1x1'
             && sectionId !== 'offline-tournament' && sectionId !== 'id-login' && sectionId !== 'id-signup' && sectionId !== 'profile' && sectionId !== 'profile-list-page'
             && sectionId !== 'id-update-user' && sectionId !== 'id-update-avatar' && sectionId !== 'online-1x1' 
-            && sectionId !== 'online-1x1' && sectionId !== 'online-4' && sectionId !== 'tour-hall' && sectionId !== 'blockchain')
+            && sectionId !== 'online-1x1' && sectionId !== 'online-4' && sectionId !== 'tour-hall' && sectionId !== 'blockchain'
+            && tourGame === false)
         {
             console.log('page not found');
             window.location.hash = '404-page-not-found';
         }
     }
-    // if contains 'tour-game!'
+
 
 
     // Conditionally show/hide the logo and language
@@ -143,7 +148,7 @@ function showSection(sectionId) {
         if (horNav) horNav.style.display = 'none';
     }
 
-    if (sectionId === 'online-1x1' || sectionId === 'online-4' || sectionId === 'tour-hall') {
+    if (sectionId === 'online-1x1' || sectionId === 'online-4' || sectionId === 'tour-hall' || tourGame === true) {
         if (onHeaderGame) onHeaderGame.style.display = 'block';
     } else {
         if (onHeaderGame) onHeaderGame.style.display = 'none';
