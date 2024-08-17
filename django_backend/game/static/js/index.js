@@ -92,7 +92,7 @@ function showSection(sectionId) {
     const onHeaderGame = document.getElementById('online-header-game');
     const blockchain = document.getElementById('blockchain');
     
-    if (sectionId === 'offline-choose-mode') {
+    if (sectionId === 'offline-choose-mode' || sectionId === 'get-started') {
         if (language) language.style.display = 'block';
     }
     else {
