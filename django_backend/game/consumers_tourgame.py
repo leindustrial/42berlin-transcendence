@@ -386,10 +386,13 @@ class PongConsumer(AsyncWebsocketConsumer):
 		
 	async def update_tournament_cache(self, result):
 		tournament = cache.get('tournament')
+		loosers = cache.get('loosers', [])
 		for match in tournament['semi_finals']:
 			if match['session_id'] == self.sessionId:
 				match['winner'] = result['winner']
+				loosers.append(result['players'][0] if result['players'][0] != result['winner'] else result['players'][1])
 				cache.set('tournament', tournament, timeout=3600)
+				cache.set('loosers', loosers, timeout=3600)
 				break
 		if tournament['final']['session_id'] and tournament['final']['session_id'] == self.sessionId:
 			tournament['final']['winner'] = result['winner']		

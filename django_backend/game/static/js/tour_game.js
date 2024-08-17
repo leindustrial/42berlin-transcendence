@@ -25,12 +25,13 @@ export function startGame(sessionId, oldSocket) {
 	const score2 = document.getElementById('score2');
 	const player1 = document.getElementById('player1-name');
 	const player2 = document.getElementById('player2-name');
+	let stat_check = false;
 
 
 	message.textContent = 'Waiting for players to join...';
 
 	document.addEventListener('keydown', (e) => {
-		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+		if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && stat_check === true){
 			socket.send(JSON.stringify({
 				type: 'paddle_move',
 				key: e.key
@@ -63,6 +64,7 @@ export function startGame(sessionId, oldSocket) {
 			case 'game_started':
 				message.style.fontSize = '40px';
 				message.textContent = data.message;
+				stat_check = true;
 				setTimeout(() => {
 					message.textContent = '';
 					message.style.fontSize = '10px';
@@ -70,9 +72,11 @@ export function startGame(sessionId, oldSocket) {
 				break;
 			case 'game_over':
 				message.textContent = `Game Over! ${data.winner} wins!`;
+				stat_check = false;
 				break;
 			case 'game_stop':
 				message.textContent = data.message;
+				stat_check = false;
 				break;
 			case 'player_rejoined':
 				message.textContent = `${data.name} rejoined the game`;
@@ -113,8 +117,19 @@ export function startGame(sessionId, oldSocket) {
 	function cleanupGame() {
 		console.log('Cleaning up game');
 		socket.close();
+		deactivateListeners();
+		//history.pushState(null, '', window.location.href);
 	};
 
-	window.addEventListener('beforeunload', cleanupGame);
-	window.addEventListener('popstate', cleanupGame);
+	function deactivateListeners() {
+		window.removeEventListener('beforeunload', cleanupGame);
+		window.removeEventListener('popstate', cleanupGame);
+	};
+	
+	function setupEventListeners() {
+		window.addEventListener('beforeunload', cleanupGame);
+		window.addEventListener('popstate', cleanupGame);
+	};
+
+	setupEventListeners();
 };
