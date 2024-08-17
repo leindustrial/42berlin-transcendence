@@ -52,8 +52,9 @@ export function offlineGame_handler() {
 
     let paddle1_coord_1x1, paddle2_coord_1x1, paddle_common_1x1, ball_coord_1x1, board_coord_1x1;
 
-    const paddleSpeed = 3;
+    const paddleSpeed = 10;
     let velocity1_1x1 = 0, velocity2_1x1 = 0;
+    let paddleAnimationFrame_1x1;
 
     let dx, dy, dxd, dyd;
 
@@ -81,7 +82,7 @@ export function offlineGame_handler() {
         paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
         paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
 
-        requestAnimationFrame(updatePaddlePositions_1x1);
+        paddleAnimationFrame_1x1 = requestAnimationFrame(updatePaddlePositions_1x1);
 
     }
 
@@ -109,6 +110,10 @@ export function offlineGame_handler() {
 
     function displayWinner_1x1(winnerName) {
         gameState_1x1 = 'stop';
+        velocity1_1x1 = 0, velocity2_1x1 = 0;
+        if (paddleAnimationFrame_1x1) {
+            cancelAnimationFrame(paddleAnimationFrame_1x1);
+        } 
         winnerName_1x1.innerHTML = `${winnerName} ${WINS}`;
         winnerMessage_1x1.style.display = 'block';
         message_1x1.style.display = 'block';
@@ -125,13 +130,13 @@ export function offlineGame_handler() {
             dyd = 1 - dyd; // Reverse vertical direction
         }
 
-        if (ball_coord_1x1.left <= paddle1_coord_1x1.right && ball_coord_1x1.top >= paddle1_coord_1x1.top && ball_coord_1x1.bottom <= paddle1_coord_1x1.bottom) {
+        if (ball_coord_1x1.left <= paddle1_coord_1x1.right && ball_coord_1x1.top >= paddle1_coord_1x1.top-10 && ball_coord_1x1.bottom <= paddle1_coord_1x1.bottom+10) {
             dxd = 1; // Move ball to the right
             dx = Math.floor(Math.random() * 4) + 3;
             dy = Math.floor(Math.random() * 4) + 3;
         }
 
-        if (ball_coord_1x1.right >= paddle2_coord_1x1.left && ball_coord_1x1.top >= paddle2_coord_1x1.top && ball_coord_1x1.bottom <= paddle2_coord_1x1.bottom) {
+        if (ball_coord_1x1.right >= paddle2_coord_1x1.left && ball_coord_1x1.top >= paddle2_coord_1x1.top-10 && ball_coord_1x1.bottom <= paddle2_coord_1x1.bottom+10) {
             dxd = 0; // Move ball to the left
             dx = Math.floor(Math.random() * 4) + 3;
             dy = Math.floor(Math.random() * 4) + 3;
@@ -145,6 +150,7 @@ export function offlineGame_handler() {
             }
             if (checkScores_1x1()) return;
             gameState_1x1 = 'reset';
+            velocity1_1x1 = 0, velocity2_1x1 = 0;
             resetBallPosition_1x1();
             setTimeout(() => {
                 gameState_1x1 = 'play';
@@ -161,7 +167,10 @@ export function offlineGame_handler() {
         });
     }
 
-    function startGame_1x1() {   
+    function startGame_1x1() {  
+        if (paddleAnimationFrame_1x1) {
+            cancelAnimationFrame(paddleAnimationFrame_1x1);
+        } 
         console.log(gameState_1x1);
         message_1x1.style.display = 'block';
         winnerMessage_1x1.style.display = 'none';
@@ -202,28 +211,4 @@ export function offlineGame_handler() {
         if (e.key === 'ArrowUp' && gameState_1x1 === 'play' || e.key === 'ArrowDown'&& gameState_1x1 === 'play') velocity2_1x1 = 0;
     });
 
-    // function offlineGameReset() {
-    //     gameState_1x1 = 'begin';
-    //     document.getElementById('player_form_1x1').style.display = 'block';
-    //     input1_1x1.value = '';
-    //     input2_1x1.value = '';
-    //     name1_1x1.textContent = 'Player 1';
-    //     name2_1x1.textContent = 'Player 2';
-    //     message_1x1.style.display = 'block';
-    //     message_1x1.innerHTML = 'Press Enter to Play';
-    //     winnerMessage_1x1.style.display = 'none';
-    //     initializeGameElements_1x1()
-    //     resetScores_1x1();
-    //     resetBallPosition_1x1();
-    //     resetPaddlePositions_1x1();
-    // }
-
-    // function resetPaddlePositions_1x1() {
-
-    //     paddle1_1x1.style.top = 360 + 'px';
-    //     paddle2_1x1.style.top = 360 + 'px';
-
-    //     paddle1_coord_1x1 = paddle1_1x1.getBoundingClientRect();
-    //     paddle2_coord_1x1 = paddle2_1x1.getBoundingClientRect();
-    // }
 }

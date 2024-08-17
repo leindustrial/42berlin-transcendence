@@ -10,14 +10,6 @@ else
 	chmod 600 certificate.crt
 fi
 cd ../django_backend
-cd pong_game
-if grep -q $DJANGO_KEY settings.py; then
-    echo "DJANGO_KEY is already in settings.py. Skipping..."
-else
-    echo >> settings.py
-	echo $DJANGO_KEY >> settings.py
-fi
-cd ..
 source myenv/bin/activate
 python manage.py migrate
 echo yes | python manage.py collectstatic

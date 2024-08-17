@@ -122,9 +122,9 @@ export function offlineTour_handler() {
     ball_coord_4,
     board_coord_4;
 
-  const paddleSpeed_4 = 3;
-  let velocity1_4 = 0,
-    velocity2_4 = 0;
+  const paddleSpeed_4 = 10;
+  let velocity1_4 = 0, velocity2_4 = 0;
+  let paddleAnimationFrame_4;
 
   let dx4, dy4, dxd4, dyd4;
 
@@ -192,6 +192,9 @@ export function offlineTour_handler() {
 
     paddle1_coord_4 = paddle1_4.getBoundingClientRect();
     paddle2_coord_4 = paddle2_4.getBoundingClientRect();
+    if (paddleAnimationFrame_4) {
+      cancelAnimationFrame(paddleAnimationFrame_4);
+  } 
   }
 
   function updatePaddlePositions_4() {
@@ -209,7 +212,7 @@ export function offlineTour_handler() {
     paddle1_coord_4 = paddle1_4.getBoundingClientRect();
     paddle2_coord_4 = paddle2_4.getBoundingClientRect();
 
-    requestAnimationFrame(updatePaddlePositions_4);
+    paddleAnimationFrame_4 = requestAnimationFrame(updatePaddlePositions_4);
   }
 
   function startMatch() {
@@ -361,10 +364,16 @@ export function offlineTour_handler() {
 
   function displayWinner_4(winName, isFinal) {
     if (isFinal === true) {
+      if (paddleAnimationFrame_4) {
+        cancelAnimationFrame(paddleAnimationFrame_4);
+      } 
       endTournament(winName);
     } else {
       winnerName_4.innerHTML = `${winName} ${WINS}`;
       winnerMessage_4.style.display = "block";
+      if (paddleAnimationFrame_4) {
+        cancelAnimationFrame(paddleAnimationFrame_4);
+      } 
       resetScores_4();
       resetBallPosition_4();
       document.getElementById("nextGame").style.display = "block";

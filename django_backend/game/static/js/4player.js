@@ -38,18 +38,19 @@ export function game_handler_4pl() {
 	const player2Name = document.getElementById('four_player2-name');
 	const player3Name = document.getElementById('four_player3-name');
 	const player4Name = document.getElementById('four_player4-name');
+	let stat_check4 = false;
 
 	message.textContent = `${WAIT}`;
 
 	document.addEventListener('keydown', (e) => {
-		if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+		if ((e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') && stat_check4 === true) {
 			socket.send(JSON.stringify({
 				type: 'paddle_move',
 				key: e.key
 			}));
 		}
 	});
-	socket.onmessage = (event) => {
+	socket.onmessage = (event) => {false
 		const data = JSON.parse(event.data);
 		switch (data.type) {
 			case 'player_joined':
@@ -72,15 +73,18 @@ export function game_handler_4pl() {
 				break;
 			case 'game_started':
 				message.textContent = `${STARTED}!`;
+				stat_check4 = true;
 				messageTimeout = setTimeout(() => {
 					message.textContent = '';
 				}, 1000);
 				break;
 			case 'game_stop': //this case was missing. that's why we didn't see a message if the player disconnected
 					message.textContent = `${WAIT_REJOIN}`;
+					stat_check4 = false;
 					break;
 			case 'game_over':
 				message.textContent = `${GAME_OVER2} ${data.winner} ${WON}!`;
+				stat_check4 = false;
 				break;
 
 		}
@@ -116,17 +120,22 @@ export function game_handler_4pl() {
 		switch (event.code) {
 			case 3001:
 				message.textContent = `${REDIR}`;
+				stat_check4 = false;
 				break;
 			case 3002:
 				message.textContent = `${NO_SESSION}`;
+				stat_check4 = false;
 				break;
 			case 3003:
 				message.textContent = `${CON_CLOSED}`;
+				stat_check4 = false;
 				break;
 			default:
 				message.textContent = `${REDIR_HOME}`;
+				stat_check4 = false;
 		}
 		if (socket.readyState === WebSocket.CLOSED) {
+			stat_check4 = false;
 			messageTimeout = setTimeout(() => {
 				window.location.hash = 'get-started';
 			}, 3000);
@@ -139,6 +148,7 @@ export function game_handler_4pl() {
 	};
 
 	function cleanupGame() {
+		stat_check4 = false;
 		console.log('Cleaning up game');
 		socket.close();
 		deactivateListeners();

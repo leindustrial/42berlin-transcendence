@@ -26,9 +26,9 @@ class PongConsumer(AsyncWebsocketConsumer):
 	game_sessions = {}
 	disconnected_players = {}
 	rejoin_timeout = 30  # should be changed to a better amount
-	dx = 5
-	dy = 5
-	fps = 90
+	dx = 4.5
+	dy = 4.5
+	fps = 50
 	
 	
 	# 												***	websocket connection handling ***
@@ -278,7 +278,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 				session_id,
 				{
 					'type': 'countdown',
-					'message': f"Game starts in {i} seconds..."
+					'message': f"{i}"
 				}
 			)
 			await asyncio.sleep(1)
@@ -316,19 +316,19 @@ class PongConsumer(AsyncWebsocketConsumer):
 		game_state['ball']['x'] += game_state['ball']['dx']
 		game_state['ball']['y'] += game_state['ball']['dy']
 
-		if game_state['ball']['y'] <= 15 or game_state['ball']['y'] >= 585:
+		if game_state['ball']['y'] <= 0 or game_state['ball']['y'] >= 570:
 			game_state['ball']['dy'] *= -1
 
-		if (game_state['ball']['x'] <= 30 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 100):
+		if (game_state['ball']['x'] <= 15 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 100):
 			game_state['ball']['dx'] *= -1
-		elif (game_state['ball']['x'] >= 865 and game_state['paddle2'] <= game_state['ball']['y'] <= game_state['paddle2'] + 100):
+		elif (game_state['ball']['x'] >= 855 and game_state['paddle2'] <= game_state['ball']['y'] <= game_state['paddle2'] + 100):
 			game_state['ball']['dx'] *= -1
 
-		if game_state['ball']['x'] <= 10:
+		if game_state['ball']['x'] <= -5:
 			game_state['score']['player2'] += 1
 			game_state['goal'] = True
 			self.reset_ball(session_id)
-		elif game_state['ball']['x'] >= 890:
+		elif game_state['ball']['x'] >= 875:
 			game_state['score']['player1'] += 1
 			game_state['goal'] = True
 			self.reset_ball(session_id)

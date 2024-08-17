@@ -303,8 +303,8 @@ class PongConsumer(AsyncWebsocketConsumer):
 			game_state['last_touch'] = None
 			game_state['ball']['x'] = 295
 			game_state['ball']['y'] = 295
-			game_state['ball']['dx'] = random.choice([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5])
-			game_state['ball']['dy'] = random.choice([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5])
+			game_state['ball']['dx'] = random.choice([-7, -6, -5, -4, -3, 3, 4, 5, 6, 7])
+			game_state['ball']['dy'] = random.choice([-7, -6, -5, -4, -3, 3, 4, 5, 6, 7])
 
 		if game_state['score']['player1'] >= self.goals_to_win or game_state['score']['player2'] >= self.goals_to_win or game_state['score']['player3'] >= self.goals_to_win or game_state['score']['player4'] >= self.goals_to_win:
 			if  game_state['score']['player1'] >= self.goals_to_win:
