@@ -57,9 +57,6 @@ export function blockchain_handler() {
 
     const username = `PONG 3.0 tournament | Date:${formattedDate} | winner: ${winner}`;
 
-    // const username = winner; //'PONG 3.0 tournament' + date + 'winner:' + winner
-
-
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
@@ -71,7 +68,7 @@ export function blockchain_handler() {
       try {
         const transactionResponse = await contract.recordWinner(username);
         spinner.classList.remove("d-none");
-        await listenForTransactionMine(transactionResponse, provider);
+        await listenForTransactionMine(transactionResponse, provider, username); // Pass the username here
         console.log(`Recorded username: ${username}`);
       } catch (error) {
         console.error(error);
@@ -81,7 +78,7 @@ export function blockchain_handler() {
     }
   }
 
-  function listenForTransactionMine(transactionResponse, provider) {
+  function listenForTransactionMine(transactionResponse, provider, username) {
     console.log(`Mining ${transactionResponse.hash}...`);
     return new Promise((resolve, reject) => {
       provider.once(transactionResponse.hash, (transactionReceipt) => {
@@ -89,21 +86,23 @@ export function blockchain_handler() {
           `Completed with ${transactionReceipt.confirmations} confirmations.`
         );
         spinner.classList.add("d-none");
-        replaceInputWithAlert(transactionResponse.hash);
+        replaceInputWithAlert(transactionResponse.hash, username); // Pass the username here
         resolve();
       });
     });
   }
 
-  function replaceInputWithAlert(transactionHash) {
-    // Remove the input container
-    // inputContainer.remove();
-
+  function replaceInputWithAlert(transactionHash, username) {
     // Create and show the alert
     const alertDiv = document.createElement("div");
     alertDiv.className = "alert alert-success";
     alertDiv.role = "alert";
-    alertDiv.innerHTML = `${SUCCESS_TRANSACTION} <a href="https://sepolia.etherscan.io/tx/${transactionHash}" class="alert-link" target="_blank">Etherscan</a>.`;
+
+    alertDiv.innerHTML = `
+        Transaction successful! <br>
+        Recorded on the blockchain: ${username} <br>
+        Check it out on <a href="https://sepolia.etherscan.io/tx/${transactionHash}" class="alert-link" target="_blank">Etherscan</a>.
+    `;
     alertContainer.appendChild(alertDiv);
   }
 }
