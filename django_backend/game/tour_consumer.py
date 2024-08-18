@@ -15,13 +15,13 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 		await self.accept()
 		active_players = cache.get('active_players', [])
 		loosers = cache.get('loosers', [])
-		print('active_players', active_players)
-		#logger.info(f'active_players: {active_players}')
+		#print('active_players', active_players)
+		logger.info(f'active_players: {active_players}')
 		if self.user.username in active_players:
 			pass
 		elif len(active_players) >= 4:
-			print('Tournament is full')
-			#logger.info('Tournament is full')
+			#print('Tournament is full')
+			logger.info('Tournament is full')
 			await self.close(code = 3002)
 			return
 		
@@ -50,8 +50,8 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 		)
 		player_in_game = cache.get('player_in_game', [])
 		loosers = cache.get('loosers', [])
-		print('player_in_game', player_in_game)
-		#logger.info(f'player_in_game: {player_in_game}')
+		#print('player_in_game', player_in_game)
+		logger.info(f'player_in_game: {player_in_game}')
 		if self.user.username in player_in_game or self.user.username in loosers:
 			print('pass')
 			pass
@@ -64,12 +64,12 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 					'message': 'tornument end due to exit of a player. you may exit now'
 				}
 			)
-			print('player left the game so tournament ended')
-			#logger.info('player left the game so tournament ended')
 			cache.delete('tournament')
 			cache.delete('player_in_game')
 			cache.delete('active_players')
 			cache.delete('loosers')
+			logger.info('player left the game so tournament ended')
+			
 	
 	async def receive(self, text_data):
 		data = json.loads(text_data)
@@ -103,12 +103,14 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 		cache.delete('tournament')
 		cache.delete('player_in_game')
 		cache.delete('active_players')
+		cache.delete('loosers')
 		
 
 	@database_sync_to_async
 	def assign_player_to_match(self):
 		tournament = cache.get('tournament')
 		if tournament is None:
+			print('tournament is being created')
 			tournament = {
 				'semi_finals': [
 					{'player1': None, 'player2': None, 'session_id': str(uuid.uuid4()), 'winner': None},

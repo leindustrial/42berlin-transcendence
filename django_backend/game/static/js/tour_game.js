@@ -1,4 +1,5 @@
 export function startGame(sessionId, oldSocket) {
+	//cleanupOldGame();
 	const tourGameHTML = `
 		<div id="game-area">
 			<p class="text-center"><h3 id="message" class="message"></h3></p>
@@ -11,11 +12,12 @@ export function startGame(sessionId, oldSocket) {
 			<div id="score2">0</div>
 		</div>
 	`;
-
 	setElementinnerHTML(document.getElementById('tour-game'), tourGameHTML);
 	showElement(document.getElementById('tour-game'));
-
-	const socket = new WebSocket(`wss://${window.location.host}/tour_game/${sessionId}/`);
+	let sId = window.location.hash.split('!')[1];
+	sessionId = sId;
+	const socket = new WebSocket(`wss://${window.location.host}/tour_game/${sId}/`);
+	console.log('ws connection established');
 	const gameArea = document.getElementById('game-area');
 	const message = document.getElementById('message');
 	const ball = document.getElementById('ball');
@@ -114,10 +116,18 @@ export function startGame(sessionId, oldSocket) {
 		message.textContent = 'An error occurred. Please refresh the page.';
 	};
 
+	function cleanupOldGame() {
+		const gameContainer = document.getElementById('tour-game');
+		if (gameContainer) {
+			gameContainer.innerHTML = ''; // Clear the old HTML content
+		}
+	}
+
 	function cleanupGame() {
 		console.log('Cleaning up game');
 		socket.close();
 		deactivateListeners();
+		cleanupOldGame();
 		//history.pushState(null, '', window.location.href);
 	};
 
