@@ -1,4 +1,5 @@
 export function startGame(sessionId, oldSocket) {
+	//cleanupOldGame();
 	const tourGameHTML = `
 		<div id="game-area">
 			<p class="text-center"><h3 id="message" class="message"></h3></p>
@@ -11,11 +12,12 @@ export function startGame(sessionId, oldSocket) {
 			<div id="score2">0</div>
 		</div>
 	`;
-
 	setElementinnerHTML(document.getElementById('tour-game'), tourGameHTML);
 	showElement(document.getElementById('tour-game'));
-
-	const socket = new WebSocket(`wss://${window.location.host}/tour_game/${sessionId}/`);
+	let sId = window.location.hash.split('!')[1];
+	sessionId = sId;
+	const socket = new WebSocket(`wss://${window.location.host}/tour_game/${sId}/`);
+	console.log('ws connection established');
 	const gameArea = document.getElementById('game-area');
 	const message = document.getElementById('message');
 	const ball = document.getElementById('ball');
@@ -25,12 +27,13 @@ export function startGame(sessionId, oldSocket) {
 	const score2 = document.getElementById('score2');
 	const player1 = document.getElementById('player1-name');
 	const player2 = document.getElementById('player2-name');
+	let stat_check = false;
 
 
 	message.textContent = 'Waiting for players to join...';
 
 	document.addEventListener('keydown', (e) => {
-		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+		if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && stat_check === true){
 			socket.send(JSON.stringify({
 				type: 'paddle_move',
 				key: e.key
@@ -63,6 +66,7 @@ export function startGame(sessionId, oldSocket) {
 			case 'game_started':
 				message.style.fontSize = '40px';
 				message.textContent = data.message;
+				stat_check = true;
 				setTimeout(() => {
 					message.textContent = '';
 					message.style.fontSize = '10px';
@@ -70,9 +74,11 @@ export function startGame(sessionId, oldSocket) {
 				break;
 			case 'game_over':
 				message.textContent = `Game Over! ${data.winner} wins!`;
+				stat_check = false;
 				break;
 			case 'game_stop':
 				message.textContent = data.message;
+				stat_check = false;
 				break;
 			case 'player_rejoined':
 				message.textContent = `${data.name} rejoined the game`;
@@ -110,11 +116,30 @@ export function startGame(sessionId, oldSocket) {
 		message.textContent = 'An error occurred. Please refresh the page.';
 	};
 
+	function cleanupOldGame() {
+		const gameContainer = document.getElementById('tour-game');
+		if (gameContainer) {
+			gameContainer.innerHTML = ''; // Clear the old HTML content
+		}
+	}
+
 	function cleanupGame() {
 		console.log('Cleaning up game');
 		socket.close();
+		deactivateListeners();
+		cleanupOldGame();
+		//history.pushState(null, '', window.location.href);
 	};
 
-	window.addEventListener('beforeunload', cleanupGame);
-	window.addEventListener('popstate', cleanupGame);
+	function deactivateListeners() {
+		window.removeEventListener('beforeunload', cleanupGame);
+		window.removeEventListener('popstate', cleanupGame);
+	};
+	
+	function setupEventListeners() {
+		window.addEventListener('beforeunload', cleanupGame);
+		window.addEventListener('popstate', cleanupGame);
+	};
+
+	setupEventListeners();
 };

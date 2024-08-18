@@ -200,6 +200,7 @@ export async function startTournament() {
 	function deactivateListeners() {
 		window.removeEventListener('beforeunload', cleanupGame);
 		window.removeEventListener('popstate', cleanupGame);
+		$(document).off('click', '.match-button');
 	}
 	
 	function setupEventListeners() {
