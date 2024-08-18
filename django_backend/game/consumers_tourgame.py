@@ -207,7 +207,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 					'game_state': self.game_sessions[session_id]['game_state']
 				}
 			)
-			await asyncio.sleep(0.033)
+			await asyncio.sleep(0.02)
 
 	def update_game_state(self, session_id):
 		game_state = self.game_sessions[session_id]['game_state']
@@ -215,29 +215,31 @@ class PongConsumer(AsyncWebsocketConsumer):
 		game_state['ball']['x'] += game_state['ball']['dx']
 		game_state['ball']['y'] += game_state['ball']['dy']
 
-		if game_state['ball']['y'] <= 15 or game_state['ball']['y'] >= 585:
+		if game_state['ball']['y'] <= 0 or game_state['ball']['y'] >= 570:
 			game_state['ball']['dy'] *= -1
 
-		if (game_state['ball']['x'] <= 30 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 100):
+		if (game_state['ball']['x'] <= 15 and game_state['paddle1'] <= game_state['ball']['y'] <= game_state['paddle1'] + 100):
 			game_state['ball']['dx'] *= -1
-		elif (game_state['ball']['x'] >= 865 and game_state['paddle2'] <= game_state['ball']['y'] <= game_state['paddle2'] + 100):
+		elif (game_state['ball']['x'] >= 855 and game_state['paddle2'] <= game_state['ball']['y'] <= game_state['paddle2'] + 100):
 			game_state['ball']['dx'] *= -1
 
-		if game_state['ball']['x'] <= 10:
+		if game_state['ball']['x'] <= -5:
 			game_state['score']['player2'] += 1
 			self.reset_ball(session_id)
-		elif game_state['ball']['x'] >= 890:
+		elif game_state['ball']['x'] >= 875:
 			game_state['score']['player1'] += 1
 			self.reset_ball(session_id)
 
 		if game_state['score']['player1'] >= 2 or game_state['score']['player2'] >=2: # how many goals needed to win a game. change in this line and next line
 			winner = list(self.game_sessions[session_id]['players'].values())[1] if game_state['score']['player1'] >= 2 else list(self.game_sessions[session_id]['players'].values())[0]
+			looser = list(self.game_sessions[session_id]['players'].values())[0] if game_state['score']['player1'] >= 2 else list(self.game_sessions[session_id]['players'].values())[1]
 			result = {
 				'players': list(self.game_sessions[session_id]['players'].values()),
 				'winner': winner,
+				'looser': looser,
 				'score': game_state['score']
 			}
-			asyncio.create_task(self.send_game_result(result, session_id, winner))
+			asyncio.create_task(self.send_game_result(result, session_id, winner, looser))
 			self.reset_game(session_id)
 
 	def reset_ball(self, session_id):
