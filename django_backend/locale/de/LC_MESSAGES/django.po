@@ -378,6 +378,22 @@ msgstr "Seite nicht gefunden"
 msgid "Won"
 msgstr "hat gewonnen"
 
+msgid "Welcome"
+msgstr "Willkommen"
+
+msgid "Waiting for player"
+msgstr "Warten auf Spieler"
+
+msgid "Final Match"
+msgstr "Finales Spiel"
+
+msgid "Player already in tournament, you may return to home page"
+msgstr "Spieler ist bereits im Turnier, Sie können zur Startseite zurückkehren"
+
+msgid "Tournament is full at the moment, you may return to home page"
+msgstr "Das Turnier ist derzeit voll, Sie können zur Startseite zurückkehren"
+
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""

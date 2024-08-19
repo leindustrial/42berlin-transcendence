@@ -12,37 +12,38 @@ export async function startTournament() {
 	
 	const onlineTourHtml = `
 		<div id="tournament-page">
-			<h1 class="text-center">Tournament</h1>
-			<p class="welcome">Welcome, <span id="usernames"></span>!</p>
+            <p class="text-center" id="logo-big">PONG 3.1</p>
+            <p class="text-center" id ="sublitle">${TOUR}</p>
+			<p class="welcome">${WELCOME}, <span id="usernames"></span>!</p>
 			<div id="champ"></div>
 			<div id="info"></div>
 			<div class="tournament">
 				<div class="round" id="semi-finals">
-					<h2 class="text-center">Semi-finals</h2>
+					<h2 class="text-center">${SEMI_FIN}:</h2>
 					<div class="match" id="match-semi-final-0">
-						<h3>Match 1</h3>
-						<p class="player player1">Waiting for player</p>
+						<h3>${MATCH} 1</h3>
+						<p class="player player1">${WAITING_TOUR}</p>
 						<p class="vs">vs</p>
-						<p class="player player2">Waiting for player</p>
+						<p class="player player2">${WAITING_TOUR}</p>
 					</div>
 					<div class="match" id="match-semi-final-1">
-						<h3>Match 2</h3>
-						<p class="player player1">Waiting for player</p>
+						<h3>${MATCH} 2</h3>
+						<p class="player player1">${WAITING_TOUR}</p>
 						<p class="vs">vs</p>
-						<p class="player player2">Waiting for player</p>
+						<p class="player player2">${WAITING_TOUR}</p>
 					</div>
 				</div>
 				<div class="round">
-					<h2 class="text-center">Final</h2>
+					<h2 class="text-center">${FINAL_TOUR}</h2>
 					<div class="match" id="match-final">
 						<h3>Final Match</h3>
-						<p class="player player1">Waiting for player</p>
+						<p class="player player1">${WAITING_TOUR}</p>
 						<p class="vs">vs</p>
-						<p class="player player2">Waiting for player</p>
+						<p class="player player2">${WAITING_TOUR}</p>
 					</div>
 				</div>
 			</div>
-			<button id="go-to-match" class="hidden match-button">Go to Match</button>
+			<button id="go-to-match" class="hidden match-button">${GO_TO_MATCH}</button>
 		</div>
 	`;
 	console.log('username =', username);
@@ -87,7 +88,7 @@ export async function startTournament() {
 				break;
 			case 'go_back_to_home':
 				const infoElement = document.getElementById('info');
-				if (infoElement) infoElement.textContent = data.message;
+				if (infoElement) infoElement.textContent = `${GAME_OVER2}`;
 				const goToMatchButtons = document.getElementById('go-to-match');
 				if (goToMatchButtons) goToMatchButtons.classList.add('hidden');
 				tournamentSocket.close();
@@ -100,10 +101,10 @@ export async function startTournament() {
 		if (infoElement) {
 			switch (e.code) {
 				case 3001:
-					infoElement.textContent = 'Player already in tournament, You may return to home page';
+					infoElement.textContent = `${ALREADY_TOUR}`;
 					break;
 				case 3002:
-					infoElement.textContent = 'Tournament is full at the moment, You may return to home page';
+					infoElement.textContent = `${FULL_TOUR}`;
 					break;
 			}
 		}
@@ -144,8 +145,8 @@ export async function startTournament() {
 				const player2Element = matchElement.querySelector('.player2');
 				
 				console.log(match.player1, match.player2);
-				if (player1Element) player1Element.textContent = match.player1 || 'Waiting for player';
-				if (player2Element) player2Element.textContent = match.player2 || 'Waiting for player';
+				if (player1Element) player1Element.textContent = match.player1 || `${WAITING_TOUR}`;
+				if (player2Element) player2Element.textContent = match.player2 || `${WAITING_TOUR}`;
 
 				if (match.winner) {
 					if (match.winner === match.player1) {
@@ -170,8 +171,8 @@ export async function startTournament() {
 			const finalPlayer1Element = finalMatchElement.querySelector('.player1');
 			const finalPlayer2Element = finalMatchElement.querySelector('.player2');
 
-			if (finalPlayer1Element) finalPlayer1Element.textContent = finalMatch.player1 || 'Waiting for player';
-			if (finalPlayer2Element) finalPlayer2Element.textContent = finalMatch.player2 || 'Waiting for player';
+			if (finalPlayer1Element) finalPlayer1Element.textContent = finalMatch.player1 || `${WAITING_TOUR}`;
+			if (finalPlayer2Element) finalPlayer2Element.textContent = finalMatch.player2 || `${WAITING_TOUR}`;
 
 			if (finalMatch.winner) {
 				if (finalMatch.winner === finalMatch.player1) {
