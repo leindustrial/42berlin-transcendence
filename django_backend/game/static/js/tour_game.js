@@ -30,7 +30,7 @@ export function startGame(sessionId, oldSocket) {
 	let stat_check = false;
 
 
-	message.textContent = 'Waiting for players to join...';
+	message.textContent = `${WAIT}`;
 
 	document.addEventListener('keydown', (e) => {
 		if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && stat_check === true){
@@ -45,7 +45,7 @@ export function startGame(sessionId, oldSocket) {
 		const data = JSON.parse(event.data);
 		switch (data.type) {
 			case 'player_joined':
-				message.textContent = `${data.name} joined the game`;
+				message.textContent = `${data.name} ${JOINED}`;
 				player1.textContent = data.name;
 				setTimeout(() => {
 					message.textContent = '';
@@ -53,7 +53,7 @@ export function startGame(sessionId, oldSocket) {
 				break;
 			case 'both_players_joined':
 				console.log('Both players joined');
-				message.textContent = data.message;
+				message.textContent = `${GET_READY}`;
 				console.log(data.name);
 				player2.textContent = data.name;
 				break;
@@ -65,7 +65,7 @@ export function startGame(sessionId, oldSocket) {
 				break;
 			case 'game_started':
 				message.style.fontSize = '40px';
-				message.textContent = data.message;
+				message.textContent = `${STARTED}!`;
 				stat_check = true;
 				setTimeout(() => {
 					message.textContent = '';
@@ -73,7 +73,7 @@ export function startGame(sessionId, oldSocket) {
 				}, 1000);
 				break;
 			case 'game_over':
-				message.textContent = `Game Over! ${data.winner} wins!`;
+				message.textContent = `${GAME_OVER2} ${data.winner} ${WON}!`;
 				stat_check = false;
 				break;
 			case 'game_stop':
@@ -81,7 +81,7 @@ export function startGame(sessionId, oldSocket) {
 				stat_check = false;
 				break;
 			case 'player_rejoined':
-				message.textContent = `${data.name} rejoined the game`;
+				message.textContent = `${data.name} ${REJOINED}`;
 				player1.textContent = data.name;
 				player2.textContent = data.opponent;
 				setTimeout(() => {
