@@ -380,6 +380,13 @@ msgstr "Waiting for player"
 msgid "Final Match"
 msgstr "Final Match"
 
+msgid "Player already in tournament, you may return to home page"
+msgstr "Player already in tournament, you may return to home page"
+
+msgid "Tournament is full at the moment, you may return to home page"
+msgstr "Tournament is full at the moment, you may return to home page"
+
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""

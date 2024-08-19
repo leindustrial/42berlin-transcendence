@@ -88,7 +88,7 @@ export async function startTournament() {
 				break;
 			case 'go_back_to_home':
 				const infoElement = document.getElementById('info');
-				if (infoElement) infoElement.textContent = data.message;
+				if (infoElement) infoElement.textContent = `${GAME_OVER2}`;
 				const goToMatchButtons = document.getElementById('go-to-match');
 				if (goToMatchButtons) goToMatchButtons.classList.add('hidden');
 				tournamentSocket.close();
@@ -101,10 +101,10 @@ export async function startTournament() {
 		if (infoElement) {
 			switch (e.code) {
 				case 3001:
-					infoElement.textContent = 'Player already in tournament, You may return to home page';
+					infoElement.textContent = `${ALREADY_TOUR}`;
 					break;
 				case 3002:
-					infoElement.textContent = 'Tournament is full at the moment, You may return to home page';
+					infoElement.textContent = `${FULL_TOUR}`;
 					break;
 			}
 		}
@@ -145,8 +145,8 @@ export async function startTournament() {
 				const player2Element = matchElement.querySelector('.player2');
 				
 				console.log(match.player1, match.player2);
-				if (player1Element) player1Element.textContent = match.player1 || 'Waiting for player';
-				if (player2Element) player2Element.textContent = match.player2 || 'Waiting for player';
+				if (player1Element) player1Element.textContent = match.player1 || `${WAITING_TOUR}`;
+				if (player2Element) player2Element.textContent = match.player2 || `${WAITING_TOUR}`;
 
 				if (match.winner) {
 					if (match.winner === match.player1) {
@@ -171,8 +171,8 @@ export async function startTournament() {
 			const finalPlayer1Element = finalMatchElement.querySelector('.player1');
 			const finalPlayer2Element = finalMatchElement.querySelector('.player2');
 
-			if (finalPlayer1Element) finalPlayer1Element.textContent = finalMatch.player1 || 'Waiting for player';
-			if (finalPlayer2Element) finalPlayer2Element.textContent = finalMatch.player2 || 'Waiting for player';
+			if (finalPlayer1Element) finalPlayer1Element.textContent = finalMatch.player1 || `${WAITING_TOUR}`;
+			if (finalPlayer2Element) finalPlayer2Element.textContent = finalMatch.player2 || `${WAITING_TOUR}`;
 
 			if (finalMatch.winner) {
 				if (finalMatch.winner === finalMatch.player1) {

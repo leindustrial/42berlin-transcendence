@@ -61,7 +61,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 				{
 					'type': 'go_back_to_home',
 					'content': {'type': 'go_back_to_home'},
-					'message': 'tornument end due to exit of a player. you may exit now'
+					'message': 'Tornament end due to exit of a player. You may exit now'
 				}
 			)
 			cache.delete('tournament')
