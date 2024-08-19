@@ -384,6 +384,10 @@ msgstr "Добро пожаловать"
 msgid "Waiting for player"
 msgstr "Ожидание игрока"
 
+msgid "Final Match"
+msgstr "Финальный матч"
+
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""

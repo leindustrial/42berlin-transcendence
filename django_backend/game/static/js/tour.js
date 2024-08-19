@@ -14,7 +14,7 @@ export async function startTournament() {
 		<div id="tournament-page">
             <p class="text-center" id="logo-big">PONG 3.1</p>
             <p class="text-center" id ="sublitle">${TOUR}</p>
-			<p class="welcome">Welcome, <span id="usernames"></span>!</p>
+			<p class="welcome">${WELCOME}, <span id="usernames"></span>!</p>
 			<div id="champ"></div>
 			<div id="info"></div>
 			<div class="tournament">
@@ -22,24 +22,24 @@ export async function startTournament() {
 					<h2 class="text-center">${SEMI_FIN}:</h2>
 					<div class="match" id="match-semi-final-0">
 						<h3>${MATCH} 1</h3>
-						<p class="player player1">Waiting for player</p>
+						<p class="player player1">${WAITING_TOUR}</p>
 						<p class="vs">vs</p>
-						<p class="player player2">Waiting for player</p>
+						<p class="player player2">${WAITING_TOUR}</p>
 					</div>
 					<div class="match" id="match-semi-final-1">
 						<h3>${MATCH} 2</h3>
-						<p class="player player1">Waiting for player</p>
+						<p class="player player1">${WAITING_TOUR}</p>
 						<p class="vs">vs</p>
-						<p class="player player2">Waiting for player</p>
+						<p class="player player2">${WAITING_TOUR}</p>
 					</div>
 				</div>
 				<div class="round">
-					<h2 class="text-center">Final</h2>
+					<h2 class="text-center">${FINAL_TOUR}</h2>
 					<div class="match" id="match-final">
 						<h3>Final Match</h3>
-						<p class="player player1">Waiting for player</p>
+						<p class="player player1">${WAITING_TOUR}</p>
 						<p class="vs">vs</p>
-						<p class="player player2">Waiting for player</p>
+						<p class="player player2">${WAITING_TOUR}</p>
 					</div>
 				</div>
 			</div>

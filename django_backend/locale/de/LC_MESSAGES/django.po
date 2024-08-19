@@ -384,6 +384,10 @@ msgstr "Willkommen"
 msgid "Waiting for player"
 msgstr "Warten auf Spieler"
 
+msgid "Final Match"
+msgstr "Finales Spiel"
+
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""
