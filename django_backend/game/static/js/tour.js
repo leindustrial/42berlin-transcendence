@@ -12,21 +12,22 @@ export async function startTournament() {
 	
 	const onlineTourHtml = `
 		<div id="tournament-page">
-			<h1 class="text-center">Tournament</h1>
+            <p class="text-center" id="logo-big">PONG 3.1</p>
+            <p class="text-center" id ="sublitle">${TOUR}</p>
 			<p class="welcome">Welcome, <span id="usernames"></span>!</p>
 			<div id="champ"></div>
 			<div id="info"></div>
 			<div class="tournament">
 				<div class="round" id="semi-finals">
-					<h2 class="text-center">Semi-finals</h2>
+					<h2 class="text-center">${SEMI_FIN}:</h2>
 					<div class="match" id="match-semi-final-0">
-						<h3>Match 1</h3>
+						<h3>${MATCH} 1</h3>
 						<p class="player player1">Waiting for player</p>
 						<p class="vs">vs</p>
 						<p class="player player2">Waiting for player</p>
 					</div>
 					<div class="match" id="match-semi-final-1">
-						<h3>Match 2</h3>
+						<h3>${MATCH} 2</h3>
 						<p class="player player1">Waiting for player</p>
 						<p class="vs">vs</p>
 						<p class="player player2">Waiting for player</p>
@@ -42,7 +43,7 @@ export async function startTournament() {
 					</div>
 				</div>
 			</div>
-			<button id="go-to-match" class="hidden match-button">Go to Match</button>
+			<button id="go-to-match" class="hidden match-button">${GO_TO_MATCH}</button>
 		</div>
 	`;
 	console.log('username =', username);

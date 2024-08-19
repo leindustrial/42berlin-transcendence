@@ -371,6 +371,11 @@ msgstr "Error 404"
 msgid "Page Not Found"
 msgstr "Page Not Found"
 
+msgid "Welcome"
+msgstr "Welcome"
+
+msgid "Waiting for player"
+msgstr "Waiting for player"
 
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"

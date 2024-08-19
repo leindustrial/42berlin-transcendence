@@ -378,6 +378,12 @@ msgstr "Страница не найдена"
 msgid "Won"
 msgstr "выиграл"
 
+msgid "Welcome"
+msgstr "Добро пожаловать"
+
+msgid "Waiting for player"
+msgstr "Ожидание игрока"
+
 #: myenv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
 msgstr ""
